@@ -13,7 +13,7 @@ const Signup = (props) => {
                 <Input type="text" placeholder="인증번호를 입력해주세요"/>
                 <Input type="password" placeholder="비밀번호를 입력해주세요"/>
                 <Input type="password" placeholder="비밀번호를 다시 입력해주세요"/>
-                <button>회원가입</button>
+                <button>회원가입2</button>
             </SingUpArea>
         </div>
     )
