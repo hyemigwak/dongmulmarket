@@ -3,13 +3,10 @@
 ## 💛프로젝트 설명
 
 - React, Node.js 기반
-
 - React 2명, Node 2명, 디자이너 2명
-
+- React 이지은 github: https://github.com/Jinnycorn
 - 랜덤 점심 메뉴 결정 및 월별 메뉴 기록이 가능한 사이트입니다.
-
 - 프론트 / 백엔드 레포지토리 분리하여 작업
-
 - **구현 기능**
 
   
