@@ -11,10 +11,10 @@ function App() {
     <React.Fragment>
        <ConnectedRouter history={history}>
         <Header/>
-        <Route exact path="/" component={Login}/>
+        <Route exact path="/login" component={Login}/>
         <Route exact path="/signup" component={Signup}/>
         <Route exact path="/mypage" component={Mypage}/>
-        <Route exact path="/main" component={Main}/>
+        <Route exact path="/" component={Main}/>
        </ConnectedRouter>
         <Footer/>
     </React.Fragment>
