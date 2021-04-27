@@ -1,15 +1,11 @@
 import React from "react";
-import Map from "./Map";
 
-const Main = () => {
-  const food_list = ["짜장면", "김치찌개", "제육볶음", "햄버거", "피자", "부대찌개", "갈비탕"];
-  const random_num = Math.floor(Math.random() * food_list.length);
-  console.log(random_num);
-
+const Main = (props) => {
   return (
     <div>
-      오늘 점심 메뉴는 {food_list[random_num]} 입니다.
-      <Map />
+      <input type="text" placeholder="카테고리" />
+      <input type="text" placeholder="음식 종류" />
+      <button>메뉴 고르기</button>
     </div>
   );
 };
