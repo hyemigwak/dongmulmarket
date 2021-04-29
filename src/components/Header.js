@@ -5,7 +5,7 @@ import { history } from "../redux/configureStore";
 const Header = () => {
   return (
     <React.Fragment>
-      <HeaderContainer>
+      <HeaderC>
         <WelcomeWords>홍길동님 환영합니다.</WelcomeWords>
         <Button
           onClick={() => {
@@ -14,12 +14,12 @@ const Header = () => {
         >
           마이페이지
         </Button>
-      </HeaderContainer>
+      </HeaderC>
     </React.Fragment>
   );
 };
 
-const HeaderContainer = styled.div`
+const HeaderC = styled.div`
   position: fixed;
   background-color: #eee;
   left: 0;
@@ -30,10 +30,27 @@ const HeaderContainer = styled.div`
   border-bottom: 1px solid #dbdbdb;
   z-index: 10;
   display: flex;
+  align-items:center;
 `;
 
-const WelcomeWords = styled.p``;
+const WelcomeWords = styled.p`
+margin-left:20px;
+`;
 
-const Button = styled.button``;
+const Button = styled.button`
+margin-left:30px;
+width: 100px;
+height:40px;
+padding: 7px 0px 7px 0px;
+border-radius: 4px;
+font-size: 15px;
+font-weight: 600;
+
+border: 1px solid #DBDBDB;
+cursor:pointer;
+outline: none;
+background-color: #0095f6;
+color: white;
+`;
 
 export default Header;

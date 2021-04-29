@@ -76,30 +76,49 @@ const Signup = (props) => {
   };
 
   return (
-    <div>
-      <SingUpArea>
-        <EmailArea>
-          <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} />
-          <div>{emailDoubleCheck}</div>
-          <button onClick={emailCheck}>인증</button>
-        </EmailArea>
-        {show && <Input type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} />}
-        <Input type="text" placeholder="닉네임을 입력해주세요" value={nickname} onChange={onChangeNickname} />
-        <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
-        <Input type="password" placeholder="비밀번호를 다시 입력해주세요" value={pwdCheck} onChange={onChangepwdCheck} />
-        <button onClick={onSiteSignup}>회원가입2</button>
-      </SingUpArea>
-    </div>
+    <React.Fragment>
+      <SignUpLogin>
+        <SignUpC>
+          <InputC>
+            <EmailArea>
+              <Input style={{marginRight:"10px"}}type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} />
+              <div>{emailDoubleCheck}</div>
+              <CertiBtn onClick={emailCheck}>인증</CertiBtn>
+            </EmailArea>
+            {show && <Input type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} />}
+            <Input type="text" placeholder="닉네임을 입력해주세요" value={nickname} onChange={onChangeNickname} />
+            <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
+            <Input type="password" placeholder="비밀번호를 다시 입력해주세요" value={pwdCheck} onChange={onChangepwdCheck} />
+          </InputC>
+          <SignInBtn onClick={onSiteSignup}>회원가입</SignInBtn>
+          
+        </SignUpC>
+      </SignUpLogin>
+    </React.Fragment>
   );
 };
 
-const SingUpArea = styled.div`
-  width: 30rem;
-  margin: 15% auto;
-  background-color: #efefef;
-  border-radius: 10px;
-  text-align: center;
-  display: block;
+const SignUpLogin = styled.div`
+  /* 최상단과 항상 떨어져 있게 함 */
+  padding-top: 60px; 
+  display: flex;
+  flex-direction: column;
+  /* @media (max-width: 1000px){
+    heigth: 
+  } */
+`;
+
+const SignUpC = styled.div`
+  width: 500px;
+  height:300px;
+  margin: auto;
+  margin-top: 20px;
+  background-color: #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0px;
+  border-radius:30px;
 `;
 
 const EmailArea = styled.div`
@@ -108,11 +127,51 @@ const EmailArea = styled.div`
   justify-content: center;
 `;
 
-const Input = styled.input`
-  width: 20rem;
-  height: 1.5rem;
-  margin: 1rem 0.4rem;
-  display: inline-block;
+const InputC=styled.div`
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  align-items:center;
+ 
 `;
+
+const Input = styled.input`
+width: 300px;
+height:40px;
+margin: 0.4rem 0rem;
+border: 1px solid #DBDBDB;
+border-radius: 10px;
+margin-bottom:10px;
+`;
+
+const CertiBtn=styled.button`
+width: 50px;
+height:40px;
+border-radius: 4px;
+font-size: 15px;
+font-weight: 600;
+
+border: 1px solid #DBDBDB;
+cursor:pointer;
+outline: none;
+background-color: #0095f6;
+color: white;
+`;
+
+const SignInBtn=styled.button`
+width: 100px;
+padding: 7px 0px 7px 0px;
+border-radius: 4px;
+font-size: 15px;
+font-weight: 600;
+border: 1px solid #DBDBDB;
+cursor:pointer;
+outline: none;
+background-color: #0095f6;
+color: white;
+`;
+
+
 
 export default Signup;
