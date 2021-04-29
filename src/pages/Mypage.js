@@ -1,21 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Setting, Calendar } from "../components";
 
 const Mypage = () => {
-  return (
-    <Container>
-      <Setting />
-      <Calendar />
-    </Container>
-  );
+  return <Container></Container>;
 };
 
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
+const Container = styled.div``;
 
 export default Mypage;

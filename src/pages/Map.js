@@ -91,6 +91,7 @@ const Map = (props) => {
         removable: iwRemoveable,
       });
 
+      // eslint-disable-next-line no-loop-func
       kakao.maps.event.addListener(marker, "click", function () {
         infowindow.open(map, marker);
       });
