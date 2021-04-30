@@ -6,8 +6,11 @@ const Main = (props) => {
   return (
     <React.Fragment>
       <WrapMain>
-        <h2>교환 경매중인 물건!</h2>
-        <PostList/>
+        <Title>교환 경매중인 물건!</Title>
+        <PostListC>
+          <PostList/>
+        </PostListC>
+        
       </WrapMain>
     </React.Fragment>
   );
@@ -23,6 +26,15 @@ const WrapMain = styled.div`
   } */
 `;
 
+const Title=styled.h2`
+text-align:center;
+margin-top:20px;
+`;
+
+const PostListC=styled.div`
+width:1200px;
+margin:auto;
+`;
 const Post=styled.div`
 height:200px;
 width:150px;
