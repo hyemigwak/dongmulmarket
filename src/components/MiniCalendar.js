@@ -4,8 +4,6 @@ import "antd/dist/antd.css";
 import styled from "styled-components";
 
 const MiniCalendar = (props) => {
-  const { RangePicker } = DatePicker;
-
   function onChange(value, dateString) {
     console.log("Selected Time: ", value);
     console.log("Formatted Selected Time: ", dateString);
