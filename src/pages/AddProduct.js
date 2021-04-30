@@ -2,9 +2,16 @@ import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { MiniCalendar } from "../components";
 import { useSelector, useDispatch } from "react-redux";
+import { actionCreators as postActions } from "../redux/modules/post";
 import preview_img from "../image/preview_image.png";
+import moment from "moment";
+import { DatePicker, Space } from "antd";
+import "antd/dist/antd.css";
 
 const AddProduct = (props) => {
+  const dispatch = useDispatch();
+
+  //input받아서 서버에 보내줄 값들
   const [preview, setPreview] = useState(preview_img);
   const [imgfile, setImgFile] = useState(null);
   const [category, setCategory] = useState("카테고리를 선택해주세요!");
@@ -12,15 +19,14 @@ const AddProduct = (props) => {
   const [wantItem, setWantItem] = useState("");
   const [content, setContent] = useState("");
   const [expireDate, setExpireDate] = useState("");
-  console.log(expireDate);
-  console.log(category);
+  const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
 
   const onChangeCategory = useCallback((e) => setCategory(e.target.value), []);
   const onChangeMyItem = useCallback((e) => setMyItem(e.target.value), []);
   const onChangeWantItem = useCallback((e) => setWantItem(e.target.value), []);
   const onChangeContent = useCallback((e) => setContent(e.target.value), []);
-  const onChangeExpireDate = useCallback((e) => setExpireDate(e.target.value), []);
 
+  //파일리더로 파일 읽어오기
   const selectFile = (e) => {
     //file state에 현재 선택된 파일정보 저장
     setImgFile(e.target.files[0]);
@@ -32,6 +38,21 @@ const AddProduct = (props) => {
     reader.onload = () => {
       setPreview(reader.result);
     };
+  };
+  //datepicker 달력 함수
+  function onChange(value, dateString) {
+    console.log("Selected Time: ", value);
+    console.log("Formatted Selected Time: ", dateString);
+    setExpireDate(dateString);
+  }
+  function onOk(value) {
+    console.log("onOk: ", value);
+  }
+  //물품 등록하기 버튼 누르면 디스패치
+  const onSiteAddProduct = () => {
+    dispatch(postActions.addPostAPI(imgfile, category, myItem, wantItem, content, expireDate, createdAt));
+    window.alert("등록 완료입니다!");
+    //라우터에서 detail 게시물로 가서 확인하게 하기
   };
 
   return (
@@ -76,11 +97,13 @@ const AddProduct = (props) => {
             <div>
               교환 종료일
               <Calend>
-                <MiniCalendar />
+                <Space direction="vertical" size={12}>
+                  <DatePicker showTime={{ format: "HH:mm" }} onChange={onChange} onOk={onOk} />
+                </Space>
               </Calend>
             </div>
           </CalendarArea>
-          <Btn>물품 올리기</Btn>
+          <Btn onClick={onSiteAddProduct}>물품 올리기</Btn>
         </ProductArea>
       </AddProductWrap>
     </React.Fragment>
@@ -91,6 +114,8 @@ const AddProductWrap = styled.div`
   padding-top: 60px;
   display: flex;
   flex-direction: column;
+  position: relative;
+  left: 40%;
 `;
 
 const ProductArea = styled.div`
