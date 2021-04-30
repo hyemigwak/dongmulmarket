@@ -7,6 +7,8 @@ const Signup = (props) => {
   const dispatch = useDispatch();
   const user_exist = useSelector((state) => state.user.is_exist);
   const is_email_validate = useSelector((state) => state.user.is_email_validate);
+  const my_location = useSelector((state) => state.map.address);
+  console.log(my_location);
 
   const [email, setEmail] = useState("");
   const [authnumber, setAuthNumber] = useState("");
@@ -81,7 +83,7 @@ const Signup = (props) => {
         <SignUpC>
           <InputC>
             <EmailArea>
-              <Input style={{marginRight:"10px"}}type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} />
+              <Input style={{ marginRight: "10px" }} type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} />
               <div>{emailDoubleCheck}</div>
               <CertiBtn onClick={emailCheck}>인증</CertiBtn>
             </EmailArea>
@@ -89,9 +91,9 @@ const Signup = (props) => {
             <Input type="text" placeholder="닉네임을 입력해주세요" value={nickname} onChange={onChangeNickname} />
             <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
             <Input type="password" placeholder="비밀번호를 다시 입력해주세요" value={pwdCheck} onChange={onChangepwdCheck} />
+            <Input type="text" placeholder="지역인증할게요~" value={my_location} />
           </InputC>
           <SignInBtn onClick={onSiteSignup}>회원가입</SignInBtn>
-          
         </SignUpC>
       </SignUpLogin>
     </React.Fragment>
@@ -100,7 +102,7 @@ const Signup = (props) => {
 
 const SignUpLogin = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
-  padding-top: 60px; 
+  padding-top: 60px;
   display: flex;
   flex-direction: column;
   /* @media (max-width: 1000px){
@@ -110,7 +112,7 @@ const SignUpLogin = styled.div`
 
 const SignUpC = styled.div`
   width: 500px;
-  height:300px;
+  height: 400px;
   margin: auto;
   margin-top: 20px;
   background-color: #eee;
@@ -118,7 +120,7 @@ const SignUpC = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 30px 0px;
-  border-radius:30px;
+  border-radius: 30px;
 `;
 
 const EmailArea = styled.div`
@@ -127,51 +129,48 @@ const EmailArea = styled.div`
   justify-content: center;
 `;
 
-const InputC=styled.div`
+const InputC = styled.div`
   margin-left: 100px;
   margin-right: 100px;
   margin-top: 15px;
   margin-bottom: 20px;
-  align-items:center;
- 
+  align-items: center;
 `;
 
 const Input = styled.input`
-width: 300px;
-height:40px;
-margin: 0.4rem 0rem;
-border: 1px solid #DBDBDB;
-border-radius: 10px;
-margin-bottom:10px;
+  width: 300px;
+  height: 40px;
+  margin: 0.4rem 0rem;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+  margin-bottom: 10px;
 `;
 
-const CertiBtn=styled.button`
-width: 50px;
-height:40px;
-border-radius: 4px;
-font-size: 15px;
-font-weight: 600;
+const CertiBtn = styled.button`
+  width: 50px;
+  height: 40px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
 
-border: 1px solid #DBDBDB;
-cursor:pointer;
-outline: none;
-background-color: #0095f6;
-color: white;
+  border: 1px solid #dbdbdb;
+  cursor: pointer;
+  outline: none;
+  background-color: #0095f6;
+  color: white;
 `;
 
-const SignInBtn=styled.button`
-width: 100px;
-padding: 7px 0px 7px 0px;
-border-radius: 4px;
-font-size: 15px;
-font-weight: 600;
-border: 1px solid #DBDBDB;
-cursor:pointer;
-outline: none;
-background-color: #0095f6;
-color: white;
+const SignInBtn = styled.button`
+  width: 100px;
+  padding: 7px 0px 7px 0px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  border: 1px solid #dbdbdb;
+  cursor: pointer;
+  outline: none;
+  background-color: #0095f6;
+  color: white;
 `;
-
-
 
 export default Signup;

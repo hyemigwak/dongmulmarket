@@ -2,7 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 const Mypage = () => {
-  return <Container></Container>;
+  return (
+    <Container>
+      <div>설정</div>
+    </Container>
+  );
 };
 
 const Container = styled.div``;

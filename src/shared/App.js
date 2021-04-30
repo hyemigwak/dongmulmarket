@@ -5,8 +5,8 @@ import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
 import { actionCreators as userActions } from "../redux/modules/user";
-import { Login, Main, Mypage, Signup, Findpwd } from "../pages";
-import { Header, Footer } from "../components";
+import { Login, Main, Mypage, Signup, Findpwd, AddProduct, ContactChat } from "../pages";
+import { Header, Footer, MyLocation } from "../components";
 import { getCookie } from "./Cookie";
 
 function App() {
@@ -28,6 +28,9 @@ function App() {
         <Route exact path="/findpwd" component={Findpwd} />
         <Route exact path="/mypage" component={Mypage} />
         <Route exact path="/" component={Main} />
+        <Route exact path="/addproduct" component={AddProduct} />
+        <Route exact path="/mylocation" component={MyLocation} />
+        <Route exact path="/contact" component={ContactChat} />
       </ConnectedRouter>
       <Footer />
     </React.Fragment>

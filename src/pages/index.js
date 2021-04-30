@@ -4,6 +4,7 @@ import Signup from "./Signup";
 import Mypage from "./Mypage";
 import Findpwd from "./Findpwd";
 import Map from "./Map";
-import Test from "./Test";
+import AddProduct from "./AddProduct";
+import ContactChat from "./ContactChat";
 
-export { Main, Login, Signup, Mypage, Findpwd, Map, Test };
+export { Main, Login, Signup, Mypage, Findpwd, Map, ContactChat, AddProduct };

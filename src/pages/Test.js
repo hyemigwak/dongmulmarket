@@ -1,7 +1,5 @@
-import { nothing } from "immer";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as foodActions } from "../redux/modules/food";
 import "./Test.css";
 
 const { kakao } = window;
@@ -141,7 +139,6 @@ const Test = (props) => {
       places.map((p) => Ypoint.push(p.y));
       console.log(Xpoint);
       console.log(Ypoint);
-      // dispatch(foodActions.sendFoodAPI(placeId, Xpoint, Ypoint));
 
       for (var i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
