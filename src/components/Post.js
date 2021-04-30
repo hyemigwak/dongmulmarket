@@ -7,11 +7,11 @@ const Post=(props)=>{
     return(
         <React.Fragment>
             <Box>
-                <ImgBox src= {image_url}/>
-                <div>{product_name}</div>
-                <div>{wish_trade_item}</div>
-                <div>{location}</div>
-                <div>{limit_time}</div>     
+                <ImgBox src={image_url}/>
+                <Title>{product_name}</Title>
+                <Title>{wish_trade_item}</Title>
+                <Title>{location}</Title>
+                <Title>{limit_time}</Title>     
             </Box>
           
         </React.Fragment>
@@ -28,16 +28,22 @@ Post.defaultProps={
 };
 
 const Box=styled.div`
-height:250px;
-width:200px;
+height:350px;
+width:250px;
 background:#eee;
+
 `;
 
-const ImgBox=styled.image`
-height:100px;
-width:100px;
-background:pinkl
+const ImgBox=styled.img`
+height:150px;
+width:150px;
+background:pink;
+margin-left:40px;
+margin-top:30px;
 `;
 
+const Title=styled.h2`
+margin-left:30px;
+`;
 
 export default Post;
