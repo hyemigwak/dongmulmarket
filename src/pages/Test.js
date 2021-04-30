@@ -1,7 +1,7 @@
 import { nothing } from "immer";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as foodActions } from "../redux/modules/food";
+
 import "./Test.css";
 
 const { kakao } = window;
