@@ -19,6 +19,7 @@ const AddProduct = (props) => {
   const [wantItem, setWantItem] = useState("");
   const [content, setContent] = useState("");
   const [expireDate, setExpireDate] = useState("");
+  console.log(typeof expireDate);
   const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
 
   const onChangeCategory = useCallback((e) => setCategory(e.target.value), []);
@@ -57,8 +58,8 @@ const AddProduct = (props) => {
 
   return (
     <React.Fragment>
+      <Title>물품 등록하기</Title>
       <AddProductWrap>
-        <h1>물품 등록하기</h1>
         <ProductArea>
           <div>
             <input type="file" onChange={selectFile} />
@@ -94,16 +95,16 @@ const AddProduct = (props) => {
             <Textarea type="text" placeholder="물품을 설명해주세요!" rows="5" value={content} onChange={onChangeContent} />
           </div>
           <CalendarArea>
-            <div>
-              교환 종료일
-              <Calend>
-                <Space direction="vertical" size={12}>
-                  <DatePicker showTime={{ format: "HH:mm" }} onChange={onChange} onOk={onOk} />
-                </Space>
-              </Calend>
-            </div>
+            <span>교환 종료일</span>
+            <Calend>
+              <Space direction="vertical" size={12}>
+                <DatePicker showTime={{ format: "HH:mm" }} onChange={onChange} onOk={onOk} />
+              </Space>
+            </Calend>
           </CalendarArea>
-          <Btn onClick={onSiteAddProduct}>물품 올리기</Btn>
+          <BtnArea>
+            <Btn onClick={onSiteAddProduct}>물품 올리기</Btn>
+          </BtnArea>
         </ProductArea>
       </AddProductWrap>
     </React.Fragment>
@@ -111,11 +112,20 @@ const AddProduct = (props) => {
 };
 
 const AddProductWrap = styled.div`
-  padding-top: 60px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   position: relative;
-  left: 40%;
+  text-align: center;
+`;
+
+const Title = styled.div`
+  padding-top: 100px;
+  width: 100%;
+  margin: 10px;
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
 `;
 
 const ProductArea = styled.div`
@@ -123,19 +133,13 @@ const ProductArea = styled.div`
 `;
 
 const Img = styled.img`
-  width: 400px;
+  width: 300px;
   height: 300px;
   margin: 1rem 0rem;
 `;
 
-const CalendarArea = styled.div`
-  width: 300px;
-  height: 180px;
-  margin: 1rem 0rem 20rem 0rem;
-`;
-
 const Input = styled.input`
-  width: 300px;
+  width: 400px;
   height: 2.5rem;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
   border: none;
@@ -144,7 +148,7 @@ const Input = styled.input`
 `;
 
 const Textarea = styled.textarea`
-  width: 300px;
+  width: 400px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
   border: none;
   resize: none;
@@ -154,16 +158,40 @@ const Textarea = styled.textarea`
 const Calend = styled.div`
   margin-top: 1rem;
 `;
+const CalendarArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span {
+    margin-right: 1rem;
+    position: relative;
+    left: -30px;
+  }
+`;
+
+const BtnArea = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  padding-bottom: 80px;
+`;
 
 const Btn = styled.button`
-  position: relative;
-  bottom: 400px;
-  left: 40px;
+  width: 120px;
+  height: 40px;
+  padding: 8px;
+  border-radius: 16px;
+  background: #ffc149;
+  border: none;
+  color: #212121;
+  font-weight: 600;
+  margin: 1rem 1rem 0rem 0rem;
+  cursor: pointer;
 `;
 
 const CateArea = styled.div`
   select {
-    width: 300px;
+    width: 400px;
     height: 2.5rem;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
     border: none;

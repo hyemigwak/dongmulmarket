@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as mapActions } from "../redux/modules/map";
+import { EditAddress } from "./index";
 import { history } from "../redux/configureStore";
 
 const { kakao } = window;
@@ -9,23 +10,33 @@ const { kakao } = window;
 const MyLocation = (props) => {
   const dispatch = useDispatch();
 
-  const [lati, setLati] = useState(0);
-  const [longi, setLong] = useState(0);
+  //모달 영역
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+    // document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    // document.body.style.overflow = "unset";
+  };
+
+  //좌표 구하기
+  const [lati, setLati] = useState(0); //위도
+  const [longi, setLong] = useState(0); //경도
   const [address, setAddress] = useState("");
   console.log(address);
 
+  //위치가 관악구일때만 로그인 창으로 가게하기
   const locationCheck = () => {
     if (address.includes("관악구")) {
-      window.alert("안녕하세요! 홍길동님 오이마켓에 오신걸 환영해요");
+      window.alert("안녕하세요! 항해13조님 오이마켓🥒에 오신걸 환영해요");
       history.push("/login");
     } else {
       window.alert("안녕하세요! 오이마켓은 관악구 주민만 이용 가능합니다😢");
       return;
     }
-  };
-
-  const locationIncorrect = () => {
-    window.alert("리로드? or 걍 버튼 뺄까요?");
   };
 
   //내위치 좌표 가져오기
@@ -35,6 +46,7 @@ const MyLocation = (props) => {
       navigator.geolocation.getCurrentPosition(
         function (position) {
           console.log(position.coords.latitude + " " + position.coords.longitude);
+          console.log("위도,경도", lati, longi);
           setLati(position.coords.latitude);
           setLong(position.coords.longitude);
         },
@@ -100,39 +112,62 @@ const MyLocation = (props) => {
 
   return (
     <>
+      <Title>지역인증</Title>
       <Container>
-        <div className="map_wrap">
-          <div id="map" style={{ width: "100%", height: "100%", position: "relative", overflow: "hidden" }}></div>
-          <div className="hAddr">
-            <h1>현재 위치는</h1>
-            <span id="centerAddr"></span>
-            <h2>가 맞나요?</h2>
-            <button onClick={locationCheck}>맞아요!</button>
-            <button onClick={locationIncorrect}>아니여</button>
-          </div>
+        {/* <div className="map_wrap"> */}
+        <div id="map" style={{ display: "none" }}></div>
+        <div className="hAddr">
+          <h1>현재 위치는</h1>
+          <span id="centerAddr"></span>
+          <h2>맞나요?</h2>
+          <Btn onClick={locationCheck}>맞아요!</Btn>
+          <Btn onClick={openModal}>아니요!</Btn>
+          <EditAddress open={modalOpen} close={closeModal} />
         </div>
+        {/* </div> */}
       </Container>
     </>
   );
 };
 
+const Title = styled.div`
+  padding-top: 100px;
+  width: 100%;
+  margin: 10px;
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+`;
 const Container = styled.div`
-  margin: 10% auto;
-  background-color: #eeeeee;
+  margin: 0 auto;
   width: 29rem;
-  height: 30rem;
-  border-radius: 12px;
+  height: 20rem;
+  background: #ffffff;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.07);
+  border-radius: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
 
   .hAddr {
-    position: relative;
-    top: 120px;
-    left: 120px;
+    width: 100%;
   }
 
   #centerAddr {
     font-size: 20px;
     font-weight: 600;
   }
+`;
+
+const Btn = styled.button`
+  width: 100px;
+  height: 30px;
+  border-radius: 16px;
+  background: #ffc149;
+  border: none;
+  color: white;
+  font-weight: 600;
+  margin: 1rem 1rem 0rem 0rem;
 `;
 
 export default MyLocation;

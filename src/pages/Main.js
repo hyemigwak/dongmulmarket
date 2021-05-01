@@ -19,11 +19,6 @@ const Main = (props) => {
     <React.Fragment>
       <WrapMain>
         <Title>교환을 기다리고 있어요!</Title>
-        <AddIcon
-          onClick={() => {
-            history.push("/addproduct");
-          }}
-        />
         <PostListC>
           <PostList postList={postList} />
         </PostListC>
@@ -44,16 +39,19 @@ const WrapMain = styled.div`
 
 const Title = styled.h2`
   text-align: center;
+  font-weight: bold;
+  font-size: 30px;
+  color: #212121;
   margin-top: 20px;
 `;
 
 const PostListC = styled.div`
-  width: 1200px;
-  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0 auto;
 `;
-const Post = styled.div`
-  height: 200px;
-  width: 150px;
-  background: #eee;
-`;
+
 export default Main;

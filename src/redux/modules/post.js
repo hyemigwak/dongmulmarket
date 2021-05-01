@@ -63,6 +63,7 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate, cr
       method: "POST",
       url: `${config.api}/post/write`,
       data: formdata,
+      // json으로 간다. 바꿔줘야함*
       header: {
         "X-AUTH-TOKEN": token,
       },

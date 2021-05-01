@@ -80,6 +80,7 @@ const Signup = (props) => {
   return (
     <React.Fragment>
       <SignUpLogin>
+        <Title>회원가입</Title>
         <SignUpC>
           <InputC>
             <EmailArea>
@@ -91,7 +92,6 @@ const Signup = (props) => {
             <Input type="text" placeholder="닉네임을 입력해주세요" value={nickname} onChange={onChangeNickname} />
             <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
             <Input type="password" placeholder="비밀번호를 다시 입력해주세요" value={pwdCheck} onChange={onChangepwdCheck} />
-            <Input type="text" placeholder="지역인증할게요~" value={my_location} />
           </InputC>
           <SignInBtn onClick={onSiteSignup}>회원가입</SignInBtn>
         </SignUpC>
@@ -102,7 +102,7 @@ const Signup = (props) => {
 
 const SignUpLogin = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
-  padding-top: 60px;
+  padding-top: 40px;
   display: flex;
   flex-direction: column;
   /* @media (max-width: 1000px){
@@ -110,12 +110,23 @@ const SignUpLogin = styled.div`
   } */
 `;
 
+const Title = styled.div`
+  padding-top: 40px;
+  width: 100%;
+  margin: 10px;
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+`;
+
 const SignUpC = styled.div`
   width: 500px;
-  height: 400px;
+  height: 380px;
   margin: auto;
-  margin-top: 20px;
-  background-color: #eee;
+  margin-top: 40px;
+  background: #ffffff;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.07);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -139,38 +150,36 @@ const InputC = styled.div`
 
 const Input = styled.input`
   width: 300px;
-  height: 40px;
-  margin: 0.4rem 0rem;
-  border: 1px solid #dbdbdb;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  height: 2.5rem;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
+  border: none;
+  border-radius: 7px;
+  margin: 0.6rem 0rem;
 `;
 
 const CertiBtn = styled.button`
   width: 50px;
   height: 40px;
-  border-radius: 4px;
-  font-size: 15px;
-  font-weight: 600;
-
-  border: 1px solid #dbdbdb;
-  cursor: pointer;
-  outline: none;
-  background-color: #0095f6;
+  border-radius: 16px;
+  background: #ffc149;
+  border: none;
   color: white;
+  font-weight: 600;
+  margin: 1rem 1rem 0rem 0rem;
+  cursor: pointer;
 `;
 
 const SignInBtn = styled.button`
-  width: 100px;
-  padding: 7px 0px 7px 0px;
-  border-radius: 4px;
-  font-size: 15px;
-  font-weight: 600;
-  border: 1px solid #dbdbdb;
-  cursor: pointer;
-  outline: none;
-  background-color: #0095f6;
+  width: 120px;
+  height: 40px;
+  padding: 8px;
+  border-radius: 16px;
+  background: #ffc149;
+  border: none;
   color: white;
+  font-weight: 600;
+  margin: 1rem 1rem 0rem 0rem;
+  cursor: pointer;
 `;
 
 export default Signup;

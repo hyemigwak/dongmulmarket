@@ -5,14 +5,43 @@ const Post = (props) => {
   console.log(props);
   const { image_url, myItem, WantItem, location, expireDate } = props;
 
+  console.log(new Date());
+
+  //몇 분 전을 나타내는 함수
+  function timeForToday(value) {
+    const today = new Date();
+    const timeValue = new Date(value);
+
+    //ms 초 단위로 계산되기때문에 1000으로 나누고 다시 분(60)으로 나눈다. 1분전일때는 -> 방금 전 표기
+    const betweenTime = Math.floor((timeValue.getTime() - today.getTime()) / 1000 / 60);
+    // if (betweenTime < 1) return "방금 전";
+    if (betweenTime < 60) {
+      return `${betweenTime}분`;
+    }
+    const betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) {
+      return `${betweenTimeHour}시간`;
+    }
+    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+    if (betweenTimeDay < 365) {
+      return `${betweenTimeDay}일`;
+    }
+  }
+
   return (
     <React.Fragment>
       <Box>
-        <ImgBox src={image_url} />
-        <Title>교환상품: {myItem}</Title>
-        <Title>희망교환템: {WantItem}</Title>
-        <Title>교환지역: {location}</Title>
-        <Title>경매종료: {expireDate} 전</Title>
+        <ImgBox>
+          <img src={image_url} alt="상품이미지" />
+        </ImgBox>
+        <ProductTitle>{myItem}</ProductTitle>
+        <Title>
+          <span>희망교환템:</span> {WantItem}
+        </Title>
+        <SubTitleArea>
+          <div style={{ marginRight: "100px" }}>{location}</div>
+          <div>{timeForToday(expireDate)} 남음</div>
+        </SubTitleArea>
       </Box>
     </React.Fragment>
   );
@@ -28,25 +57,55 @@ Post.defaultProps = {
 };
 
 const Box = styled.div`
-  height: 350px;
+  height: 380px;
+  border-radius: 12px;
   width: 250px;
-  background: #eee;
+  margin: 0rem 2rem 1rem 0rem;
+  background: #ffffff;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.07);
+  border-radius: 20px;
   display: flex;
   flex-wrap: wrap;
 `;
 
-const ImgBox = styled.img`
-  height: 150px;
-  width: 150px;
-  background: pink;
-  margin-left: 40px;
-  margin-top: 30px;
-  margin-bottom: 10px;
+const ImgBox = styled.div`
+  margin: auto;
+  object-fit: contain;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  max-width: 100%;
+  text-align: right;
+  z-index: 1000;
+  img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+  }
 `;
 
-const Title = styled.h2`
-  margin-left: 30px;
-  font-size: 16px;
+const ProductTitle = styled.div`
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0.4rem auto 0rem;
+`;
+
+const Title = styled.div`
+  margin-left: 1rem;
+  span {
+    font-size: 16px;
+    font-weight: 600;
+  }
+`;
+
+const SubTitleArea = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 1rem;
+  span {
+    font-size: 16px;
+    font-weight: 600;
+  }
 `;
 
 export default Post;

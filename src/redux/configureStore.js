@@ -3,18 +3,18 @@ import thunk from "redux-thunk";
 import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
 import User from "./modules/user";
-import Image from "./modules/image";
 import Map from "./modules/map";
 import Post from "./modules/post";
+import Chat from "./modules/chat";
 
 export const history = createBrowserHistory();
 
 // 리듀서를 추가해주어야 모듈이 작동된다!
 const rootReducer = combineReducers({
   user: User,
-  image: Image,
   map: Map,
   post: Post,
+  chat: Chat,
   router: connectRouter(history),
 });
 
