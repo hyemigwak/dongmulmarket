@@ -6,6 +6,7 @@ import { actionCreators as postActions } from "../redux/modules/post";
 import preview_img from "../image/preview_image.png";
 import moment from "moment";
 import { DatePicker, Space } from "antd";
+import { history } from "../redux/configureStore";
 import "antd/dist/antd.css";
 
 const AddProduct = (props) => {
@@ -53,6 +54,7 @@ const AddProduct = (props) => {
     dispatch(postActions.addPostAPI(imgfile, category, myItem, wantItem, content, expireDate, createdAt));
     window.alert("등록 완료입니다!");
     //라우터에서 detail 게시물로 가서 확인하게 하기
+    history.replace('/detail');
   };
 
   return (

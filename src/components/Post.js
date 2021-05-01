@@ -33,6 +33,8 @@ const Box = styled.div`
   background: #eee;
   display: flex;
   flex-wrap: wrap;
+  margin-right: 30px; 
+  margin-top:30px;
 `;
 
 const ImgBox = styled.img`
