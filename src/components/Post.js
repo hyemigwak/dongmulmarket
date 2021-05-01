@@ -66,6 +66,8 @@ const Box = styled.div`
   border-radius: 20px;
   display: flex;
   flex-wrap: wrap;
+  margin-right: 30px; 
+  margin-top:30px;
 `;
 
 const ImgBox = styled.div`
