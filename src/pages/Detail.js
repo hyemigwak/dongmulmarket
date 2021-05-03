@@ -10,20 +10,32 @@ const Detail = (props)=>{
                     <ProductsBox>
                     <Img  src="http://via.placeholder.com/400x300"/>
                     <InfoBox>
-                        <p>품목명: 감자</p>
-                        <p>카테고리: 농작물</p>
-                        <p>글 올린 시간: 3분 전</p>
-                        <p>교환 종료 시간: 14:00</p>
-                        <p>경매 참여 인원: 4명</p>
-                        <p>코멘트: hi!</p>
+                        <Text><span>품목명:</span> &nbsp;감자</Text>
+                        <Text><span>카테고리: </span>&nbsp;농작물</Text>
+                        <Text><span>글 올린 시간: </span> &nbsp;3분 전</Text>
+                        <Text><span>교환 종료 시간: </span> &nbsp;14:00</Text>
+                        <Text><span>경매 참여 인원:</span> &nbsp;4명</Text>
+                        <Text><span>코멘트:</span> &nbsp;hi!</Text>
                     </InfoBox>
                     </ProductsBox>
                     <ChatBox>
-                        <ChatBtn>채팅하기</ChatBtn>
-                        <ChatGrid>
-
-                        </ChatGrid>
+                        <ChatView>
+                            <br/><h2><b>😺Chating😺</b></h2>
+                            <h3>user1님이 입장했습니다.</h3>
+                            <h3>user2님이 입장했습니다.</h3>
+                            <ChatInputC>
+                                <ChatInput placeholder=" &nbsp;내용을 입력하세요."/>
+                                <ChatBtn>입력</ChatBtn>
+                            </ChatInputC>
+                         </ChatView>
                     </ChatBox>
+                    <UserView>
+                        <Text><h3><b>참여중</b></h3></Text>
+                        <UserBox>
+                            <UserNameBtn>user1</UserNameBtn>
+                            <UserNameBtn>user2</UserNameBtn>
+                        </UserBox>
+                    </UserView>
                 </WrapBox>   
             </WrapDetail>
         </React.Fragment>
@@ -42,15 +54,23 @@ const WrapDetail = styled.div`
 
 const WrapBox=styled.div`
 display:flex;
-width:1200px;
+width:1024px;
 margin:auto;
 justify-content: space-evenly;
+align-items:center;
 `;
 
 const ProductsBox=styled.div`
-background:aliceblue;
-height:650px;
+
+height:100vh;
 width:600px;
+`;
+
+const Text=styled.h3`
+span {
+    font-weight: 600;
+  
+  }
 `;
 
 const Img=styled.img`
@@ -63,24 +83,86 @@ margin-left: 100px;
 margin-top: 40px;
 `;
 
-const ChatBtn=styled.button`
 
-margin-left: 480px;
-margin-top: 10px;
-}`;
 const ChatBox=styled.div`
-background:aliceblue;
-height:650px;
+margin-top:10px;
+height:100vh;
 width:600px;
 `;
 
-const ChatGrid=styled.div`
-background:#fff;
-height:550px;
+const ChatView=styled.div`
+background:#ffe0a2;
+height:500px;
 width:500px;
-margin-left: 50px;
+margin-left: 30px;
 margin-top: 30px;
+border-radius:30px;
+border: 1px solid #eee;
+text-align:center;
 `;
 
+const ChatInputC=styled.div`
+justify-content:center;
+margin-top: 370px;
+`;
+
+const ChatInput=styled.input`
+height:50px;
+width:400px;
+border-radius:20px;
+border: 1px solid #eee;
+
+margin-top: 15px;
+background:#fff;
+`;
+
+const ChatBtn=styled.button`
+margin-left: 10px;
+height: 40px;
+padding: 10px;
+border-radius: 4px;
+font-size: 13px;
+font-weight: 600;
+
+border: 1px solid #dbdbdb;
+cursor: pointer;
+outline: none;
+background-color: #ffc149;
+color: black;
+border-radius: 20px;
+}`;
+
+const UserView=styled.div`
+margin-bottom: 300px;
+margin-left:30px;
+
+text-align:center;
+`;
+
+const UserBox=styled.div`
+background:#ffc149;
+height:550px;
+width:150px;
+border-radius: 20px;
+
+`;
+
+const UserNameBtn=styled.button`
+margin-left: 10px;
+margin-top:5px;
+height: 40px;
+width:100px;
+padding: 10px;
+border-radius: 4px;
+font-size: 13px;
+font-weight: 600;
+
+border: 1px solid #dbdbdb;
+cursor: pointer;
+outline: none;
+background-color: #ffe0a2;
+color: black;
+border-radius: 20px;
+`;
 
 export default Detail;
