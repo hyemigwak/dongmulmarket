@@ -1,8 +1,15 @@
-import React from "react";
+import React,{ Component,useState } from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
 
 const Mypage = () => {
+  
+  const [showResults,setShowResults]=React.useState(false);
+  const showFunction=(props)=>{
+   setShowResults(true);
+  }
+
+
   return (
     <React.Fragment>
       <WrapMypage>
@@ -25,6 +32,11 @@ const Mypage = () => {
             <FinishC>
               <FinishTitle>
                 <h2>내 교환 완료 내역</h2>
+                <ShowBtn onClick={showFunction}>
+                  {/* {showResults? <Results/>:null} */}
+                  자세히보기
+                  </ShowBtn>
+                
               </FinishTitle>
               <BoxContainer>
                 <Box />
@@ -39,9 +51,10 @@ const Mypage = () => {
               <BoxContainer>
                 <Box />
                 <Box />
-                <Box />
+                <Box />      
               </BoxContainer>
             </StillC>
+           
           </ContentsC>
         </MyPageC>
       </WrapMypage>
@@ -90,6 +103,21 @@ const SettingC = styled.div`
   }
 `;
 
+const ShowBtn=styled.button`
+width: 100px;
+height: 40px;
+padding: 8px;
+box-sizing: border-box;
+border-radius: 16px;
+background: #ffc149;
+border: none;
+color: #212121;
+font-weight: 600;
+cursor: pointer;
+
+margin-left:10px;
+margin-bottom: 10px;
+`;
 const ContentsC = styled.div`
   width: 600px;
   height: 100vh;
@@ -107,7 +135,10 @@ const FinishC = styled.div`
   margin-top: 20px;
 `;
 
-const FinishTitle = styled.div``;
+const FinishTitle = styled.div`
+display:flex;
+align-items:center;
+`;
 
 const BoxContainer = styled.div`
   justify-content: space-evenly;

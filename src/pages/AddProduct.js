@@ -9,6 +9,8 @@ import { DatePicker, Space } from "antd";
 import { history } from "../redux/configureStore";
 import "antd/dist/antd.css";
 
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+
 const AddProduct = (props) => {
   const dispatch = useDispatch();
 
@@ -64,7 +66,7 @@ const AddProduct = (props) => {
       <AddProductWrap>
         <ProductArea>
           <div>
-            <input type="file" onChange={selectFile} />
+            <input startIcon={<CloudUploadIcon />} type="file" onChange={selectFile} />
           </div>
           <div>
             <Img src={preview} alt="대표이미지" />
