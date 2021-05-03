@@ -8,6 +8,7 @@ import { actionCreators as userActions } from "../redux/modules/user";
 import { Login, Main, Mypage, Signup, Findpwd, AddProduct, ContactChat, Map, Test } from "../pages";
 import Detail from "../pages/Detail";
 import { Header, Footer, MyLocation } from "../components";
+import Testpost from "../components/Testpost";
 import { getCookie } from "./Cookie";
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route exact path="/detail" component={Detail} />
         <Route exact path="/map" component={Map} />
         <Route exact path="/test" component={Test} />
+        <Route exact path="/testpost" component={Testpost} />
       </ConnectedRouter>
       <Footer />
     </React.Fragment>

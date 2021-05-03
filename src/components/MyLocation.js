@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as mapActions } from "../redux/modules/map";
+import DaumPostcode from "react-daum-postcode";
 import { EditAddress } from "./index";
 import { history } from "../redux/configureStore";
+import Testpost from "./Testpost";
 
 const { kakao } = window;
 
@@ -31,10 +33,10 @@ const MyLocation = (props) => {
   //위치가 관악구일때만 로그인 창으로 가게하기
   const locationCheck = () => {
     if (address.includes("관악구")) {
-      window.alert("안녕하세요! 항해13조님 오이마켓🥒에 오신걸 환영해요");
+      window.alert("안녕하세요! 항해13조님 동물마켓에 오신걸 환영해요");
       history.push("/login");
     } else {
-      window.alert("안녕하세요! 오이마켓은 관악구 주민만 이용 가능합니다😢");
+      window.alert("안녕하세요! 동물마켓은 관악구 주민만 이용 가능합니다😢");
       return;
     }
   };
@@ -122,7 +124,8 @@ const MyLocation = (props) => {
           <h2>맞나요?</h2>
           <Btn onClick={locationCheck}>맞아요!</Btn>
           <Btn onClick={openModal}>아니요!</Btn>
-          <EditAddress open={modalOpen} close={closeModal} />
+          {/* <EditAddress open={modalOpen} close={closeModal} /> */}
+          <Testpost open={modalOpen} close={closeModal} />
         </div>
         {/* </div> */}
       </Container>

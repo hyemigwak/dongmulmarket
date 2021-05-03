@@ -1,63 +1,125 @@
 import React from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
+import { getCookie } from "../shared/Cookie";
 
-//분기가 필요함
+const Header = (props) => {
+  const dispatch = useDispatch();
+  const is_login = useSelector((state) => state.user.is_login);
+  const cookie = getCookie("user_login") ? true : false;
 
-const Header = () => {
-  return (
-    <React.Fragment>
-      <HeaderC>
-        <WelcomeWords>
-          <Button
-            onClick={() => {
-              history.push("/");
-            }}
-          >
-            로고영역
-          </Button>
-          <span>username</span>님 환영합니다.
-        </WelcomeWords>
-        <BtnArea>
-          <Button
-            onClick={() => {
-              history.push("/addproduct");
-            }}
-          >
-            판매하기
-          </Button>
-          <Button
-            onClick={() => {
-              history.push("/mypage");
-            }}
-          >
-            마이페이지
-          </Button>
-          <Button
-            onClick={() => {
-              history.push("/login");
-            }}
-          >
-            로그인
-          </Button>
-          <Button
-            onClick={() => {
-              history.push("/signup");
-            }}
-          >
-            회원가입
-          </Button>
-          <Button
-            onClick={() => {
-              history.push("/mylocation");
-            }}
-          >
-            위치
-          </Button>
-        </BtnArea>
-      </HeaderC>
-    </React.Fragment>
-  );
+  const siteLogout = () => {
+    if (window.confirm("정말 로그아웃 하시겠습니까?")) {
+      // dispatch(userActions.logOut());
+      history.replace("/");
+    } else {
+      console.log("로그인 유지");
+    }
+  };
+  if (!cookie && !is_login) {
+    return (
+      <React.Fragment>
+        <HeaderC>
+          <WelcomeWords>
+            <Button
+              onClick={() => {
+                history.push("/");
+              }}
+            >
+              로고영역
+            </Button>
+            <span>username</span>님 환영합니다.
+          </WelcomeWords>
+          <BtnArea>
+            <Button
+              onClick={() => {
+                history.push("/addproduct");
+              }}
+            >
+              판매하기
+            </Button>
+            <Button
+              onClick={() => {
+                history.push("/mypage");
+              }}
+            >
+              마이페이지
+            </Button>
+            <Button
+              onClick={() => {
+                history.push("/login");
+              }}
+            >
+              로그인
+            </Button>
+            <Button
+              onClick={() => {
+                history.push("/signup");
+              }}
+            >
+              회원가입
+            </Button>
+            <Button
+              onClick={() => {
+                history.push("/mylocation");
+              }}
+            >
+              위치
+            </Button>
+            <Button onClick={siteLogout}>로그아웃</Button>
+            <Button1
+              onClick={() => {
+                history.push("/contact");
+              }}
+            >
+              1:1채팅
+            </Button1>
+            <Button1
+              onClick={() => {
+                history.push("/detail");
+              }}
+            >
+              디테일
+            </Button1>
+          </BtnArea>
+        </HeaderC>
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <React.Fragment>
+        <HeaderC>
+          <WelcomeWords>
+            <Button
+              onClick={() => {
+                history.push("/");
+              }}
+            >
+              로고영역
+            </Button>
+          </WelcomeWords>
+          <BtnArea>
+            <Button
+              onClick={() => {
+                history.push("/login");
+              }}
+            >
+              로그인
+            </Button>
+            <Button
+              onClick={() => {
+                history.push("/signup");
+              }}
+            >
+              회원가입
+            </Button>
+          </BtnArea>
+        </HeaderC>
+      </React.Fragment>
+    );
+  }
 };
 
 const HeaderC = styled.div`
@@ -100,6 +162,10 @@ const Button = styled.button`
   background-color: #ffc149;
   color: black;
   border-radius: 20px;
+`;
+
+const Button1 = styled(Button)`
+  background-color: #eee;
 `;
 
 const BtnArea = styled.div`
