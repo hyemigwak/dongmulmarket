@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { history } from "../redux/configureStore";
 
 const Post = (props) => {
   console.log(props);
-  const { image_url, myItem, WantItem, location, expireDate } = props;
+  const { image_url, myItem, WantItem, location, expireDate, ProductId } = props;
+  console.log(ProductId);
 
   console.log(new Date());
 
@@ -30,7 +32,11 @@ const Post = (props) => {
 
   return (
     <React.Fragment>
-      <Box>
+      <Box
+        onClick={() => {
+          history.push(`/detail/${ProductId}`);
+        }}
+      >
         <ImgBox>
           <img src={image_url} alt="상품이미지" />
         </ImgBox>
@@ -66,8 +72,8 @@ const Box = styled.div`
   border-radius: 20px;
   display: flex;
   flex-wrap: wrap;
-  margin-right: 30px; 
-  margin-top:30px;
+  margin-right: 30px;
+  margin-top: 30px;
 `;
 
 const ImgBox = styled.div`

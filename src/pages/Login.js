@@ -2,9 +2,9 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { history } from "../redux/configureStore";
-
 import styled from "styled-components";
 import KaKaoLogin from "react-kakao-login";
+import GoogleLogin from "react-google-login";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -25,12 +25,24 @@ const Login = () => {
 
   //카카오로그인
   const kakaoLoginSuccess = (res) => {
-    const data = res.response;
-    dispatch(
-      userActions.kakaoLoginAPI({
-        kakaoToken: data.access_token,
-      })
-    );
+    console.log(res);
+    // const data = res.response;
+    // dispatch(
+    //   userActions.kakaoLoginAPI({
+    //     kakaoToken: data.access_token,
+    //   })
+    // );
+  };
+
+  //구글로그인 실패
+  const responseGoogle = (response) => {
+    console.log("구글로그인 실패", response);
+  };
+
+  //구글로그인 성공
+  const GoogleLoginSuccess = (response) => {
+    console.log(response);
+    dispatch(userActions.GoogleLoginAPI(response));
   };
 
   return (
@@ -54,8 +66,22 @@ const Login = () => {
               onSuccess={kakaoLoginSuccess}
               onFailure={(result) => console.log(result)}
               buttonText="kakao"
+              getProfile={true}
               render={(props) => <KakaoBtn onClick={props.onClick}>kakao</KakaoBtn>}
             ></KaKaoLogin>
+            <GoogleLogin
+              clientId="797391183659-j67nu7drmq094hs3ghtfpjmsh25dah67.apps.googleusercontent.com"
+              buttonText="Google"
+              onSuccess={GoogleLoginSuccess}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+              isSignedIn={true}
+              render={(props) => (
+                <GoogleBtn onClick={props.onClick} disabled={props.disabled}>
+                  Google
+                </GoogleBtn>
+              )}
+            />
             <SignPwdC>
               <SignInBtn
                 onClick={() => {
@@ -101,7 +127,7 @@ const Title = styled.div`
 
 const LoginC = styled.div`
   width: 500px;
-  height: 420px;
+  height: 480px;
   margin: auto;
   background: #ffffff;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.07);
@@ -147,7 +173,7 @@ const LoginBtn = styled.button`
   border: 1px solid #dbdbdb;
   cursor: pointer;
   outline: none;
-  background-color: #0095f6;
+  background-color: #ffc149;
   color: white;
 `;
 
@@ -163,6 +189,20 @@ const KakaoBtn = styled.button`
   outline: none;
   background-color: rgba(255, 238, 51, 0.99);
   color: black;
+`;
+
+const GoogleBtn = styled.button`
+  width: 150px;
+  padding: 7px 0px 7px 8px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 10px;
+  border: 1px solid #dbdbdb;
+  cursor: pointer;
+  outline: none;
+  background-color: #1a73e8;
+  color: #ffffff;
 `;
 
 const SignPwdC = styled.div`

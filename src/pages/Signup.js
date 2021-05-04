@@ -6,6 +6,7 @@ import styled from "styled-components";
 const Signup = (props) => {
   const dispatch = useDispatch();
   const user_exist = useSelector((state) => state.user.is_exist);
+  console.log(user_exist);
   const is_email_validate = useSelector((state) => state.user.is_email_validate);
   const my_location = useSelector((state) => state.map.address);
   console.log(my_location);
@@ -17,12 +18,14 @@ const Signup = (props) => {
   const [pwdCheck, setPwdCheck] = useState("");
   const [emailDoubleCheck, SetEmailDoubleCheck] = useState(""); // 이메일 중복 확인
   const [show, setShow] = useState(false); //이메일 중복 아닐 때, 인증번호 창 보이게 하기
+  const [address, setAddress] = useState("");
 
   const onChangeEmail = useCallback((e) => setEmail(e.target.value), []);
   const onChangeAuthnumber = useCallback((e) => setAuthNumber(e.target.value), []);
   const onChangeNickname = useCallback((e) => setNickname(e.target.value), []);
   const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
   const onChangepwdCheck = useCallback((e) => setPwdCheck(e.target.value), []);
+  const onChangeAddress = useCallback((e) => setAddress(e.target.value), []);
 
   //이메일, 비밀번호 정규표현식
   const email_regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -43,7 +46,7 @@ const Signup = (props) => {
       window.alert("이미 존재하는 ID입니다!");
       return;
     } else {
-      dispatch(userActions.EmailValidationAPI(email));
+      // dispatch(userActions.EmailValidationAPI(email));
       SetEmailDoubleCheck("사용 가능한 ID입니다");
       setShow(true);
     }
@@ -70,11 +73,11 @@ const Signup = (props) => {
       window.alert("비밀번호는 영문/숫자 혼합으로 8~14자리로 입력해주세요!");
       return;
     }
-    if (!is_email_validate) {
-      window.alert("이메일 인증이 되지 않았습니다");
-      return;
-    }
-    dispatch(userActions.signupAPI(email, nickname, pwd, authnumber));
+    // if (!is_email_validate) {
+    //   window.alert("이메일 인증이 되지 않았습니다");
+    //   return;
+    // }
+    dispatch(userActions.signupAPI(email, nickname, pwd, authnumber, address));
   };
 
   return (
@@ -92,6 +95,7 @@ const Signup = (props) => {
             <Input type="text" placeholder="닉네임을 입력해주세요" value={nickname} onChange={onChangeNickname} />
             <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
             <Input type="password" placeholder="비밀번호를 다시 입력해주세요" value={pwdCheck} onChange={onChangepwdCheck} />
+            <Input type="text" placeholder="주소입력" value={address} onChange={onChangeAddress} />
           </InputC>
           <SignInBtn onClick={onSiteSignup}>회원가입</SignInBtn>
         </SignUpC>

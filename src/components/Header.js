@@ -11,14 +11,21 @@ const Header = (props) => {
   const cookie = getCookie("user_login") ? true : false;
 
   const siteLogout = () => {
+    if (window.Kakao.Auth.getAccessToken()) {
+      console.log("카카오 인증 엑세스 토큰 존재", window.Kakao.Auth.getAccessToken());
+      window.Kakao.Auth.logout(() => {
+        console.log("카카오 로그아웃 완료", window.Kakao.Auth.getAccessToken());
+      });
+    }
     if (window.confirm("정말 로그아웃 하시겠습니까?")) {
-      // dispatch(userActions.logOut());
+      dispatch(userActions.logOut());
       history.replace("/");
     } else {
       console.log("로그인 유지");
     }
   };
-  if (!cookie && !is_login) {
+
+  if (cookie && is_login) {
     return (
       <React.Fragment>
         <HeaderC>

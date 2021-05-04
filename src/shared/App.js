@@ -33,7 +33,7 @@ function App() {
         <Route exact path="/addproduct" component={AddProduct} />
         <Route exact path="/mylocation" component={MyLocation} />
         <Route exact path="/contact" component={ContactChat} />
-        <Route exact path="/detail" component={Detail} />
+        <Route exact path="/detail/:id" component={Detail} />
         <Route exact path="/map" component={Map} />
         <Route exact path="/test" component={Test} />
         <Route exact path="/testpost" component={Testpost} />

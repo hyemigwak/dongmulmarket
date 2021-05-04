@@ -3,6 +3,7 @@ import { produce } from "immer";
 import axios from "axios";
 import { setCookie, deleteCookie, getCookie } from "../../shared/Cookie";
 import { config } from "../../shared/config";
+import GoogleLogin from "react-google-login";
 
 //actions
 const LOG_IN = "LOG_IN"; //로그인
@@ -27,6 +28,44 @@ const initialState = {
 };
 
 //api연결
+
+//구글 로그인
+
+const GoogleLoginAPI = (response) => {
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "POST",
+      url: `${config.api}/account/login`,
+      data: {
+        accessToken: response.accessToken,
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        console.log(res.data); // response 확인
+
+        //토큰 받아오기
+        const jwtToken = res.data.token;
+        const user_name = res.data.name;
+
+        //토큰 저장하기
+        setCookie("user_token", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
+        setCookie("user_name", user_name); //유저 이름을 로컬스토리지에 저장
+
+        //디폴트로 헤더에 토큰 담아주기
+        axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
+        dispatch(logIn(user_name));
+
+        window.alert("정상적으로 로그인 되었습니다!");
+        history.push("/");
+      })
+      .catch((err) => {
+        console.log("kakaologin오류", err);
+      });
+  };
+};
 
 //카카오 로그인
 const kakaoLoginAPI = (kakaoToken) => {
@@ -65,35 +104,32 @@ const loginAPI = (email, pwd) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: `${config.api}/account/login`,
+      url: "http://3.36.53.222/account/login",
       data: {
         email: email,
         password: pwd,
       },
     })
       .then((res) => {
-        if (res.data.token) {
+        if (res.data.msg === "success") {
           console.log(res.data); // response 확인
 
-          const jwtToken = res.data.token;
-          const nickname = res.data.nickname;
+          //   const jwtToken = res.data.token;
+          //   const nickname = res.data.nickname;
 
-          setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
-          setCookie("nickname", nickname); //유저 닉네임 저장
+          //   setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
+          //   setCookie("nickname", nickname); //유저 닉네임 저장
 
-          //디폴트로 헤더에 토큰 담아주기
-          axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
+          //   //디폴트로 헤더에 토큰 담아주기
+          //   axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
 
-          dispatch(
-            logIn({
-              email: email,
-              password: pwd,
-            })
-          );
-          window.alert("정상적으로 로그인 되었습니다!");
-          history.push("/");
+          //   dispatch(logIn(res.data));
+          //   window.alert("정상적으로 로그인 되었습니다!");
+          //   history.push("/");
+          // } else {
+          //   window.alert("로그인에 실패했습니다!");
         } else {
-          window.alert("ID를 다시 확인해주세요.");
+          console.log("api오류");
         }
       })
       .catch((err) => {
@@ -103,11 +139,11 @@ const loginAPI = (email, pwd) => {
 };
 
 //회원가입
-const signupAPI = (email, pwd, nickname, authnumber) => {
+const signupAPI = (email, pwd, nickname, authnumber, address) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: `${config.api}/account`,
+      url: "http://3.36.53.222/account",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
@@ -117,12 +153,13 @@ const signupAPI = (email, pwd, nickname, authnumber) => {
         email: email,
         password: pwd,
         nickname: nickname,
-        authnumber: authnumber,
+        // authnumber: authnumber,
+        address: address,
       },
     })
       .then((res) => {
         console.log(res);
-        window.alert("축하합니다. 점심뭐먹지의 회원이 되어주셔서 감사합니다.");
+        window.alert("축하합니다. 동물마켓의 회원이 되어주셔서 감사합니다.");
         history.push("/login");
       })
       .catch((err) => {
@@ -136,21 +173,21 @@ const EmailCheckAPI = (email) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: `${config.api}/account/id`,
+      url: `${config.api}/account/chkEmail`,
       data: {
         email: email,
       },
     })
       .then((res) => {
         console.log(res.data);
-        if (res.data.message === "success") {
+        if (res.data.msg === "success") {
           dispatch(getUser(true));
         } else {
           window.alert("중복된 ID입니다.");
         }
       })
       .catch((err) => {
-        console.log("IDCheckAPI에서 오류 발생", err);
+        console.log("EmailCheckAPI에서 오류 발생", err);
       });
   };
 };
@@ -160,7 +197,7 @@ const EmailValidationAPI = (email) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: `${config.api}/account/email`,
+      url: `${config}/`,
       data: {
         email: email,
       },
@@ -209,6 +246,7 @@ export default handleActions(
       produce(state, (draft) => {
         deleteCookie("user_login");
         deleteCookie("nickname");
+        localStorage.clear();
         draft.user = null;
         draft.is_login = false;
       }),
@@ -235,7 +273,9 @@ const actionCreators = {
   loginAPI,
   loginCheck,
   signupAPI,
+  logOut,
   kakaoLoginAPI,
+  GoogleLoginAPI,
   EmailCheckAPI,
   EmailValidationAPI,
   FindPwdAPI,
