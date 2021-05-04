@@ -114,22 +114,20 @@ const loginAPI = (email, pwd) => {
         if (res.data.msg === "success") {
           console.log(res.data); // response 확인
 
-          //   const jwtToken = res.data.token;
-          //   const nickname = res.data.nickname;
+          const jwtToken = res.data.token;
+          const nickname = res.data.nickname;
 
-          //   setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
-          //   setCookie("nickname", nickname); //유저 닉네임 저장
+          setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
+          setCookie("nickname", nickname); //유저 닉네임 저장
 
-          //   //디폴트로 헤더에 토큰 담아주기
-          //   axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
+          //디폴트로 헤더에 토큰 담아주기
+          axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
 
-          //   dispatch(logIn(res.data));
-          //   window.alert("정상적으로 로그인 되었습니다!");
-          //   history.push("/");
-          // } else {
-          //   window.alert("로그인에 실패했습니다!");
+          dispatch(logIn(res.data));
+          window.alert("정상적으로 로그인 되었습니다!");
+          history.push("/");
         } else {
-          console.log("api오류");
+          window.alert("로그인에 실패했습니다!");
         }
       })
       .catch((err) => {
@@ -139,7 +137,7 @@ const loginAPI = (email, pwd) => {
 };
 
 //회원가입
-const signupAPI = (email, pwd, nickname, authnumber, address) => {
+const signupAPI = (email, authnumber, nickname, pwd, address) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
@@ -151,9 +149,9 @@ const signupAPI = (email, pwd, nickname, authnumber, address) => {
       },
       data: {
         email: email,
-        password: pwd,
+        authnumber: authnumber,
         nickname: nickname,
-        // authnumber: authnumber,
+        password: pwd,
         address: address,
       },
     })

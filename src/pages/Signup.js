@@ -42,13 +42,15 @@ const Signup = (props) => {
       window.alert("이메일 형식이 맞지 않습니다!");
       return;
     }
-    if (!user_exist) {
-      window.alert("이미 존재하는 ID입니다!");
-      return;
-    } else {
+    //만약 false라면
+    if (user_exist) {
       // dispatch(userActions.EmailValidationAPI(email));
+      window.alert("사용가능한 ID입니다");
       SetEmailDoubleCheck("사용 가능한 ID입니다");
       setShow(true);
+    } else {
+      // window.alert("이미 존재하는 ID입니다!");
+      return;
     }
   };
 
@@ -77,7 +79,7 @@ const Signup = (props) => {
     //   window.alert("이메일 인증이 되지 않았습니다");
     //   return;
     // }
-    dispatch(userActions.signupAPI(email, nickname, pwd, authnumber, address));
+    dispatch(userActions.signupAPI(email, authnumber, nickname, pwd, address));
   };
 
   return (
@@ -125,7 +127,7 @@ const Title = styled.div`
 
 const SignUpC = styled.div`
   width: 500px;
-  height: 380px;
+  height: 500px;
   margin: auto;
   margin-top: 40px;
   background: #ffffff;
