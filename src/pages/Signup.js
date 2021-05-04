@@ -79,7 +79,7 @@ const Signup = (props) => {
     //   window.alert("이메일 인증이 되지 않았습니다");
     //   return;
     // }
-    dispatch(userActions.signupAPI(email, authnumber, nickname, pwd, address));
+    dispatch(userActions.signupAPI(email, nickname, pwd, address));
   };
 
   return (
