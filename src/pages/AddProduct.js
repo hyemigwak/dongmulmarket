@@ -11,6 +11,8 @@ import "antd/dist/antd.css";
 
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
+
+
 const AddProduct = (props) => {
   const dispatch = useDispatch();
 
@@ -66,6 +68,7 @@ const AddProduct = (props) => {
       <AddProductWrap>
         <ProductArea>
           <div>
+  
             <input startIcon={<CloudUploadIcon />} type="file" onChange={selectFile} />
           </div>
           <div>
