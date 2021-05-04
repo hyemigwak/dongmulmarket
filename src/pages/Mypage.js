@@ -8,7 +8,15 @@ const Mypage = () => {
   const showFunction=(props)=>{
    setShowResults(true);
   }
+ 
+  const Results=(props)=>{
+    return(
+      <BoxContainer>
+          <Box/>
+      </BoxContainer>
 
+    );
+  }
 
   return (
     <React.Fragment>
@@ -33,18 +41,18 @@ const Mypage = () => {
               <FinishTitle>
                 <h2>내 교환 완료 내역</h2>
                 <ShowBtn onClick={showFunction}>
-                  {/* {showResults? <Results/>:null} */}
+                  {showResults? <Results/>:null}
                   자세히보기
                   </ShowBtn>
                 
               </FinishTitle>
-              <BoxContainer>
+              {/* <BoxContainer>
                 <Box />
                 <Box />
                 <Box />
-              </BoxContainer>
+              </BoxContainer> */}
             </FinishC>
-            <StillC>
+            {/* <StillC>
               <StillTitle>
                 <h2>내 교환 중 내역</h2>
               </StillTitle>
@@ -53,7 +61,7 @@ const Mypage = () => {
                 <Box />
                 <Box />      
               </BoxContainer>
-            </StillC>
+            </StillC> */}
            
           </ContentsC>
         </MyPageC>
@@ -114,7 +122,7 @@ border: none;
 color: #212121;
 font-weight: 600;
 cursor: pointer;
-
+display:flex;
 margin-left:10px;
 margin-bottom: 10px;
 `;
@@ -133,6 +141,9 @@ const LocationC = styled.div`
 const FinishC = styled.div`
   justify-content: space-evenly;
   margin-top: 20px;
+  width:600px;
+  background:pink;
+  height:300px;
 `;
 
 const FinishTitle = styled.div`
@@ -143,6 +154,7 @@ align-items:center;
 const BoxContainer = styled.div`
   justify-content: space-evenly;
   display: flex;
+ 
 `;
 
 const StillC = styled.div`
