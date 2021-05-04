@@ -90,6 +90,13 @@ const Header = (props) => {
             >
               디테일
             </Button1>
+            <Button1
+              onClick={() => {
+                history.push("/chat");
+              }}
+            >
+              채팅
+            </Button1>
           </BtnArea>
         </HeaderC>
       </React.Fragment>

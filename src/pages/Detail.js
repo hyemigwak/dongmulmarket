@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import { getCookie } from "../shared/Cookie";
+import { history } from "../redux/configureStore";
 
 const Detail = (props) => {
   const id = props.match.params.id;
@@ -9,6 +11,9 @@ const Detail = (props) => {
   const product_idx = products.findIndex((p) => p.ProductId === Number(id));
   const product = products[product_idx];
   console.log(product);
+
+  //내가 쓴건지 아는 방법(일반로그인일때) -> 서버에서 내려오는 email값이 있을때 주석 풀자요
+  // const is_me = getCookie("email") === props.email;
 
   return (
     <React.Fragment>
@@ -58,7 +63,17 @@ const Detail = (props) => {
               </h3>
             </Text>
             <UserBox>
-              <UserNameBtn>user1</UserNameBtn>
+              <UserNameBtn
+                onClick={() => {
+                  if (window.confirm("user1님과 거래를 진행하시겠습니까?")) {
+                    history.push("/contact");
+                  } else {
+                    return;
+                  }
+                }}
+              >
+                user1
+              </UserNameBtn>
               <UserNameBtn>user2</UserNameBtn>
             </UserBox>
           </UserView>

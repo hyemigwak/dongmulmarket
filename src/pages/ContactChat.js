@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
+import { useDispatch, useSelector } from "react-redux";
+
+//디테일 페이지로 가게하는 것 연결 필요함
+//user1에 대한 정보를 디테일 페이지나 채팅 api에서 가져와서 뿌려줘야함
 
 export const ContactChat = (props) => {
   const tradeSuccess = () => {

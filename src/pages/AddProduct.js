@@ -8,13 +8,15 @@ import moment from "moment";
 import { DatePicker, Space } from "antd";
 import { history } from "../redux/configureStore";
 import "antd/dist/antd.css";
-
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-
-
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import { getCookie } from "../shared/Cookie";
 
 const AddProduct = (props) => {
   const dispatch = useDispatch();
+
+  //로그인 여부로 분기하기
+  const cookie = getCookie("user_login") ? true : false;
+  const is_login = useSelector((state) => state.user.is_login);
 
   //input받아서 서버에 보내줄 값들
   const [preview, setPreview] = useState(preview_img);
@@ -25,6 +27,7 @@ const AddProduct = (props) => {
   const [content, setContent] = useState("");
   const [expireDate, setExpireDate] = useState("");
   console.log(typeof expireDate);
+  console.log(expireDate);
   const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
 
   const onChangeCategory = useCallback((e) => setCategory(e.target.value), []);
@@ -50,6 +53,7 @@ const AddProduct = (props) => {
     console.log("Selected Time: ", value);
     console.log("Formatted Selected Time: ", dateString);
     setExpireDate(dateString);
+    console.log();
   }
   function onOk(value) {
     console.log("onOk: ", value);
@@ -59,63 +63,68 @@ const AddProduct = (props) => {
     dispatch(postActions.addPostAPI(imgfile, category, myItem, wantItem, content, expireDate, createdAt));
     window.alert("등록 완료입니다!");
     //라우터에서 detail 게시물로 가서 확인하게 하기
-    history.replace('/detail');
+    history.replace("/detail");
   };
 
-  return (
-    <React.Fragment>
-      <Title>물품 등록하기</Title>
-      <AddProductWrap>
-        <ProductArea>
-          <div>
-  
-            <input startIcon={<CloudUploadIcon />} type="file" onChange={selectFile} />
-          </div>
-          <div>
-            <Img src={preview} alt="대표이미지" />
-          </div>
-          <Input type="text" placeholder="물물교환 할 상품을 입력해주세요!" value={myItem} onChange={onChangeMyItem} />
-          <CateArea>
-            <select size="1" value={category} onChange={onChangeCategory}>
-              <option value="카테고리를 선택해주세요" selected>
-                카테고리를 선택해주세요
-              </option>
-              <option value="디지털/가전">디지털/가전</option>
-              <option value="가구/인테리어">가구/인테리어</option>
-              <option value="유아동/유아도서">유아동/유아도서</option>
-              <option value="식품">식품</option>
-              <option value="스포츠/레저">스포츠/레저</option>
-              <option value="여성잡화">여성잡화</option>
-              <option value="여성의류">여성의류</option>
-              <option value="남성패션/잡화">남성패션/잡화</option>
-              <option value="게임/취미">게임/취미</option>
-              <option value="뷰티/미용">뷰티/미용</option>
-              <option value="반려동물용품">반려동물용품</option>
-              <option value="도서/티켓/음반">도서/티켓/음반</option>
-              <option value="생활용품">생활용품</option>
-              <option value="식물">식물</option>
-              <option value="기타 중고물품">기타 중고물품</option>
-            </select>
-          </CateArea>
-          <Input type="text" placeholder="희망 교환 물품을 입력해주세요" value={wantItem} onChange={onChangeWantItem} />
-          <div>
-            <Textarea type="text" placeholder="물품을 설명해주세요!" rows="5" value={content} onChange={onChangeContent} />
-          </div>
-          <CalendarArea>
-            <span>교환 종료일</span>
-            <Calend>
-              <Space direction="vertical" size={12}>
-                <DatePicker showTime={{ format: "HH:mm" }} onChange={onChange} onOk={onOk} />
-              </Space>
-            </Calend>
-          </CalendarArea>
-          <BtnArea>
-            <Btn onClick={onSiteAddProduct}>물품 올리기</Btn>
-          </BtnArea>
-        </ProductArea>
-      </AddProductWrap>
-    </React.Fragment>
-  );
+  if (cookie && is_login) {
+    return (
+      <React.Fragment>
+        <Title>물품 등록하기</Title>
+        <AddProductWrap>
+          <ProductArea>
+            <div>
+              <input startIcon={<CloudUploadIcon />} type="file" onChange={selectFile} />
+            </div>
+            <div>
+              <Img src={preview} alt="대표이미지" />
+            </div>
+            <Input type="text" placeholder="물물교환 할 상품을 입력해주세요!" value={myItem} onChange={onChangeMyItem} />
+            <CateArea>
+              <select size="1" value={category} onChange={onChangeCategory}>
+                <option value="카테고리를 선택해주세요" selected>
+                  카테고리를 선택해주세요
+                </option>
+                <option value="디지털/가전">디지털/가전</option>
+                <option value="가구/인테리어">가구/인테리어</option>
+                <option value="유아동/유아도서">유아동/유아도서</option>
+                <option value="식품">식품</option>
+                <option value="스포츠/레저">스포츠/레저</option>
+                <option value="여성잡화">여성잡화</option>
+                <option value="여성의류">여성의류</option>
+                <option value="남성패션/잡화">남성패션/잡화</option>
+                <option value="게임/취미">게임/취미</option>
+                <option value="뷰티/미용">뷰티/미용</option>
+                <option value="반려동물용품">반려동물용품</option>
+                <option value="도서/티켓/음반">도서/티켓/음반</option>
+                <option value="생활용품">생활용품</option>
+                <option value="식물">식물</option>
+                <option value="기타 중고물품">기타 중고물품</option>
+              </select>
+            </CateArea>
+            <Input type="text" placeholder="희망 교환 물품을 입력해주세요" value={wantItem} onChange={onChangeWantItem} />
+            <div>
+              <Textarea type="text" placeholder="물품을 설명해주세요!" rows="5" value={content} onChange={onChangeContent} />
+            </div>
+            <CalendarArea>
+              <span>교환 종료일</span>
+              <Calend>
+                <Space direction="vertical" size={12}>
+                  <DatePicker showTime={{ format: "HH:mm" }} onChange={onChange} onOk={onOk} />
+                </Space>
+              </Calend>
+            </CalendarArea>
+            <BtnArea>
+              <Btn onClick={onSiteAddProduct}>물품 올리기</Btn>
+            </BtnArea>
+          </ProductArea>
+        </AddProductWrap>
+      </React.Fragment>
+    );
+  } else {
+    window.alert("로그인 해주세요!");
+    history.push("/login");
+    return null;
+  }
 };
 
 const AddProductWrap = styled.div`

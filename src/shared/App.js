@@ -5,10 +5,8 @@ import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
 import { actionCreators as userActions } from "../redux/modules/user";
-import { Login, Main, Mypage, Signup, Findpwd, AddProduct, ContactChat, Map, Test } from "../pages";
-import Detail from "../pages/Detail";
-import { Header, Footer, MyLocation } from "../components";
-import Testpost from "../components/Testpost";
+import { Login, Main, Mypage, Signup, Findpwd, AddProduct, ContactChat, Detail } from "../pages";
+import { Header, Footer, MyLocation, Chat, Testpost } from "../components";
 import { getCookie } from "./Cookie";
 
 function App() {
@@ -34,9 +32,8 @@ function App() {
         <Route exact path="/mylocation" component={MyLocation} />
         <Route exact path="/contact" component={ContactChat} />
         <Route exact path="/detail/:id" component={Detail} />
-        <Route exact path="/map" component={Map} />
-        <Route exact path="/test" component={Test} />
         <Route exact path="/testpost" component={Testpost} />
+        <Route exact path="/chat" component={Chat} />
       </ConnectedRouter>
       <Footer />
     </React.Fragment>

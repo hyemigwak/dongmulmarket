@@ -104,7 +104,7 @@ const loginAPI = (email, pwd) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: "http://3.36.53.222/account/login",
+      url: "http://3.35.51.188/account/login",
       data: {
         email: email,
         password: pwd,
@@ -116,9 +116,11 @@ const loginAPI = (email, pwd) => {
 
           const jwtToken = res.data.token;
           const nickname = res.data.nickname;
+          const email = res.data.email;
 
           setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
           setCookie("nickname", nickname); //유저 닉네임 저장
+          setCookie("email", email); //유저 이메일 저장 -> 나만 보이는 버튼에서 true/false 여부로 쓸 예정
 
           //디폴트로 헤더에 토큰 담아주기
           axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
@@ -126,6 +128,12 @@ const loginAPI = (email, pwd) => {
           dispatch(logIn(res.data));
           window.alert("정상적으로 로그인 되었습니다!");
           history.push("/");
+          //자동로그아웃 -> 로그인 하자마자 1시간(토큰 만료) 되면 알럿창과 함께 로그아웃 함수 실행
+          setTimeout(function () {
+            window.alert("1시간이 경과하여 자동 로그아웃 됩니다");
+            dispatch(logOut());
+            history.replace("/");
+          }, 1000 * 60 * 60);
         } else {
           window.alert("로그인에 실패했습니다!");
         }
@@ -137,11 +145,11 @@ const loginAPI = (email, pwd) => {
 };
 
 //회원가입
-const signupAPI = (email, authnumber, nickname, pwd, address) => {
+const signupAPI = (email, nickname, pwd, address) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: "http://3.36.53.222/account",
+      url: "http://3.35.51.188/account",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
@@ -149,7 +157,6 @@ const signupAPI = (email, authnumber, nickname, pwd, address) => {
       },
       data: {
         email: email,
-        authnumber: authnumber,
         nickname: nickname,
         password: pwd,
         address: address,
@@ -244,6 +251,7 @@ export default handleActions(
       produce(state, (draft) => {
         deleteCookie("user_login");
         deleteCookie("nickname");
+        deleteCookie("email");
         localStorage.clear();
         draft.user = null;
         draft.is_login = false;

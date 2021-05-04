@@ -23,23 +23,26 @@ const initialState = {
 //api
 
 //물품 불러오기(메인)
-const MockAPI = "https://run.mocky.io/v3/0c7b921d-dc07-401f-a6d2-b71163ac660f";
+// const MockAPI = "https://run.mocky.io/v3/0c7b921d-dc07-401f-a6d2-b71163ac660f";
 const getPostAPI = () => {
   return function (dispatch, getState, { history }) {
-    axios
-      .get(MockAPI)
+    let token = getCookie("user_login");
+    axios.defaults.headers.common["authorization"] = `Bearer ${token}`;
+    axios({
+      method: "GET",
+      url: "http://3.35.51.188/mainPage",
+    })
       .then((res) => {
-        if (res.data.ok) {
+        if (res.data.msg === "success") {
           console.log(res.data);
-          console.log(res.data.PostList);
-          dispatch(getPost(res.data.PostList));
-          dispatch(loading(false));
+          // dispatch(getPost(res.data.PostList));
+          // dispatch(loading(false));
         } else {
-          console.log("data.ok is false");
+          console.log("데이터 fail");
         }
       })
       .catch((e) => {
-        console.log("setProductAPI 오류", e);
+        console.log("getPostAPI 오류", e);
       });
   };
 };
@@ -65,7 +68,7 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate, cr
       data: formdata,
       // json으로 간다. 바꿔줘야함*
       header: {
-        "X-AUTH-TOKEN": token,
+        "Content-Type": "multipart/form-data",
       },
     })
       .then((res) => {
