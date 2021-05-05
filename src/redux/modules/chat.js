@@ -2,6 +2,9 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { config } from "../../shared/config";
 
+import axios from 'axios';
+import socketIOClient from 'socket.io-client';
+
 //actions
 const ADD_CHAT = "ADD_CHAT";
 const GET_CHAT = "GET_CHAT";
@@ -18,7 +21,30 @@ const initialState = {
   is_loading: false,
 };
 
-// const socket = new WebSocket("ip주소")
+//소켓 설정(전역으로 사용하기 위해 export)
+// const socket = socketIOClient(`${config.api}/chat`);
+// const globalSocket = socketIOClient(`${config.api}/`);
+
+//유저 목록 조회
+// const middlewareUsers = () => {
+//   return function (dispatch) {
+//     axios({
+//       method: 'get',
+//       url: `${config.api}/member`,
+//     })
+//       .then((res) => {
+//         const users = res.data.users.map((val) => {
+//           // 알림 배지 여부를 위해 처리
+//           return { ...val, is_badge: false };
+//         });
+//         dispatch(user_list(users));
+//       })
+//       .catch((e) => {
+//         console.log(e);
+//       });
+//   };
+// };
+
 
 const getChatList = (prevMessage) => {
   return function (dispatch, getState, { history }) {

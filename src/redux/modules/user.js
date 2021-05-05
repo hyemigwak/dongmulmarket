@@ -104,7 +104,7 @@ const loginAPI = (email, pwd) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: "http://3.35.51.188/account/login",
+      url: "http://15.165.76.76/account/login",
       data: {
         email: email,
         password: pwd,
@@ -149,7 +149,7 @@ const signupAPI = (email, nickname, pwd, address) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: "http://3.35.51.188/account",
+      url: "http://15.165.76.76/account",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
