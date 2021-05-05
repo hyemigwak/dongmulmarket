@@ -12,6 +12,7 @@
     "axios": "^0.21.1",
     "connected-react-router": "6.8.0",
     "history": "4.10.1",
+    "http": "^0.0.1-security",
     "immer": "^9.0.2",
     "moment": "^2.29.1",
     "react": "^17.0.2",
@@ -32,6 +33,7 @@
     "socket.io-client": "^4.0.1",
     "styled-components": "^5.2.3",
     "web-vitals": "^1.0.1",
+    "websocket": "^1.0.34",
     "ws": "^7.4.5"
   },
   "scripts": {

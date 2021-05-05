@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import { getCookie } from "../shared/Cookie";
 import styled from "styled-components";
 import io from "socket.io-client";
+import { useSelector } from 'react-redux';
+import { actionCreators as chatActions } from '../redux/modules/chat';
 
-const Chat = () => {
+
+const Chat = (props) => {
+  //const dispatch = useDispatch();
   // const username = getCookie("nickname");
 
   // const [message, setMessage] = useState("");

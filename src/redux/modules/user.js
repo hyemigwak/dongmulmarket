@@ -114,7 +114,11 @@ const loginAPI = (email, pwd) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
+<<<<<<< HEAD
       url: `${config.api}/account/login`,
+=======
+      url: "http://15.165.76.76/account/login",
+>>>>>>> 5b2c77c44ea63057b2f4212b05e159f34c80b6db
       data: {
         email: email,
         password: pwd,
@@ -159,7 +163,11 @@ const signupAPI = (email, nickname, pwd, address) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
+<<<<<<< HEAD
       url: `${config.api}/account`,
+=======
+      url: "http://15.165.76.76/account",
+>>>>>>> 5b2c77c44ea63057b2f4212b05e159f34c80b6db
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
