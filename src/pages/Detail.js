@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as postActions } from "../redux/modules/post";
 import { getCookie } from "../shared/Cookie";
 import { history } from "../redux/configureStore";
 
 const Detail = (props) => {
+  const dispatch = useDispatch();
   const id = props.match.params.id;
-  console.log(id);
-  const products = useSelector((state) => state.post.post_list);
-  const product_idx = products.findIndex((p) => p.ProductId === Number(id));
-  const product = products[product_idx];
-  console.log(product);
+  const detail = useSelector((state) => state.post.detail_list);
+
+  useEffect(() => {
+    if (!detail);
+    dispatch(postActions.getOnePostAPI(id));
+  }, []);
 
   //내가 쓴건지 아는 방법(일반로그인일때) -> 서버에서 내려오는 email값이 있을때 주석 풀자요
   // const is_me = getCookie("email") === props.email;
@@ -20,25 +23,25 @@ const Detail = (props) => {
       <WrapDetail>
         <WrapBox>
           <ProductsBox>
-            <Img src={product.image_url} />
+            <Img src={detail.image} />
             <InfoBox>
               <Text>
-                <span>품목명:</span> &nbsp;{product.myItem}
+                <span>품목명:</span> &nbsp;{detail.title}
               </Text>
               <Text>
-                <span>카테고리: </span>&nbsp;카테고리도 디테일에서 받아와야겠다
+                <span>카테고리: </span>&nbsp;{detail.category}
               </Text>
               <Text>
-                <span>글 올린 시간: </span> &nbsp;{product.createdAt}
+                <span>글 올린 시간: </span> &nbsp;{detail.createdDt}
               </Text>
               <Text>
-                <span>교환 종료 시간: </span> &nbsp;{product.expireDate}
+                <span>교환 종료 시간: </span> &nbsp;{detail.deadLine}
               </Text>
               <Text>
-                <span>경매 참여 인원:</span> &nbsp;채팅이 구현되면 받아와야겠다.
+                <span>경매 참여 인원:</span> &nbsp;채팅이 구현되면 하자
               </Text>
               <Text>
-                <span>코멘트:</span> &nbsp; 목api에 코멘트를 안넣었네 디테일에서 받아야겠다
+                <span>코멘트:</span> &nbsp; {detail.comment}
               </Text>
             </InfoBox>
           </ProductsBox>

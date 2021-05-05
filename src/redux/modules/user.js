@@ -35,63 +35,73 @@ const GoogleLoginAPI = (response) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: `${config.api}/account/login`,
+      url: `${config.api}/account/googleAuth`,
       data: {
-        accessToken: response.accessToken,
+        // accessToken: response.accessToken,
+        email: response.profileObj.email,
+        firstName: response.profileObj.name,
+        lastName: response.profileObj.givenName ? response.profileObj.givenName : "",
       },
-      headers: {
-        "Content-Type": "application/json",
-      },
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
     })
       .then((res) => {
         console.log(res.data); // response 확인
+        // if (res.data.msg === "success") {
+        //   //토큰 받아오기
+        //   const jwtToken = res.data.token;
+        //   const user_name = res.data.name;
 
-        //토큰 받아오기
-        const jwtToken = res.data.token;
-        const user_name = res.data.name;
+        //   //토큰 저장하기
+        //   setCookie("user_token", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
+        //   setCookie("user_name", user_name); //유저 이름을 로컬스토리지에 저장
 
-        //토큰 저장하기
-        setCookie("user_token", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
-        setCookie("user_name", user_name); //유저 이름을 로컬스토리지에 저장
+        //   //디폴트로 헤더에 토큰 담아주기
+        //   axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
+        //   dispatch(logIn(user_name));
 
-        //디폴트로 헤더에 토큰 담아주기
-        axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
-        dispatch(logIn(user_name));
-
-        window.alert("정상적으로 로그인 되었습니다!");
-        history.push("/");
+        //   window.alert("정상적으로 로그인 되었습니다!");
+        //   history.push("/");
+        // } else {
+        //   console.log("구글로그인 msg === fail");
+        // }
       })
       .catch((err) => {
-        console.log("kakaologin오류", err);
+        console.log("구글로그인오류", err);
       });
   };
 };
 
 //카카오 로그인
-const kakaoLoginAPI = (kakaoToken) => {
+const kakaoLoginAPI = (res) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: `${config.api}/account/login`,
-      data: kakaoToken,
+      url: `${config.api}/account/kakaoAuth`,
+      data: res.profile.kakao_account.email,
     })
       .then((res) => {
-        console.log(res.data); // response 확인
+        if (res.data.msg === "success") {
+          console.log(res.data); // response 확인
 
-        //토큰 받아오기
-        const jwtToken = res.data.token;
-        const user_email = res.data.email;
+          //토큰 받아오기
+          const jwtToken = res.data.token;
+          const user_email = res.data.email;
 
-        //토큰 저장하기
-        setCookie("user_token", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
-        setCookie("user_email", user_email); //유저네임을 로컬스토리지에 저장
+          //토큰 저장하기
+          setCookie("user_token", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
+          setCookie("user_email", user_email); //유저네임을 로컬스토리지에 저장
 
-        //디폴트로 헤더에 토큰 담아주기
-        axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
-        dispatch(logIn(user_email));
+          //디폴트로 헤더에 토큰 담아주기
+          axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
+          dispatch(logIn(user_email));
 
-        window.alert("정상적으로 로그인 되었습니다!");
-        history.push("/");
+          window.alert("정상적으로 로그인 되었습니다!");
+          history.push("/");
+        } else {
+          console.log("카카오 res.data.msg fail");
+        }
       })
       .catch((err) => {
         console.log("kakaologin오류", err);
@@ -104,7 +114,7 @@ const loginAPI = (email, pwd) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: "http://3.35.51.188/account/login",
+      url: `${config.api}/account/login`,
       data: {
         email: email,
         password: pwd,
@@ -149,7 +159,7 @@ const signupAPI = (email, nickname, pwd, address) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: "http://3.35.51.188/account",
+      url: `${config.api}/account`,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",

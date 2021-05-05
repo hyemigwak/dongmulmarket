@@ -4,12 +4,11 @@ import styled from "styled-components";
 import Post from "../components/Post";
 const PostList = (props) => {
   const postList = props.postList;
-  console.log(postList);
 
   return (
     <React.Fragment>
       <PostListC>
-        {postList.map((post) => (
+        {postList?.map((post) => (
           <Post {...post} />
         ))}
       </PostListC>
@@ -17,12 +16,11 @@ const PostList = (props) => {
   );
 };
 
-const PostListC=styled.div`
-display:flex;
-flex-direction:row;
-flex-wrap:wrap;
-justify-content: flex-start;
-
+const PostListC = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 `;
 
 export default PostList;

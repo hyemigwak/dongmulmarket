@@ -26,12 +26,7 @@ const Login = () => {
   //카카오로그인
   const kakaoLoginSuccess = (res) => {
     console.log(res);
-    // const data = res.response;
-    // dispatch(
-    //   userActions.kakaoLoginAPI({
-    //     kakaoToken: data.access_token,
-    //   })
-    // );
+    dispatch(userActions.kakaoLoginAPI(res));
   };
 
   //구글로그인 실패
@@ -42,6 +37,7 @@ const Login = () => {
   //구글로그인 성공
   const GoogleLoginSuccess = (response) => {
     console.log(response);
+    console.log(response.profileObj.email);
     dispatch(userActions.GoogleLoginAPI(response));
   };
 

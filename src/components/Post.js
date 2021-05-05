@@ -3,11 +3,7 @@ import styled from "styled-components";
 import { history } from "../redux/configureStore";
 
 const Post = (props) => {
-  console.log(props);
-  const { image_url, myItem, WantItem, location, expireDate, ProductId } = props;
-  console.log(ProductId);
-
-  console.log(new Date());
+  const { image, title, wantItem, address, deadLine, itemId } = props;
 
   //몇 분 전을 나타내는 함수
   function timeForToday(value) {
@@ -19,6 +15,9 @@ const Post = (props) => {
     // if (betweenTime < 1) return "방금 전";
     if (betweenTime < 60) {
       return `${betweenTime}분`;
+    }
+    if (betweenTime < 0) {
+      return "종료되었습니다";
     }
     const betweenTimeHour = Math.floor(betweenTime / 60);
     if (betweenTimeHour < 24) {
@@ -34,19 +33,19 @@ const Post = (props) => {
     <React.Fragment>
       <Box
         onClick={() => {
-          history.push(`/detail/${ProductId}`);
+          history.push(`/detail/${itemId}`);
         }}
       >
         <ImgBox>
-          <img src={image_url} alt="상품이미지" />
+          <img src={image} alt="상품이미지" />
         </ImgBox>
-        <ProductTitle>{myItem}</ProductTitle>
+        <ProductTitle>{title}</ProductTitle>
         <Title>
-          <span>희망교환템:</span> {WantItem}
+          <span>희망교환템:</span> {wantItem}
         </Title>
         <SubTitleArea>
-          <div style={{ marginRight: "100px" }}>{location}</div>
-          <div>{timeForToday(expireDate)} 남음</div>
+          <div style={{ marginRight: "100px" }}>{address}</div>
+          <div>{timeForToday(deadLine)} 남음</div>
         </SubTitleArea>
       </Box>
     </React.Fragment>
@@ -54,7 +53,7 @@ const Post = (props) => {
 };
 
 Post.defaultProps = {
-  image_url:
+  image:
     "https://mblogthumb-phinf.pstatic.net/MjAxNzA5MTFfOTUg/MDAxNTA1MDkwOTQ4Nzkx.d6WmUQbJNVn_AgreyvKeQVnSTLnlzHFJsi4lWdgsTr0g.2BA8M9s7-eZEwkJZ5SJ6uVYD4g3kCAXUuQYOZtw1Uusg.PNG.nong-up/image.png?type=w800",
   myItem: "고구마 3개",
   wantItem: "감자 3개",

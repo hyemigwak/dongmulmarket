@@ -60,10 +60,9 @@ const AddProduct = (props) => {
   }
   //물품 등록하기 버튼 누르면 디스패치
   const onSiteAddProduct = () => {
-    dispatch(postActions.addPostAPI(imgfile, category, myItem, wantItem, content, expireDate, createdAt));
-    window.alert("등록 완료입니다!");
+    dispatch(postActions.addPostAPI(imgfile, category, myItem, wantItem, content, expireDate));
     //라우터에서 detail 게시물로 가서 확인하게 하기
-    history.replace("/detail");
+    history.replace("/");
   };
 
   if (cookie && is_login) {

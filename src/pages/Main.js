@@ -1,17 +1,19 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-
 import { history } from "../redux/configureStore";
 import AddIcon from "@material-ui/icons/Add";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import PostList from "./PostList";
+
 const Main = (props) => {
   const dispatch = useDispatch();
   const postList = useSelector((state) => state.post.post_list);
-  console.log(postList);
 
   useEffect(() => {
+    if (!postList) {
+      return;
+    }
     dispatch(postActions.getPostAPI());
   }, []);
 

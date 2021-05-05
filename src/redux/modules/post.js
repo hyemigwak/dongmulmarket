@@ -6,6 +6,7 @@ import { config } from "../../shared/config";
 
 //actions
 const GET_POST = "GET_POST";
+const ONE_POST = "ONE_POST";
 const ADD_POST = "ADD_POST";
 const LOADING = "LOADING";
 
@@ -13,10 +14,12 @@ const LOADING = "LOADING";
 const loading = createAction(LOADING, (loading) => ({ loading }));
 const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
+const onePost = createAction(ONE_POST, (post) => ({ post }));
 
 //initialState
 const initialState = {
   post_list: [],
+  detail_list: [],
   is_loading: false,
 };
 
@@ -26,17 +29,23 @@ const initialState = {
 // const MockAPI = "https://run.mocky.io/v3/0c7b921d-dc07-401f-a6d2-b71163ac660f";
 const getPostAPI = () => {
   return function (dispatch, getState, { history }) {
-    let token = getCookie("user_login");
-    axios.defaults.headers.common["authorization"] = `Bearer ${token}`;
     axios({
       method: "GET",
-      url: "http://3.35.51.188/mainPage",
+      url: `${config.api}/mainPage/noLogin`,
+      // headers: {
+      //   authorization: `Bearer ${token}`,
+      // },
     })
       .then((res) => {
         if (res.data.msg === "success") {
-          console.log(res.data);
-          // dispatch(getPost(res.data.PostList));
-          // dispatch(loading(false));
+          const post_list = res.data.data;
+          //종료일 기준으로 내림차순 정렬
+          post_list.sort(function (a, b) {
+            return a.deadLine < b.deadLine ? -1 : a.deadLine > b.deadLine ? 1 : 0;
+          });
+
+          dispatch(getPost(post_list));
+          dispatch(loading(false));
         } else {
           console.log("데이터 fail");
         }
@@ -48,33 +57,53 @@ const getPostAPI = () => {
 };
 
 //디테일 하나만 불러오기
+const getOnePostAPI = (itemId) => {
+  return function (dispatch, getState, { history }) {
+    axios
+      .get(`${config.api}/mainPage/${itemId}`)
+      .then((res) => {
+        if (res.data.msg === "success") {
+          dispatch(onePost(res.data.data));
+        } else {
+          console.log("한개 데이터 불러오기 fail");
+        }
+      })
+      .catch((e) => {
+        console.log("getOneProductAPI 오류", e);
+      });
+  };
+};
 
 //물품 등록하기
-const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate, createdAt) => {
+const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) => {
   return function (dispatch, getState, { history }) {
     //이미지 전달, formdata 사용
     let token = getCookie("user_login");
     let formdata = new FormData();
-    formdata.append("", imgfile);
-    formdata.append("", category);
-    formdata.append("", myItem);
-    formdata.append("", wantItem);
-    formdata.append("", content);
-    formdata.append("", expireDate);
+    formdata.append("file", imgfile);
+    formdata.append("category", category);
+    formdata.append("title", myItem);
+    formdata.append("wantItem", wantItem);
+    formdata.append("comment", content);
+    formdata.append("deadLine", expireDate);
 
     axios({
       method: "POST",
-      url: `${config.api}/post/write`,
+      url: `${config.api}/mainPage`,
       data: formdata,
-      // json으로 간다. 바꿔줘야함*
       header: {
+        authorization: token,
         "Content-Type": "multipart/form-data",
       },
     })
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
-        dispatch(addPost(res.data));
+        if (res.data.msg === "success") {
+          console.log(res.data);
+          dispatch(addPost(imgfile, category, myItem, wantItem, content, expireDate));
+          window.alert("등록 완료입니다!");
+        } else {
+          window.alert("등록 불러오기 실패");
+        }
       })
       .catch((err) => {
         console.log("addPostAPI 오류", err);
@@ -88,6 +117,10 @@ export default handleActions(
     [GET_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.post_list = action.payload.post_list;
+      }),
+    [ONE_POST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.detail_list = action.payload.post;
       }),
     [ADD_POST]: (state, action) =>
       produce(state, (draft) => {
@@ -106,6 +139,7 @@ const actionCreators = {
   addPost,
   getPostAPI,
   addPostAPI,
+  getOnePostAPI,
 };
 
 export { actionCreators };

@@ -1,5 +1,5 @@
 const config = {
-  api: "http://3.35.51.188",
+  api: "http://15.165.76.76",
 };
 
 export { config };
