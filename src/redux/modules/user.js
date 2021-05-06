@@ -40,7 +40,7 @@ const GoogleLoginAPI = (response) => {
         // accessToken: response.accessToken,
         email: response.profileObj.email,
         firstName: response.profileObj.name,
-        lastName: response.profileObj.givenName ? response.profileObj.givenName : "",
+        lastName: response.profileObj.familyName ? response.profileObj.familyName : "",
       },
       // headers: {
       //   "Content-Type": "application/json",
@@ -48,24 +48,25 @@ const GoogleLoginAPI = (response) => {
     })
       .then((res) => {
         console.log(res.data); // response 확인
-        // if (res.data.msg === "success") {
-        //   //토큰 받아오기
-        //   const jwtToken = res.data.token;
-        //   const user_name = res.data.name;
+        if (res.data.msg === "success") {
+          console.log(res.data);
+          //토큰 받아오기
+          const jwtToken = res.data.token;
+          const nickname = res.data.nickname;
 
-        //   //토큰 저장하기
-        //   setCookie("user_token", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
-        //   setCookie("user_name", user_name); //유저 이름을 로컬스토리지에 저장
+          //토큰 저장하기
+          setCookie("user_token", jwtToken); //쿠키에 user_token 이라는 이름으로 저장
+          setCookie("nickname", nickname);
 
-        //   //디폴트로 헤더에 토큰 담아주기
-        //   axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
-        //   dispatch(logIn(user_name));
+          //디폴트로 헤더에 토큰 담아주기
+          // axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
+          dispatch(logIn(res.data));
 
-        //   window.alert("정상적으로 로그인 되었습니다!");
-        //   history.push("/");
-        // } else {
-        //   console.log("구글로그인 msg === fail");
-        // }
+          window.alert("정상적으로 로그인 되었습니다!");
+          history.push("/");
+        } else {
+          console.log("구글로그인 msg === fail");
+        }
       })
       .catch((err) => {
         console.log("구글로그인오류", err);
@@ -74,12 +75,15 @@ const GoogleLoginAPI = (response) => {
 };
 
 //카카오 로그인
-const kakaoLoginAPI = (res) => {
+const kakaoLoginAPI = (response) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
       url: `${config.api}/account/kakaoAuth`,
-      data: res.profile.kakao_account.email,
+      data: {
+        email: response.profile.kakao_account.email,
+        nickname: response.profile.properties.nickname,
+      },
     })
       .then((res) => {
         if (res.data.msg === "success") {
@@ -87,15 +91,15 @@ const kakaoLoginAPI = (res) => {
 
           //토큰 받아오기
           const jwtToken = res.data.token;
-          const user_email = res.data.email;
+          const nickname = res.data.nickname;
 
           //토큰 저장하기
-          setCookie("user_token", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
-          setCookie("user_email", user_email); //유저네임을 로컬스토리지에 저장
+          setCookie("user_token", jwtToken); //쿠키에 user_token 이라는 이름으로 저장
+          setCookie("kakao_nickname", nickname);
 
           //디폴트로 헤더에 토큰 담아주기
           axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
-          dispatch(logIn(user_email));
+          dispatch(logIn(res.data));
 
           window.alert("정상적으로 로그인 되었습니다!");
           history.push("/");
@@ -114,11 +118,7 @@ const loginAPI = (email, pwd) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-<<<<<<< HEAD
       url: `${config.api}/account/login`,
-=======
-      url: "http://15.165.76.76/account/login",
->>>>>>> 5b2c77c44ea63057b2f4212b05e159f34c80b6db
       data: {
         email: email,
         password: pwd,
@@ -163,11 +163,7 @@ const signupAPI = (email, nickname, pwd, address) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-<<<<<<< HEAD
       url: `${config.api}/account`,
-=======
-      url: "http://15.165.76.76/account",
->>>>>>> 5b2c77c44ea63057b2f4212b05e159f34c80b6db
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
@@ -270,6 +266,9 @@ export default handleActions(
         deleteCookie("user_login");
         deleteCookie("nickname");
         deleteCookie("email");
+        deleteCookie("G_AUTHUSER_H");
+        deleteCookie("user_token");
+        deleteCookie("kakao_nickname");
         localStorage.clear();
         draft.user = null;
         draft.is_login = false;

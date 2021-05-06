@@ -5,6 +5,8 @@ import { history } from "../redux/configureStore";
 import styled from "styled-components";
 import KaKaoLogin from "react-kakao-login";
 import GoogleLogin from "react-google-login";
+import kakao from "../image/kakao.png";
+import googleLogo from "../image/google_logo.png";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -26,6 +28,8 @@ const Login = () => {
   //카카오로그인
   const kakaoLoginSuccess = (res) => {
     console.log(res);
+    console.log(res.profile.properties.nickname);
+    console.log(res.profile.kakao_account.email);
     dispatch(userActions.kakaoLoginAPI(res));
   };
 
@@ -37,7 +41,8 @@ const Login = () => {
   //구글로그인 성공
   const GoogleLoginSuccess = (response) => {
     console.log(response);
-    console.log(response.profileObj.email);
+    console.log(response.profileObj.name);
+    console.log(response.profileObj.givenName);
     dispatch(userActions.GoogleLoginAPI(response));
   };
 
@@ -45,55 +50,76 @@ const Login = () => {
     <div>
       <React.Fragment>
         <WrapLogin>
-          <Title>로그인</Title>
+          <TitleArea>
+            <Title>로그인</Title>
+          </TitleArea>
           <LoginC>
             <InputC>
               <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} />
-              <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
+              <Input2 type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
             </InputC>
             <AutoLoginC>
-              <input type="checkbox" />
-              <span>자동로그인</span>
-            </AutoLoginC>
-
-            <LoginBtn onClick={onSiteLogin}>로그인</LoginBtn>
-            <KaKaoLogin
-              jskey={"09084d41809de830907a0b9a981ecf21"}
-              onSuccess={kakaoLoginSuccess}
-              onFailure={(result) => console.log(result)}
-              buttonText="kakao"
-              getProfile={true}
-              render={(props) => <KakaoBtn onClick={props.onClick}>kakao</KakaoBtn>}
-            ></KaKaoLogin>
-            <GoogleLogin
-              clientId="797391183659-j67nu7drmq094hs3ghtfpjmsh25dah67.apps.googleusercontent.com"
-              buttonText="Google"
-              onSuccess={GoogleLoginSuccess}
-              onFailure={responseGoogle}
-              cookiePolicy={"single_host_origin"}
-              isSignedIn={true}
-              render={(props) => (
-                <GoogleBtn onClick={props.onClick} disabled={props.disabled}>
-                  Google
-                </GoogleBtn>
-              )}
-            />
-            <SignPwdC>
-              <SignInBtn
-                onClick={() => {
-                  history.push("/signup");
-                }}
-              >
-                회원가입
-              </SignInBtn>
-              <SignInBtn
+              <Autologin>
+                <input type="checkbox" />
+                <span>자동로그인</span>
+              </Autologin>
+              <div
+                className="findPwd"
                 onClick={() => {
                   history.push("/findpwd");
                 }}
               >
-                비밀번호 찾기
-              </SignInBtn>
-            </SignPwdC>
+                비밀번호를 잊으셨나요?
+              </div>
+            </AutoLoginC>
+
+            <LoginBtn onClick={onSiteLogin}>로그인</LoginBtn>
+            <SignInArea>
+              <span>신규 사용자이신가요?</span>{" "}
+              <div
+                className="makeaccount"
+                onClick={() => {
+                  history.push("/signup");
+                }}
+              >
+                계정 만들기
+              </div>
+            </SignInArea>
+            <OrLine>
+              <div></div>
+              <span>또는</span>
+              <div></div>
+            </OrLine>
+            <SocialBtnArea>
+              <KaKaoLogin
+                token={"dbf3a7f227849392ad80f6426c8d9526"}
+                onSuccess={kakaoLoginSuccess}
+                onFailure={(result) => console.log(result)}
+                buttonText="kakao"
+                render={(props) => (
+                  <KakaoBtn onClick={props.onClick}>
+                    <img src={kakao} alt="카톡" />
+                    카카오톡으로 계속
+                  </KakaoBtn>
+                )}
+              ></KaKaoLogin>
+              <GoogleLogin
+                clientId="797391183659-j67nu7drmq094hs3ghtfpjmsh25dah67.apps.googleusercontent.com"
+                buttonText="Google"
+                onSuccess={GoogleLoginSuccess}
+                onFailure={responseGoogle}
+                cookiePolicy={"single_host_origin"}
+                // isSignedIn={true}
+                render={(props) => (
+                  <GoogleBtn onClick={props.onClick} disabled={props.disabled}>
+                    <div>
+                      <img src={googleLogo} alt="구글로고" />
+                      Google로 계속
+                    </div>
+                  </GoogleBtn>
+                )}
+              />
+            </SocialBtnArea>
           </LoginC>
         </WrapLogin>
       </React.Fragment>
@@ -112,22 +138,27 @@ const WrapLogin = styled.div`
   } */
 `;
 
+const TitleArea = styled.div`
+  width: 110px;
+  height: 24px;
+  margin: 110px auto 60px;
+`;
+
 const Title = styled.div`
-  padding-top: 40px;
-  width: 100%;
-  margin: 10px;
-  font-size: 30px;
-  font-weight: 600;
-  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.67;
+  font-stretch: normal;
+  font-style: normal;
+  color: #2f2f2f;
 `;
 
 const LoginC = styled.div`
   width: 500px;
   height: 480px;
   margin: auto;
-  background: #ffffff;
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.07);
-  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -138,83 +169,228 @@ const LoginC = styled.div`
 const InputC = styled.div`
   margin-left: 100px;
   margin-right: 100px;
-  margin-top: 15px;
   margin-bottom: 20px;
   align-items: center;
 `;
 
 const Input = styled.input`
-  width: 300px;
-  height: 2.5rem;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-  border: none;
-  border-radius: 7px;
-  margin: 0.8rem 0rem;
-`;
-
-const AutoLoginC = styled.div`
-  margin-bottom: 10px;
-  span {
-    margin-left: 5px;
+  width: 359px;
+  height: 56px;
+  margin: 0px 421px 16px 420px;
+  padding: 17.6px 155px 11.6px 16px;
+  border-radius: 8px;
+  border: solid 2px #d2d2d2;
+  :focus {
+    border: solid 2px #6fcea1;
+    outline: none;
+  }
+  ::placeholder {
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #b5b5b5;
   }
 `;
 
-const LoginBtn = styled.button`
-  width: 150px;
-  padding: 7px 0px 7px 8px;
-  border-radius: 4px;
-  font-size: 15px;
-  font-weight: 600;
-  margin-top: 10px;
-  border: 1px solid #dbdbdb;
-  cursor: pointer;
-  outline: none;
-  background-color: #ffc149;
-  color: white;
+const Input2 = styled.input`
+  width: 359px;
+  height: 56px;
+  margin: 16px 421px 14px 420px;
+  padding: 17.6px 135px 11.6px 16px;
+  border-radius: 8px;
+  border: solid 2px #d2d2d2;
+  :focus {
+    border: solid 2px #6fcea1;
+    outline: none;
+  }
+  ::placeholder {
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #b5b5b5;
+  }
 `;
 
-const KakaoBtn = styled.button`
-  width: 150px;
-  padding: 7px 0px 7px 8px;
-  border-radius: 4px;
-  font-size: 15px;
-  font-weight: 600;
-  margin-top: 10px;
-  border: 1px solid #dbdbdb;
-  cursor: pointer;
-  outline: none;
-  background-color: rgba(255, 238, 51, 0.99);
-  color: black;
-`;
-
-const GoogleBtn = styled.button`
-  width: 150px;
-  padding: 7px 0px 7px 8px;
-  border-radius: 4px;
-  font-size: 15px;
-  font-weight: 600;
-  margin-top: 10px;
-  border: 1px solid #dbdbdb;
-  cursor: pointer;
-  outline: none;
-  background-color: #1a73e8;
-  color: #ffffff;
-`;
-
-const SignPwdC = styled.div`
+const AutoLoginC = styled.div`
+  width: 360px;
   display: flex;
-  margin-top: 15px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  input {
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+    border: solid 2px #5f5f5f;
+    background: #3fbe81;
+  }
+  .findPwd {
+    width: 155px;
+    height: 16px;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #5f5f5f;
+    cursor: pointer;
+  }
 `;
 
-const SignInBtn = styled.button`
-  width: 120px;
-  height: 35px;
-  border-radius: 16px;
-  background: #ffc149;
-  border: none;
-  color: white;
-  font-weight: 600;
-  margin: 1rem 1rem 0rem 0rem;
+const Autologin = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  span {
+    width: 70px;
+    height: 16px;
+    flex-grow: 0;
+    margin: 4px 0 4px 8px;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #5f5f5f;
+  }
+`;
+
+const LoginBtn = styled.div`
+  width: 359px;
+  height: 50px;
+  flex-grow: 0;
+  margin: 34px 421px 14px 420px;
+  padding: 13px 150px 13px 154px;
+  border-radius: 8px;
+  background-color: #d6d6d6;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  cursor: pointer;
+
+  :hover {
+    background-color: #3fbe81;
+  }
+`;
+
+const SignInArea = styled.div`
+  width: 360px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .makeaccount {
+    margin: 0 10px;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.71;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fbe81;
+    cursor: pointer;
+  }
+`;
+
+const OrLine = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 32px;
+  div {
+    width: 156px;
+    height: 1px;
+    flex-grow: 0;
+    margin: 11.5px 0px 11.5px 0;
+    background-color: #d2d2d2;
+  }
+  span {
+    margin: 0 10px;
+  }
+`;
+
+const SocialBtnArea = styled.div`
+  width: 360px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const KakaoBtn = styled.div`
+  width: 166px;
+  height: 50px;
+  flex-grow: 0;
+  padding: 15px 16px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: #f6e24b;
+  margin-top: 14px;
+
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.71;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+
+  cursor: pointer;
+  outline: none;
+
+  img {
+    width: 18.7px;
+    height: 17.2px;
+    margin: 3px 7px 3.8px 0;
+    vertical-align: middle;
+  }
+`;
+
+const GoogleBtn = styled.div`
+  width: 166px;
+  height: 50px;
+  flex-grow: 0;
+  padding: 13px 15px;
+  border-radius: 8px;
+  border: solid 1px #d2d2d2;
+  box-sizing: border-box;
+  margin-top: 14px;
+
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.71;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+  cursor: pointer;
+
+  div {
+    display: flex;
+    justify-content: center;
+  }
+  img {
+    width: 18.7px;
+    height: 17.2px;
+    margin: 3px 7px 0px 0px;
+  }
 `;
 
 export default Login;

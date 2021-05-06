@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
+import lock from "../image/lock.png";
 
 const Findpwd = () => {
   const dispatch = useDispatch();
@@ -29,20 +30,34 @@ const Findpwd = () => {
   return (
     <React.Fragment>
       <WrapFindPwd>
+        <TopArea>
+          <img src={lock} alt="자물쇠 이미지" />
+          <Title>비밀번호를 잊으셨나요?</Title>
+          <SubTitle>비밀번호를 초기화시키기 위해서 이메일 주소가 필요합니다</SubTitle>
+        </TopArea>
         <FindPwdC>
-           <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChageEmail} />
-            <FindpwdBtn onClick={onSiteFindPwd}>비밀번호찾기</FindpwdBtn>
-           
+          <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChageEmail} />
+          <FindpwdBtn onClick={onSiteFindPwd}>입력완료</FindpwdBtn>
         </FindPwdC>
+        <SignInArea>
+          <span>신규 사용자이신가요?</span>{" "}
+          <div
+            className="makeaccount"
+            onClick={() => {
+              history.push("/signup");
+            }}
+          >
+            계정 만들기
+          </div>
+        </SignInArea>
       </WrapFindPwd>
-    </React.Fragment> 
-    
+    </React.Fragment>
   );
 };
 
 const WrapFindPwd = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
-  padding-top: 60px; 
+  padding-top: 100px;
   display: flex;
   flex-direction: column;
   /* @media (max-width: 1000px){
@@ -50,40 +65,117 @@ const WrapFindPwd = styled.div`
   } */
 `;
 
+const TopArea = styled.div`
+  margin: 100px auto 0px;
+  text-align: center;
+  img {
+    width: 110px;
+    height: 100px;
+  }
+`;
+const Title = styled.div`
+  width: 390px;
+  height: 24px;
+  flex-grow: 0;
+  margin: 50px auto 24px;
+  font-family: Roboto;
+  font-size: 36px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.67;
+  letter-spacing: normal;
+  text-align: left;
+  color: #2f2f2f;
+`;
+
+const SubTitle = styled.div`
+  width: 390px;
+  height: 16px;
+  flex-grow: 0;
+  margin: 24px 9px 0 10px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5f5f5f;
+`;
+
 const FindPwdC = styled.div`
-  width: 500px;
-  height:200px;
   margin: auto;
-  margin-top: 20px;
-  background-color: #eee;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px 0px;
-  border-radius:30px;
 `;
 
 const Input = styled.input`
-  width: 300px;
-  height:40px;
-  margin: 50px;
-  border: 1px solid #DBDBDB;
-  border-radius: 10px;
+  width: 359px;
+  height: 56px;
+  margin: 70px 421px 16px 420px;
+  padding: 17.6px 135px 14.4px 16px;
+  border-radius: 8px;
+  border: solid 2px #d2d2d2;
+  ::placeholder {
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #b5b5b5;
+  }
 `;
 
-const FindpwdBtn = styled.button`
-  width: 120px;
-  padding: 7px 0px 7px 0px;
-  border-radius: 4px;
-  font-size: 15px;
-  font-weight: 600;
-  margin-top: 10px;
-  border: 1px solid #DBDBDB;
-  cursor:pointer;
-  outline: none;
-  background-color: #0095f6;
-  color: white;
+const FindpwdBtn = styled.div`
+  width: 359px;
+  height: 50px;
+  flex-grow: 0;
+  margin: 16px 421px 50px 420px;
+  padding: 14px 140px;
+  border-radius: 8px;
+  background-color: #d6d6d6;
+
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+
+  cursor: pointer;
+
+  :hover {
+    background-color: #3fbe81;
+  }
 `;
 
+const SignInArea = styled.div`
+  width: 360px;
+  margin: 50px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .makeaccount {
+    margin: 0 10px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.71;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fbe81;
+    cursor: pointer;
+  }
+`;
 
 export default Findpwd;

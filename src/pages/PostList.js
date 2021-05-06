@@ -8,8 +8,8 @@ const PostList = (props) => {
   return (
     <React.Fragment>
       <PostListC>
-        {postList?.map((post) => (
-          <Post {...post} />
+        {postList?.map((post, idx) => (
+          <Post {...post} key={idx} />
         ))}
       </PostListC>
     </React.Fragment>

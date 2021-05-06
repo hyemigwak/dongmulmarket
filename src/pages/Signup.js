@@ -17,6 +17,7 @@ const Signup = (props) => {
   const [pwd, setPwd] = useState("");
   const [pwdCheck, setPwdCheck] = useState("");
   const [emailDoubleCheck, SetEmailDoubleCheck] = useState(""); // 이메일 중복 확인
+  const [emailDoubleFail, SetEmailDoubleFail] = useState("");
   const [show, setShow] = useState(false); //이메일 중복 아닐 때, 인증번호 창 보이게 하기
   const [address, setAddress] = useState("");
 
@@ -27,6 +28,13 @@ const Signup = (props) => {
   const onChangepwdCheck = useCallback((e) => setPwdCheck(e.target.value), []);
   const onChangeAddress = useCallback((e) => setAddress(e.target.value), []);
 
+  //ref 걸어서 focus 이벤트 주기
+  const _email = useRef();
+  const _authnum = useRef();
+  const _nickname = useRef();
+  const _pwd = useRef();
+  const _pwdchk = useRef();
+
   //이메일, 비밀번호 정규표현식
   const email_regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   const password_regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,14}$/;
@@ -34,22 +42,26 @@ const Signup = (props) => {
   // 이메일 중복체크
   const emailCheck = () => {
     dispatch(userActions.EmailCheckAPI(email));
-    if (email === "") {
-      window.alert("이메일을 입력해주세요!");
-      return;
-    }
-    if (!email_regExp.test(email)) {
-      window.alert("이메일 형식이 맞지 않습니다!");
-      return;
-    }
     //만약 false라면
     if (user_exist) {
       // dispatch(userActions.EmailValidationAPI(email));
       window.alert("사용가능한 ID입니다");
-      SetEmailDoubleCheck("사용 가능한 ID입니다");
+      SetEmailDoubleCheck("사용 가능한 이메일입니다");
+      SetEmailDoubleFail("");
       setShow(true);
     } else {
-      // window.alert("이미 존재하는 ID입니다!");
+      SetEmailDoubleFail("이미 존재하는 ID입니다!");
+      return;
+    }
+
+    if (email === "") {
+      window.alert("이메일을 입력해주세요!");
+      _email.current.focus();
+      return;
+    }
+    if (!email_regExp.test(email)) {
+      window.alert("이메일 형식이 맞지 않습니다!");
+      _email.current.focus();
       return;
     }
   };
@@ -63,16 +75,19 @@ const Signup = (props) => {
     //비밀번호 서로 다를경우
     if (pwd !== pwdCheck) {
       window.alert("비밀번호가 일치하지 않습니다.");
+      _pwdchk.current.focus();
       return;
     }
     //이메일 형식 틀릴경우
     if (!email_regExp.test(email)) {
       window.alert("이메일 형식이 맞지 않습니다!");
+      _email.current.focus();
       return;
     }
     //비밀번호 형식 틀릴경우
     if (!password_regExp.test(pwd)) {
       window.alert("비밀번호는 영문/숫자 혼합으로 8~14자리로 입력해주세요!");
+      _pwd.current.focus();
       return;
     }
     // if (!is_email_validate) {
@@ -85,21 +100,43 @@ const Signup = (props) => {
   return (
     <React.Fragment>
       <SignUpLogin>
-        <Title>회원가입</Title>
+        <TitleArea>
+          <Title>회원가입</Title>
+          <div className="require">반드시 모든 내용을 입력하신 후 가입하기를 눌러주세요</div>
+        </TitleArea>
         <SignUpC>
           <InputC>
             <EmailArea>
-              <Input style={{ marginRight: "10px" }} type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} />
-              <div>{emailDoubleCheck}</div>
-              <CertiBtn onClick={emailCheck}>인증</CertiBtn>
+              <InputInfo>이메일</InputInfo>
+              <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} ref={_email} />
+              <CertiBtn onClick={emailCheck}>인증하기</CertiBtn>
             </EmailArea>
-            {show && <Input type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} />}
-            <Input type="text" placeholder="닉네임을 입력해주세요" value={nickname} onChange={onChangeNickname} />
-            <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
-            <Input type="password" placeholder="비밀번호를 다시 입력해주세요" value={pwdCheck} onChange={onChangepwdCheck} />
-            <Input type="text" placeholder="주소입력" value={address} onChange={onChangeAddress} />
+            <p className="availableEmail">{emailDoubleCheck}</p>
+            <p className="availableFail">{emailDoubleFail}</p>
+
+            {show && (
+              <EmailArea>
+                <InputInfo>인증번호</InputInfo>
+                <Input type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} ref={_authnum} />
+                <VerifyNum>인증번호 확인</VerifyNum>
+              </EmailArea>
+            )}
+            <InfoArea>
+              <InputInfo>닉네임</InputInfo>
+              <Input type="text" placeholder="닉네임을 입력해주세요" value={nickname} onChange={onChangeNickname} ref={_nickname} />
+            </InfoArea>
+            <InfoArea>
+              <InputInfo>비밀번호</InputInfo>
+              <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} ref={_pwd} />
+            </InfoArea>
+            <InfoArea>
+              <InputInfo>비밀번호 확인</InputInfo>
+              <Input type="password" placeholder="비밀번호를 다시 입력해주세요" value={pwdCheck} onChange={onChangepwdCheck} ref={_pwdchk} />
+            </InfoArea>
           </InputC>
-          <SignInBtn onClick={onSiteSignup}>회원가입</SignInBtn>
+          <SignInBtn mybtn onClick={onSiteSignup}>
+            가입하기
+          </SignInBtn>
         </SignUpC>
       </SignUpLogin>
     </React.Fragment>
@@ -116,13 +153,43 @@ const SignUpLogin = styled.div`
   } */
 `;
 
-const Title = styled.div`
-  padding-top: 40px;
-  width: 100%;
-  margin: 10px;
+const TitleArea = styled.div`
+  width: 360px;
+  margin: 140px auto 14px;
+  text-align: center;
   font-size: 30px;
   font-weight: 600;
+
+  .require {
+    width: 360px;
+    height: 16px;
+    flex-grow: 0;
+    margin: 14px auto 0px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #5f5f5f;
+  }
+`;
+
+const Title = styled.div`
+  width: 360px;
+  height: 42px;
+  flex-grow: 0;
+  font-family: Roboto;
+  font-size: 36px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
   text-align: center;
+  color: #2f2f2f;
 `;
 
 const SignUpC = styled.div`
@@ -130,9 +197,6 @@ const SignUpC = styled.div`
   height: 500px;
   margin: auto;
   margin-top: 40px;
-  background: #ffffff;
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.07);
-  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -146,46 +210,150 @@ const EmailArea = styled.div`
   justify-content: center;
 `;
 
+const InputInfo = styled.div`
+  width: 120px;
+  margin: 0px 100px 0px 225px;
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #2f2f2f;
+`;
+
 const InputC = styled.div`
-  margin-left: 100px;
-  margin-right: 100px;
-  margin-top: 15px;
-  margin-bottom: 20px;
-  align-items: center;
+  display: inline-block;
+
+  .availableEmail {
+    margin: 5px 100px 10px 455px;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #3fbe81;
+  }
+  .availableFail {
+    margin: 5px 100px 10px 455px;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: red;
+  }
 `;
 
 const Input = styled.input`
-  width: 300px;
-  height: 2.5rem;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-  border: none;
-  border-radius: 7px;
-  margin: 0.6rem 0rem;
+  width: 359px;
+  height: 56px;
+  margin: 0px 31px 0px 0px;
+  padding: 17.6px 80px 11.6px 16px;
+  border-radius: 8px;
+  border: solid 2px #d2d2d2;
+  ::placeholder {
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #b5b5b5;
+  }
+  .focus {
+    border: solid 2px #e72a2a;
+  }
+  :focus {
+    border: solid 2px #6fcea1;
+    outline: none;
+  }
 `;
 
-const CertiBtn = styled.button`
-  width: 50px;
-  height: 40px;
-  border-radius: 16px;
-  background: #ffc149;
-  border: none;
-  color: white;
-  font-weight: 600;
-  margin: 1rem 1rem 0rem 0rem;
+const CertiBtn = styled.div`
+  width: 105px;
+  height: 50px;
+  flex-grow: 0;
+  margin: 0px 285px 0px 31px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: solid 2px #6fcea1;
+
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #6fcea1;
+
+  cursor: pointer;
+
+  :hover {
+    background-color: #3fbe81;
+    color: #ffffff;
+  }
+`;
+
+const VerifyNum = styled.div`
+  width: 110px;
+  height: 24px;
+  margin: 0px 285px 0px 31px;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #2f2f2f;
+  text-decoration: underline;
   cursor: pointer;
 `;
 
-const SignInBtn = styled.button`
-  width: 120px;
-  height: 40px;
-  padding: 8px;
-  border-radius: 16px;
-  background: #ffc149;
-  border: none;
-  color: white;
-  font-weight: 600;
-  margin: 1rem 1rem 0rem 0rem;
+const InfoArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 26px 0px 0px -420px;
+`;
+
+const SignInBtn = styled.div`
+  width: 165px;
+  height: 50px;
+  flex-grow: 0;
+  margin: 70px 130px 200px 172px;
+  padding: 14px 45px;
+  border-radius: 8px;
+  background-color: #d6d6d6;
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+
   cursor: pointer;
+
+  :hover {
+    background-color: #3fbe81;
+  }
 `;
 
 export default Signup;

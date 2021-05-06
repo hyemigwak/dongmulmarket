@@ -4,6 +4,7 @@ import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { getCookie } from "../shared/Cookie";
+import "./Header.css";
 
 const Header = (props) => {
   const dispatch = useDispatch();
@@ -11,12 +12,6 @@ const Header = (props) => {
   const cookie = getCookie("user_login") ? true : false;
 
   const siteLogout = () => {
-    if (window.Kakao.Auth.getAccessToken()) {
-      console.log("카카오 인증 엑세스 토큰 존재", window.Kakao.Auth.getAccessToken());
-      window.Kakao.Auth.logout(() => {
-        console.log("카카오 로그아웃 완료", window.Kakao.Auth.getAccessToken());
-      });
-    }
     if (window.confirm("정말 로그아웃 하시겠습니까?")) {
       dispatch(userActions.logOut());
       history.replace("/");
@@ -29,74 +24,48 @@ const Header = (props) => {
     return (
       <React.Fragment>
         <HeaderC>
-          <WelcomeWords>
-            <Button
+          <WelcomeWords
+            onClick={() => {
+              history.push("/");
+            }}
+          >
+            <LogoBox
+              onClick={() => {
+                history.push("/");
+              }}
+            ></LogoBox>
+            <LogoText>동물마켓</LogoText>
+          </WelcomeWords>
+          <BtnArea>
+            <HeaderCategory
               onClick={() => {
                 history.push("/");
               }}
             >
-              로고영역
-            </Button>
-            <span>username</span>님 환영합니다.
-          </WelcomeWords>
-          <BtnArea>
-            <Button
+              홈페이지
+            </HeaderCategory>
+            <HeaderCategory
               onClick={() => {
                 history.push("/addproduct");
               }}
             >
               판매하기
-            </Button>
-            <Button
+            </HeaderCategory>
+            <MypageBox
               onClick={() => {
                 history.push("/mypage");
               }}
             >
               마이페이지
-            </Button>
-            <Button
-              onClick={() => {
-                history.push("/login");
-              }}
-            >
-              로그인
-            </Button>
-            <Button
-              onClick={() => {
-                history.push("/signup");
-              }}
-            >
-              회원가입
-            </Button>
-            <Button
+            </MypageBox>
+            <HeaderCategory
               onClick={() => {
                 history.push("/mylocation");
               }}
             >
-              위치
-            </Button>
-            <Button onClick={siteLogout}>로그아웃</Button>
-            <Button1
-              onClick={() => {
-                history.push("/contact");
-              }}
-            >
-              1:1채팅
-            </Button1>
-            <Button1
-              onClick={() => {
-                history.push("/detail");
-              }}
-            >
-              디테일
-            </Button1>
-            <Button1
-              onClick={() => {
-                history.push("/chat");
-              }}
-            >
-              채팅
-            </Button1>
+              위치설정
+            </HeaderCategory>
+            <LogoutBtn onClick={siteLogout}>로그아웃</LogoutBtn>
           </BtnArea>
         </HeaderC>
       </React.Fragment>
@@ -105,31 +74,35 @@ const Header = (props) => {
     return (
       <React.Fragment>
         <HeaderC>
-          <WelcomeWords>
-            <Button
+          <WelcomeWords
+            onClick={() => {
+              history.push("/");
+            }}
+          >
+            <LogoBox
               onClick={() => {
                 history.push("/");
               }}
-            >
-              로고영역
-            </Button>
+            ></LogoBox>
+            <LogoText>동물마켓</LogoText>
           </WelcomeWords>
-          <BtnArea>
-            <Button
-              onClick={() => {
-                history.push("/login");
-              }}
-            >
-              로그인
-            </Button>
-            <Button
+
+          <BtnArea2>
+            <SignupBtn
               onClick={() => {
                 history.push("/signup");
               }}
             >
               회원가입
-            </Button>
-          </BtnArea>
+            </SignupBtn>
+            <LogInBtn
+              onClick={() => {
+                history.push("/login");
+              }}
+            >
+              로그인
+            </LogInBtn>
+          </BtnArea2>
         </HeaderC>
       </React.Fragment>
     );
@@ -138,13 +111,15 @@ const Header = (props) => {
 
 const HeaderC = styled.div`
   position: fixed;
-  background-color: #eee;
+  background-color: #ffffff;
   left: 0;
   top: 0;
-  width: 100vw;
-  height: 60px;
+  width: 100%;
+  height: 104px;
+  padding: 15px 25px 10px;
   border: none;
   border-bottom: 1px solid #dbdbdb;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.04);
   z-index: 10;
   display: flex;
   align-items: center;
@@ -155,6 +130,7 @@ const WelcomeWords = styled.div`
   display: flex;
   align-items: center;
   margin-left: 20px;
+  cursor: pointer;
   span {
     font-weight: 600;
     font-size: 18px;
@@ -162,28 +138,124 @@ const WelcomeWords = styled.div`
   }
 `;
 
-const Button = styled.button`
-  margin-left: 10px;
-  height: 40px;
-  padding: 10px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 600;
-
-  border: 1px solid #dbdbdb;
-  cursor: pointer;
-  outline: none;
-  background-color: #ffc149;
-  color: black;
-  border-radius: 20px;
+const LogoBox = styled.div`
+  width: 53px;
+  height: 53px;
+  margin: 0 24px 1px 0;
+  background-color: #c4c4c4;
 `;
 
-const Button1 = styled(Button)`
-  background-color: #eee;
+const LogoText = styled.div`
+  width: 125px;
+  height: 40px;
+  margin: 8px 357px 6px 24px;
+  flex-grow: 0;
+  font-size: 30px;
+  text-align: left;
+  color: #2f2f2f;
+  font-family: "Binggrae";
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+`;
+
+const HeaderCategory = styled.div`
+  width: 77px;
+  margin: 0px 44px;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  color: #7d7d7d;
+  :hover {
+    color: #373737;
+  }
+`;
+
+const SignupBtn = styled(HeaderCategory)`
+  margin: 0px 44px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+`;
+
+const MypageBox = styled.div`
+  width: 90px;
+  margin: 0px 30px 0px 30px;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  color: #7d7d7d;
+  :hover {
+    color: #373737;
+  }
+`;
+
+const LogoutBtn = styled.div`
+  width: 100px;
+  padding: 5px;
+  border-radius: 40px;
+  height: 34px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+  margin-left: 20px;
+  border-radius: 40px;
+  background-color: #c0c0c0;
+  color: #ffffff;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  :hover {
+    background-color: #999999;
+  }
+`;
+
+const LogInBtn = styled.div`
+  width: 78px;
+  height: 34px;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 21px;
+  padding: 7px 14px 6px;
+  border-radius: 56px;
+  background-color: #3fbe81;
+
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  cursor: pointer;
+
+  :hover {
+    background-color: #269f65;
+  }
 `;
 
 const BtnArea = styled.div`
   margin-right: 30px;
+  display: flex;
+  align-items: center;
+`;
+
+const BtnArea2 = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  text-align: center;
 `;
 
 export default Header;
