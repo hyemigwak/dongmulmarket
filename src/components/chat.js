@@ -70,7 +70,7 @@ const Chat = (props) => {
           onKeyPress={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
-              submitMessage(e.target.value);
+              // submitMessage(e.target.value);
             }
           }}
         />
