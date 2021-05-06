@@ -20,6 +20,7 @@ const Main = (props) => {
   return (
     <React.Fragment>
       <WrapMain>
+       
         <Title>교환을 기다리고 있어요!</Title>
         <PostListC>
           <PostList postList={postList} />
