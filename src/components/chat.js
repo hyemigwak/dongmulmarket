@@ -9,7 +9,7 @@ const Chat = (props) => {
   const dispatch = useDispatch();
   const ChatList = useSelector((state) => state.chat.chat_list);
   console.log(ChatList);
-  const username = getCookie("nickname");
+  const _nickname = getCookie("nickname");
   const [message, setMessage] = useState("");
 
   const socket = io("");
@@ -23,11 +23,10 @@ const Chat = (props) => {
 
   //서버에서 받을때 on을 쓴다
   socket.on("chatToClient", function (msg) {
-    console.log(msg);
-    const chatmsg = msg["message"];
-    setMessage(chatmsg);
     dispatch(chatActions.addChatList());
     window.scrollTo(0, document.body.scrollHeight);
+    // 새로운 채팅 추가시 자동으로 스크롤 다운. // scrollTop = 현재 스크롤값  scrollHeight = 변한 값
+    // chatLog.scrollTop = chatLog.scrollHeight;
   });
 
   //서버랑 연결 종료할때???
@@ -47,7 +46,7 @@ const Chat = (props) => {
       return;
     } else {
       let data = {
-        sender: username,
+        sender: _nickname,
         // room: activeRoom,
         message: msgContents,
       };
