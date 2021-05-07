@@ -37,16 +37,17 @@ const Post = (props) => {
         }}
       >
         <ImgBox>
-          <img src={image} alt="상품이미지" />
+          <Img src={image} alt="상품이미지" />
+          <Label>곧 마감</Label>
         </ImgBox>
-        <ProductTitle>{title}</ProductTitle>
-        <Title>
-          <span>희망교환템:</span> {wantItem}
-        </Title>
-        <SubTitleArea>
-          <div style={{ marginRight: "100px" }}>{address}</div>
-          <div>{timeForToday(deadLine)} 남음</div>
-        </SubTitleArea>
+        <TextBox>
+          <Address style={{ marginRight: "100px" }}>{address}</Address>
+          <ProductTitle>{title}</ProductTitle>
+          <Title>
+            <span>희망교환템:</span> {wantItem}
+          </Title>
+            <Time>{timeForToday(deadLine)} 남음</Time>
+        </TextBox>
       </Box>
     </React.Fragment>
   );
@@ -62,17 +63,25 @@ Post.defaultProps = {
 };
 
 const Box = styled.div`
-  height: 380px;
-  border-radius: 12px;
-  width: 250px;
-  margin: 0rem 2rem 1rem 0rem;
-  background: #ffffff;
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.07);
-  border-radius: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: 30px;
-  margin-top: 30px;
+  // height: 278px;
+  // border-radius: 12px;
+  // width: 205px;
+  // margin: 0rem 2rem 1rem 0rem;
+  // background: #ffffff;
+  // box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.07);
+  // border-radius: 20px;
+  // display: flex;
+  // flex-wrap: wrap;
+  // margin-right: 30px;
+  // margin-top: 30px;
+  width: 205px;
+  height: 278px;
+  flex-grow: 0;
+  margin: 40px 31px 50px 30px;
+  padding: 0 0 16px;
+  border-radius: 8px;
+  border: solid 1px #91be89;
+  position:relative;
 `;
 
 const ImgBox = styled.div`
@@ -84,35 +93,121 @@ const ImgBox = styled.div`
   text-align: right;
   z-index: 1000;
   img {
-    width: 250px;
-    height: 250px;
+    width: 202px;
+    height: 160px;
     object-fit: cover;
   }
+
 `;
 
+const Img=styled.img`
+
+z-index:2;
+`;
+
+const Label=styled.div`
+width: 72px;
+  height: 40px;
+  flex-grow: 0;
+ 
+  padding: 11px 12px 10px 11px;
+  background-color: #3fbe81;
+font-size: 16px;
+font-weight: normal;
+font-stretch: normal;
+font-style: normal;
+line-height: normal;
+letter-spacing: normal;
+text-align: left;
+color: #ffffff;
+
+display:block;
+position:absolute;
+top:0px;
+left:130.5px;
+
+z-index:1;
+
+`;
 const ProductTitle = styled.div`
+
+  flex-grow: 0;
+  margin: 2px 0 4px;
+  font-family: Roboto;
   font-size: 18px;
-  font-weight: 600;
-  margin: 0.4rem auto 0rem;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #2f2f2f;
 `;
 
 const Title = styled.div`
-  margin-left: 1rem;
+  font-size:13px;
+  text-align:left;
+  color:#2a2a2a;
   span {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 12px;
+    color:#737373;
+    
   }
+
+ 
 `;
 
-const SubTitleArea = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 1rem;
-  span {
-    font-size: 16px;
-    font-weight: 600;
-  }
+// const SubTitleArea = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-left: 1rem;
+//   span {
+//     font-size: 16px;
+//     font-weight: 600;
+//   }
+// `;
+
+const TextBox=styled.div`
+position:relative;
+top:14px;
+text-align:left;
+padding: 2px 1px;
+padding-left:16px;
 `;
 
+const Address=styled.div`
+
+flex-grow: 0;
+margin: 0 69px 2px 0;
+font-family: Roboto;
+font-size: 10px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+line-height: normal;
+letter-spacing: normal;
+text-align: left;
+color: #737373;
+
+
+`;
+
+
+const Time=styled.div`
+
+  height: 16px;
+  flex-grow: 0;
+  margin: 9px 85px 0 0;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #0c6550;
+  
+`;
 export default Post;
