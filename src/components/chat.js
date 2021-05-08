@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import io from "socket.io-client";
 import { actionCreators as chatActions } from "../redux/modules/chat";
+import Talk from "./Talk";
+import { SettingsInputComponent } from "@material-ui/icons";
 
 const Chat = (props) => {
   const dispatch = useDispatch();
@@ -11,6 +13,8 @@ const Chat = (props) => {
   console.log(ChatList);
   const _nickname = getCookie("nickname");
   const [message, setMessage] = useState("");
+  const [nic, setNic] = useState("곽혜미");
+  console.log(message);
 
   const socket = io("");
 
@@ -55,10 +59,27 @@ const Chat = (props) => {
     }
   };
 
+  const msgTestPush = () => {
+    ChatList.push({ username: nic, chat: message });
+    console.log(ChatList);
+    setMessage("");
+  };
+
   return (
     <>
-      <Container></Container>
+      <Container>
+        {ChatList?.map((c, idx) => (
+          <Talk key={idx} nickname={c.username} msg={c.chat} />
+        ))}
+      </Container>
       <InputArea>
+        <NicInput
+          type="text"
+          value={nic}
+          onChange={(e) => {
+            setNic(e.target.value);
+          }}
+        />
         <Input
           type="text"
           placeholder="대화입력"
@@ -73,7 +94,8 @@ const Chat = (props) => {
             }
           }}
         />
-        <button onClick={submitMessage}>보내기</button>
+        {/* <button onClick={submitMessage}>보내기</button> */}
+        <button onClick={msgTestPush}>전송</button>
       </InputArea>
     </>
   );
@@ -82,13 +104,13 @@ const Chat = (props) => {
 const Container = styled.div`
   width: 600px;
   height: 600px;
-  margin: 10% auto;
+  margin: 200px auto;
   background: #eee;
   border: 1px solid #212121;
 `;
 
 const Input = styled.input`
-  width: 500px;
+  width: 400px;
   height: 2.5rem;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
   border: none;
@@ -96,9 +118,22 @@ const Input = styled.input`
   margin: 0.6rem;
 `;
 
+const NicInput = styled(Input)`
+  width: 80px;
+  padding: 10px 18px;
+`;
+
 const InputArea = styled.div`
-  width: 600px;
-  margin: -110px auto;
+  display: flex;
+  align-items: center;
+  width: 620px;
+  margin: -140px auto 100px;
+  button {
+    width: 60px;
+    height: 35px;
+    border: none;
+    border-radius: 16px;
+  }
 `;
 
 export default Chat;

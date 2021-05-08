@@ -1,22 +1,115 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
+import { actionCreators as chatActions } from "../redux/modules/chat";
 import { getCookie } from "../shared/Cookie";
 import { history } from "../redux/configureStore";
+import { OneChat } from "../components";
+import { config } from "../shared/config";
+import io from "socket.io-client";
 
 const Detail = (props) => {
   const dispatch = useDispatch();
   const id = props.match.params.id;
+  const cookie = getCookie("user_login") ? true : false;
   const detail = useSelector((state) => state.post.detail_list);
+
+  //소켓연결부분
+  const socket = io("http://15.165.76.76:3001/chatting", { transports: ["websocket"] });
+  console.log(socket);
+
+  //소켓에 보내줄 내 닉네임, 인풋 메세지
+  const _nickname = getCookie("nickname");
+  const [message, setMessage] = useState("");
+  const [ChatUsers, setChatUsers] = useState([]);
+  // console.log(ChatUsers);
+
+  //모달 설정 부분
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     if (!detail);
     dispatch(postActions.getOnePostAPI(id));
+
+    // //소켓 연결 확인
+    // if (socket.connect().connected) {
+    //   console.log("소켓연결되었다");
+    // } else {
+    //   console.log("소켓연결이 실패했다");
+    // }
+
+    // socket.on("connect", () => {
+    //   console.log(socket.connected); // true
+    // });
+    // console.log(socket.connected);
+
+    var data = { email: "test@naver.com", icrId: "test" };
+    socket.emit("showUserList", data);
+
+    IsHostorNot();
+    ChatJoinChkUser();
   }, []);
 
-  //내가 쓴건지 아는 방법(일반로그인일때) -> 서버에서 내려오는 email값이 있을때 주석 풀자요
-  // const is_me = getCookie("email") === props.email;
+  //서버에서 받을때
+  // socket.on("showUserList", function (msg) {
+  //   console.log(msg);
+
+  // 지정된 위치로 스크롤 -> scrollTo(x좌표, y좌표)
+  //   window.scrollTo(0, document.body.scrollHeight);
+  //   // 새로운 채팅 추가시 자동으로 스크롤 다운. // scrollHeight = 변한 스크롤 위치값
+  // });
+
+  //서버로 메세지 보낼때
+  const submitMessage = (msgContents) => {
+    if (!msgContents) {
+      window.alert("메세지를 입력해주세요!");
+      return;
+    } else {
+      let data = {
+        sender: _nickname,
+        icrld: detail.icrId,
+        message: msgContents,
+      };
+      socket.emit("chatToServer", data);
+      setMessage("");
+    }
+  };
+  //최초 실행시 로그인한 유저가 판매자인지 보내준다.
+  const ChatJoinChkUser = () => {
+    let data = {
+      email: detail.email,
+      icrld: detail.icrId,
+    };
+    if (cookie) {
+      socket.emit("joinAuto", data);
+      socket.emit("showUserList", data);
+    } else {
+      if (window.confirm("로그인해야 이용 가능합니다. 로그인하시겠습니까?")) {
+        history.push("/login");
+      } else {
+        return;
+      }
+    }
+  };
+
+  //방장일 경우 참여자를 받아오고, 아닐 경우 못받아옴
+  const IsHostorNot = () => {
+    socket.on("returnUserList", function (data) {
+      console.log(data);
+      if (data.chooseYn === "N") {
+        setChatUsers([...ChatUsers, data.tier]);
+      }
+    });
+  };
+
+  //참여하기 누르면 채팅 받아와야할 것 같은데!
 
   return (
     <React.Fragment>
@@ -26,38 +119,65 @@ const Detail = (props) => {
             <Img src={detail.image} />
             <InfoBox>
               <Text>
-                <span>품목명:</span> &nbsp;{detail.title}
+                <span>품목명:</span>
+                {detail.title}
               </Text>
               <Text>
-                <span>카테고리: </span>&nbsp;{detail.category}
+                <span>카테고리: </span>
+                {detail.category}
               </Text>
               <Text>
-                <span>글 올린 시간: </span> &nbsp;{detail.createdDt}
+                <span>글 올린 시간: </span>
+                {detail.createdDt}
               </Text>
               <Text>
-                <span>교환 종료 시간: </span> &nbsp;{detail.deadLine}
+                <span>교환 종료 시간: </span>
+                {detail.deadLine}
               </Text>
               <Text>
-                <span>경매 참여 인원:</span> &nbsp;채팅이 구현되면 하자
+                <span>경매 참여 인원:</span>채팅이 구현되면 하자
               </Text>
               <Text>
-                <span>코멘트:</span> &nbsp; {detail.comment}
+                <span>코멘트:</span>
+                {detail.comment}
               </Text>
+              <ChatJoinBtn>채팅 참여하기</ChatJoinBtn>
             </InfoBox>
           </ProductsBox>
           <ChatBox>
-            <ChatView>
-              <br />
-              <h2>
-                <b>😺Chating😺</b>
-              </h2>
-              <h3>user1님이 입장했습니다.</h3>
-              <h3>user2님이 입장했습니다.</h3>
-              <ChatInputC>
-                <ChatInput placeholder=" &nbsp;내용을 입력하세요." />
-                <ChatBtn>입력</ChatBtn>
-              </ChatInputC>
-            </ChatView>
+            <BtnArea>
+              <button className="group" onClick={closeModal}>
+                실시간채팅
+              </button>
+              <button className="one" onClick={openModal}>
+                교환진행중
+              </button>
+            </BtnArea>
+            <OneChat open={modalOpen} close={closeModal} />
+            {modalOpen ? (
+              <OneChat />
+            ) : (
+              <>
+                <ChatView />
+                <ChatInputC>
+                  <ChatInput
+                    type="text"
+                    placeholder="내용을 입력하세요."
+                    value={message}
+                    onChange={(e) => {
+                      setMessage(e.target.value);
+                    }}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        submitMessage(e.target.value);
+                      }
+                    }}
+                  />
+                  <ChatBtn onClick={submitMessage}>전송</ChatBtn>
+                </ChatInputC>
+              </>
+            )}
           </ChatBox>
           <UserView>
             <Text>
@@ -66,18 +186,25 @@ const Detail = (props) => {
               </h3>
             </Text>
             <UserBox>
-              <UserNameBtn
-                onClick={() => {
-                  if (window.confirm("user1님과 거래를 진행하시겠습니까?")) {
-                    history.push("/contact");
-                  } else {
-                    return;
-                  }
-                }}
-              >
-                user1
+              <UserNameBtn>
+                {ChatUsers.map((user, idx) => (
+                  <div key={idx}>
+                    <div>{user}</div>
+                    <OfferChatBtn
+                      onClick={() => {
+                        if (window.confirm(`${user}님과 채팅을 진행하시겠습니까?`)) {
+                          openModal();
+                          // 해당 유저와 1:1 채팅방을 진행하는 socket 함수
+                        } else {
+                          return;
+                        }
+                      }}
+                    >
+                      1:1 대화신청
+                    </OfferChatBtn>
+                  </div>
+                ))}
               </UserNameBtn>
-              <UserNameBtn>user2</UserNameBtn>
             </UserBox>
           </UserView>
         </WrapBox>
@@ -88,7 +215,7 @@ const Detail = (props) => {
 
 const WrapDetail = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
-  padding-top: 60px;
+  padding-top: 130px;
   display: flex;
 
   /* @media (max-width: 1000px){
@@ -109,7 +236,7 @@ const ProductsBox = styled.div`
   width: 600px;
 `;
 
-const Text = styled.h3`
+const Text = styled.div`
   span {
     font-weight: 600;
   }
@@ -127,53 +254,66 @@ const InfoBox = styled.div`
   margin-top: 40px;
 `;
 
+const ChatJoinBtn = styled.div`
+  margin: 30px auto;
+  width: 130px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #6fcea1;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  padding: 10px 24px;
+`;
+
 const ChatBox = styled.div`
   margin-top: 10px;
   height: 100vh;
   width: 600px;
+  text-align: center;
+  margin-left: 30px;
 `;
 
 const ChatView = styled.div`
-  background: #ffe0a2;
+  background: #f5f5f5;
   height: 500px;
   width: 500px;
-  margin-left: 30px;
-  margin-top: 30px;
-  border-radius: 30px;
+
   border: 1px solid #eee;
   text-align: center;
 `;
 
 const ChatInputC = styled.div`
   justify-content: center;
-  margin-top: 370px;
 `;
 
 const ChatInput = styled.input`
-  height: 50px;
-  width: 400px;
-  border-radius: 20px;
-  border: 1px solid #eee;
-
-  margin-top: 15px;
-  background: #fff;
+  height: 88px;
+  width: 500px;
+  border: 1px solid #6fcea1;
+  background: #ffffff;
+  ::placeholder {
+    padding: 0px 20px;
+    font-size: 18px;
+  }
 `;
 
 const ChatBtn = styled.button`
-margin-left: 10px;
-height: 40px;
-padding: 10px;
-border-radius: 4px;
-font-size: 13px;
-font-weight: 600;
+  width: 80px;
+  height: 34px;
+  padding: 5px 0px;
+  border-radius: 80px;
+  font-size: 15px;
+  display: inline-block;
+  position: relative;
+  bottom: 60px;
+  left: 180px;
 
-border: 1px solid #dbdbdb;
-cursor: pointer;
-outline: none;
-background-color: #ffc149;
-color: black;
-border-radius: 20px;
-}`;
+  cursor: pointer;
+  border: none;
+  background-color: #c0c0c0;
+  color: #ffffff;
+`;
 
 const UserView = styled.div`
   margin-bottom: 300px;
@@ -183,28 +323,60 @@ const UserView = styled.div`
 `;
 
 const UserBox = styled.div`
-  background: #ffc149;
+  background: #d6d6d6;
   height: 550px;
   width: 150px;
   border-radius: 20px;
 `;
 
-const UserNameBtn = styled.button`
-  margin-left: 10px;
-  margin-top: 5px;
-  height: 40px;
-  width: 100px;
-  padding: 10px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 600;
+const UserNameBtn = styled.div`
+  display: flex;
+  flex-direction: row;
+  div {
+    margin: 14epx auto;
+    border: 1px solid #dbdbdb;
+    cursor: pointer;
+    outline: none;
+    background-color: #ffe0a2;
+    color: black;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px;
+    width: 100px;
+    height: 40px;
+  }
+`;
 
-  border: 1px solid #dbdbdb;
-  cursor: pointer;
-  outline: none;
-  background-color: #ffe0a2;
-  color: black;
-  border-radius: 20px;
+const OfferChatBtn = styled.button`
+  width: 80px;
+  height: 24px;
+  border-radius: 10px;
+  background-color: #91be89;
+`;
+
+const BtnArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .group {
+    border: none;
+    width: 250px;
+    height: 40px;
+    background-color: #3fbe81;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .one {
+    border: none;
+    width: 250px;
+    height: 40px;
+    background-color: #d6d6d6;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+  }
 `;
 
 export default Detail;

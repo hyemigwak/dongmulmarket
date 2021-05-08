@@ -8,7 +8,6 @@ import moment from "moment";
 import { DatePicker, Space } from "antd";
 import { history } from "../redux/configureStore";
 import "antd/dist/antd.css";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { getCookie } from "../shared/Cookie";
 
 const AddProduct = (props) => {
@@ -72,7 +71,7 @@ const AddProduct = (props) => {
         <AddProductWrap>
           <ProductArea>
             <div>
-              <input startIcon={<CloudUploadIcon />} type="file" onChange={selectFile} />
+              <input type="file" onChange={selectFile} />
             </div>
             <div>
               <Img src={preview} alt="대표이미지" />

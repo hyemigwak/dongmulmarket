@@ -5,6 +5,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import PostList from "./PostList";
+import Banners from "../components/Banners";
 
 const Main = (props) => {
   const dispatch = useDispatch();
@@ -20,10 +21,10 @@ const Main = (props) => {
   return (
     <React.Fragment>
       <WrapMain>
-       
+        <Banners />
         <Title>교환을 기다리고 있어요!</Title>
         {/* <PostListC> */}
-          <PostList postList={postList} />
+        <PostList postList={postList} />
         {/* </PostListC> */}
       </WrapMain>
     </React.Fragment>
@@ -32,9 +33,9 @@ const Main = (props) => {
 
 const WrapMain = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
-  margin-top:120px;
+  margin-top: 120px;
   display: flex;
-  width:100vw;
+  width: 100vw;
   flex-direction: column;
   /* @media (max-width: 1000px){
     heigth: 
@@ -42,19 +43,18 @@ const WrapMain = styled.div`
 `;
 
 const Title = styled.h2`
-
-height: 24px;
-flex-grow: 0;
-margin: 0px 171px 10px 143px;
-font-family: Roboto;
-font-size: 25px;
-font-weight: bold;
-font-stretch: normal;
-font-style: normal;
-line-height: 0.96;
-letter-spacing: normal;
-text-align: left;
-color: #2f2f2f;
+  height: 24px;
+  flex-grow: 0;
+  margin: 0px 171px 10px 143px;
+  font-family: Roboto;
+  font-size: 25px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.96;
+  letter-spacing: normal;
+  text-align: left;
+  color: #2f2f2f;
 
   // width: 39px;
   // height: 21px;
@@ -72,7 +72,6 @@ color: #2f2f2f;
 `;
 
 const PostListC = styled.div`
-  
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
