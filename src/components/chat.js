@@ -13,20 +13,19 @@ const Chat = (props) => {
   console.log(ChatList);
   const _nickname = getCookie("nickname");
   const [message, setMessage] = useState("");
-  const [nic, setNic] = useState("곽혜미");
-  console.log(message);
 
-  const socket = io("http://15.165.76.76:3001/chatting", {
-    reconnectionAttempts: "Infinity",
-    timeout: 10000,
-    transports: ["websocket"],
-  });
+  const socket = io.connect("http://15.165.76.76:3001/chatting", { transports: ["websocket"] });
+
+  console.log(socket);
 
   useEffect(() => {
     //연결 되었는지 확인
     socket.onopen = () => {
       console.log("connected");
     };
+
+    // var data = { email: 'test@naver.com', icrId: 'test' }; socket.emit('showUserList', data);
+    // socket.emit("showUserList",data);
   }, []);
 
   //서버에서 받을때 on을 쓴다

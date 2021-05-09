@@ -32,7 +32,7 @@ function App() {
         <Route exact path="/contact" component={ContactChat} />
         <Route exact path="/detail/:id" component={Detail} />
         <Route exact path="/testpost" component={Testpost} />
-        <Route exact path="/chat" component={Chat} />
+        <Route exact path="/chatting" component={Chat} />
       </ConnectedRouter>
       <Footer />
     </React.Fragment>

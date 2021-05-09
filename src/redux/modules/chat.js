@@ -65,7 +65,7 @@ const addChatList = (message) => {
     // socket.on('receive',(message)=>{
     //console.log(message);
     dispatch(addChat(message));
-    // });
+    });
   };
 };
 
