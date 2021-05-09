@@ -5,7 +5,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import PostList from "./PostList";
-
+import Banners from "../components/Banners";
 const Main = (props) => {
   const dispatch = useDispatch();
   const postList = useSelector((state) => state.post.post_list);
@@ -20,7 +20,7 @@ const Main = (props) => {
   return (
     <React.Fragment>
       <WrapMain>
-       
+      <Banners/>
         <Title>교환을 기다리고 있어요!</Title>
         {/* <PostListC> */}
           <PostList postList={postList} />
@@ -32,7 +32,7 @@ const Main = (props) => {
 
 const WrapMain = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
-  margin-top:120px;
+  // margin-top:120px;
   display: flex;
   width:100vw;
   flex-direction: column;

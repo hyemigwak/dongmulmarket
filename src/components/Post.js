@@ -87,6 +87,7 @@ const Box = styled.div`
 const ImgBox = styled.div`
   margin: auto;
   object-fit: contain;
+  border-radius: 8px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   max-width: 100%;
@@ -101,7 +102,7 @@ const ImgBox = styled.div`
 `;
 
 const Img=styled.img`
-
+border-radius: 8px;
 z-index:2;
 `;
 
@@ -109,7 +110,7 @@ const Label=styled.div`
 width: 72px;
   height: 40px;
   flex-grow: 0;
- 
+  border-radius: 8px;
   padding: 11px 12px 10px 11px;
   background-color: #3fbe81;
 font-size: 16px;
@@ -124,7 +125,7 @@ color: #ffffff;
 display:block;
 position:absolute;
 top:0px;
-left:130.5px;
+left:130.8px;
 
 z-index:1;
 

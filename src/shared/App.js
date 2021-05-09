@@ -7,7 +7,7 @@ import { history } from "../redux/configureStore";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { Login, Main, Mypage, Signup, Findpwd, AddProduct, ContactChat, Detail } from "../pages";
 import { Header, Footer, MyLocation, Chat, Testpost } from "../components";
-import Banners from "../components/Banners";
+
 import { getCookie } from "./Cookie";
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
       <ConnectedRouter history={history}>
         
         <Header />
-        <Banners/>
+       
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/findpwd" component={Findpwd} />
@@ -36,7 +36,7 @@ function App() {
         <Route exact path="/contact" component={ContactChat} />
         <Route exact path="/detail/:id" component={Detail} />
         <Route exact path="/testpost" component={Testpost} />
-        <Route exact path="/chat" component={Chat} />
+        <Route exact path="/chatting" component={Chat} />
       </ConnectedRouter>
       <Footer />
     </React.Fragment>

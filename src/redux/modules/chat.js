@@ -25,38 +25,38 @@ const initialState = {
 };
 
 //소켓 설정(전역으로 사용하기 위해 export)
-// const socket = socketIOClient(`${config.api}/chat`);
-// const globalSocket = socketIOClient(`${config.api}/`);
+const socket = socketIOClient(`http://15.165.76.76:3001/chatting`);
+const globalSocket = socketIOClient(`http://15.165.76.76:3001/chatting`);
 
 //유저 목록 조회
-// const middlewareUsers = () => {
-//   return function (dispatch) {
-//     axios({
-//       method: 'get',
-//       url: `${config.api}/member`,
-//     })
-//       .then((res) => {
-//         const users = res.data.users.map((val) => {
+const middlewareUsers = () => {
+  return function (dispatch) {
+    axios({
+      method: 'get',
+      url: `${config.api}/member`,
+    })
+      .then((res) => {
+        const users = res.data.users.map((val) => {
         
-//           return { ...val };
-//         });
-//         dispatch(user_list(users));
-//       })
-//       .catch((e) => {
-//         console.log(e);
-//       });
-//   };
-// };
+          return { ...val };
+        });
+        dispatch(user_list(users));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+};
 
 //채팅 목록 불러오기
 const getChatList = (prevMessage) => {
   return function (dispatch, getState, { history }) {
     dispatch(loading(true));
 
-    // socket.on('connect', (prevMessage) => {
-      // socket.send("Hello!");
+    socket.on('connect', (prevMessage) => {
+      socket.send("Hello!");
       dispatch(getChat(prevMessage));
-    // });
+     });
   };
 };
 
@@ -64,10 +64,10 @@ const getChatList = (prevMessage) => {
 //채팅 내용 추가하기
 const addChatList = (message) => {
   return function (dispatch, getState, { history }) {
-    // socket.on('receive',(message)=>{
-      //console.log(message);
+    socket.on('receive',(message)=>{
+      console.log(message);
     dispatch(addChat(message));
-    // });
+    });
   };
 };
 
@@ -102,9 +102,9 @@ const actionCreators = {
   getChatList,
   addChatList,
   loading,
-  // socket,
-  // middlewareUsers,
-  // globalSocket,
+  socket,
+  middlewareUsers,
+  globalSocket,
 };
 
 export { actionCreators };

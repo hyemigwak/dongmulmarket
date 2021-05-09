@@ -15,13 +15,13 @@ const Mypage = () => {
     setShowResults(true);
   };
 
-  const Results = (props) => {
-    return (
-      <BoxContainer>
-        <Box />
-      </BoxContainer>
-    );
-  };
+  // const Results = (props) => {
+  //   return (
+  //     <BoxContainer>
+  //       <Box />
+  //     </BoxContainer>
+  //   );
+  // };
 
   if (is_login && cookie) {
     return (
@@ -47,17 +47,17 @@ const Mypage = () => {
                 <FinishTitle>
                   <h2>내 교환 완료 내역</h2>
                   <ShowBtn onClick={showFunction}>
-                    {showResults ? <Results /> : null}
+                    {/* {showResults ? <Results /> : null} */}
                     자세히보기
                   </ShowBtn>
                 </FinishTitle>
-                {/* <BoxContainer>
+                <BoxContainer>
                   <Box />
                   <Box />
                   <Box />
-                </BoxContainer> */}
+                </BoxContainer>
               </FinishC>
-              {/* <StillC>
+              <StillC>
                 <StillTitle>
                   <h2>내 교환 중 내역</h2>
                 </StillTitle>
@@ -66,7 +66,7 @@ const Mypage = () => {
                   <Box />
                   <Box />      
                 </BoxContainer>
-              </StillC> */}
+              </StillC>
             </ContentsC>
           </MyPageC>
         </WrapMypage>
@@ -151,7 +151,6 @@ const FinishC = styled.div`
   justify-content: space-evenly;
   margin-top: 20px;
   width: 600px;
-  background: pink;
   height: 300px;
 `;
 

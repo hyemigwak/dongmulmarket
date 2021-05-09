@@ -109,7 +109,7 @@ const ProductsBox = styled.div`
   width: 600px;
 `;
 
-const Text = styled.h3`
+const Text = styled.div`
   span {
     font-weight: 600;
   }
