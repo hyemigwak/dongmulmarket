@@ -8,7 +8,6 @@ import { actionCreators as userActions } from "../redux/modules/user";
 import { Login, Main, Mypage, Signup, Findpwd, AddProduct, ContactChat, Detail } from "../pages";
 import { Header, Footer, MyLocation, Chat, Testpost } from "../components";
 import { getCookie } from "./Cookie";
-
 function App() {
   const dispatch = useDispatch();
   const cookie = getCookie("user_login") ? true : false;

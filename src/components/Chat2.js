@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { getCookie } from "../shared/Cookie";
 import styled from "styled-components";
-import io from "socket.io-client";
-import { useSelector } from 'react-redux';
-import { actionCreators as chatActions } from '../redux/modules/chat';
-
+// import io from "socket.io-client";
+import { useSelector } from "react-redux";
+import { actionCreators as chatActions } from "../redux/modules/chat";
 
 const Chat = (props) => {
-  const {history}=props;
+  const { history } = props;
   //쿠키에 저장된 토큰 조회
-  const cookie = getCookie('is_login') ? true : false;
+  const cookie = getCookie("is_login") ? true : false;
   // 토큰이 없을 경우 사용을 못하게 로그인 화면으로 이동시키기
   if (!cookie) {
-   window.alert('로그인 먼저 해주세요!')
+    window.alert("로그인 먼저 해주세요!");
     // 로그인창으로 이동
-    history.replace('/login');
+    history.replace("/login");
   }
-  
+
   const username = getCookie("nickname");
   const [message, setMessage] = useState("");
 
@@ -27,10 +26,10 @@ const Chat = (props) => {
   //     // 채팅 페이지 나가면 웹소켓 연결 해제
   //     chatActions.socket.disconnect();
   //   };
-   
+
   // }, []);
 
-//////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////
   // const socket = new Websocket("소켓api");
   // // const socket = io("http:localhost/3000/chat");
 

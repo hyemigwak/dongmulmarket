@@ -9,15 +9,13 @@ import { OneChat } from "../components";
 import { config } from "../shared/config";
 import io from "socket.io-client";
 
+const socket = io("http://15.165.76.76:3001/chatting");
+
 const Detail = (props) => {
   const dispatch = useDispatch();
   const id = props.match.params.id;
   const cookie = getCookie("user_login") ? true : false;
   const detail = useSelector((state) => state.post.detail_list);
-
-  //소켓연결부분
-  const socket = io("http://15.165.76.76:3001/chatting", { transports: ["websocket"] });
-  console.log(socket);
 
   //소켓에 보내줄 내 닉네임, 인풋 메세지
   const _nickname = getCookie("nickname");
@@ -34,37 +32,30 @@ const Detail = (props) => {
     setModalOpen(false);
   };
 
+  //렌더링 될때, 디테일 데이터 받아오기 & 소켓 연결하기(확인)
   useEffect(() => {
+    //디테일이 없으면 서버에서 받아온다
     if (!detail);
     dispatch(postActions.getOnePostAPI(id));
 
-    // //소켓 연결 확인
-    // if (socket.connect().connected) {
-    //   console.log("소켓연결되었다");
-    // } else {
-    //   console.log("소켓연결이 실패했다");
-    // }
+    // 소켓 연결
 
-    // socket.on("connect", () => {
-    //   console.log(socket.connected); // true
-    // });
-    // console.log(socket.connected);
+    socket.connect();
+    console.log(socket);
 
+    //테스트 emit
     var data = { email: "test@naver.com", icrId: "test" };
     socket.emit("showUserList", data);
-
-    IsHostorNot();
-    ChatJoinChkUser();
   }, []);
 
   //서버에서 받을때
-  // socket.on("showUserList", function (msg) {
-  //   console.log(msg);
+  socket.on("showUserList", function (msg) {
+    console.log(msg);
 
-  // 지정된 위치로 스크롤 -> scrollTo(x좌표, y좌표)
-  //   window.scrollTo(0, document.body.scrollHeight);
-  //   // 새로운 채팅 추가시 자동으로 스크롤 다운. // scrollHeight = 변한 스크롤 위치값
-  // });
+    //지정된 위치로 스크롤 -> scrollTo(x좌표, y좌표)
+    window.scrollTo(0, document.body.scrollHeight);
+    // 새로운 채팅 추가시 자동으로 스크롤 다운. // scrollHeight = 변한 스크롤 위치값
+  });
 
   //서버로 메세지 보낼때
   const submitMessage = (msgContents) => {
@@ -88,8 +79,8 @@ const Detail = (props) => {
       icrld: detail.icrId,
     };
     if (cookie) {
-      socket.emit("joinAuto", data);
-      socket.emit("showUserList", data);
+      // socket.emit("joinAuto", data);
+      // socket.emit("showUserList", data);
     } else {
       if (window.confirm("로그인해야 이용 가능합니다. 로그인하시겠습니까?")) {
         history.push("/login");

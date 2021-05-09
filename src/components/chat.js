@@ -16,7 +16,11 @@ const Chat = (props) => {
   const [nic, setNic] = useState("곽혜미");
   console.log(message);
 
-  const socket = io("");
+  const socket = io("http://15.165.76.76:3001/chatting", {
+    reconnectionAttempts: "Infinity",
+    timeout: 10000,
+    transports: ["websocket"],
+  });
 
   useEffect(() => {
     //연결 되었는지 확인
