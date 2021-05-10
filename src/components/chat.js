@@ -13,6 +13,7 @@ const Chat = (props) => {
   console.log(ChatList);
   const _nickname = getCookie("nickname");
   const [message, setMessage] = useState("");
+  const [nic, setNic] = useState("");
 
   const socket = io.connect("http://15.165.76.76:3001/chatting", { transports: ["websocket"] });
 

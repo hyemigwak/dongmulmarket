@@ -5,26 +5,32 @@ import styled from "styled-components";
 import { history } from "../redux/configureStore";
 import lock from "../image/lock.png";
 
-const Findpwd = () => {
-  const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const onChageEmail = useCallback((e) => setEmail(e.target.value), []);
+const PwdChange = () => {
+  const [pwd, setPwd] = useState("");
+  const [newPwd, setNewPwd] = useState("");
+  const [newPwdChk, setNewPwdChk] = useState("");
+  const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
+  const onChangeNewPwd = useCallback((e) => setNewPwd(e.target.value), []);
+  const onChangeNewPwdChk = useCallback((e) => setNewPwdChk(e.target.value), []);
 
-  //이메일 정규표현식
-  const email_regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+  const password_regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,14}$/;
 
-  const onSiteFindPwd = () => {
-    if (email === "") {
-      window.alert("이메일을 써주세요!");
+  const sitepwdChange = () => {
+    if (pwd === "" || newPwd === "" || newPwdChk === "") {
+      window.alert("모두 입력해주세요");
       return;
     }
-    if (!email_regExp.test(email)) {
-      window.alert("이메일이 맞지 않습니다");
+    if (!password_regExp.test(pwd, newPwd, newPwdChk)) {
+      window.alert("비밀번호는 영문/숫자 혼합으로 8~14자리로 입력해주세요!");
       return;
     }
-    dispatch(userActions.FindPwdAPI(email));
-    window.alert("가입하신 이메일로 비밀번호 재설정 메일을 보내드렸습니다");
-    history.push("/pwdchange");
+    if (pwd !== newPwd) {
+      window.alert("새 비밀번호가 일치하지 않습니다.");
+      return;
+    }
+    //if(현재 비밀번호가 일치하는지 여부)
+    //디스패치(새 비밀번호 보내주기) userActions.ChangePwdAPI(pwd, newPwd)
+    history.replace("/login");
   };
 
   return (
@@ -32,24 +38,15 @@ const Findpwd = () => {
       <WrapFindPwd>
         <TopArea>
           <img src={lock} alt="자물쇠 이미지" />
-          <Title>비밀번호를 잊으셨나요?</Title>
-          <SubTitle>비밀번호를 초기화시키기 위해서 이메일 주소가 필요합니다</SubTitle>
+          <Title>비밀번호 변경</Title>
+          <SubTitle>변경하실 비밀번호를 입력해주세요</SubTitle>
         </TopArea>
         <FindPwdC>
-          <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChageEmail} />
-          <FindpwdBtn onClick={onSiteFindPwd}>입력완료</FindpwdBtn>
+          <Input type="text" placeholder="현재 비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
+          <Input type="text" placeholder="새 비밀번호를 입력해주세요" value={newPwd} onChange={onChangeNewPwd} />
+          <Input type="text" placeholder="새 비밀번호를 한번 더 입력해주세요" value={newPwdChk} onChange={onChangeNewPwdChk} />
+          <FindpwdBtn onClick={sitepwdChange}>변경 완료</FindpwdBtn>
         </FindPwdC>
-        <SignInArea>
-          <span>신규 사용자이신가요?</span>{" "}
-          <div
-            className="makeaccount"
-            onClick={() => {
-              history.push("/signup");
-            }}
-          >
-            계정 만들기
-          </div>
-        </SignInArea>
       </WrapFindPwd>
     </React.Fragment>
   );
@@ -58,6 +55,7 @@ const Findpwd = () => {
 const WrapFindPwd = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
   padding-top: 100px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   /* @media (max-width: 1000px){
@@ -66,7 +64,8 @@ const WrapFindPwd = styled.div`
 `;
 
 const TopArea = styled.div`
-  margin: 100px auto 0px;
+  width: 359px;
+  margin: 100px auto 30px;
   text-align: center;
   img {
     width: 110px;
@@ -74,34 +73,23 @@ const TopArea = styled.div`
   }
 `;
 const Title = styled.div`
-  width: 390px;
+  width: 359px;
   height: 24px;
   flex-grow: 0;
   margin: 50px auto 24px;
-  font-family: Roboto;
   font-size: 36px;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 0.67;
   letter-spacing: normal;
-  text-align: left;
   color: #2f2f2f;
 `;
 
 const SubTitle = styled.div`
-  width: 390px;
+  width: 359px;
   height: 16px;
   flex-grow: 0;
   margin: 24px 9px 0 10px;
-  font-family: Roboto;
   font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
   color: #5f5f5f;
 `;
 
@@ -115,8 +103,8 @@ const FindPwdC = styled.div`
 const Input = styled.input`
   width: 359px;
   height: 56px;
-  margin: 70px 421px 16px 420px;
-  padding: 17.6px 135px 14.4px 16px;
+  margin: 10px auto 18px;
+  padding: 12px 20px;
   border-radius: 8px;
   border: solid 2px #d2d2d2;
   ::placeholder {
@@ -178,4 +166,4 @@ const SignInArea = styled.div`
   }
 `;
 
-export default Findpwd;
+export default PwdChange;
