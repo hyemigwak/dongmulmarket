@@ -105,55 +105,65 @@ const Detail = (props) => {
   return (
     <React.Fragment>
       <WrapDetail>
+        <Title>물품 교환하기</Title>
         <WrapBox>
           <ProductsBox>
+            <InfoTitle>상품 정보</InfoTitle>
             <Img src={detail.image} />
             <InfoBox>
-              <Text>
-                <span>품목명:</span>
-                {detail.title}
-              </Text>
-              <Text>
-                <span>카테고리: </span>
-                {detail.category}
-              </Text>
-              <Text>
-                <span>글 올린 시간: </span>
-                {detail.createdDt}
-              </Text>
-              <Text>
-                <span>교환 종료 시간: </span>
-                {detail.deadLine}
-              </Text>
-              <Text>
-                <span>경매 참여 인원:</span>채팅이 구현되면 하자
-              </Text>
-              <Text>
-                <span>코멘트:</span>
-                {detail.comment}
-              </Text>
-              <ChatJoinBtn>채팅 참여하기</ChatJoinBtn>
+              <TitleArea>
+                <TitleText>품목명:</TitleText>
+                <TitleText>카테고리:</TitleText>
+                <TitleText>글 올린 시간:</TitleText>
+                <TitleText>교환 종료 시간:</TitleText>
+                <TitleText>참여 인원:</TitleText>
+                <TitleText>코멘트:</TitleText>
+
+              </TitleArea>
+              <DetailArea>
+                <DetailText>{detail.title}</DetailText>
+                <DetailText>{detail.category}</DetailText>
+                <DetailText>{detail.createdDt}</DetailText>
+                <DetailText>{detail.createdDt}</DetailText>
+                <DetailText>2명</DetailText>
+                <DetailText>{detail.comment}</DetailText>
+              </DetailArea>     
             </InfoBox>
           </ProductsBox>
           <ChatBox>
             <BtnArea>
-              <button className="group" onClick={closeModal}>
-                실시간채팅
-              </button>
-              <button className="one" onClick={openModal}>
-                교환진행중
-              </button>
+              <StateBtn className="group" onClick={closeModal}>
+                <ChatText>실시간채팅</ChatText>
+              </StateBtn>
+              <StateBtn className="one" onClick={openModal}>
+                <ChatText>1:1 대화하기</ChatText>
+              </StateBtn>
+              <LiveChatBtn>실시간 대화 참여</LiveChatBtn>
             </BtnArea>
             <OneChat open={modalOpen} close={closeModal} />
             {modalOpen ? (
               <OneChat />
             ) : (
               <>
-                <ChatView />
-                <ChatInputC>
+                <ChatView>
+                  <EntranceMsg>username님이 입장하셨습니다.</EntranceMsg>
+                  <MySpeech>
+                    <MyNameTag>판매자닉넴</MyNameTag>
+                    <MyBubble><ChatText>안녕하세요~반갑습니다</ChatText></MyBubble>
+                  </MySpeech>
+                 
+                  <OtherSpeech>
+                    <OtherNameTag>username</OtherNameTag>
+                    <OtherBubble>
+                      <ChatText>안녕하세요~~~</ChatText>
+                    </OtherBubble>
+                  </OtherSpeech>
+                 
+                </ChatView>
+                 
                   <ChatInput
                     type="text"
-                    placeholder="내용을 입력하세요."
+                    placeholder="텍스트를 입력하세요."
                     value={message}
                     onChange={(e) => {
                       setMessage(e.target.value);
@@ -165,12 +175,25 @@ const Detail = (props) => {
                       }
                     }}
                   />
-                  <ChatBtn onClick={submitMessage}>전송</ChatBtn>
-                </ChatInputC>
+                  <ChatBtn onClick={submitMessage}>
+                  <SendText>
+                  전송
+                  </SendText>
+                    </ChatBtn>
+                    <WrapButtons>       
+                      <ForceExitBtn><BtnText>강퇴</BtnText></ForceExitBtn>
+                      <TradeCancelBtn><BtnText>교환취소</BtnText></TradeCancelBtn>
+                      <TradeSuccessBtn><BtnText>교환성사</BtnText></TradeSuccessBtn>
+                    </WrapButtons>
+            
               </>
             )}
           </ChatBox>
-          <UserView>
+          <LiveChatBox>
+            <LiveUser>user1</LiveUser>
+            <LiveTalkBtn>대화하기</LiveTalkBtn>
+          </LiveChatBox>
+          {/* <UserView>
             <Text>
               <h3>
                 <b>참여중</b>
@@ -197,7 +220,7 @@ const Detail = (props) => {
                 ))}
               </UserNameBtn>
             </UserBox>
-          </UserView>
+          </UserView> */}
         </WrapBox>
       </WrapDetail>
     </React.Fragment>
@@ -207,103 +230,414 @@ const Detail = (props) => {
 const WrapDetail = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
   padding-top: 130px;
-  display: flex;
 
   /* @media (max-width: 1000px){
     heigth: 
   } */
 `;
 
+const Title=styled.div`
+height: 40px;
+margin: 60.3px 167px 6px 50px;
+font-family: NotoSans;
+font-size: 36px;
+font-weight: 600;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.11;
+letter-spacing: normal;
+text-align: left;
+color:#1c1c1c;
+`;
+
 const WrapBox = styled.div`
   display: flex;
-  width: 1024px;
-  margin: auto;
-  justify-content: space-evenly;
-  align-items: center;
+
 `;
 
 const ProductsBox = styled.div`
-  height: 100vh;
-  width: 600px;
-`;
-
-const Text = styled.div`
-  span {
-    font-weight: 600;
-  }
-`;
-
-const Img = styled.img`
-  margin-left: 100px;
-  margin-top: 40px;
-  width: 400px;
-  height: 300px;
+  margin-left:51px;
+ 
 `;
 
 const InfoBox = styled.div`
-  margin-left: 100px;
-  margin-top: 40px;
+display:flex;
+width: 353.1px;
+height: 240px;
+flex-grow: 0;
+margin: 34px 0 0;
 `;
 
-const ChatJoinBtn = styled.div`
-  margin: 30px auto;
-  width: 130px;
-  height: 40px;
-  border-radius: 10px;
-  background-color: #6fcea1;
-  border: none;
-  cursor: pointer;
-  color: #ffffff;
-  padding: 10px 24px;
+const InfoTitle=styled.div`
+height: 24px;
+flex-grow: 0;
+margin: 0 281px 10px 1.1px;
+font-family: NotoSans;
+font-size: 18px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.33;
+letter-spacing: normal;
+text-align: left;
+color:#1c1c1c;
+position:relative;
+top:26px;
+
+`;
+
+const TitleArea=styled.div`
+margin: 0 75.1px 12px 0;
+`;
+
+const DetailArea=styled.div`
+
+width: 228px;
+  height: 240px;
+  flex-grow: 0;
+  margin: 0 0 0 10px;
+`;
+
+const TitleText = styled.div`
+
+flex-grow: 0;
+
+font-family: NotoSans;
+font-size: 18px;
+font-weight: bold;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.67;
+letter-spacing: normal;
+text-align: left;
+color: #7d7d7d;
+`;
+
+const DetailText=styled.div`
+flex-grow: 0;
+
+font-family: NotoSans;
+font-size: 18px;
+font-weight: bold;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.67;
+letter-spacing: normal;
+text-align: left;
+color: #1c1c1c;
+`;
+
+const Img = styled.img`
+width: 347px;
+height: 310px;
+margin: 10px 6px 34px 0.1px;
+border-radius: 8px;
+border: solid 2px #6fcea1;
+position:relative;
+top:10px;
 `;
 
 const ChatBox = styled.div`
-  margin-top: 10px;
-  height: 100vh;
-  width: 600px;
-  text-align: center;
   margin-left: 30px;
+  width:730px;
 `;
 
-const ChatView = styled.div`
-  background: #f5f5f5;
-  height: 500px;
-  width: 500px;
+const StateBtn=styled.button`
+width: 165px;
+height: 44px;
 
-  border: 1px solid #eee;
-  text-align: center;
+padding: 1px 0 0 37px;
+border: solid 1px #3fbe81;
+background-color: #3fbe81;
+
+`;
+
+
+const ChatText=styled.div`
+
+  margin: 9px 35px 10px 0;
+  font-family: NotoSans;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+`;
+
+const LiveChatBtn=styled.div`
+width: 150px;
+height: 24px;
+flex-grow: 0;
+margin: 11px 0px 9px 240px;
+font-family: NotoSans;
+font-size: 18px;
+font-weight: normal;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.33;
+letter-spacing: normal;
+text-align: left;
+color: #7d7d7d;
+cursor:pointer;
+
+  
+`;
+
+
+const ChatView = styled.div`
+  width: 723px;
+  height: 522px;
+  flex-grow: 0;
+  
+  padding: 26px 21px 21px 32px;
+  background-color: #efefef;
+
+`;
+
+const EntranceMsg=styled.div`
+
+width: 270px;
+height: 24px;
+flex-grow: 0;
+margin: 0 auto 8px auto;
+font-family: NotoSans;
+font-size: 18px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.33;
+letter-spacing: normal;
+text-align: center;
+color:#7d7d7d;
+
+`;
+
+const MySpeech=styled.div`
+align-items:right;
+margin-left: 350px;
+`;
+
+const OtherSpeech=styled.div`
+
+`;
+
+const MyNameTag=styled.div`
+color:#4c4c4c;
+flex-grow: 0;
+width:90px;
+margin: 0 0px 6px 187px;
+font-family: NotoSans;
+font-size: 14px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+line-height: normal;
+letter-spacing: normal;
+text-align: left;
+`;
+
+const OtherNameTag=styled.div`
+color:#4c4c4c;
+flex-grow: 0;
+margin: 0 396px 6px 12px;
+font-family: NotoSans;
+font-size: 14px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+line-height: normal;
+letter-spacing: normal;
+text-align: left;
+`;
+
+const MyBubble=styled.div`
+width: 300px;
+height: 49px;
+flex-grow: 0;
+display: flex;
+flex-direction: row;
+justify-content: flex-end;
+align-items: center;
+gap: 10px;
+
+padding: 12px 16px;
+border-radius: 10px;
+background-color: #a8a8a8;
+
+`;
+
+const OtherBubble=styled.div`
+width: 300px;
+  height: 49px;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 0 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background-color: #3fbe81;
 `;
 
 const ChatInputC = styled.div`
-  justify-content: center;
+  
+  justify-contents:center;
 `;
 
 const ChatInput = styled.input`
-  height: 88px;
-  width: 500px;
-  border: 1px solid #6fcea1;
-  background: #ffffff;
+width: 724px;
+height: 74px;
+flex-grow: 0;
+
+border: solid 2px #6fcea1;
+background-color: #ffffff;
   ::placeholder {
     padding: 0px 20px;
     font-size: 18px;
   }
+
+  position:relative;
 `;
 
 const ChatBtn = styled.button`
-  width: 80px;
-  height: 34px;
-  padding: 5px 0px;
-  border-radius: 80px;
-  font-size: 15px;
-  display: inline-block;
-  position: relative;
-  bottom: 60px;
-  left: 180px;
+position:absolute;
+bottom: 95px;
+left: 745px;
+width: 102px;
+height: 38px;
+flex-grow: 0;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 21px;
+margin: 0 0 0 305px;
+padding: 7px 14px 6px;
+border-radius: 4px;
+background-color: #c4c4c4;
+border:solid 1px #c4c4c4;
+`;
 
-  cursor: pointer;
-  border: none;
-  background-color: #c0c0c0;
-  color: #ffffff;
+const SendText=styled.div`
+flex-grow: 0;
+font-family: Roboto;
+font-size: 16px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+line-height: normal;
+letter-spacing: normal;
+text-align: left;
+color: #ffffff;
+`;
+
+const WrapButtons=styled.div`
+display:flex;
+margin-top:40px;
+`;
+
+const BtnText=styled.div`
+flex-grow: 0;
+font-family: NotoSans;
+font-size: 20px;
+font-weight: 500;
+color: #3fbe81;
+`;
+
+const ForceExitBtn=styled.button`
+min-width: 159px;
+  min-height: 53px;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 0 218px 0 0;
+  padding: 10px 30px;
+  border-radius: 8px;
+  border: solid 2px #3fbe81;
+  background-color:#ffffff;
+
+`;
+
+const TradeCancelBtn=styled.button`
+min-width: 159px;
+min-height: 53px;
+flex-grow: 0;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 10px;
+margin: 0 20px 0 0;
+padding: 10px 30px;
+border-radius: 8px;
+border: solid 2px #3fbe81;
+background-color:#ffffff;
+
+`;
+
+const TradeSuccessBtn=styled.button`
+min-width: 159px;
+min-height: 53px;
+flex-grow: 0;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 10px;
+margin: 0 218px 0 0;
+padding: 10px 30px;
+border-radius: 8px;
+border: solid 2px #3fbe81;
+background-color:#ffffff;
+
+`;
+
+const LiveChatBox=styled.div`
+width: 170px;
+height: 522px;
+flex-grow: 0;
+margin: 0 0 0 32px;
+padding: 12px 0 8px;
+background-color: #d9d9d9;
+display:flex;
+`;
+
+const LiveUser=styled.div`
+flex-grow: 0;
+  margin: 0 23px 11.5px 14px;
+  font-family: NotoSans;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.71;
+  letter-spacing: normal;
+  text-align: left;
+  color: #373737;
+`;
+
+const LiveTalkBtn=styled.button`
+width: 80px;
+height: 24px;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 10px;
+margin: 0.5px 3px 11px;
+padding: 4px 10px;
+border-radius: 83px;
+background-color: #a8a8a8;
+color:#ffffff;
+cursor: point;
 `;
 
 const UserView = styled.div`
@@ -348,24 +682,19 @@ const OfferChatBtn = styled.button`
 
 const BtnArea = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
+ 
   .group {
-    border: none;
-    width: 250px;
-    height: 40px;
+   
     background-color: #3fbe81;
     color: #ffffff;
-    border-radius: 8px;
+   
     cursor: pointer;
   }
   .one {
-    border: none;
-    width: 250px;
-    height: 40px;
+ 
     background-color: #d6d6d6;
     color: #ffffff;
-    border-radius: 8px;
+   
     cursor: pointer;
   }
 `;

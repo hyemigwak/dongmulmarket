@@ -9,10 +9,10 @@ const OneChat = (props) => {
       {open ? (
         <>
           <ChatView></ChatView>
-          <ChatInputC>
+         
             <ChatInput placeholder="내용을 입력하세요." />
-            <ChatBtn>전송</ChatBtn>
-          </ChatInputC>
+            <ChatBtn><SendText>전송</SendText></ChatBtn>
+         
         </>
       ) : null}
     </>
@@ -21,8 +21,8 @@ const OneChat = (props) => {
 
 const ChatView = styled.div`
   background: #dce1df;
-  height: 500px;
-  width: 500px;
+  width: 723px;
+  height: 522px;
 
   border: 1px solid #eee;
   text-align: center;
@@ -32,32 +32,51 @@ const ChatInputC = styled.div`
   justify-content: center;
 `;
 
+
 const ChatInput = styled.input`
-  height: 88px;
-  width: 500px;
-  border: 1px solid #6fcea1;
-  background: #ffffff;
+width: 724px;
+height: 74px;
+flex-grow: 0;
+
+border: solid 2px #6fcea1;
+background-color: #ffffff;
   ::placeholder {
     padding: 0px 20px;
     font-size: 18px;
   }
+
+  position:relative;
 `;
 
 const ChatBtn = styled.button`
-  width: 80px;
-  height: 34px;
-  padding: 5px 0px;
-  border-radius: 80px;
-  font-size: 15px;
-  display: inline-block;
-  position: relative;
-  bottom: 60px;
-  left: 180px;
-
-  cursor: pointer;
-  border: none;
-  background-color: #c0c0c0;
-  color: #ffffff;
+position:absolute;
+bottom: 95px;
+left: 745px;
+width: 102px;
+height: 38px;
+flex-grow: 0;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 21px;
+margin: 0 0 0 305px;
+padding: 7px 14px 6px;
+border-radius: 4px;
+background-color: #c4c4c4;
+border:solid 1px #c4c4c4;
 `;
 
+const SendText=styled.div`
+flex-grow: 0;
+font-family: Roboto;
+font-size: 16px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+line-height: normal;
+letter-spacing: normal;
+text-align: left;
+color: #ffffff;
+`;
 export default OneChat;
