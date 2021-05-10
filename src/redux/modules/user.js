@@ -11,6 +11,8 @@ const LOG_OUT = "LOG_OUT"; //로그아웃
 const LOGIN_CHECK = "LOGIN_CHECK"; //로그인 유지
 const GET_USER = "GET_USER"; //유저email 있는지 여부 받아오기
 const VALIDATE_EMAIL = "VALIDATE_EMAIL"; //이메일 인증 확인
+const FIND_PWD = "FIND_PWD"; //비밀번호 찾기
+const CHANGE_PWD = "CHANGE_PWD"; //비밀번호 변경
 
 //actionCreators
 const logIn = createAction(LOG_IN, (user) => ({ user }));
@@ -18,6 +20,8 @@ const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const loginCheck = createAction(LOGIN_CHECK, (cookie) => ({ cookie }));
 const getUser = createAction(GET_USER, (user) => ({ user })); // 이메일 중복체크
 const validateEmail = createAction(VALIDATE_EMAIL, (user) => ({ user })); //이메일 인증
+const findPwd = createAction(FIND_PWD, (user_info) => ({ user_info }));
+const changePwd = createAction(CHANGE_PWD, (user_info) => ({ user_info }));
 
 //initialState
 const initialState = {
@@ -27,10 +31,9 @@ const initialState = {
   is_email_validate: false, //이메일 인증
 };
 
-//api연결
+//미들웨어
 
 //구글 로그인
-
 const GoogleLoginAPI = (response) => {
   return function (dispatch, getState, { history }) {
     axios({
@@ -133,8 +136,8 @@ const loginAPI = (email, pwd) => {
           const email = res.data.email;
 
           setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
-          setCookie("nickname", nickname); //유저 닉네임 저장
-          setCookie("email", email); //유저 이메일 저장 -> 나만 보이는 버튼에서 true/false 여부로 쓸 예정
+          localStorage.setItem("nickname", nickname); //유저 닉네임 저장
+          localStorage.setItem("email", email); //유저 이메일 저장 -> 나만 보이는 버튼에서 true/false 여부로 쓸 예정
 
           //디폴트로 헤더에 토큰 담아주기
           axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
@@ -245,10 +248,32 @@ const FindPwdAPI = (email) => {
     })
       .then((res) => {
         console.log(res.data);
+        //dispatch(findPwd())
         //서버에 이메일만 넘겨주면, 유효성 검사는 서버에서 함. response가 succeess인지만 check!
       })
       .catch((err) => {
         console.log("FindPwdAPI에서 오류 발생", err);
+      });
+  };
+};
+
+//비밀번호 변경
+const ChangePwdAPI = (pwd, newPwd) => {
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "POST",
+      url: `${config.api}/account/find`,
+      data: {
+        pwd: pwd,
+        newPwd: newPwd,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        //dispatch(changePwd())
+      })
+      .catch((err) => {
+        console.log("ChangePwdAPI에서 오류 발생", err);
       });
   };
 };
@@ -302,6 +327,7 @@ const actionCreators = {
   EmailCheckAPI,
   EmailValidationAPI,
   FindPwdAPI,
+  ChangePwdAPI,
 };
 
 export { actionCreators };

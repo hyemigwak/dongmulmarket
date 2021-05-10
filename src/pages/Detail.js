@@ -8,6 +8,7 @@ import { history } from "../redux/configureStore";
 import { OneChat } from "../components";
 import { config } from "../shared/config";
 import io from "socket.io-client";
+import { EmailSharp } from "@material-ui/icons";
 
 const socket = io("http://15.165.76.76:3001/chatting");
 
@@ -16,6 +17,11 @@ const Detail = (props) => {
   const id = props.match.params.id;
   const cookie = getCookie("user_login") ? true : false;
   const detail = useSelector((state) => state.post.detail_list);
+  const token = getCookie("user_login");
+  const email = localStorage.getItem("email");
+  console.log(detail);
+  console.log("이메일", email);
+  console.log("토큰확인", token);
 
   //소켓에 보내줄 내 닉네임, 인풋 메세지
   const _nickname = getCookie("nickname");
@@ -32,6 +38,47 @@ const Detail = (props) => {
     setModalOpen(false);
   };
 
+  //서버로 메세지 보낼때
+  const submitMessage = (msgContents) => {
+    if (!msgContents) {
+      window.alert("메세지를 입력해주세요!");
+      return;
+    } else {
+      let send_data = {
+        sender: _nickname,
+        icrld: detail.icrId,
+        message: msgContents,
+      };
+      socket.emit("chatToServer", send_data);
+      setMessage("");
+    }
+  };
+
+  // 기본적으로 채팅 참가하기 버튼은 생성되어 있어야 합니다.
+  // 그래야 로그인 하지 않은 사람들도 버튼의 존재를 알 수 있습니다.
+  // 단체 채팅 버튼 및 1:1 채팅 버튼도 기본적으로 비활성화 상태로 해야 합니다.
+  socket.on("returnJoinAuto", (msg) => {
+    if (msg["chatGroup"] === "N") {
+      //채팅 참가하기 버튼 생성
+      //단체 채팅 버튼 비활성화
+      //1:1 채팅 버튼 비활성화
+    } else {
+      //채팅 참가하기 버튼 숨기기
+      //단체 채팅 버튼 활성화
+      if (msg["chatOne"] === "Y") {
+        //1:1 채팅 버튼 활성화
+      }
+    }
+  });
+
+  socket.on("returnUserList", function (msg) {
+    if (msg["group"]) {
+      //단체 채팅방 유저 표시
+    } else {
+      //개인 채팅방 유저 표시
+    }
+  });
+
   //렌더링 될때, 디테일 데이터 받아오기 & 소켓 연결하기(확인)
   useEffect(() => {
     //디테일이 없으면 서버에서 받아온다
@@ -39,66 +86,61 @@ const Detail = (props) => {
     dispatch(postActions.getOnePostAPI(id));
 
     // 소켓 연결
-
     socket.connect();
-    console.log(socket);
 
-    //테스트 emit
-    var data = { email: "test@naver.com", icrId: "test" };
-    socket.emit("showUserList", data);
-  }, []);
+    //인증 & 보내기
+    socket.emit(
+      "authenticate",
+      {
+        token: token,
+      },
+      (data) => {
+        if (data["msg"] === "success") {
+          //테스트 emit
+          const first_data = {
+            email: email,
+            icrId: detail.icrId,
+            dicrId: detail.dicrId,
+          };
+          socket.emit("showUserList", first_data);
+          socket.emit("joinAuto", first_data);
+        }
+      }
+    );
 
-  //서버에서 받을때
-  socket.on("showUserList", function (msg) {
-    console.log(msg);
+    //최초 실행시 로그인한 유저가 판매자인지 보내준다.
+    // const ChatJoinChkUser = () => {
+    //   let data = {
+    //     email: detail.email,
+    //     icrld: detail.icrId,
+    //   };
+    //   if (cookie) {
+    //     // socket.emit("joinAuto", data);
+    //     // socket.emit("showUserList", data);
+    //   } else {
+    //     if (window.confirm("로그인해야 이용 가능합니다. 로그인하시겠습니까?")) {
+    //       history.push("/login");
+    //     } else {
+    //       return;
+    //     }
+    //   }
+    // };
 
-    //지정된 위치로 스크롤 -> scrollTo(x좌표, y좌표)
-    window.scrollTo(0, document.body.scrollHeight);
-    // 새로운 채팅 추가시 자동으로 스크롤 다운. // scrollHeight = 변한 스크롤 위치값
-  });
-
-  //서버로 메세지 보낼때
-  const submitMessage = (msgContents) => {
-    if (!msgContents) {
-      window.alert("메세지를 입력해주세요!");
-      return;
-    } else {
-      let data = {
-        sender: _nickname,
-        icrld: detail.icrId,
-        message: msgContents,
-      };
-      socket.emit("chatToServer", data);
-      setMessage("");
-    }
-  };
-  //최초 실행시 로그인한 유저가 판매자인지 보내준다.
-  const ChatJoinChkUser = () => {
-    let data = {
-      email: detail.email,
-      icrld: detail.icrId,
+    //방장일 경우 참여자를 받아오고, 아닐 경우 못받아옴
+    const IsHostorNot = () => {
+      socket.on("returnUserList", function (host_data) {
+        console.log(host_data);
+        if (host_data.chooseYn === "N") {
+          setChatUsers([...ChatUsers, host_data.tier]);
+        }
+      });
     };
-    if (cookie) {
-      // socket.emit("joinAuto", data);
-      // socket.emit("showUserList", data);
-    } else {
-      if (window.confirm("로그인해야 이용 가능합니다. 로그인하시겠습니까?")) {
-        history.push("/login");
-      } else {
-        return;
-      }
-    }
-  };
 
-  //방장일 경우 참여자를 받아오고, 아닐 경우 못받아옴
-  const IsHostorNot = () => {
-    socket.on("returnUserList", function (data) {
-      console.log(data);
-      if (data.chooseYn === "N") {
-        setChatUsers([...ChatUsers, data.tier]);
-      }
+    //서버에서 받을때
+    socket.on("showUserList", function (msg) {
+      console.log(msg);
     });
-  };
+  }, []);
 
   //참여하기 누르면 채팅 받아와야할 것 같은데!
 

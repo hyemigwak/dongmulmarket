@@ -59,15 +59,10 @@ const getChatList = () => {
   };
 };
 
-// //채팅 내용 추가하기
-// const addChatList = (message) => {
-//   return function (dispatch, getState, { history }) {
-//     // socket.on('receive',(message)=>{
-//     //console.log(message);
-//     dispatch(addChat(message));
-//     });
-//   };
-// };
+//채팅 내용 추가하기
+const addChatList = (message) => {
+  return function (dispatch, getState, { history }) {};
+};
 
 //api 연결
 

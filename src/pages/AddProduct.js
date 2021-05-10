@@ -3,12 +3,13 @@ import styled from "styled-components";
 import { MiniCalendar } from "../components";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
-import preview_img from "../image/preview_image.png";
 import moment from "moment";
 import { DatePicker, Space } from "antd";
 import { history } from "../redux/configureStore";
 import "antd/dist/antd.css";
 import { getCookie } from "../shared/Cookie";
+import camera from "../image/camera.svg";
+import preview_img from "../image/preview_img.JPG";
 
 const AddProduct = (props) => {
   const dispatch = useDispatch();
@@ -70,50 +71,75 @@ const AddProduct = (props) => {
         <Title>물품 등록하기</Title>
         <AddProductWrap>
           <ProductArea>
-            <div>
-              <input type="file" onChange={selectFile} />
-            </div>
-            <div>
-              <Img src={preview} alt="대표이미지" />
-            </div>
-            <Input type="text" placeholder="물물교환 할 상품을 입력해주세요!" value={myItem} onChange={onChangeMyItem} />
-            <CateArea>
-              <select size="1" value={category} onChange={onChangeCategory}>
-                <option value="카테고리를 선택해주세요" selected>
-                  카테고리를 선택해주세요
-                </option>
-                <option value="디지털/가전">디지털/가전</option>
-                <option value="가구/인테리어">가구/인테리어</option>
-                <option value="유아동/유아도서">유아동/유아도서</option>
-                <option value="식품">식품</option>
-                <option value="스포츠/레저">스포츠/레저</option>
-                <option value="여성잡화">여성잡화</option>
-                <option value="여성의류">여성의류</option>
-                <option value="남성패션/잡화">남성패션/잡화</option>
-                <option value="게임/취미">게임/취미</option>
-                <option value="뷰티/미용">뷰티/미용</option>
-                <option value="반려동물용품">반려동물용품</option>
-                <option value="도서/티켓/음반">도서/티켓/음반</option>
-                <option value="생활용품">생활용품</option>
-                <option value="식물">식물</option>
-                <option value="기타 중고물품">기타 중고물품</option>
-              </select>
-            </CateArea>
-            <Input type="text" placeholder="희망 교환 물품을 입력해주세요" value={wantItem} onChange={onChangeWantItem} />
-            <div>
-              <Textarea type="text" placeholder="물품을 설명해주세요!" rows="5" value={content} onChange={onChangeContent} />
-            </div>
-            <CalendarArea>
-              <span>교환 종료일</span>
-              <Calend>
-                <Space direction="vertical" size={12}>
-                  <DatePicker showTime={{ format: "HH:mm" }} onChange={onChange} onOk={onOk} />
-                </Space>
-              </Calend>
-            </CalendarArea>
-            <BtnArea>
-              <Btn onClick={onSiteAddProduct}>물품 올리기</Btn>
-            </BtnArea>
+            <Camerabox>
+              <label for="inputFile">
+                <img src={camera} alt="카메라" className="cameraIcon" />
+              </label>
+              <input id="inputFile" className="uploadImg" type="file" onChange={selectFile} />
+            </Camerabox>
+            <SubText>물품 사진 등록하기</SubText>
+            <img className="productImg" src={preview} alt="이미지" />
+            {/* <ImageBox>
+              <div>
+                등록하고 싶은 물건 사진을
+                <br />
+                첨부해주세요
+              </div>
+            </ImageBox> */}
+            <InputArea>
+              <SubText>교환상품 설정</SubText>
+              <Input type="text" placeholder="물물교환 할 상품을 입력해주세요!" value={myItem} onChange={onChangeMyItem} />
+              <CateArea>
+                <select required size="1" value={category} onChange={onChangeCategory}>
+                  <option className="placehd" hidden>
+                    카테고리를 설정해주세요
+                  </option>
+                  <option value="디지털/가전">디지털/가전</option>
+                  <option value="가구/인테리어">가구/인테리어</option>
+                  <option value="유아동/유아도서">유아동/유아도서</option>
+                  <option value="식품">식품</option>
+                  <option value="스포츠/레저">스포츠/레저</option>
+                  <option value="여성잡화">여성잡화</option>
+                  <option value="여성의류">여성의류</option>
+                  <option value="남성패션/잡화">남성패션/잡화</option>
+                  <option value="게임/취미">게임/취미</option>
+                  <option value="뷰티/미용">뷰티/미용</option>
+                  <option value="반려동물용품">반려동물용품</option>
+                  <option value="도서/티켓/음반">도서/티켓/음반</option>
+                  <option value="생활용품">생활용품</option>
+                  <option value="식물">식물</option>
+                  <option value="기타 중고물품">기타 중고물품</option>
+                </select>
+              </CateArea>
+              <Input type="text" placeholder="희망 교환 물품을 입력해주세요" value={wantItem} onChange={onChangeWantItem} />
+              <div>
+                <Textarea type="text" placeholder="물품을 설명해주세요" rows="5" value={content} onChange={onChangeContent} />
+              </div>
+              <SubText>교환종료일</SubText>
+              <CalendarArea>
+                <Calend>
+                  <Space direction="vertical" size={12}>
+                    <DatePicker
+                      className="datepicker"
+                      showTime={{ format: "HH:mm" }}
+                      onChange={onChange}
+                      onOk={onOk}
+                      placeholder="달력에서 날짜를 선택해주세요"
+                      style={{
+                        width: "536px",
+                        height: "56px",
+                        padding: "17.6px 14px 14px 23.9px",
+                        borderRadius: "8px",
+                        border: "solid 2px #d6d6d6",
+                      }}
+                    />
+                  </Space>
+                </Calend>
+              </CalendarArea>
+              <BtnArea>
+                <Btn onClick={onSiteAddProduct}>물품 올리기</Btn>
+              </BtnArea>
+            </InputArea>
           </ProductArea>
         </AddProductWrap>
       </React.Fragment>
@@ -126,7 +152,6 @@ const AddProduct = (props) => {
 };
 
 const AddProductWrap = styled.div`
-  padding-top: 20px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -134,43 +159,167 @@ const AddProductWrap = styled.div`
 `;
 
 const Title = styled.div`
-  padding-top: 100px;
-  width: 100%;
-  margin: 10px;
-  font-size: 30px;
+  margin: 160px 158px 40px 144px;
+  font-size: 36px;
   font-weight: 600;
-  text-align: center;
+  /* text-align: center; */
 `;
 
 const ProductArea = styled.div`
   display: block;
+  width: 536px;
+  margin: -30px auto;
+
+  .productImg {
+    width: 536px;
+    height: 400px;
+    margin: 18px auto;
+  }
 `;
 
-const Img = styled.img`
-  width: 300px;
-  height: 300px;
-  margin: 1rem 0rem;
+const Camerabox = styled.div`
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  background-color: #6fcea1;
+  position: relative;
+  top: 410px;
+  left: 420px;
+  z-index: 1;
+
+  label {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+  }
+
+  .uploadImg {
+    display: none;
+  }
+
+  .cameraIcon {
+    z-index: 1000;
+    position: relative;
+    top: 19px;
+  }
+`;
+
+const ImageBox = styled.div`
+  /* display: none; */
+  width: 536px;
+  height: 400px;
+  border-radius: 10px;
+  border: solid 2px #d6d6d6;
+  background-color: #efefef;
+  margin: 18px auto 60px;
+
+  div {
+    font-size: 18px;
+    line-height: 1.56;
+    text-align: center;
+    position: relative;
+    top: 40%;
+    color: #7d7d7d;
+  }
+`;
+
+const InputArea = styled.div`
+  width: 536px;
+  margin: 0px auto;
+`;
+
+const SubText = styled.div`
+  font-size: 18px;
+  line-height: 1.33;
+  text-align: left;
+  color: #1c1c1c;
+}
 `;
 
 const Input = styled.input`
-  width: 400px;
-  height: 2.5rem;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-  border: none;
-  border-radius: 7px;
-  margin: 1rem 0rem;
+  width: 536px;
+  height: 56px;
+  margin: 16px auto 25.8px;
+  padding: 17.6px 266.1px 14.4px 23.9px;
+  border-radius: 8px;
+  border: solid 2px #d6d6d6;
+  ::placeholder {
+    font-size: 18px;
+    line-height: 1.33;
+    text-align: left;
+    color: #7d7d7d;
+  }
+  :hover {
+    border: solid 2px #6fcea1;
+  }
+  :focus {
+    border: solid 2px #6fcea1;
+    outline: none;
+  }
 `;
 
 const Textarea = styled.textarea`
-  width: 400px;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-  border: none;
+  width: 536px;
+  height: 99px;
   resize: none;
-  margin: 1rem 0rem;
+  margin: 16px auto 25.8px;
+  padding: 17.6px 266.1px 14.4px 23.9px;
+  border-radius: 8px;
+  border: solid 2px #d6d6d6;
+  ::placeholder {
+    font-size: 18px;
+    line-height: 1.33;
+    text-align: left;
+    color: #7d7d7d;
+  }
+  :hover {
+    border: solid 2px #6fcea1;
+  }
+  :focus {
+    border: solid 2px #6fcea1;
+    outline: none;
+  }
+`;
+
+const CateArea = styled.div`
+  select {
+    width: 536px;
+    height: 56px;
+    margin: 16px auto 25.8px;
+    padding: 13px 266.1px 12px 23.9px;
+    border-radius: 8px;
+    border: solid 2px #d6d6d6;
+    font-size: 18px;
+    text-align: left;
+    color: #7d7d7d;
+    :hover {
+      border: solid 2px #6fcea1;
+    }
+    :focus {
+      border: solid 2px #6fcea1;
+      outline: none;
+    }
+  }
+  .placehd {
+    font-size: 18px;
+    text-align: left;
+    color: #7d7d7d;
+    line-height: 1.33;
+  }
 `;
 
 const Calend = styled.div`
   margin-top: 1rem;
+  input {
+    font-size: 18px;
+    text-align: left;
+    color: #7d7d7d;
+    line-height: 1.33;
+  }
+  :hover {
+    border: solid 2px #6fcea1;
+  }
 `;
 const CalendarArea = styled.div`
   display: flex;
@@ -186,30 +335,29 @@ const CalendarArea = styled.div`
 const BtnArea = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 30px;
-  padding-bottom: 80px;
+  margin-top: 52px;
+  padding-bottom: 100px;
 `;
 
-const Btn = styled.button`
-  width: 120px;
-  height: 40px;
-  padding: 8px;
-  border-radius: 16px;
-  background: #ffc149;
-  border: none;
-  color: #212121;
+const Btn = styled.div`
+  width: 177px;
+  height: 53px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  border-radius: 8px;
+  background-color: #d6d6d6;
+  padding: 10px 30px;
+
+  font-size: 24px;
   font-weight: 600;
-  margin: 1rem 1rem 0rem 0rem;
-  cursor: pointer;
-`;
+  color: #ffffff;
 
-const CateArea = styled.div`
-  select {
-    width: 400px;
-    height: 2.5rem;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-    border: none;
-    border-radius: 7px;
+  cursor: pointer;
+  :hover {
+    background-color: #6fcea1;
   }
 `;
 
