@@ -1,5 +1,5 @@
 import { createAction, handleActions } from "redux-actions";
-import { produce } from "immer";
+import { produce, produceWithPatches } from "immer";
 import axios from "axios";
 import { setCookie, deleteCookie, getCookie } from "../../shared/Cookie";
 import { config } from "../../shared/config";
@@ -10,6 +10,7 @@ const LOG_IN = "LOG_IN"; //로그인
 const LOG_OUT = "LOG_OUT"; //로그아웃
 const LOGIN_CHECK = "LOGIN_CHECK"; //로그인 유지
 const GET_USER = "GET_USER"; //유저email 있는지 여부 받아오기
+const GET_AUTHNUM = "GET_AUTHNUM"; // 인증번호 받아오기
 const VALIDATE_EMAIL = "VALIDATE_EMAIL"; //이메일 인증 확인
 const FIND_PWD = "FIND_PWD"; //비밀번호 찾기
 const CHANGE_PWD = "CHANGE_PWD"; //비밀번호 변경
@@ -20,16 +21,17 @@ const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const loginCheck = createAction(LOGIN_CHECK, (cookie) => ({ cookie }));
 const getUser = createAction(GET_USER, (user) => ({ user })); // 이메일 중복체크
 const validateEmail = createAction(VALIDATE_EMAIL, (user) => ({ user })); //이메일 인증
-const findPwd = createAction(FIND_PWD, (user_info) => ({ user_info }));
+const findPwd = createAction(FIND_PWD, (email) => ({ email }));
 const changePwd = createAction(CHANGE_PWD, (user_info) => ({ user_info }));
 
 //initialState
 const initialState = {
   user: {}, //딕셔너리형태
-  is_login: false,
-  is_exist: false, // 이메일 중복체크
-  is_email_validate: false, //이메일 인증
+  // is_login: false,
+  is_exist: false, // 이메일 중복체크 (true면 진행 가능)
+  is_email_validate: "", //이메일 인증
   login_type: "normal", //일반로그인은 normal로 설정
+  email: null,
 };
 
 //미들웨어
@@ -228,46 +230,47 @@ const signupAPI = (email, authnumber, nickname, pwd, address) => {
   };
 };
 
-//이메일 중복확인
-const EmailCheckAPI = (email) => {
+//메일 보내주면 서버에서 이메일 인증번호 201코드 받아온다.
+const GetAuthNumAPI = (email) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: `${config.api}/account/chkEmail`,
+      url: `${config.api}/account/mail`,
       data: {
         email: email,
       },
     })
       .then((res) => {
-        console.log(res.data);
-        if (res.data.msg === "success") {
+        if (res.data.statusCode === 201) {
+          console.log("statusCode가 201일때", res.data);
           dispatch(getUser(true));
         } else {
-          window.alert("중복된 ID입니다.");
+          console.log("중복된 이메일 가입 실패");
         }
       })
       .catch((err) => {
-        console.log("EmailCheckAPI에서 오류 발생", err);
+        console.log("GetAuthNumAPI 오류 발생", err);
       });
   };
 };
 
-//이메일 인증 메일 요청 api
+//이메일 인증 메일 요청 api(인증번호 일치 여부 확인을 위해 서버로 보냄)
 const EmailValidationAPI = (email, authnumber) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: `${config}/account/mail/check
-      `,
+      url: `${config.api}/account/mail/check`,
       data: {
         email: email,
-        authchkNum: authnumber,
+        authchkNum: Number(authnumber),
       },
     })
       .then((res) => {
-        console.log(res.data);
+        console.log("이메일 인증번호 클릭 데이터", res.data);
         if (res.data.msg === "success") {
-          // dispatch(validateEmail(true));
+          dispatch(validateEmail(true));
+        } else {
+          window.alert("인증번호가 일치하지 않습니다.");
         }
       })
       .catch((err) => {
@@ -281,15 +284,20 @@ const FindPwdAPI = (email) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: `${config.api}/account/find`,
+      url: `${config.api}/account/sendpassword`,
       data: {
         email: email,
       },
     })
       .then((res) => {
         console.log(res.data);
-        //dispatch(findPwd())
-        //서버에 이메일만 넘겨주면, 유효성 검사는 서버에서 함. response가 succeess인지만 check!
+        if (res.data.stateCode === 201) {
+          dispatch(findPwd(email));
+          window.alert("가입하신 이메일로 비밀번호 재설정 메일을 보내드렸습니다");
+          history.push("/pwdchange");
+        } else {
+          window.alert("메일이 존재하지 않습니다!");
+        }
       })
       .catch((err) => {
         console.log("FindPwdAPI에서 오류 발생", err);
@@ -298,19 +306,25 @@ const FindPwdAPI = (email) => {
 };
 
 //비밀번호 변경
-const ChangePwdAPI = (pwd, newPwd) => {
+const ChangePwdAPI = (email, pwd) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
       url: `${config.api}/account/find`,
       data: {
-        pwd: pwd,
-        newPwd: newPwd,
+        email: email,
+        password: String(pwd),
       },
     })
       .then((res) => {
         console.log(res.data);
-        //dispatch(changePwd())
+        if (res.data.msg === "success") {
+          window.alert("비밀번호가 변경되었습니다. 다시 로그인해주세요!");
+          history.push("/login");
+        } else {
+          window.alert("비밀번호 변경에 실패했습니다.");
+          return;
+        }
       })
       .catch((err) => {
         console.log("ChangePwdAPI에서 오류 발생", err);
@@ -378,13 +392,20 @@ export default handleActions(
       }),
     [GET_USER]: (state, action) =>
       produce(state, (draft) => {
-        draft.is_exist = action.payload.user;
-        console.log(action.payload);
-        console.log(action.payload.user);
+        draft.is_exist = action.payload.user; //true / false
+      }),
+    [GET_AUTHNUM]: (state, action) =>
+      produce(state, (draft) => {
+        console.log(action.payload.authnumber);
+        draft.AuthNumber = action.payload.authnumber;
       }),
     [VALIDATE_EMAIL]: (state, action) =>
       produce(state, (draft) => {
         draft.is_email_validate = action.payload.user;
+      }),
+    [FIND_PWD]: (state, action) =>
+      produce(state, (draft) => {
+        draft.email = action.payload.email;
       }),
   },
   initialState
@@ -398,7 +419,7 @@ const actionCreators = {
   logOut,
   kakaoLoginAPI,
   GoogleLoginAPI,
-  EmailCheckAPI,
+  GetAuthNumAPI,
   EmailValidationAPI,
   FindPwdAPI,
   ChangePwdAPI,
