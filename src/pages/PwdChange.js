@@ -32,7 +32,7 @@ const PwdChange = () => {
       return;
     }
     //디스패치(새 비밀번호 보내주기)
-    dispatch(userActions.ChangePwdAPI(email, pwd));
+    dispatch(userActions.ChangePwdAPI(email, pwd, newPwd));
     history.replace("/login");
   };
 

@@ -2,11 +2,11 @@ import React, { useCallback, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import styled from "styled-components";
+import axios from "axios";
+import { config } from "../shared/config";
 
 const Signup = (props) => {
   const dispatch = useDispatch();
-  const is_exist = useSelector((state) => state.user.is_exist);
-  console.log(is_exist); // false -> true
   const is_email_validate = useSelector((state) => state.user.is_email_validate);
 
   const [email, setEmail] = useState("");
@@ -19,6 +19,7 @@ const Signup = (props) => {
   const [AuthCorrect, SetAuthCorrect] = useState(null); // 인증번호 일치
   const [AuthFail, SetAuthFail] = useState(""); // 인증번호 불일치
   const [show, setShow] = useState(false); //이메일 중복 아닐 때, 인증번호 창 보이게 하기
+  const [validate, setValidate] = useState(false);
   const [address, setAddress] = useState("");
 
   const onChangeEmail = useCallback((e) => setEmail(e.target.value), []);
@@ -38,47 +39,60 @@ const Signup = (props) => {
   const email_regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   const password_regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,14}$/;
 
-  //인증번호 일치여부 체크
-  const authNumChk = () => {
-    dispatch(userActions.EmailValidationAPI(email, authnumber));
-    console.log(is_email_validate);
-    if (is_email_validate) {
-      SetAuthCorrect("인증번호가 일치합니다");
-      SetAuthFail("");
-      setShow(true);
-    } else {
-      SetAuthCorrect("");
-      SetAuthFail("인증번호가 불일치합니다");
-      return;
-    }
+  const GetAuthNumAPI = (email) => {
+    const API = `${config.api}/account/mail`;
+    axios
+      .post(API, {
+        email: email,
+      })
+      .then((res) => {
+        if (res.data.statusCode === 201) {
+          window.alert("사용가능한 ID입니다");
+          setShow(true);
+          SetEmailDoubleCheck("사용 가능한 이메일입니다");
+          SetEmailDoubleFail("");
+        } else {
+          SetEmailDoubleFail("이미 존재하는 ID입니다!");
+          SetEmailDoubleCheck("");
+        }
+        if (email === "") {
+          window.alert("이메일을 입력해주세요!");
+          _email.current.focus();
+          return;
+        }
+        if (!email_regExp.test(email)) {
+          window.alert("이메일 형식이 맞지 않습니다!");
+          _email.current.focus();
+          return;
+        }
+      })
+      .catch((err) => {
+        console.log("GetAuthNumAPI에서 오류", err);
+      });
   };
 
-  const waitForAPI = async () => await is_exist; // API답변 기다리기
-
-  // 이메일 중복체크
-  const emailCheck = () => {
-    dispatch(userActions.GetAuthNumAPI(email));
-    //위에 true 받아오고 실행하고 싶다
-    if (waitForAPI) {
-      window.alert("사용가능한 ID입니다");
-      setShow(true);
-      SetEmailDoubleCheck("사용 가능한 이메일입니다");
-      SetEmailDoubleFail("");
-    } else {
-      SetEmailDoubleFail("이미 존재하는 ID입니다!");
-      return;
-    }
-
-    if (email === "") {
-      window.alert("이메일을 입력해주세요!");
-      _email.current.focus();
-      return;
-    }
-    if (!email_regExp.test(email)) {
-      window.alert("이메일 형식이 맞지 않습니다!");
-      _email.current.focus();
-      return;
-    }
+  const EmailValidationAPI = (email, authnumber) => {
+    const AUTH_API = `${config.api}/account/mail/check`;
+    axios
+      .post(AUTH_API, {
+        email: email,
+        authchkNum: Number(authnumber),
+      })
+      .then((res) => {
+        if (res.data.msg === "success") {
+          SetAuthCorrect("인증번호가 일치합니다");
+          SetAuthFail("");
+          setShow(true);
+          setValidate(true);
+        } else {
+          SetAuthCorrect("");
+          SetAuthFail("인증번호가 불일치합니다");
+          return;
+        }
+      })
+      .catch((err) => {
+        console.log("EmailValidationAPI에서 오류", err);
+      });
   };
 
   const onSiteSignup = () => {
@@ -105,11 +119,11 @@ const Signup = (props) => {
       _pwd.current.focus();
       return;
     }
-    if (!is_email_validate) {
+    if (!validate) {
       window.alert("이메일 인증이 되지 않았습니다");
       return;
     }
-    dispatch(userActions.signupAPI(email, authnumber, nickname, pwd, address));
+    dispatch(userActions.signupAPI(email, nickname, pwd, address));
   };
 
   return (
@@ -124,7 +138,13 @@ const Signup = (props) => {
             <EmailArea>
               <InputInfo>이메일</InputInfo>
               <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} ref={_email} />
-              <CertiBtn onClick={emailCheck}>인증하기</CertiBtn>
+              <CertiBtn
+                onClick={() => {
+                  GetAuthNumAPI(email);
+                }}
+              >
+                인증하기
+              </CertiBtn>
             </EmailArea>
             <p className="availableEmail">{emailDoubleCheck}</p>
             <p className="availableFail">{emailDoubleFail}</p>
@@ -134,7 +154,13 @@ const Signup = (props) => {
                 <EmailArea>
                   <InputInfo>인증번호</InputInfo>
                   <Input type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} ref={_authnum} />
-                  <VerifyNum onClick={authNumChk}>인증번호 확인</VerifyNum>
+                  <VerifyNum
+                    onClick={() => {
+                      EmailValidationAPI(email, authnumber);
+                    }}
+                  >
+                    인증번호 확인
+                  </VerifyNum>
                 </EmailArea>
                 <p className="availableEmail">{AuthCorrect}</p>
                 <p className="availableFail">{AuthFail}</p>

@@ -28,7 +28,6 @@ const changePwd = createAction(CHANGE_PWD, (user_info) => ({ user_info }));
 const initialState = {
   user: {}, //딕셔너리형태
   // is_login: false,
-  is_exist: false, // 이메일 중복체크 (true면 진행 가능)
   is_email_validate: "", //이메일 인증
   login_type: "normal", //일반로그인은 normal로 설정
   email: null,
@@ -197,7 +196,7 @@ const loginAPI = (email, pwd) => {
 };
 
 //회원가입
-const signupAPI = (email, authnumber, nickname, pwd, address) => {
+const signupAPI = (email, nickname, pwd, address) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
@@ -209,7 +208,6 @@ const signupAPI = (email, authnumber, nickname, pwd, address) => {
       },
       data: {
         email: email,
-        authnumber: authnumber,
         nickname: nickname,
         password: pwd,
         address: address,
@@ -222,30 +220,6 @@ const signupAPI = (email, authnumber, nickname, pwd, address) => {
       })
       .catch((err) => {
         console.log("signupAPI에서 오류발생", err);
-      });
-  };
-};
-
-//메일 보내주면 서버에서 이메일 인증번호 201코드 받아온다.
-const GetAuthNumAPI = (email) => {
-  return function (dispatch, getState, { history }) {
-    axios({
-      method: "POST",
-      url: `${config.api}/account/mail`,
-      data: {
-        email: email,
-      },
-    })
-      .then((res) => {
-        if (res.data.statusCode === 201) {
-          console.log("statusCode가 201일때", res.data);
-          dispatch(getUser(true));
-        } else {
-          console.log("중복된 이메일 가입 실패");
-        }
-      })
-      .catch((err) => {
-        console.log("GetAuthNumAPI 오류 발생", err);
       });
   };
 };
@@ -287,7 +261,7 @@ const FindPwdAPI = (email) => {
     })
       .then((res) => {
         console.log(res.data);
-        if (res.data.stateCode === 201) {
+        if (res.data.statusCode === 201) {
           dispatch(findPwd(email));
           window.alert("가입하신 이메일로 비밀번호 재설정 메일을 보내드렸습니다");
           history.push("/pwdchange");
@@ -302,14 +276,15 @@ const FindPwdAPI = (email) => {
 };
 
 //비밀번호 변경
-const ChangePwdAPI = (email, pwd) => {
+const ChangePwdAPI = (email, pwd, newPwd) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: `${config.api}/account/find`,
+      url: `${config.api}/account/changepassword`,
       data: {
         email: email,
         password: String(pwd),
+        newpassword: String(newPwd),
       },
     })
       .then((res) => {
@@ -416,7 +391,6 @@ const actionCreators = {
   logOut,
   kakaoLoginAPI,
   GoogleLoginAPI,
-  GetAuthNumAPI,
   EmailValidationAPI,
   FindPwdAPI,
   ChangePwdAPI,
