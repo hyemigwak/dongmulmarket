@@ -28,6 +28,7 @@ const ChatView = styled.div`
   font-size: 36px;
   font-weight: 600;
   color: #ffffff;
+  z-index: 1000;
 
   div {
     height: 1.5;

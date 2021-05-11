@@ -9,21 +9,47 @@ const GET_POST = "GET_POST";
 const ONE_POST = "ONE_POST";
 const ADD_POST = "ADD_POST";
 const LOADING = "LOADING";
+const ISBOSS = "ISBOSS";
 
 //actionCreators
 const loading = createAction(LOADING, (loading) => ({ loading }));
 const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const onePost = createAction(ONE_POST, (post) => ({ post }));
+const isBoss = createAction(ISBOSS, (button) => ({ button }));
 
 //initialState
 const initialState = {
   post_list: [],
   detail_list: [],
   is_loading: false,
+  boss: {},
 };
 
 //api
+
+//방장 여부 가져오기
+const isBossAPI = (icrId) => {
+  return function (dispatch, getState, { history }) {
+    let token = getCookie("user_login");
+    console.log(icrId);
+    console.log("토큰", token);
+    axios({
+      method: "POST",
+      url: `${config.api}/mainPage/${icrId}`,
+      headers: {
+        authorization: token,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        dispatch(isBoss(res.data));
+      })
+      .catch((err) => {
+        console.log("isBossAPI에서 오류 발생", err);
+      });
+  };
+};
 
 //물품 불러오기(메인)
 // const MockAPI = "https://run.mocky.io/v3/0c7b921d-dc07-401f-a6d2-b71163ac660f";
@@ -130,6 +156,10 @@ export default handleActions(
         }
         draft.post_list.unshift(action.payload.post);
       }),
+    [ISBOSS]: (state, action) =>
+      produce(state, (draft) => {
+        draft.boss = action.payload.button;
+      }),
   },
   initialState
 );
@@ -141,6 +171,7 @@ const actionCreators = {
   getPostAPI,
   addPostAPI,
   getOnePostAPI,
+  isBossAPI,
 };
 
 export { actionCreators };
