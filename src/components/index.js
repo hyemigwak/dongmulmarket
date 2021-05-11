@@ -4,6 +4,9 @@ import MyLocation from "./MyLocation";
 import EditAddress from "./EditAddress";
 import Testpost from "./Testpost";
 import Chat from "./Chat";
+import GroupChat from "./GroupChat";
 import OneChat from "./OneChat";
+import NoLogin from "./NoLogin";
+import LoginChat from "./LoginChat";
 
-export { Footer, Header, MyLocation, EditAddress, Chat, Testpost, OneChat };
+export { Footer, Header, MyLocation, EditAddress, Chat, Testpost, OneChat, GroupChat, NoLogin, LoginChat };

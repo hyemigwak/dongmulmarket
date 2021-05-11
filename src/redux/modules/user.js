@@ -53,13 +53,16 @@ const GoogleLoginAPI = (response) => {
         console.log(res.data); // response 확인
         if (res.data.msg === "success") {
           console.log(res.data);
+
           //토큰 받아오기
           const jwtToken = res.data.token;
           const nickname = res.data.nickname;
+          const email = res.data.email;
 
           //토큰 저장하기
-          setCookie("user_token", jwtToken); //쿠키에 user_token 이라는 이름으로 저장
-          setCookie("nickname", nickname);
+          setCookie("user_token", jwtToken);
+          localStorage.setItem("email", email);
+          localStorage.setItem("nickname", nickname);
 
           //디폴트로 헤더에 토큰 담아주기
           // axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
@@ -95,10 +98,12 @@ const kakaoLoginAPI = (response) => {
           //토큰 받아오기
           const jwtToken = res.data.token;
           const nickname = res.data.nickname;
+          const email = res.data.email;
 
           //토큰 저장하기
-          setCookie("user_token", jwtToken); //쿠키에 user_token 이라는 이름으로 저장
-          setCookie("kakao_nickname", nickname);
+          setCookie("user_token", jwtToken);
+          localStorage.setItem("email", email);
+          localStorage.setItem("nickname", nickname);
 
           //디폴트로 헤더에 토큰 담아주기
           axios.defaults.headers.common["Authorization"] = `${jwtToken}`;

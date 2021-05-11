@@ -26,8 +26,6 @@ const AddProduct = (props) => {
   const [wantItem, setWantItem] = useState("");
   const [content, setContent] = useState("");
   const [expireDate, setExpireDate] = useState("");
-  console.log(typeof expireDate);
-  console.log(expireDate);
   const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
 
   const onChangeCategory = useCallback((e) => setCategory(e.target.value), []);

@@ -79,6 +79,7 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
   return function (dispatch, getState, { history }) {
     //이미지 전달, formdata 사용
     let token = getCookie("user_login");
+    console.log(token);
     let formdata = new FormData();
     formdata.append("file", imgfile);
     formdata.append("category", category);
