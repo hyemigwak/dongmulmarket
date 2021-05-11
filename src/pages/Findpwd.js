@@ -23,8 +23,6 @@ const Findpwd = () => {
       return;
     }
     dispatch(userActions.FindPwdAPI(email));
-    window.alert("가입하신 이메일로 비밀번호 재설정 메일을 보내드렸습니다");
-    history.push("/pwdchange");
   };
 
   return (

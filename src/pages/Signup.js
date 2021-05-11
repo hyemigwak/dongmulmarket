@@ -5,11 +5,9 @@ import styled from "styled-components";
 
 const Signup = (props) => {
   const dispatch = useDispatch();
-  const user_exist = useSelector((state) => state.user.is_exist);
-  console.log(user_exist);
+  const is_exist = useSelector((state) => state.user.is_exist);
+  console.log(is_exist); // false -> true
   const is_email_validate = useSelector((state) => state.user.is_email_validate);
-  const my_location = useSelector((state) => state.map.address);
-  console.log(my_location);
 
   const [email, setEmail] = useState("");
   const [authnumber, setAuthNumber] = useState("");
@@ -17,7 +15,9 @@ const Signup = (props) => {
   const [pwd, setPwd] = useState("");
   const [pwdCheck, setPwdCheck] = useState("");
   const [emailDoubleCheck, SetEmailDoubleCheck] = useState(""); // 이메일 중복 확인
-  const [emailDoubleFail, SetEmailDoubleFail] = useState("");
+  const [emailDoubleFail, SetEmailDoubleFail] = useState(""); // 이메일 중복 확인 실패
+  const [AuthCorrect, SetAuthCorrect] = useState(null); // 인증번호 일치
+  const [AuthFail, SetAuthFail] = useState(""); // 인증번호 불일치
   const [show, setShow] = useState(false); //이메일 중복 아닐 때, 인증번호 창 보이게 하기
   const [address, setAddress] = useState("");
 
@@ -26,7 +26,6 @@ const Signup = (props) => {
   const onChangeNickname = useCallback((e) => setNickname(e.target.value), []);
   const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
   const onChangepwdCheck = useCallback((e) => setPwdCheck(e.target.value), []);
-  const onChangeAddress = useCallback((e) => setAddress(e.target.value), []);
 
   //ref 걸어서 focus 이벤트 주기
   const _email = useRef();
@@ -39,16 +38,30 @@ const Signup = (props) => {
   const email_regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   const password_regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,14}$/;
 
+  //인증번호 일치여부 체크
+  const authNumChk = () => {
+    dispatch(userActions.EmailValidationAPI(email, authnumber));
+    console.log(is_email_validate);
+    if (is_email_validate) {
+      SetAuthCorrect("인증번호가 일치합니다");
+      SetAuthFail("");
+      setShow(true);
+    } else {
+      SetAuthCorrect("");
+      SetAuthFail("인증번호가 불일치합니다");
+      return;
+    }
+  };
+
   // 이메일 중복체크
   const emailCheck = () => {
-    dispatch(userActions.EmailCheckAPI(email));
-    //만약 false라면
-    if (user_exist) {
-      // dispatch(userActions.EmailValidationAPI(email));
+    dispatch(userActions.GetAuthNumAPI(email));
+    //위에 true 받아오고 실행하고 싶다
+    if (is_exist) {
       window.alert("사용가능한 ID입니다");
+      setShow(true);
       SetEmailDoubleCheck("사용 가능한 이메일입니다");
       SetEmailDoubleFail("");
-      setShow(true);
     } else {
       SetEmailDoubleFail("이미 존재하는 ID입니다!");
       return;
@@ -90,15 +103,11 @@ const Signup = (props) => {
       _pwd.current.focus();
       return;
     }
-    // if (!is_email_validate) {
-    //   window.alert("이메일 인증이 되지 않았습니다");
-    //   return;
-    // }
+    if (!is_email_validate) {
+      window.alert("이메일 인증이 되지 않았습니다");
+      return;
+    }
     dispatch(userActions.signupAPI(email, authnumber, nickname, pwd, address));
-  };
-
-  const authNumChk = () => {
-    dispatch();
   };
 
   return (
@@ -119,11 +128,15 @@ const Signup = (props) => {
             <p className="availableFail">{emailDoubleFail}</p>
 
             {show && (
-              <EmailArea>
-                <InputInfo>인증번호</InputInfo>
-                <Input type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} ref={_authnum} />
-                <VerifyNum onClick={authNumChk}>인증번호 확인</VerifyNum>
-              </EmailArea>
+              <>
+                <EmailArea>
+                  <InputInfo>인증번호</InputInfo>
+                  <Input type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} ref={_authnum} />
+                  <VerifyNum onClick={authNumChk}>인증번호 확인</VerifyNum>
+                </EmailArea>
+                <p className="availableEmail">{AuthCorrect}</p>
+                <p className="availableFail">{AuthFail}</p>
+              </>
             )}
             <InfoArea>
               <InputInfo>닉네임</InputInfo>
@@ -234,26 +247,14 @@ const InputC = styled.div`
   .availableEmail {
     margin: 5px 100px 10px 455px;
     text-align: center;
-    font-family: Roboto;
     font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
     text-align: left;
     color: #3fbe81;
   }
   .availableFail {
     margin: 5px 100px 10px 455px;
     text-align: center;
-    font-family: Roboto;
     font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
     text-align: left;
     color: red;
   }

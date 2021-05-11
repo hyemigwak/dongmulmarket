@@ -6,6 +6,9 @@ import { history } from "../redux/configureStore";
 import lock from "../image/lock.png";
 
 const PwdChange = () => {
+  const dispatch = useDispatch();
+  const email = useSelector((state) => state.user.email);
+
   const [pwd, setPwd] = useState("");
   const [newPwd, setNewPwd] = useState("");
   const [newPwdChk, setNewPwdChk] = useState("");
@@ -28,8 +31,8 @@ const PwdChange = () => {
       window.alert("새 비밀번호가 일치하지 않습니다.");
       return;
     }
-    //if(현재 비밀번호가 일치하는지 여부)
-    //디스패치(새 비밀번호 보내주기) userActions.ChangePwdAPI(pwd, newPwd)
+    //디스패치(새 비밀번호 보내주기)
+    dispatch(userActions.ChangePwdAPI(email, pwd));
     history.replace("/login");
   };
 
