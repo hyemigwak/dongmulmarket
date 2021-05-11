@@ -9,11 +9,7 @@ const OneChat = (props) => {
       {open ? (
         <>
           <ChatView></ChatView>
-
           <ChatInput placeholder="내용을 입력하세요." />
-          <ChatBtn>
-            <SendText>전송</SendText>
-          </ChatBtn>
         </>
       ) : null}
     </>

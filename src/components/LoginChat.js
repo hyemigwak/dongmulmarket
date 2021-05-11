@@ -4,7 +4,9 @@ import styled from "styled-components";
 const LoginChat = (props) => {
   return (
     <React.Fragment>
-      <ChatView></ChatView>
+      <ChatView>
+        <p>채팅에 먼저 참여 해주세요!</p>
+      </ChatView>
     </React.Fragment>
   );
 };
@@ -22,6 +24,7 @@ const ChatView = styled.div`
   font-size: 36px;
   font-weight: 600;
   color: #ffffff;
+  z-index: 1000;
 
   div {
     height: 1.5;

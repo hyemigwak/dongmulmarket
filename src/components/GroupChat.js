@@ -3,15 +3,14 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
 const GroupChat = (props) => {
+  console.log(props);
   const email = localStorage.getItem("email");
-  console.log("이메일", email);
-  console.log("프롭스", props);
-
   //현재 이메일이
   if (email === props.email) {
     return (
       <>
         {/* 판매자는 오른쪽에 위치해야합니다. */}
+        {/* <div>{joinUser}님이 입장하셨습니다.</div> */}
         <MySpeech>
           <MyNameTag>{props.nickname}</MyNameTag>
           <MyBubble>
