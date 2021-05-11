@@ -226,32 +226,6 @@ const signupAPI = (email, authnumber, nickname, pwd, address) => {
   };
 };
 
-//이메일 중복확인
-// const EmailCheckAPI = (email) => {
-//   return function (dispatch, getState, { history }) {
-//     axios({
-//       method: "POST",
-//       url: `${config.api}/account/chkEmail`,
-//       data: {
-//         email: email,
-//       },
-//     })
-//       .then((res) => {
-//         console.log(res.data);
-//         //msg가 success 면 회원가입이 가능한 상태이다! is_exist를 true로 바꿔준다.
-//         if (res.data.msg === "success") {
-//           dispatch(getUser(true));
-//           console.log("가입 가능");
-//         } else {
-//           window.alert("중복된 ID입니다.");
-//         }
-//       })
-//       .catch((err) => {
-//         console.log("EmailCheckAPI에서 오류 발생", err);
-//       });
-//   };
-// };
-
 //메일 보내주면 서버에서 이메일 인증번호 201코드 받아온다.
 const GetAuthNumAPI = (email) => {
   return function (dispatch, getState, { history }) {
