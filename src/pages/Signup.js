@@ -94,7 +94,11 @@ const Signup = (props) => {
     //   window.alert("이메일 인증이 되지 않았습니다");
     //   return;
     // }
-    dispatch(userActions.signupAPI(email, nickname, pwd, address));
+    dispatch(userActions.signupAPI(email, authnumber, nickname, pwd, address));
+  };
+
+  const authNumChk = () => {
+    dispatch();
   };
 
   return (
@@ -118,7 +122,7 @@ const Signup = (props) => {
               <EmailArea>
                 <InputInfo>인증번호</InputInfo>
                 <Input type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} ref={_authnum} />
-                <VerifyNum>인증번호 확인</VerifyNum>
+                <VerifyNum onClick={authNumChk}>인증번호 확인</VerifyNum>
               </EmailArea>
             )}
             <InfoArea>

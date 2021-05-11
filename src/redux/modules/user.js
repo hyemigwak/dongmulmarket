@@ -195,7 +195,7 @@ const loginAPI = (email, pwd) => {
 };
 
 //회원가입
-const signupAPI = (email, nickname, pwd, address) => {
+const signupAPI = (email, authnumber, nickname, pwd, address) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
@@ -207,6 +207,7 @@ const signupAPI = (email, nickname, pwd, address) => {
       },
       data: {
         email: email,
+        authnumber: authnumber,
         nickname: nickname,
         password: pwd,
         address: address,
@@ -248,19 +249,21 @@ const EmailCheckAPI = (email) => {
 };
 
 //이메일 인증 메일 요청 api
-const EmailValidationAPI = (email) => {
+const EmailValidationAPI = (email, authnumber) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: `${config}/`,
+      url: `${config}/account/mail/check
+      `,
       data: {
         email: email,
+        authchkNum: authnumber,
       },
     })
       .then((res) => {
         console.log(res.data);
         if (res.data.msg === "success") {
-          dispatch(validateEmail(true));
+          // dispatch(validateEmail(true));
         }
       })
       .catch((err) => {
@@ -321,17 +324,15 @@ const LogOutMiddleware = () => {
     const loginType = getState().user.login_type;
     console.log(loginType);
 
-    if (loginType == "normal") {
+    if (loginType === "normal") {
       deleteCookie("user_login");
-      deleteCookie("email");
-      deleteCookie("nickname");
       localStorage.clear();
       dispatch(logOut());
 
       return;
     }
 
-    if (loginType == "kakao") {
+    if (loginType === "kakao") {
       deleteCookie("user_token");
       deleteCookie("kakao_nickname");
       localStorage.clear();
@@ -339,7 +340,7 @@ const LogOutMiddleware = () => {
 
       return;
     }
-    if (loginType == "google") {
+    if (loginType === "google") {
       //구글닉넴따로 해야댐
       //딜리트쿠키에
       deleteCookie("email");
@@ -364,15 +365,9 @@ export default handleActions(
       }),
     [LOG_OUT]: (state, action) =>
       produce(state, (draft) => {
-        // deleteCookie("user_login");
-        // deleteCookie("nickname");
-        // deleteCookie("email");
-        // deleteCookie("G_AUTHUSER_H");
-        // deleteCookie("user_token");
-        // deleteCookie("kakao_nickname");
-        // localStorage.clear();
         draft.user = null;
-        draft.is_login = true;
+        draft.is_login = false;
+        draft.login_type = null;
       }),
     [LOGIN_CHECK]: (state, action) =>
       produce(state, (draft) => {
