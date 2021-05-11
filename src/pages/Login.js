@@ -30,6 +30,7 @@ const Login = () => {
     console.log(res);
     console.log(res.profile.properties.nickname);
     console.log(res.profile.kakao_account.email);
+   
     dispatch(userActions.kakaoLoginAPI(res));
   };
 

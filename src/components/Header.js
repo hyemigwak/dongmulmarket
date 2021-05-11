@@ -13,7 +13,8 @@ const Header = (props) => {
 
   const siteLogout = () => {
     if (window.confirm("정말 로그아웃 하시겠습니까?")) {
-      dispatch(userActions.logOut());
+      //dispatch(userActions.logOut());
+      dispatch(userActions.LogOutMiddleware());
       history.replace("/");
     } else {
       console.log("로그인 유지");
