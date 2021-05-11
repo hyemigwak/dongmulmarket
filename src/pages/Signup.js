@@ -53,11 +53,14 @@ const Signup = (props) => {
     }
   };
 
+  
   const waitForAPI = async () => await is_exist; // API답변 기다리기
 
   // 이메일 중복체크
   const emailCheck = () => {
     dispatch(userActions.GetAuthNumAPI(email));
+    console.log(waitForAPI);
+    
     //위에 true 받아오고 실행하고 싶다
     if (waitForAPI) {
       window.alert("사용가능한 ID입니다");
@@ -65,6 +68,7 @@ const Signup = (props) => {
       SetEmailDoubleCheck("사용 가능한 이메일입니다");
       SetEmailDoubleFail("");
     } else {
+      
       SetEmailDoubleFail("이미 존재하는 ID입니다!");
       return;
     }

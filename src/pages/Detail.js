@@ -9,6 +9,7 @@ import { config } from "../shared/config";
 import io from "socket.io-client";
 import { EmailSharp } from "@material-ui/icons";
 
+
 const socket = io("http://15.165.76.76:3001/chatting");
 
 const Detail = (props) => {
@@ -173,7 +174,7 @@ const Detail = (props) => {
                 <DetailText>{detail.comment}</DetailText>
               </DetailArea>
             </InfoBox>
-            {is_login ? <ChatJoinBtn onClick={ChatStart}>채팅참여</ChatJoinBtn> : null}
+            {is_login ? <ChatJoinBtn onClick={ChatStart}>채팅 참여하기</ChatJoinBtn> : null}
           </ProductsBox>
           <ChatBox>
             {is_login? 
@@ -185,6 +186,7 @@ const Detail = (props) => {
                 1:1 대화하기
               </button>
               <LiveChatBtn>실시간 대화 참여</LiveChatBtn>
+            
             </BtnArea>
             :null}
             <OneChat open={modalOpen} close={closeModal} />
@@ -353,7 +355,7 @@ const ChatJoinBtn = styled.button`
   border: none;
 
   background-color: #3fbe81;
-  border-radius: 12px;
+  border-radius: 83px;
 
   cursor: pointer;
   margin: 80px 30px 0px 90px;
@@ -363,6 +365,9 @@ const ChatJoinBtn = styled.button`
   position: relative;
   bottom: 460px;
   left: 570px;
+
+
+  
 `;
 
 const TitleText = styled.div`
@@ -404,7 +409,7 @@ const Img = styled.img`
 `;
 
 const ChatBox = styled.div`
-margin-top: 50px;
+
   margin-left: 30px;
   width: 730px;
 `;
@@ -442,7 +447,7 @@ const LiveChatBtn = styled.div`
   width: 158px;
   height: 24px;
   flex-grow: 0;
-  margin: 11px 0px 9px 0px;
+  margin: 11px 0px 9px 250px;
   font-size: 18px;
   line-height: 1.33;
   letter-spacing: normal;
