@@ -7,7 +7,6 @@ import { config } from "../shared/config";
 
 const Signup = (props) => {
   const dispatch = useDispatch();
-  const is_email_validate = useSelector((state) => state.user.is_email_validate);
 
   const [email, setEmail] = useState("");
   const [authnumber, setAuthNumber] = useState("");

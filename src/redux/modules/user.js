@@ -63,7 +63,7 @@ const GoogleLoginAPI = (response) => {
           const email = res.data.email;
 
           //토큰 저장하기
-          setCookie("user_token", jwtToken);
+          setCookie("google_token", jwtToken);
           localStorage.setItem("email", email);
           localStorage.setItem("nickname", nickname);
 
@@ -105,6 +105,7 @@ const kakaoLoginAPI = (response) => {
         if (res.data.msg === "success") {
           console.log(res.data); // response 확인
 
+  
           //토큰 받아오기
           const jwtToken = res.data.token;
           const nickname = res.data.nickname;
@@ -157,9 +158,12 @@ const loginAPI = (email, pwd) => {
         if (res.data.msg === "success") {
           console.log(res.data); // response 확인
 
+          //받아온 것들을 이런 변수에  저장
           const jwtToken = res.data.token;
           const nickname = res.data.nickname;
           const email = res.data.email;
+
+          //토큰은 setCookie에 저장하고 nickname이랑 email은 로컬 스토리지에 저장
 
           setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
           localStorage.setItem("nickname", nickname); //유저 닉네임 저장
@@ -332,8 +336,7 @@ const LogOutMiddleware = () => {
     if (loginType === "google") {
       //구글닉넴따로 해야댐
       //딜리트쿠키에
-      deleteCookie("email");
-      deleteCookie("nickname");
+      deleteCookie("google_token");
       deleteCookie("G_AUTHUSER_H");
       localStorage.clear();
       dispatch(logOut());

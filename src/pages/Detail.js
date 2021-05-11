@@ -9,6 +9,7 @@ import { config } from "../shared/config";
 import io from "socket.io-client";
 import { EmailSharp } from "@material-ui/icons";
 
+
 const socket = io("http://15.165.76.76:3001/chatting");
 
 const Detail = (props) => {
@@ -173,9 +174,10 @@ const Detail = (props) => {
                 <DetailText>{detail.comment}</DetailText>
               </DetailArea>
             </InfoBox>
-            {is_login ? <ChatJoinBtn onClick={ChatStart}>채팅참여</ChatJoinBtn> : null}
+            {is_login ? <ChatJoinBtn onClick={ChatStart}>채팅 참여하기</ChatJoinBtn> : null}
           </ProductsBox>
           <ChatBox>
+            {is_login? 
             <BtnArea>
               <button className="group" onClick={closeModal}>
                 실시간채팅
@@ -184,7 +186,9 @@ const Detail = (props) => {
                 1:1 대화하기
               </button>
               <LiveChatBtn>실시간 대화 참여</LiveChatBtn>
+            
             </BtnArea>
+            :null}
             <OneChat open={modalOpen} close={closeModal} />
             {is_login ? <LoginChat /> : <NoLogin />}
             {modalOpen ? (
@@ -233,10 +237,12 @@ const Detail = (props) => {
               </>
             )}
           </ChatBox>
+          {is_login? 
           <LiveChatBox>
             <LiveUser>user1</LiveUser>
             <LiveTalkBtn>대화하기</LiveTalkBtn>
           </LiveChatBox>
+          :null}
           {/* <UserView>
             <Text>
               <h3>
@@ -283,7 +289,7 @@ const WrapDetail = styled.div`
 
 const Title = styled.div`
   height: 40px;
-  margin: 63px 167px 6px 50px;
+  margin: 63px 167px 6px 0px;
   font-family: NotoSans;
   font-size: 36px;
   font-weight: 600;
@@ -305,23 +311,13 @@ const ProductsBox = styled.div`
   /* margin-left: 51px; */
 `;
 
-const InfoBox = styled.div`
-  display: flex;
-  width: 353.1px;
-  height: 240px;
-  flex-grow: 0;
-  margin: 34px 0 0;
-`;
 
 const InfoTitle = styled.div`
   height: 24px;
   flex-grow: 0;
-  margin: 0 281px 10px 1.1px;
-  font-family: NotoSans;
+  margin: 0 281px 10px 1px;
   font-size: 18px;
   font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
   text-align: left;
@@ -330,15 +326,25 @@ const InfoTitle = styled.div`
   top: 26px;
 `;
 
+const InfoBox = styled.div`
+  display: flex;
+  width: 353.1px;
+  height: 240px;
+  flex-grow: 0;
+  margin: 30px 0 0;
+  justify-content : space-between; 
+`;
+
 const TitleArea = styled.div`
-  margin: 0 75.1px 12px 0;
+  margin: 0 10px 12px 0;
+  width:150px;
+  flex-grow:1;
 `;
 
 const DetailArea = styled.div`
-  width: 228px;
-  height: 240px;
-  flex-grow: 0;
-  margin: 0 0 0 30px;
+
+  
+ 
 `;
 
 const ChatJoinBtn = styled.button`
@@ -349,7 +355,7 @@ const ChatJoinBtn = styled.button`
   border: none;
 
   background-color: #3fbe81;
-  border-radius: 12px;
+  border-radius: 83px;
 
   cursor: pointer;
   margin: 80px 30px 0px 90px;
@@ -359,11 +365,14 @@ const ChatJoinBtn = styled.button`
   position: relative;
   bottom: 460px;
   left: 570px;
+
+
+  
 `;
 
 const TitleText = styled.div`
   flex-grow: 0;
-
+  margin-bottom: 12px;
   font-family: NotoSans;
   font-size: 18px;
   font-weight: bold;
@@ -377,7 +386,7 @@ const TitleText = styled.div`
 
 const DetailText = styled.div`
   flex-grow: 0;
-
+  margin-bottom: 12px;
   font-family: NotoSans;
   font-size: 18px;
   font-weight: bold;
@@ -400,6 +409,7 @@ const Img = styled.img`
 `;
 
 const ChatBox = styled.div`
+
   margin-left: 30px;
   width: 730px;
 `;
@@ -437,7 +447,7 @@ const LiveChatBtn = styled.div`
   width: 158px;
   height: 24px;
   flex-grow: 0;
-  margin: 11px 0px 9px 0px;
+  margin: 11px 0px 9px 250px;
   font-size: 18px;
   line-height: 1.33;
   letter-spacing: normal;
