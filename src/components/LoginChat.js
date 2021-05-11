@@ -4,7 +4,13 @@ import styled from "styled-components";
 const LoginChat = (props) => {
   return (
     <React.Fragment>
-      <ChatView></ChatView>
+      <ChatView>
+        <Text>
+        채팅에 참여해서 판매자와
+        <br /> 대화하여 물품을 교환해보세요.
+        </Text>
+
+      </ChatView>
     </React.Fragment>
   );
 };
@@ -26,6 +32,21 @@ const ChatView = styled.div`
   div {
     height: 1.5;
   }
+`;
+
+const Text=styled.div`
+
+flex-grow: 0;
+margin: 0 0 50px;
+font-family: NotoSans;
+font-size: 24px;
+font-weight: bold;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.42;
+letter-spacing: normal;
+text-align: center;
+color: #ffffff;
 `;
 
 export default LoginChat;

@@ -8,6 +8,7 @@ import { OneChat, GroupChat, NoLogin, LoginChat } from "../components";
 import { config } from "../shared/config";
 import io from "socket.io-client";
 import { EmailSharp } from "@material-ui/icons";
+import toggle_img from "../image/chevron-down.png";
 
 
 const socket = io("http://15.165.76.76:3001/chatting");
@@ -45,6 +46,11 @@ const Detail = (props) => {
     setModalOpen(false);
   };
 
+  //
+  const removeLoginChat=()=>{
+    setChatView(false);
+    
+  }
   //서버로 메세지 보낼때
   const submitMessage = (msgContents) => {
     if (!msgContents) {
@@ -186,11 +192,14 @@ const Detail = (props) => {
                 1:1 대화하기
               </button>
               <LiveChatBtn>실시간 대화 참여</LiveChatBtn>
+              <ToggleBtn src={toggle_img}></ToggleBtn>
             
             </BtnArea>
             :null}
             <OneChat open={modalOpen} close={closeModal} />
             {is_login ? <LoginChat /> : <NoLogin />}
+            
+            
             {modalOpen ? (
               <OneChat />
             ) : (
@@ -236,6 +245,7 @@ const Detail = (props) => {
                 ) : null}
               </>
             )}
+
           </ChatBox>
           {is_login? 
           <LiveChatBox>
@@ -358,7 +368,7 @@ const ChatJoinBtn = styled.button`
   border-radius: 83px;
 
   cursor: pointer;
-  margin: 80px 30px 0px 90px;
+  margin: 150px 30px 0px 90px;
   color: #ffffff;
   font-size: 20px;
 
@@ -409,7 +419,7 @@ const Img = styled.img`
 `;
 
 const ChatBox = styled.div`
-
+  //position:relative;
   margin-left: 30px;
   width: 730px;
 `;
@@ -456,10 +466,23 @@ const LiveChatBtn = styled.div`
   cursor: pointer;
 `;
 
+const ToggleBtn=styled.img`
+width:24px;
+height:24px;
+margin-top: 10px;
+margin-right: 15px;
+cursor:pointer;
+`;
+
 const ChatView = styled.div`
   width: 565px;
   height: 522px;
   flex-grow: 0;
+
+  position:absolute;
+  top: 290px;
+  margin-top: 0px;
+  bottom: 0px;
 
   /* padding: 26px 21px 21px 32px; */
   background-color: #efefef;
@@ -498,7 +521,7 @@ const ChatInput = styled.input`
 
 const ChatBtn = styled.button`
   position: absolute;
-  bottom: 95px;
+  bottom: 90px;
   left: 745px;
   width: 102px;
   height: 38px;
@@ -508,7 +531,7 @@ const ChatBtn = styled.button`
   justify-content: center;
   align-items: center;
   gap: 21px;
-  margin: 0 0 0 305px;
+  margin: 0 0 0 500px;
   padding: 7px 14px 6px;
   border-radius: 4px;
   background-color: #c4c4c4;

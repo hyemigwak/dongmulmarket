@@ -11,25 +11,31 @@ const GroupChat = (props) => {
   if (email === props.email) {
     return (
       <>
-        {/* 판매자는 오른쪽에 위치해야합니다. */}
-        <MySpeech>
+      <ChatView>
+         {/* 판매자는 오른쪽에 위치해야합니다. */}
+         <MySpeech>
           <MyNameTag>{props.nickname}</MyNameTag>
           <MyBubble>
             <ChatText>{props.chatMsg}</ChatText>
           </MyBubble>
         </MySpeech>
+      </ChatView>
+       
       </>
     );
   } else {
     return (
       <>
-        {/* 구매자는 왼쪽에 위치해야합니다. */}
-        <OtherSpeech>
+      <ChatView>
+          {/* 구매자는 왼쪽에 위치해야합니다. */}
+          <OtherSpeech>
           <OtherNameTag>{props.nickname}</OtherNameTag>
           <OtherBubble>
             <ChatText>{props.chatMsg}</ChatText>
           </OtherBubble>
         </OtherSpeech>
+      </ChatView>
+      
       </>
     );
   }
