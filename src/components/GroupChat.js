@@ -9,6 +9,7 @@ const GroupChat = (props) => {
   if (email === props.email) {
     return (
       <>
+      <ChatView>
         {/* 판매자는 오른쪽에 위치해야합니다. */}
         {/* <div>{joinUser}님이 입장하셨습니다.</div> */}
         <MySpeech>

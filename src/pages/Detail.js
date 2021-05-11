@@ -3,18 +3,15 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { getCookie } from "../shared/Cookie";
+import { history } from "../redux/configureStore";
 import { OneChat, GroupChat, NoLogin, LoginChat } from "../components";
+import { config } from "../shared/config";
 import io from "socket.io-client";
-<<<<<<< HEAD
 import { EmailSharp } from "@material-ui/icons";
 import toggle_img from "../image/chevron-down.png";
 
 
 const socket = io("http://15.165.76.76:3001/chatting");
-=======
-import axios from "axios";
-import { config } from "../shared/config";
->>>>>>> ee48de170ff6533a5cd9e2ef285b940188481749
 
 const Detail = (props) => {
   const dispatch = useDispatch();
@@ -23,28 +20,25 @@ const Detail = (props) => {
   const detail = useSelector((state) => state.post.detail_list);
   const user_token = getCookie("user_login");
   const email = localStorage.getItem("email");
-
-  const socket = io("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${detail.icrId}` });
+  // console.log(detail);
 
   //소켓에 보내줄 내 닉네임, 인풋 메세지
   const [message, setMessage] = useState("");
 
-  //setRoom에서 user정보와 이전 msg를 리스트로 전부 받아온다.
-  const [firstConfig, setFirstConfig] = useState({});
+  //채팅방에 있는 유저정보 저장하기
+  const [ChatUsers, setChatUsers] = useState([]);
 
-  //입장하셨습니다 보여주기
-  const [joinUser, setJoinUser] = useState("");
+  //setRoom에서 user정보와 이전 msg를 딕셔너리형태로 전부 받아온다.
+  const [firstConfig, setFirstConfig] = useState([]);
+  console.log(firstConfig);
 
-  //버튼 활성화 유무
-  const [ShowBtn, setShowBtn] = useState(true);
-  console.log(ShowBtn);
-
-  //채팅 보여주기
-  const [chatView, setChatView] = useState(false);
+  //현재 채팅방에 join한 사람의 nickname을 보여준다.
+  const [joinNickname, setJoinNickname] = useState("");
 
   //모달 설정 부분
-  const [modalOpen, setModalOpen] = useState(false);
+  const [chatView, setChatView] = useState(false);
 
+  const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
   };
@@ -52,19 +46,7 @@ const Detail = (props) => {
     setModalOpen(false);
   };
 
-<<<<<<< HEAD
-  //
-  const removeLoginChat=()=>{
-    setChatView(false);
-    
-  }
-=======
-  socket.on("setRoom", (data) => {
-    console.log("셋룸데이터", data);
-    // setFirstConfig((oldData) => [{ ...oldData, ...data }]);
-  });
 
->>>>>>> ee48de170ff6533a5cd9e2ef285b940188481749
   //서버로 메세지 보낼때
   const submitMessage = (msgContents) => {
     if (!msgContents) {
@@ -84,6 +66,7 @@ const Detail = (props) => {
               icrId: detail.icrId,
               chatMsg: msgContents,
             };
+            console.log("send_data", send_data);
             socket.emit("sendMsg", send_data);
             socket.on("getMsg", (getData) => {
               console.log("겟데이터", getData);
@@ -98,6 +81,8 @@ const Detail = (props) => {
   //참여 버튼 눌렀을 때, 데이터 보내고 받아오기
   const ChatStart = () => {
     setChatView(true);
+    console.log("챗스타트");
+    console.log("토큰", user_token);
     let data = {
       email: email,
       icrId: detail.icrId,
@@ -127,9 +112,8 @@ const Detail = (props) => {
           //버튼 누를때 나옴, 채팅방에 닉네임님이 입장하셨습니다 뿌려주기
           socket.on("returnJoinMsg", (joiner_data) => {
             console.log("조인한 사람들을 보여주기", joiner_data);
-            console.log(joiner_data.nickname);
-            setJoinUser(...joinUser, joiner_data.nickname);
-            console.log("조인유저", joinUser);
+            // console.log(joiner_data.nickname);
+            // setJoinNickname(joiner_data.nickname);
           });
           //사용자 목록에 추가
           socket.on("addUser", (addData) => {
@@ -140,31 +124,23 @@ const Detail = (props) => {
     );
   };
 
-  //채팅방 버튼 보여주기 유무 불러오기
-  const isBossAPI = (icrId) => {
-    let token = getCookie("user_login");
-    axios({
-      method: "POST",
-      url: `${config.api}/mainPage/${icrId}`,
-      headers: {
-        authorization: token,
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-        // false면 채팅방 버튼 없어져야 함
-        if (res.data.buttonYn["groupJoinButton"] === false) {
-          setShowBtn(false);
-        }
-      })
-      .catch((err) => {
-        console.log("isBossAPI에러", err);
-      });
-  };
+  socket.on("returnUserList", function (msg) {
+    if (msg["group"]) {
+      //단체 채팅방 유저 표시
+    } else {
+      //개인 채팅방 유저 표시
+    }
+  });
 
   //렌더링 될때, 디테일 데이터 받아오기 & 소켓 연결하기(확인)
   useEffect(() => {
+    // //디테일이 없으면 서버에서 받아온다
+    // if (!detail) {
     dispatch(postActions.getOnePostAPI(id));
+    // }
+
+    //소켓 연결하기
+    // socket.connect();
 
     //언마운트될때 소켓 연결 끊기
     return () => {
@@ -172,9 +148,9 @@ const Detail = (props) => {
     };
   }, []);
 
-  useEffect(() => {
-    isBossAPI(detail.icrId);
-  }, [detail]);
+  //참여하기 누르면 채팅 받아와야할 것 같은데!
+
+{/* ShowBtn이 false면 채팅방이 보여지고, LoginChat이 사라져야한다 */}
 
   return (
     <React.Fragment>
@@ -197,15 +173,14 @@ const Detail = (props) => {
                 <DetailText>{detail.title}</DetailText>
                 <DetailText>{detail.category}</DetailText>
                 <DetailText>{detail.createdDt}</DetailText>
-                <DetailText>{detail.deadLine}</DetailText>
+                <DetailText>{detail.createdDt}</DetailText>
                 <DetailText>2명</DetailText>
                 <DetailText>{detail.comment}</DetailText>
               </DetailArea>
             </InfoBox>
-            {is_login && ShowBtn ? <ChatJoinBtn onClick={ChatStart}>채팅 참여하기</ChatJoinBtn> : null}
+            {is_login ? <ChatJoinBtn onClick={ChatStart}>채팅 참여하기</ChatJoinBtn> : null}
           </ProductsBox>
           <ChatBox>
-<<<<<<< HEAD
             {is_login? 
             <BtnArea>
               <button className="group" onClick={closeModal}>
@@ -223,62 +198,18 @@ const Detail = (props) => {
             {is_login ? <LoginChat /> : <NoLogin />}
             
             
-=======
-            {is_login ? (
-              <BtnArea>
-                <div>
-                  <button className="group" onClick={closeModal}>
-                    실시간채팅
-                  </button>
-                  <button className="one" onClick={openModal}>
-                    1:1 대화하기
-                  </button>
-                </div>
-                <LiveChatBtn>실시간 대화 참여</LiveChatBtn>
-              </BtnArea>
-            ) : null}
-            {/* ShowBtn이 false면 채팅방이 보여지고, LoginChat이 사라져야한다 */}
-            {/* 로그인 안됬을때 노로그인 보여주고, 챗뷰를 사라지게 해야함  */}
-            {!is_login && <NoLogin />}
-            {is_login && ShowBtn ? (
-              <LoginChat />
-            ) : (
-              <>
-                <ChatView>
-                  {/* {firstConfig.map((data, idx) => {
-                    console.log(data);
-                    return <GroupChat {...data} key={idx} joinUser={joinUser} />;
-                  })} */}
-                </ChatView>
-                <ChatInput
-                  type="text"
-                  placeholder="텍스트를 입력하세요."
-                  value={message}
-                  onChange={(e) => {
-                    setMessage(e.target.value);
-                  }}
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      submitMessage(e.target.value);
-                    }
-                  }}
-                />
-              </>
-            )}
->>>>>>> ee48de170ff6533a5cd9e2ef285b940188481749
             {modalOpen ? (
-              <OneChat open={modalOpen} close={closeModal} />
+              <OneChat />
             ) : (
               <>
                 {chatView ? (
                   <>
-                    {/* <ChatView> */}
-                    {/* {firstConfig.map((data, idx) => {
+                    <ChatView>
+                      {firstConfig.map((data, idx) => {
                         console.log(data);
-                        return <GroupChat {...data} key={idx} joinUser={joinUser} />;
-                      })} */}
-                    {/* </ChatView> */}
+                        return <GroupChat {...data} key={idx} />;
+                      })}
+                    </ChatView>
 
                     <ChatInput
                       type="text"
@@ -294,6 +225,9 @@ const Detail = (props) => {
                         }
                       }}
                     />
+                    <ChatBtn>
+                      <SendText onClick={submitMessage}>전송</SendText>
+                    </ChatBtn>
                     <WrapButtons>
                       <ForceExitBtn>
                         <BtnText>강퇴</BtnText>
@@ -311,12 +245,40 @@ const Detail = (props) => {
             )}
 
           </ChatBox>
+          {is_login? 
           <LiveChatBox>
-            <OneChatUser>
-              <LiveUser>닉네임</LiveUser>
-              <LiveTalkBtn>대화하기</LiveTalkBtn>
-            </OneChatUser>
+            <LiveUser>user1</LiveUser>
+            <LiveTalkBtn>대화하기</LiveTalkBtn>
           </LiveChatBox>
+          :null}
+          {/* <UserView>
+            <Text>
+              <h3>
+                <b>참여중</b>
+              </h3>
+            </Text>
+            <UserBox>
+              <UserNameBtn>
+                {ChatUsers.map((user, idx) => (
+                  <div key={idx}>
+                    <div>{user}</div>
+                    <OfferChatBtn
+                      onClick={() => {
+                        if (window.confirm(`${user}님과 채팅을 진행하시겠습니까?`)) {
+                          openModal();
+                          // 해당 유저와 1:1 채팅방을 진행하는 socket 함수
+                        } else {
+                          return;
+                        }
+                      }}
+                    >
+                      1:1 대화신청
+                    </OfferChatBtn>
+                  </div>
+                ))}
+              </UserNameBtn>
+            </UserBox>
+          </UserView> */}
         </WrapBox>
       </WrapDetail>
     </React.Fragment>
@@ -357,6 +319,7 @@ const ProductsBox = styled.div`
   /* margin-left: 51px; */
 `;
 
+
 const InfoTitle = styled.div`
   height: 24px;
   flex-grow: 0;
@@ -377,16 +340,20 @@ const InfoBox = styled.div`
   height: 240px;
   flex-grow: 0;
   margin: 30px 0 0;
-  justify-content: space-between;
+  justify-content : space-between; 
 `;
 
 const TitleArea = styled.div`
   margin: 0 10px 12px 0;
-  width: 150px;
-  flex-grow: 1;
+  width:150px;
+  flex-grow:1;
 `;
 
-const DetailArea = styled.div``;
+const DetailArea = styled.div`
+
+  
+ 
+`;
 
 const ChatJoinBtn = styled.button`
   display: inline-block;
@@ -404,8 +371,11 @@ const ChatJoinBtn = styled.button`
   font-size: 20px;
 
   position: relative;
-  right: 80px;
-  top: 20px;
+  bottom: 460px;
+  left: 570px;
+
+
+  
 `;
 
 const TitleText = styled.div`
@@ -447,17 +417,13 @@ const Img = styled.img`
 `;
 
 const ChatBox = styled.div`
-<<<<<<< HEAD
   //position:relative;
-=======
->>>>>>> ee48de170ff6533a5cd9e2ef285b940188481749
   margin-left: 30px;
-  width: 723px;
+  width: 730px;
 `;
 
 const BtnArea = styled.div`
   display: flex;
-  width: 723px;
 
   .group {
     background-color: #3fbe81;
@@ -489,7 +455,7 @@ const LiveChatBtn = styled.div`
   width: 158px;
   height: 24px;
   flex-grow: 0;
-  margin: 11px 0px 9px 240px;
+  margin: 11px 0px 9px 250px;
   font-size: 18px;
   line-height: 1.33;
   letter-spacing: normal;
@@ -507,9 +473,8 @@ cursor:pointer;
 `;
 
 const ChatView = styled.div`
-  width: 723px;
+  width: 565px;
   height: 522px;
-<<<<<<< HEAD
   flex-grow: 0;
 
   position:absolute;
@@ -518,13 +483,7 @@ const ChatView = styled.div`
   bottom: 0px;
 
   /* padding: 26px 21px 21px 32px; */
-=======
->>>>>>> ee48de170ff6533a5cd9e2ef285b940188481749
   background-color: #efefef;
-  position: absolute;
-  top: 290px;
-  margin-top: 0px;
-  bottom: 0px;
 `;
 
 const EntranceMsg = styled.div`
@@ -556,7 +515,6 @@ const ChatInput = styled.input`
   }
 
   position: relative;
-<<<<<<< HEAD
 `;
 
 const ChatBtn = styled.button`
@@ -576,9 +534,6 @@ const ChatBtn = styled.button`
   border-radius: 4px;
   background-color: #c4c4c4;
   border: solid 1px #c4c4c4;
-=======
-  top: 520px;
->>>>>>> ee48de170ff6533a5cd9e2ef285b940188481749
 `;
 
 const SendText = styled.div`
@@ -605,7 +560,6 @@ const BtnText = styled.div`
   font-size: 20px;
   font-weight: 500;
   color: #3fbe81;
-  cursor: pointer;
 `;
 
 const ForceExitBtn = styled.button`
@@ -657,7 +611,7 @@ const TradeSuccessBtn = styled.button`
 `;
 
 const LiveChatBox = styled.div`
-  width: 158px;
+  width: 170px;
   height: 522px;
   flex-grow: 0;
   margin-top: 44px;
@@ -665,29 +619,30 @@ const LiveChatBox = styled.div`
   display: flex;
 `;
 
-const OneChatUser = styled.div`
-  width: 158px;
-  height: 47.5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid #b4b4b4;
-  background-color: #efefef;
-`;
-
 const LiveUser = styled.div`
   flex-grow: 0;
-  margin: 0px 20px 0px 0px;
+  margin: 0 23px 11.5px 14px;
+  font-family: NotoSans;
   font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
   line-height: 1.71;
+  letter-spacing: normal;
+  text-align: left;
   color: #373737;
 `;
 
-const LiveTalkBtn = styled.div`
-  width: 74px;
+const LiveTalkBtn = styled.button`
+  width: 80px;
   height: 24px;
-  padding: 3px 14px;
-  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 0.5px 3px 11px;
+  padding: 4px 10px;
   border-radius: 83px;
   background-color: #a8a8a8;
   color: #ffffff;
