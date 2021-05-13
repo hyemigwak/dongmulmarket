@@ -9,6 +9,7 @@ const GroupChat = (props) => {
   if (is_me) {
     return (
       <>
+      <ChatView>
         {/* 판매자는 오른쪽에 위치해야합니다. */}
         <>{props.status === "in" && <EntranceMsg>{props.nickname}님이 입장하셨습니다.</EntranceMsg>}</>
         <MySpeech>
@@ -17,18 +18,22 @@ const GroupChat = (props) => {
             <ChatText>{props.chatMsg}</ChatText>
           </MyBubble>
         </MySpeech>
+      </ChatView>
       </>
     );
   } else {
     return (
       <>
-        {/* 구매자는 왼쪽에 위치해야합니다. */}
-        <OtherSpeech>
+      <ChatView>
+          {/* 구매자는 왼쪽에 위치해야합니다. */}
+          <OtherSpeech>
           <OtherNameTag>{props.nickname}</OtherNameTag>
           <OtherBubble>
             <ChatText>{props.chatMsg}</ChatText>
           </OtherBubble>
         </OtherSpeech>
+      </ChatView>
+      
       </>
     );
   }
