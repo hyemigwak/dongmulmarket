@@ -30,7 +30,7 @@ const initialState = {
   // is_login: false,
   is_email_validate: "", //이메일 인증
   login_type: "normal", //일반로그인은 normal로 설정
-  email: null,
+  email: "",
 };
 
 //미들웨어
@@ -267,6 +267,7 @@ const FindPwdAPI = (email) => {
         console.log(res.data);
         if (res.data.statusCode === 201) {
           dispatch(findPwd(email));
+          localStorage.setItem("email", email);
           window.alert("가입하신 이메일로 비밀번호 재설정 메일을 보내드렸습니다");
           history.push("/pwdchange");
         } else {
@@ -282,19 +283,21 @@ const FindPwdAPI = (email) => {
 //비밀번호 변경
 const ChangePwdAPI = (email, pwd, newPwd) => {
   return function (dispatch, getState, { history }) {
+    console.log("api이메일", email);
     axios({
       method: "POST",
       url: `${config.api}/account/changepassword`,
       data: {
         email: email,
-        password: String(pwd),
+        passwordchkNum: Number(pwd),
         newpassword: String(newPwd),
       },
     })
       .then((res) => {
         console.log(res.data);
-        if (res.data.msg === "success") {
+        if (res.data.msg === "비밀번호 변경 성공!") {
           window.alert("비밀번호가 변경되었습니다. 다시 로그인해주세요!");
+          localStorage.removeItem("email");
           history.push("/login");
         } else {
           window.alert("비밀번호 변경에 실패했습니다.");

@@ -88,6 +88,7 @@ const getOnePostAPI = (itemId) => {
     axios
       .get(`${config.api}/mainPage/${itemId}`)
       .then((res) => {
+        console.log(res);
         if (res.data.msg === "success") {
           dispatch(onePost(res.data.data));
         } else {

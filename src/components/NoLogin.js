@@ -22,7 +22,7 @@ const ChatView = styled.div`
   text-align: center;
   line-height: 1.5;
 
-  margin-left:30px;
+  margin-left: 30px;
   display: table-cell;
   vertical-align: middle;
 
@@ -35,15 +35,15 @@ const ChatView = styled.div`
   }
 `;
 
-const Text=styled.div`
-height: 108px;
-font-size: 36px;
-font-weight: 600;
-margin-top:190px;
-line-height: 1.5;
-letter-spacing: normal;
-text-align: center;
-color: #ffffff;
+const Text = styled.div`
+  height: 108px;
+  font-size: 36px;
+  font-weight: 600;
+  margin-top: 190px;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
 `;
 
 const ChatInput = styled.input`

@@ -1,90 +1,78 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import { config } from "../../shared/config";
-
-import axios from "axios";
-import { io } from "socket.io-client";
 
 //actions
 const ADD_CHAT = "ADD_CHAT";
 const GET_CHAT = "GET_CHAT";
+const GET_USERS = "GET_USERS";
+const ADD_USER = "ADD_USER";
 const LOADING = "LOADING";
-const USERS = "USERS";
 
 //actionCreators
 const addChat = createAction(ADD_CHAT, (message) => ({ message }));
-const getChat = createAction(GET_CHAT, (message) => ({ message }));
+const getChat = createAction(GET_CHAT, (messages) => ({ messages }));
+const getUsers = createAction(GET_USERS, (users) => ({ users }));
+const addUser = createAction(ADD_USER, (user) => ({ user }));
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
-const user_list = createAction(USERS, (user_list) => ({ user_list }));
 
 //initialState
 const initialState = {
   chat_list: [],
-  is_loading: false,
   user_list: [],
+  is_loading: false,
 };
 
-// // 소켓 설정(전역으로 사용하기 위해 export)
-// const socket = io("http://15.165.76.76:3001/chatting");
-
-//유저 목록 조회
-// const middlewareUsers = () => {
-//   return function (dispatch) {
-//     axios({
-//       method: 'get',
-//       url: `${config.api}/member`,
-//     })
-//       .then((res) => {
-//         const users = res.data.users.map((val) => {
-
-//           return { ...val };
-//         });
-//         dispatch(user_list(users));
-//       })
-//       .catch((e) => {
-//         console.log(e);
-//       });
-//   };
-// };
-
 //채팅 목록 불러오기
-const getChatList = () => {
+const getChatList = (messages) => {
   return function (dispatch, getState, { history }) {
-    dispatch(loading(true));
-
-    // socket.on('connect', (prevMessage) => {
-    // socket.send("Hello!");
-    dispatch(getChat());
-    // });
+    dispatch(getChat(messages.msgList));
   };
 };
 
 //채팅 내용 추가하기
 const addChatList = (message) => {
-  return function (dispatch, getState, { history }) {};
+  return function (dispatch, getState, { history }) {
+    dispatch(addChat(message));
+  };
 };
 
-//api 연결
+//최초 참여 사용자 불러오기
+const getUserList = (users) => {
+  return function (dispatch, getState, { history }) {
+    dispatch(getUsers(users.userList));
+  };
+};
+
+//채팅 유저 추가하기(참여버튼 누를때)
+const addUserList = (user) => {
+  return function (dispatch, getState, { history }) {
+    dispatch(addUser(user));
+  };
+};
 
 //reducer
 export default handleActions(
   {
     [GET_CHAT]: (state, action) =>
       produce(state, (draft) => {
-        draft.chat_list = action.payload.message;
-        draft.is_loading = false;
+        draft.chat_list = action.payload.messages;
       }),
     [ADD_CHAT]: (state, action) =>
       produce(state, (draft) => {
-        draft.chat_list = [...draft, action.payload.message];
+        console.log(action.payload.message);
+        draft.chat_list.push(action.payload.message);
+      }),
+    [GET_USERS]: (state, action) =>
+      produce(state, (draft) => {
+        draft.user_list = action.payload.users;
+      }),
+    [ADD_USER]: (state, action) =>
+      produce(state, (draft) => {
+        draft.user_list.push(action.payload.user);
       }),
     [LOADING]: (state, action) =>
       produce(state, (draft) => {
         draft.is_loading = action.payload.is_loading;
-      }),
-    [USERS]: (state, action) =>
-      produce(state, (draft) => {
-        draft.user_list = action.payload.user_list;
       }),
   },
   initialState
@@ -93,7 +81,9 @@ export default handleActions(
 //action creator export
 const actionCreators = {
   getChatList,
-  //addChatList,
+  addChatList,
+  getUserList,
+  addUserList,
   getChat,
   addChat,
   loading,
