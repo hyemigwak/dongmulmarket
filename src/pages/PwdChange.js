@@ -2,12 +2,13 @@ import React, { useCallback, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import styled from "styled-components";
-import { history } from "../redux/configureStore";
+
 import lock from "../image/lock.png";
 
-const PwdChange = () => {
+const PwdChange = (props) => {
   const dispatch = useDispatch();
-  const email = useSelector((state) => state.user.email);
+  const email = localStorage.getItem("email");
+  console.log(email);
 
   const [pwd, setPwd] = useState("");
   const [newPwd, setNewPwd] = useState("");
@@ -23,17 +24,16 @@ const PwdChange = () => {
       window.alert("모두 입력해주세요");
       return;
     }
-    if (!password_regExp.test(pwd, newPwd, newPwdChk)) {
+    if (!password_regExp.test(newPwd, newPwdChk)) {
       window.alert("비밀번호는 영문/숫자 혼합으로 8~14자리로 입력해주세요!");
       return;
     }
-    if (pwd !== newPwd) {
+    if (newPwd !== newPwdChk) {
       window.alert("새 비밀번호가 일치하지 않습니다.");
       return;
     }
     //디스패치(새 비밀번호 보내주기)
     dispatch(userActions.ChangePwdAPI(email, pwd, newPwd));
-    history.replace("/login");
   };
 
   return (
@@ -45,9 +45,9 @@ const PwdChange = () => {
           <SubTitle>변경하실 비밀번호를 입력해주세요</SubTitle>
         </TopArea>
         <FindPwdC>
-          <Input type="text" placeholder="현재 비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
-          <Input type="text" placeholder="새 비밀번호를 입력해주세요" value={newPwd} onChange={onChangeNewPwd} />
-          <Input type="text" placeholder="새 비밀번호를 한번 더 입력해주세요" value={newPwdChk} onChange={onChangeNewPwdChk} />
+          <Input type="text" placeholder="인증번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
+          <Input type="password" placeholder="새 비밀번호를 입력해주세요" value={newPwd} onChange={onChangeNewPwd} />
+          <Input type="password" placeholder="새 비밀번호를 한번 더 입력해주세요" value={newPwdChk} onChange={onChangeNewPwdChk} />
           <FindpwdBtn onClick={sitepwdChange}>변경 완료</FindpwdBtn>
         </FindPwdC>
       </WrapFindPwd>

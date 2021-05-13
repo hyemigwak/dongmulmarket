@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
 const GroupChat = (props) => {
-  console.log(props);
   const email = localStorage.getItem("email");
-  //현재 이메일이
-  if (email === props.email) {
+  const is_me = email === props.email ? true : false;
+
+  if (is_me) {
     return (
       <>
         {/* 판매자는 오른쪽에 위치해야합니다. */}
-        {/* <div>{joinUser}님이 입장하셨습니다.</div> */}
+        <>{props.status === "in" && <EntranceMsg>{props.nickname}님이 입장하셨습니다.</EntranceMsg>}</>
         <MySpeech>
           <MyNameTag>{props.nickname}</MyNameTag>
           <MyBubble>
@@ -33,15 +33,6 @@ const GroupChat = (props) => {
     );
   }
 };
-
-const ChatView = styled.div`
-  width: 723px;
-  height: 522px;
-  flex-grow: 0;
-
-  padding: 26px 21px 21px 32px;
-  background-color: #efefef;
-`;
 
 const EntranceMsg = styled.div`
   width: 270px;

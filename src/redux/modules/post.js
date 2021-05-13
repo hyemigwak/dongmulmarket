@@ -88,6 +88,7 @@ const getOnePostAPI = (itemId) => {
     axios
       .get(`${config.api}/mainPage/${itemId}`)
       .then((res) => {
+        console.log(res);
         if (res.data.msg === "success") {
           dispatch(onePost(res.data.data));
         } else {
@@ -118,7 +119,7 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
       method: "POST",
       url: `${config.api}/mainPage`,
       data: formdata,
-      header: {
+      headers: {
         authorization: token,
         "Content-Type": "multipart/form-data",
       },
