@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
@@ -17,9 +17,11 @@ const Detail = (props) => {
   const email = localStorage.getItem("email");
 
   const socket = io("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${detail.icrId}` });
+  const icrId = detail.icrId;
 
   //소켓에 보내줄 내 닉네임, 인풋 메세지
   const [message, setMessage] = useState("");
+  
 
   //setRoom에서 user정보와 이전 msg를 리스트로 전부 받아온다.
   const [firstConfig, setFirstConfig] = useState([]);
@@ -28,7 +30,7 @@ const Detail = (props) => {
   const [joinUser, setJoinUser] = useState("");
 
   //버튼 활성화 유무
-  const [ShowBtn, setShowBtn] = useState(true);
+  const [ShowBtn, setShowBtn] = useState(true); 
   console.log(ShowBtn);
 
   //채팅 보여주기
@@ -44,10 +46,10 @@ const Detail = (props) => {
     setModalOpen(false);
   };
 
-  socket.on("setRoom", (data) => {
-    console.log("셋룸데이터", data);
-    setFirstConfig((oldData) => [...oldData, ...data ]);
-  });
+  // socket.on("setRoom", (data) => {
+  //   console.log("셋룸데이터", data);
+  //   setFirstConfig((oldData) => [...oldData, ...data ]);
+  // });
 
   //서버로 메세지 보낼때
   const submitMessage = (msgContents) => {
@@ -82,6 +84,11 @@ const Detail = (props) => {
   //참여 버튼 눌렀을 때, 데이터 보내고 받아오기
   const ChatStart = () => {
     setChatView(true);
+   
+   //이거 새로 추가함. 테스트용.
+    setShowBtn(false);
+
+
     let data = {
       email: email,
       icrId: detail.icrId,
@@ -125,26 +132,26 @@ const Detail = (props) => {
   };
 
   //채팅방 버튼 보여주기 유무 불러오기
-  const isBossAPI = (icrId) => {
-    let token = getCookie("user_login");
-    axios({
-      method: "POST",
-      url: `${config.api}/mainPage/${icrId}`,
-      headers: {
-        authorization: token,
-      },
+ const isBossAPI = (icrId) => {
+  let token = getCookie("user_login");
+  axios({
+    method: "POST",
+    url: `${config.api}/mainPage/${icrId}`,
+    headers: {
+      authorization: token,
+    },
+  })
+    .then((res) => {
+      console.log("버튼에서 내려오는 값", res.data);
+      // false면 채팅방 버튼 없어져야 함
+      if (res.data.buttonYn["groupJoinButton"] === false) {
+        setShowBtn(false);
+      }
     })
-      .then((res) => {
-        console.log(res.data);
-        // false면 채팅방 버튼 없어져야 함
-        if (res.data.buttonYn["groupJoinButton"] === false) {
-          setShowBtn(false);
-        }
-      })
-      .catch((err) => {
-        console.log("isBossAPI에러", err);
-      });
-  };
+    .catch((err) => {
+      console.log("isBossAPI에러", err);
+    });
+};
 
   //렌더링 될때, 디테일 데이터 받아오기 & 소켓 연결하기(확인)
   useEffect(() => {
@@ -157,7 +164,7 @@ const Detail = (props) => {
   }, []);
 
   useEffect(() => {
-    isBossAPI(detail.icrId);
+    isBossAPI(icrId);
   }, [detail]);
 
   return (
@@ -165,7 +172,7 @@ const Detail = (props) => {
       <WrapDetail>
         <Title>물품 교환하기</Title>
         <WrapBox>
-          <ProductsBox>
+         <ProductsBox>
             <InfoTitle>상품 정보</InfoTitle>
             <Img src={detail.image} />
             <InfoBox>
@@ -186,104 +193,92 @@ const Detail = (props) => {
                 <DetailText>{detail.comment}</DetailText>
               </DetailArea>
             </InfoBox>
-            {is_login && ShowBtn ? <ChatJoinBtn onClick={ChatStart}>채팅 참여하기</ChatJoinBtn> : null}
           </ProductsBox>
-          <ChatBox>
-            {is_login ? (
-              <BtnArea>
-                <div>
-                  <button className="group" onClick={closeModal}>
-                    실시간채팅
-                  </button>
-                  <button className="one" onClick={openModal}>
-                    1:1 대화하기
-                  </button>
-                </div>
-                <LiveChatBtn>실시간 대화 참여</LiveChatBtn>
-              </BtnArea>
-            ) : null}
-            
             {/* ShowBtn이 false면 채팅방이 보여지고, LoginChat이 사라져야한다 */}
             {/* 로그인 안됬을때 노로그인 보여주고, 챗뷰를 사라지게 해야함  */}
-            {!is_login && <NoLogin />}
-            {is_login && ShowBtn ? (
-              <LoginChat />
-            ) : (
-              <>
-                {/* <ChatView> */}
-                  {/* {firstConfig.map((data, idx) => {
-                    console.log(data);
-                    return <GroupChat {...data} key={idx} joinUser={joinUser} />;
-                  })} */}
-                {/* </ChatView> */}
-                {/* <ChatInput
-                  type="text"
-                  placeholder="텍스트를 입력하세요."
-                  value={message}
-                  onChange={(e) => {
-                    setMessage(e.target.value);
-                  }}
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      submitMessage(e.target.value);
-                    }
-                  }}
-                /> */}
-              </>
-            )}
-            {modalOpen ? (
-              <OneChat open={modalOpen} close={closeModal} />
-            ) : (
-              <>
-                {chatView ? (
-                  <>
-                    <ChatView> 
-                     {firstConfig.map((data, idx) => {
-                        console.log(data);
-                        return <GroupChat {...data} key={idx} joinUser={joinUser} />;
-                      })} 
-                    </ChatView> 
+            {is_login ? 
 
-                    <ChatInput
-                      type="text"
-                      placeholder="텍스트를 입력하세요."
-                      value={message}
-                      onChange={(e) => {
-                        setMessage(e.target.value);
-                      }}
-                      onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          e.preventDefault();
-                          submitMessage(e.target.value);
-                        }
-                      }}
-                    />
-                    <WrapButtons>
-                      <ForceExitBtn>
-                        <BtnText>강퇴</BtnText>
-                      </ForceExitBtn>
-                      <TradeCancelBtn>
-                        <BtnText>교환취소</BtnText>
-                      </TradeCancelBtn>
-                      <TradeSuccessBtn>
-                        <BtnText>교환성사</BtnText>
-                      </TradeSuccessBtn>
-                    </WrapButtons>
+                (ShowBtn ?
+                  //ShowBtn이 True = 참여한적 없음
+                  (<>
+                  <ChatBox>
+                    <LoginChat/>          
+                    <ChatJoinBtn onClick={ChatStart}>채팅 참여하기</ChatJoinBtn>
+                  </ChatBox>       
+                    </>  
+                  ) 
+                :
+                  (
+                    //ShowBtn이 false = 채팅에 참여한 적 있음
+                      
+                          <>
+                          <ChatBox>
+                            <BtnArea>
+                              <div>
+                                <button className="group" onClick={closeModal}>
+                                  실시간채팅
+                                </button>
+                                <button className="one" onClick={openModal}>
+                                  1:1 대화하기
+                                </button>
+                              </div>
+                              <LiveChatBtn>실시간 대화 참여</LiveChatBtn>
+                            </BtnArea>
+                        
+                            {modalOpen ? (
+                                <OneChat open={modalOpen} close={closeModal} />
+                              ) : (
+                                <>
+                                  {/* {chatView ? (
+                                    <> */}
+                                      <ChatView> 
+                                        {firstConfig.map((data, idx) => {
+                                          console.log(data);
+                                          return <GroupChat {...data} key={idx} joinUser={joinUser} />;
+                                        })} 
+                                      </ChatView> 
+
+                                      <ChatInput
+                                        type="text"
+                                        placeholder="텍스트를 입력하세요."
+                                        value={message}
+                                        onChange={(e) => {
+                                          setMessage(e.target.value);
+                                        }}
+                                        onKeyPress={(e) => {
+                                          if (e.key === "Enter") {
+                                            e.preventDefault();
+                                            submitMessage(e.target.value);
+                                          }
+                                        }}
+                                      />
+                                      <WrapButtons>
+                                        <ForceExitBtn>
+                                          <BtnText>강퇴</BtnText>
+                                        </ForceExitBtn>
+                                        <TradeCancelBtn>
+                                          <BtnText>교환취소</BtnText>
+                                        </TradeCancelBtn>
+                                        <TradeSuccessBtn>
+                                          <BtnText>교환성사</BtnText>
+                                        </TradeSuccessBtn>
+                                      </WrapButtons>
+                                    </>
+                              //     ) : null}
+                              // </>
+                            )} 
+                      
+                    
+                 </ChatBox>
+                  
                   </>
-                ) : null}
-              </>
-            )}
-          </ChatBox>
-          {is_login? 
-           <LiveChatBox>
-           <OneChatUser>
-             <LiveUser>닉네임</LiveUser>
-             <LiveTalkBtn>대화하기</LiveTalkBtn>
-           </OneChatUser>
-         </LiveChatBox>
-          :null}
-         
+                  )
+                )
+                  :
+                  // 로그인 안하고 봤을 때 뷰
+                    <NoLogin/>
+                 
+                  }
         </WrapBox>
       </WrapDetail>
     </React.Fragment>
@@ -371,8 +366,8 @@ const ChatJoinBtn = styled.button`
   font-size: 20px;
 
   position: relative;
-  right: 80px;
-  top: 20px;
+  left:150px;
+  bottom:200px;
 `;
 
 const TitleText = styled.div`
@@ -499,7 +494,7 @@ const ChatInput = styled.input`
   }
 
   position: relative;
-  top: 0px;
+  top:522px;
 `;
 
 const SendText = styled.div`
@@ -517,7 +512,7 @@ const SendText = styled.div`
 
 const WrapButtons = styled.div`
   display: flex;
-  margin-top: 40px;
+  margin-top: 550px;
 `;
 
 const BtnText = styled.div`

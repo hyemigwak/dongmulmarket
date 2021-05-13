@@ -105,6 +105,7 @@ const kakaoLoginAPI = (response) => {
         if (res.data.msg === "success") {
           console.log(res.data); // response 확인
 
+  
           //토큰 받아오기
           const jwtToken = res.data.token;
           const nickname = res.data.nickname;
@@ -320,7 +321,6 @@ const LogOutMiddleware = () => {
       deleteCookie("user_login");
       localStorage.clear();
       dispatch(logOut());
-
       return;
     }
 

@@ -5,10 +5,10 @@ const NoLogin = (props) => {
   return (
     <React.Fragment>
       <ChatView>
-        <div>
+        <Text>
           로그인하셔야
           <br /> 채팅 참여가 가능합니다.
-        </div>
+        </Text>
         <ChatInput placeholder="채팅에 참여하실 수 없습니다" disabled />
       </ChatView>
     </React.Fragment>
@@ -22,6 +22,7 @@ const ChatView = styled.div`
   text-align: center;
   line-height: 1.5;
 
+  margin-left:30px;
   display: table-cell;
   vertical-align: middle;
 
@@ -34,11 +35,22 @@ const ChatView = styled.div`
   }
 `;
 
+const Text=styled.div`
+height: 108px;
+font-size: 36px;
+font-weight: 600;
+margin-top:190px;
+line-height: 1.5;
+letter-spacing: normal;
+text-align: center;
+color: #ffffff;
+`;
+
 const ChatInput = styled.input`
   width: 724px;
   height: 74px;
   flex-grow: 0;
-
+  margin-top: 220px;
   border: solid 2px #6fcea1;
   background-color: #ffffff;
 
@@ -47,8 +59,8 @@ const ChatInput = styled.input`
     font-size: 18px;
   }
 
-  position: relative;
-  top: 245px;
+  // position: relative;
+  // top: 245px;
 `;
 
 export default NoLogin;

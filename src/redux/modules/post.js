@@ -118,7 +118,7 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
       method: "POST",
       url: `${config.api}/mainPage`,
       data: formdata,
-      header: {
+      headers: {
         authorization: token,
         "Content-Type": "multipart/form-data",
       },
