@@ -3,17 +3,15 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { getCookie } from "../shared/Cookie";
-import { OneChat, GroupChat, LoginChat, ChatUsers } from "../components";
+import { OneChat, GroupChat, LoginChat, ChatUsers } from ".";
 import io from "socket.io-client";
 import axios from "axios";
 import { config } from "../shared/config";
-import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
 
 const Chat = (props) => {
   const dispatch = useDispatch();
   const chatList = useSelector((state) => state.chat.chat_list);
   const userList = useSelector((state) => state.chat.user_list);
-  const Chat = chatList?.length;
   console.log("챗리스트", chatList);
   const token = getCookie("user_login");
 
