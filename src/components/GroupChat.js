@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
 
 const GroupChat = (props) => {
   const email = localStorage.getItem("email");
@@ -9,31 +8,47 @@ const GroupChat = (props) => {
   if (is_me) {
     return (
       <>
-      <ChatView>
         {/* 판매자는 오른쪽에 위치해야합니다. */}
-        <>{props.status === "in" && <EntranceMsg>{props.nickname}님이 입장하셨습니다.</EntranceMsg>}</>
-        <MySpeech>
-          <MyNameTag>{props.nickname}</MyNameTag>
-          <MyBubble>
-            <ChatText>{props.chatMsg}</ChatText>
-          </MyBubble>
-        </MySpeech>
-      </ChatView>
+        {props.msgType === "in" ? (
+          <EntranceMsg>{props.nickname}님이 입장하셨습니다.</EntranceMsg>
+        ) : (
+          <>
+            {props.msgType === "out" ? (
+              <EntranceMsg>{props.nickname}님이 퇴장하셨습니다.</EntranceMsg>
+            ) : (
+              <>
+                <MySpeech>
+                  <MyNameTag>{props.nickname}</MyNameTag>
+                  <MyBubble>
+                    <ChatText>{props.chatMsg}</ChatText>
+                  </MyBubble>
+                </MySpeech>
+              </>
+            )}
+          </>
+        )}
       </>
     );
   } else {
     return (
       <>
-      <ChatView>
-          {/* 구매자는 왼쪽에 위치해야합니다. */}
-          <OtherSpeech>
-          <OtherNameTag>{props.nickname}</OtherNameTag>
-          <OtherBubble>
-            <ChatText>{props.chatMsg}</ChatText>
-          </OtherBubble>
-        </OtherSpeech>
-      </ChatView>
-      
+        {/* 구매자는 왼쪽에 위치해야합니다. */}
+        {props.msgType === "in" ? (
+          <EntranceMsg>{props.nickname}님이 입장하셨습니다.</EntranceMsg>
+        ) : (
+          <>
+            {props.msgType === "out" ? (
+              <EntranceMsg>{props.nickname}님이 퇴장하셨습니다.</EntranceMsg>
+            ) : (
+              <OtherSpeech>
+                <OtherNameTag>{props.nickname}</OtherNameTag>
+                <OtherBubble>
+                  <ChatText>{props.chatMsg}</ChatText>
+                </OtherBubble>
+              </OtherSpeech>
+            )}
+          </>
+        )}
       </>
     );
   }
@@ -43,7 +58,7 @@ const EntranceMsg = styled.div`
   width: 270px;
   height: 24px;
   flex-grow: 0;
-  margin: 0 auto 8px auto;
+  margin: 12px auto 4px auto;
   font-family: NotoSans;
   font-size: 18px;
   font-weight: 500;

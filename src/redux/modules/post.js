@@ -26,41 +26,12 @@ const initialState = {
   boss: {},
 };
 
-//api
-
-//방장 여부 가져오기
-const isBossAPI = (icrId) => {
-  return function (dispatch, getState, { history }) {
-    let token = getCookie("user_login");
-    console.log(icrId);
-    console.log("토큰", token);
-    axios({
-      method: "POST",
-      url: `${config.api}/mainPage/${icrId}`,
-      headers: {
-        authorization: token,
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-        dispatch(isBoss(res.data));
-      })
-      .catch((err) => {
-        console.log("isBossAPI에서 오류 발생", err);
-      });
-  };
-};
-
 //물품 불러오기(메인)
-// const MockAPI = "https://run.mocky.io/v3/0c7b921d-dc07-401f-a6d2-b71163ac660f";
 const getPostAPI = () => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "GET",
       url: `${config.api}/mainPage/noLogin`,
-      // headers: {
-      //   authorization: `Bearer ${token}`,
-      // },
     })
       .then((res) => {
         if (res.data.msg === "success") {
@@ -145,6 +116,7 @@ export default handleActions(
     [GET_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.post_list = action.payload.post_list;
+        console.log(action.payload.post_list);
       }),
     [ONE_POST]: (state, action) =>
       produce(state, (draft) => {
@@ -172,7 +144,6 @@ const actionCreators = {
   getPostAPI,
   addPostAPI,
   getOnePostAPI,
-  isBossAPI,
 };
 
 export { actionCreators };

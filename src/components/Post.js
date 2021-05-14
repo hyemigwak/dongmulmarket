@@ -4,6 +4,7 @@ import { history } from "../redux/configureStore";
 
 const Post = (props) => {
   const { image, title, wantItem, address, deadLine, itemId } = props;
+  const _itemId = props.itemId;
 
   //몇 분 전을 나타내는 함수
   function timeForToday(value) {
@@ -33,34 +34,34 @@ const Post = (props) => {
     <React.Fragment>
       <Box
         onClick={() => {
-          history.push(`/detail/${itemId}`);
+          history.push(`/detail/${_itemId}`);
         }}
       >
         <ImgBox>
-          <Img src={image} alt="상품이미지" />
+          <Img src={props.image} alt="상품이미지" />
           <Label>곧 마감</Label>
         </ImgBox>
         <TextBox>
-          <Address style={{ marginRight: "100px" }}>{address}</Address>
-          <ProductTitle>{title}</ProductTitle>
+          <Address style={{ marginRight: "100px" }}>{props.address}</Address>
+          <ProductTitle>{props.title}</ProductTitle>
           <Title>
-            <span>희망교환템:</span> {wantItem}
+            <span>희망교환템:</span> {props.wantItem}
           </Title>
-            <Time>{timeForToday(deadLine)} 남음</Time>
+          <Time>{timeForToday(props.deadLine)} 남음</Time>
         </TextBox>
       </Box>
     </React.Fragment>
   );
 };
 
-Post.defaultProps = {
-  image:
-    "https://mblogthumb-phinf.pstatic.net/MjAxNzA5MTFfOTUg/MDAxNTA1MDkwOTQ4Nzkx.d6WmUQbJNVn_AgreyvKeQVnSTLnlzHFJsi4lWdgsTr0g.2BA8M9s7-eZEwkJZ5SJ6uVYD4g3kCAXUuQYOZtw1Uusg.PNG.nong-up/image.png?type=w800",
-  myItem: "고구마 3개",
-  wantItem: "감자 3개",
-  location: "신림 1동",
-  expireDate: "2021-04-29 10:00:00",
-};
+// Post.defaultProps = {
+//   image:
+//     "https://mblogthumb-phinf.pstatic.net/MjAxNzA5MTFfOTUg/MDAxNTA1MDkwOTQ4Nzkx.d6WmUQbJNVn_AgreyvKeQVnSTLnlzHFJsi4lWdgsTr0g.2BA8M9s7-eZEwkJZ5SJ6uVYD4g3kCAXUuQYOZtw1Uusg.PNG.nong-up/image.png?type=w800",
+//   myItem: "고구마 3개",
+//   wantItem: "감자 3개",
+//   location: "신림 1동",
+//   expireDate: "2021-04-29 10:00:00",
+// };
 
 const Box = styled.div`
   // height: 278px;
@@ -81,7 +82,7 @@ const Box = styled.div`
   padding: 0 0 16px;
   border-radius: 8px;
   border: solid 1px #91be89;
-  position:relative;
+  position: relative;
 `;
 
 const ImgBox = styled.div`
@@ -98,40 +99,37 @@ const ImgBox = styled.div`
     height: 160px;
     object-fit: cover;
   }
-
 `;
 
-const Img=styled.img`
-border-radius: 8px;
-z-index:2;
+const Img = styled.img`
+  border-radius: 8px;
+  z-index: 2;
 `;
 
-const Label=styled.div`
-width: 72px;
+const Label = styled.div`
+  width: 72px;
   height: 40px;
   flex-grow: 0;
   border-radius: 8px;
   padding: 11px 12px 10px 11px;
   background-color: #3fbe81;
-font-size: 16px;
-font-weight: normal;
-font-stretch: normal;
-font-style: normal;
-line-height: normal;
-letter-spacing: normal;
-text-align: left;
-color: #ffffff;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
 
-display:block;
-position:absolute;
-top:0px;
-left:130.8px;
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 130.8px;
 
-z-index:1;
-
+  z-index: 1;
 `;
 const ProductTitle = styled.div`
-
   flex-grow: 0;
   margin: 2px 0 4px;
   font-family: Roboto;
@@ -146,16 +144,13 @@ const ProductTitle = styled.div`
 `;
 
 const Title = styled.div`
-  font-size:13px;
-  text-align:left;
-  color:#2a2a2a;
+  font-size: 13px;
+  text-align: left;
+  color: #2a2a2a;
   span {
     font-size: 12px;
-    color:#737373;
-    
+    color: #737373;
   }
-
- 
 `;
 
 // const SubTitleArea = styled.div`
@@ -169,34 +164,29 @@ const Title = styled.div`
 //   }
 // `;
 
-const TextBox=styled.div`
-position:relative;
-top:14px;
-text-align:left;
-padding: 2px 1px;
-padding-left:16px;
+const TextBox = styled.div`
+  position: relative;
+  top: 14px;
+  text-align: left;
+  padding: 2px 1px;
+  padding-left: 16px;
 `;
 
-const Address=styled.div`
-
-flex-grow: 0;
-margin: 0 69px 2px 0;
-font-family: Roboto;
-font-size: 10px;
-font-weight: 500;
-font-stretch: normal;
-font-style: normal;
-line-height: normal;
-letter-spacing: normal;
-text-align: left;
-color: #737373;
-
-
+const Address = styled.div`
+  flex-grow: 0;
+  margin: 0 69px 2px 0;
+  font-family: Roboto;
+  font-size: 10px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #737373;
 `;
 
-
-const Time=styled.div`
-
+const Time = styled.div`
   height: 16px;
   flex-grow: 0;
   margin: 9px 85px 0 0;
@@ -209,6 +199,5 @@ const Time=styled.div`
   letter-spacing: normal;
   text-align: left;
   color: #0c6550;
-  
 `;
 export default Post;

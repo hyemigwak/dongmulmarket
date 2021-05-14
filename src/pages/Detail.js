@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
+import { actionCreators as chatActions } from "../redux/modules/chat";
 import { OneChat, GroupChat, NoLogin, LoginChat, ChatUsers } from "../components";
 import { getCookie } from "../shared/Cookie";
 import { Chat } from "../components";
@@ -28,7 +29,7 @@ const Detail = (props) => {
   //렌더링 될때, 디테일 데이터 받아오기 & 소켓 연결하기(확인)
   useEffect(() => {
     dispatch(postActions.getOnePostAPI(id));
-  }, [icrId]);
+  }, [icrId, id]);
 
   return (
     <React.Fragment>

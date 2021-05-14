@@ -1,26 +1,26 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as chatActions } from "../redux/modules/chat";
-import { actionCreators as postActions } from "../redux/modules/post";
 import { getCookie } from "../shared/Cookie";
-import { OneChat, GroupChat, NoLogin, LoginChat, ChatUsers } from "../components";
+import { OneChat, GroupChat, LoginChat, ChatUsers } from "../components";
 import io from "socket.io-client";
 import axios from "axios";
 import { config } from "../shared/config";
+import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
 
 const Chat = (props) => {
-  const { icrId } = props;
-  console.log("그냥 icrId", icrId);
-
   const dispatch = useDispatch();
   const chatList = useSelector((state) => state.chat.chat_list);
   const userList = useSelector((state) => state.chat.user_list);
+  const Chat = chatList?.length;
   console.log("챗리스트", chatList);
+  const token = getCookie("user_login");
 
-  const is_login = useSelector((state) => state.user.is_login);
-  const user_token = getCookie("user_login");
+  const { icrId, itemId } = props;
+
   const email = localStorage.getItem("email");
+  const socket = io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${icrId}` });
 
   //채팅 보여주기
   const [chatView, setChatView] = useState(false);
@@ -35,13 +35,13 @@ const Chat = (props) => {
     setModalOpen(false);
   };
 
-  //소켓에 보내줄 내 닉네임, 인풋 메세지
+  //소켓에 보내줄 내 채팅 메세지
   const [message, setMessage] = useState("");
+
+  const onChangeMessage = useCallback((e) => setMessage(e.target.value), []);
 
   //버튼 활성화 유무
   const [ShowBtn, setShowBtn] = useState(true);
-
-  const socket = io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${icrId}` });
 
   //채팅방 버튼 보여주기 유무 불러오기
   const isBossAPI = (icrId) => {
@@ -66,15 +66,15 @@ const Chat = (props) => {
   };
 
   //서버로 메세지 보낼때
-  const submitMessage = (msgContents) => {
-    if (!msgContents) {
+  const submitMessage = (message) => {
+    if (!message) {
       window.alert("메세지를 입력해주세요!");
       return;
     } else {
       socket.emit(
         "authenticate",
         {
-          token: user_token,
+          token: token,
         },
         (data) => {
           if (data["msg"] === "success") {
@@ -82,8 +82,9 @@ const Chat = (props) => {
             let send_data = {
               email: email,
               icrId: icrId,
-              chatMsg: msgContents,
+              chatMsg: message,
             };
+            console.log("센드데이터", send_data);
             socket.emit("sendMsg", send_data);
             setMessage("");
           }
@@ -92,82 +93,100 @@ const Chat = (props) => {
     }
   };
 
-  //참여 버튼 눌렀을 때, 데이터 보내고 받아오기
+  //참여 버튼 눌렀을 때, 화면 분기 & 데이터 받아오기
   const ChatStart = () => {
+    //화면 분기에 필요
     setChatView(true);
     setShowBtn(false);
-
     let data = {
       email: email,
       icrId: icrId,
     };
-    console.log("인증할때 보내는 데이터", data);
-    socket.connect();
-    socket.emit(
-      "authenticate",
-      {
-        token: user_token,
-      },
-      (data) => {
-        if (data["msg"] === "success") {
-          console.log("msg가 성공이라면 if문");
-          const joinRoom_data = {
-            email: email,
-            icrId: icrId,
-          };
-          //버튼 누르면 누가 참여했는지 서버에 보내준다
-          socket.emit("joinRoom", joinRoom_data);
-          //서버에서 내려준 참여자 목록을 저장해서 화면에 보여준다
-          socket.on("addUser", (addUser_data) => {
-            console.log("추가된 사용자는 누구?", addUser_data);
-            dispatch(chatActions.addUserList(addUser_data));
-          });
-        }
-      }
-    );
+    dispatch(chatActions.addUserList(socket, data));
+
+    // console.log("인증할때 보내는 데이터", data);
+    // socket.emit(
+    //   "authenticate",
+    //   {
+    //     token: token,
+    //   },
+    //   (data) => {
+    //     if (data["msg"] === "success") {
+    //       console.log("msg가 성공이라면 if문");
+    //       const joinRoom_data = {
+    //         email: email,
+    //         icrId: icrId,
+    //       };
+    //       //버튼 누르면 누가 참여했는지 서버에 보내준다
+    //       socket.emit("joinRoom", joinRoom_data);
+    //       //서버에서 내려준 참여자 목록을 저장해서 화면에 보여준다
+    //       socket.on("addUser", (addUser_data) => {
+    //         console.log("추가된 사용자는 누구?", addUser_data);
+    //         dispatch(chatActions.addUserList(addUser_data));
+    //       });
+    //     }
+    //   }
+    // );
   };
 
   useEffect(() => {
     isBossAPI(icrId);
   }, [icrId]);
 
-  //채팅 렌더링함수
+  //렌더링될때 소켓을 연결해준다.
   useEffect(() => {
-    //렌더링될때 채팅 받아오기
-    socket.connect();
+    if (socket.connected) {
+      console.log("연결완료");
+    }
+    // socket.connect();
+    // console.log("연결완료");
+    // return () => {
+    //   chatActions.socket.disconnect();
+    //   console.log("연결해제");
+    // };
 
-    // 렌더링 될 때 이전 대화 히스토리 받아오기, 데이터 받아서 리덕스에 저장
-    socket.on("setRoom", (data) => {
-      console.log("셋룸데이터", data);
-      dispatch(chatActions.getChatList(data));
-      dispatch(chatActions.getUserList(data));
-    });
-
-    //메세지 보내고, 받기(1개씩)
-    socket.emit(
-      //인증 필요함
-      "authenticate",
-      {
-        token: user_token,
-      },
-      (data) => {
-        if (data["msg"] === "success") {
-          console.log("msg가 성공이라면 if문");
-          //보낼데이터
-          socket.on("getMsg", (getData) => {
-            console.log("겟데이터", getData);
-            console.log("겟데이터의데이터", getData.data);
-            dispatch(chatActions.addChatList(getData.data));
-          });
-        }
-      }
-    );
-    //언마운트될때 소켓 연결 끊기
     return () => {
       socket.disconnect();
+      console.log("연결해제");
     };
-    //빈배열의 경우 새로고침할때 리덕스가 날아가면서 icrId를 가져오지 못해 채팅을 못불러옴.
+  }, []);
+
+  //렌더링 될 때마다, 데이터 가져오고 추가
+  useEffect(() => {
+    console.log("렌더링되는지 확인");
+    dispatch(chatActions.getAllChatList(socket));
+    dispatch(chatActions.addChatList(socket));
+    console.log("getall, addchat");
   }, [icrId]);
+
+  //최초에 이전 채팅 히스토리 받아온다
+  // useEffect(() => {
+  //   // socket.connect();
+  //   //메세지 받기(1개씩)
+  //   socket.emit(
+  //     //인증 필요함
+  //     "authenticate",
+  //     {
+  //       token: token,
+  //     },
+  //     (data) => {
+  //       if (data["msg"] === "success") {
+  //         console.log("msg가 성공이라면 if문");
+  //         //보낼데이터
+  //         socket.on("getMsg", (getData) => {
+  //           console.log("겟데이터", getData);
+  //           console.log("겟데이터의데이터", getData.data);
+  //           dispatch(chatActions.addChatList(getData.data));
+  //         });
+  //       }
+  //     }
+  //   );
+  //   //언마운트될때 소켓 연결 끊기
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  //   //빈배열의 경우 새로고침할때 리덕스가 날아가면서 icrId를 가져오지 못해 채팅을 못불러옴.
+  // }, [icrId]);
 
   //스크롤넣어줄것임
   const scroll = useRef(null);
@@ -220,17 +239,15 @@ const Chat = (props) => {
                 type="text"
                 placeholder="텍스트를 입력하세요."
                 value={message}
-                onChange={(e) => {
-                  setMessage(e.target.value);
-                }}
+                onChange={onChangeMessage}
                 onKeyPress={(e) => {
+                  console.log("이키", e.key);
                   if (e.key === "Enter") {
                     e.preventDefault();
-                    submitMessage(e.target.value);
+                    submitMessage(message);
                   }
                 }}
               />
-
               <WrapButtons>
                 <ForceExitBtn>
                   <BtnText>강퇴</BtnText>
@@ -245,7 +262,7 @@ const Chat = (props) => {
             </>
           )}
         </ChatBox>
-        <ChatUsers userList={userList} />
+        <ChatUsers userList={userList} itemId={itemId} icrId={icrId} />
       </ChatContainer>
     );
   }
@@ -362,7 +379,7 @@ const SendText = styled.div`
 
 const WrapButtons = styled.div`
   display: flex;
-  margin-top: 40px;
+  margin-top: 600px;
 `;
 
 const BtnText = styled.div`

@@ -21,8 +21,7 @@ const PostListC = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin-left:118px;
- 
+  margin-left: 118px;
 `;
 
 export default PostList;
