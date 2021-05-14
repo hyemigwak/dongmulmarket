@@ -10,6 +10,7 @@ const ONE_POST = "ONE_POST";
 const ADD_POST = "ADD_POST";
 const LOADING = "LOADING";
 const ISBOSS = "ISBOSS";
+const DELETE_POST ="DELETE_POST";
 
 //actionCreators
 const loading = createAction(LOADING, (loading) => ({ loading }));
@@ -17,6 +18,7 @@ const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const onePost = createAction(ONE_POST, (post) => ({ post }));
 const isBoss = createAction(ISBOSS, (button) => ({ button }));
+const deletePost=createAction(DELETE_POST,(id)=>({id}));
 
 //initialState
 const initialState = {
@@ -34,13 +36,14 @@ const getPostAPI = () => {
       url: `${config.api}/mainPage/noLogin`,
     })
       .then((res) => {
+        console.log(res.data);
+      
         if (res.data.msg === "success") {
           const post_list = res.data.data;
           //종료일 기준으로 내림차순 정렬
           post_list.sort(function (a, b) {
             return a.deadLine < b.deadLine ? -1 : a.deadLine > b.deadLine ? 1 : 0;
           });
-
           dispatch(getPost(post_list));
           dispatch(loading(false));
         } else {
@@ -109,6 +112,11 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
       });
   };
 };
+
+//상품 게시물 삭제하기
+// const deletePostAPI =()=>{
+
+// }
 
 //reducer
 export default handleActions(

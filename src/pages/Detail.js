@@ -36,7 +36,7 @@ const Detail = (props) => {
       <WrapDetail>
         <Title>물품 교환하기</Title>
         <WrapBox>
-          <ProductsBox>
+         <ProductsBox>
             <InfoTitle>상품 정보</InfoTitle>
             <Img src={detail.image} />
             <InfoBox>

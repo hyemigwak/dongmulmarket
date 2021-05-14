@@ -117,6 +117,8 @@ const LiveTalkBtn = styled.div`
   margin-right: 8px;
 `;
 
+
+
 const EntranceMsg = styled.div`
   width: 270px;
   height: 24px;
