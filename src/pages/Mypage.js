@@ -323,5 +323,3 @@ const Box = styled.div`
 
 
 export default Mypage;
-
-//gggggg
