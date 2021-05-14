@@ -50,3 +50,6 @@ const Title = styled.h2`
 `;
 
 export default Main;
+
+// 13조 이카소, 에이미, 앤드류, 이재윤 파이팅!
+// ddgdgdadfdfdf
