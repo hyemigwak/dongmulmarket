@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { getCookie } from "../shared/Cookie";
-import { OneChat, GroupChat, NoLogin, LoginChat, ChatUsers } from "../components";
+import { OneChat, GroupChat, NoLogin, LoginChat, ChatUsers } from ".";
 import io from "socket.io-client";
 import axios from "axios";
 import { config } from "../shared/config";

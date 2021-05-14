@@ -48,6 +48,8 @@ const Post = (props) => {
           </Title>
             <Time>{timeForToday(deadLine)} 남음</Time>
         </TextBox>
+        {/* DeleteBtn은 Mypage에서만 보이게 분기 해주기 */}
+        <DeleteBtn>X</DeleteBtn>
       </Box>
     </React.Fragment>
   );
@@ -154,8 +156,6 @@ const Title = styled.div`
     color:#737373;
     
   }
-
- 
 `;
 
 // const SubTitleArea = styled.div`
@@ -210,5 +210,9 @@ const Time=styled.div`
   text-align: left;
   color: #0c6550;
   
+`;
+
+const DeleteBtn=styled.button`
+margin-left:170px;
 `;
 export default Post;

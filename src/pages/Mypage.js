@@ -1,11 +1,18 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
 import { getCookie } from "../shared/Cookie";
 import { useDispatch, useSelector } from "react-redux";
+import bellimg from "../image/bell.png";
+import LVector from "../image/LVector.png";
+import RVector from "../image/RVector.png";
 
-const Mypage = () => {
+import { actionCreators as postActions } from "../redux/modules/post";
+import SalesDetails from "./SalesDetails";
+
+const Mypage = (props) => {
   const dispatch = useDispatch();
+  const salesList = useSelector((state) => state.post.post_list);
 
   const cookie = getCookie("user_login") ? true : false;
   const is_login = useSelector((state) => state.user.is_login);
@@ -14,6 +21,10 @@ const Mypage = () => {
   const showFunction = (props) => {
     setShowResults(true);
   };
+
+  useEffect(() => {
+    dispatch(postActions.getPostAPI());
+  }, []);
 
   // const Results = (props) => {
   //   return (
@@ -24,51 +35,68 @@ const Mypage = () => {
   // };
 
   if (is_login && cookie) {
+    console.log(salesList);
     return (
       <React.Fragment>
         <WrapMypage>
-          <Title>마이페이지</Title>
-          <MyPageC>
-            <SettingC>
-              <h2>설정</h2>
-            </SettingC>
-            <ContentsC>
-              <LocationC>
-                <h2>위치 설정</h2>
-                <LocationBtn
+          <MpageHeader>
+            <Title>마이페이지</Title>
+            <div>
+              <AlarmIcon className="bell"  src={bellimg}/>
+            </div>
+            <LocationBtn
                   onClick={() => {
                     history.push("/mylocation");
                   }}
                 >
-                  위치 설정
+                  나의 위치 설정하기 >
                 </LocationBtn>
-              </LocationC>
-              <FinishC>
-                <FinishTitle>
-                  <h2>내 교환 완료 내역</h2>
-                  <ShowBtn onClick={showFunction}>
-                    {/* {showResults ? <Results /> : null} */}
-                    자세히보기
-                  </ShowBtn>
-                </FinishTitle>
-                <BoxContainer>
-                  <Box />
-                  <Box />
-                  <Box />
-                </BoxContainer>
-              </FinishC>
-              <StillC>
-                <StillTitle>
-                  <h2>내 교환 중 내역</h2>
-                </StillTitle>
-                <BoxContainer>
-                  <Box />
-                  <Box />
-                  <Box />      
-                </BoxContainer>
-              </StillC>
-            </ContentsC>
+          </MpageHeader>
+          
+          <MyPageC>
+           <SellTitle>나의 판매내역</SellTitle>
+           <SellContainer>
+            <LeftArrow src={LVector}/>
+            <SellBoxC>
+              <SalesDetails salesList={salesList}/>
+                {/* <ProductBox/>
+                <ProductBox/>
+                <ProductBox/>
+                <ProductBox/> */}
+            </SellBoxC>
+            <RightArrow src={RVector}/>
+           </SellContainer>
+
+           <DoneTitle>교환완료 내역</DoneTitle>
+           <DoneContainer>
+           <LeftArrow src={LVector}/>
+            <DoneBoxC>
+                <ProductBox/>
+                <ProductBox/>
+                <ProductBox/>
+                <ProductBox/>
+            </DoneBoxC>
+            <RightArrow src={RVector}/>
+           </DoneContainer>
+           
+           <IngTitle>교환 진행중</IngTitle>
+           <IngContainer>
+            <LeftArrow src={LVector}/>
+              <DoneBoxC>
+                    <ProductBox/>
+                    <ProductBox/>
+                    <ProductBox/>
+                    <ProductBox/>
+                </DoneBoxC>
+              <RightArrow src={RVector}/>            
+
+           </IngContainer>
+          
+           
+           
           </MyPageC>
+
+
         </WrapMypage>
       </React.Fragment>
     );
@@ -89,25 +117,167 @@ const WrapMypage = styled.div`
   } */
 `;
 
+const MpageHeader=styled.div`
+display:flex;
+height:200px;
+
+`;
+
 const Title = styled.div`
-  padding-top: 30px;
-  width: 100%;
-  margin: 10px;
-  font-size: 30px;
-  font-weight: 600;
-  text-align: center;
+  margin: 90px 16px 0px 144px;
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 1.25;
+  letter-spacing: 0.72px;
+  text-align: left;
+  color:#1c1c1c;
+`;
+
+const AlarmIcon= styled.img`
+  width: 51px;
+  height: 51px;
+  flex-grow: 0;
+  margin: 83px 683px 0px 20px;
+  padding: 14px 14px 13px 13px;
+  background-color: #3fbe81;
+  border-radius: 30px;
+  z-index: 1;
+
+  .bell{
+    z-index: 1000;
+    width: 24px;
+    height: 24px;
+    flex-grow: 0;
+    object-fit: contain;
+    color:#fffff;
+    
+  }
+`;
+
+const LocationBtn = styled.button`
+width: 184px;
+height: 34px;
+background-color:#ffffff;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 10px;
+margin: 98.1px 200px;
+padding: 7px 14px 6px;
+border-radius: 83px;
+border: solid 2px #3fbe81;
+cursor: pointer;
 `;
 
 const MyPageC = styled.div`
   margin: auto;
-  width: 1200px;
-  margin-top: 40px;
+  width: 1400px;
+
   height: 100vh;
-  display: flex;
-  background: #ffffff;
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.07);
-  border-radius: 20px;
+
 `;
+
+const SellContainer=styled.div`
+display:flex;
+`;
+
+const DoneContainer=styled.div`
+display:flex;
+`;
+
+const IngContainer=styled.div`
+display:flex;
+`;
+const SellTitle=styled.div`
+flex-grow: 0;
+margin-left:100px;
+font-size: 24px;
+font-weight: 500;
+line-height: 1;
+letter-spacing: normal;
+display:flex;
+color: #2f2f2f;
+margin-bottom:24px;
+`;
+
+const LeftArrow=styled.img`
+
+width: 18px;
+height: 36.3px;
+object-fit: contain;
+margin: 100px 0px 0px 0px;
+z-index: 1000;
+`;
+
+const RightArrow=styled.img`
+width: 18px;
+height: 36.3px;
+margin: 100px 0px 0px 0px;
+object-fit: contain;
+
+
+`;
+const SellBoxC=styled.div`
+width:1200px;
+margin:auto;
+
+display:flex;
+justify-content: space-between;
+`;
+
+const ProductBox=styled.div`
+width: 205px;
+height: 230px;
+flex-grow: 0;
+margin: 0 1px 0 0;
+padding: 180px 32px 16px 16px;
+border-radius: 8px;
+border: solid 1px #91be89;
+`;
+
+const DoneTitle=styled.div`
+flex-grow: 0;
+margin-top:50px;
+margin-left:100px;
+font-size: 24px;
+font-weight: 500;
+line-height: 1;
+letter-spacing: normal;
+display:flex;
+color: #2f2f2f;
+margin-bottom:24px;
+`;
+
+const DoneBoxC=styled.div`
+width:1200px;
+margin:auto;
+
+display:flex;
+justify-content: space-between;
+`;
+
+const IngTitle=styled.div`
+flex-grow: 0;
+margin-top:50px;
+margin-left:100px;
+font-size: 24px;
+font-weight: 500;
+line-height: 1;
+letter-spacing: normal;
+display:flex;
+color: #2f2f2f;
+margin-bottom:24px;
+`;
+const IngBoxC=styled.div`
+width:1200px;
+margin:auto;
+
+display:flex;
+justify-content: space-between;
+`;
+
+
 
 const SettingC = styled.div`
   width: 200px;
@@ -120,32 +290,6 @@ const SettingC = styled.div`
   }
 `;
 
-const ShowBtn = styled.button`
-  width: 100px;
-  height: 40px;
-  padding: 8px;
-  box-sizing: border-box;
-  border-radius: 16px;
-  background: #ffc149;
-  border: none;
-  color: #212121;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  margin-left: 10px;
-  margin-bottom: 10px;
-`;
-const ContentsC = styled.div`
-  width: 600px;
-  height: 100vh;
-  margin-left: 300px;
-  margin-top: 60px;
-`;
-
-const LocationC = styled.div`
-  justify-content: space-between;
-  display: flex;
-`;
 
 const FinishC = styled.div`
   justify-content: space-evenly;
@@ -177,16 +321,5 @@ const Box = styled.div`
   margin-right: 10px;
 `;
 
-const LocationBtn = styled.button`
-  width: 120px;
-  height: 40px;
-  padding: 8px;
-  box-sizing: border-box;
-  border-radius: 16px;
-  background: #ffc149;
-  border: none;
-  color: #212121;
-  font-weight: 600;
-  cursor: pointer;
-`;
+
 export default Mypage;

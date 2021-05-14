@@ -9,7 +9,7 @@ const GroupChat = (props) => {
   if (is_me) {
     return (
       <>
-      <ChatView>
+      
         {/* 판매자는 오른쪽에 위치해야합니다. */}
         <>{props.status === "in" && <EntranceMsg>{props.nickname}님이 입장하셨습니다.</EntranceMsg>}</>
         <MySpeech>
@@ -18,13 +18,14 @@ const GroupChat = (props) => {
             <ChatText>{props.chatMsg}</ChatText>
           </MyBubble>
         </MySpeech>
-      </ChatView>
+    
+     
       </>
     );
   } else {
     return (
       <>
-      <ChatView>
+     
           {/* 구매자는 왼쪽에 위치해야합니다. */}
           <OtherSpeech>
           <OtherNameTag>{props.nickname}</OtherNameTag>
@@ -32,12 +33,27 @@ const GroupChat = (props) => {
             <ChatText>{props.chatMsg}</ChatText>
           </OtherBubble>
         </OtherSpeech>
-      </ChatView>
+      
+      
       
       </>
     );
   }
 };
+
+const ChatView = styled.div`
+  // width: 723px;
+  // height: 522px;
+  // background-color: #efefef;
+  // position: absolute;
+  // top: 290px;
+  // margin-top: 0px;
+  // bottom: 0px;
+
+  // overflow-y: scroll;
+  // box-sizing: border-box;
+`;
+
 
 const EntranceMsg = styled.div`
   width: 270px;

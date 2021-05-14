@@ -11,9 +11,7 @@ const Main = (props) => {
   const postList = useSelector((state) => state.post.post_list);
 
   useEffect(() => {
-    if (!postList) {
-      return;
-    }
+
     dispatch(postActions.getPostAPI());
   }, []);
 
