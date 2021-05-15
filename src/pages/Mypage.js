@@ -301,4 +301,11 @@ const Box = styled.div`
   margin-right: 10px;
 `;
 
+<<<<<<< HEAD
 export default Mypage;
+=======
+
+export default Mypage;
+
+//gggggg
+>>>>>>> 12b1ed638d6f718ebdbb4f5e8c7a1c8fa3cba832
