@@ -8,6 +8,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import { config } from "../shared/config";
 
+
 const Chat = (props) => {
   console.log("Chat 렌더링이 계속되어서 문제다..");
 
