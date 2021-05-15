@@ -3,29 +3,42 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { getCookie } from "../shared/Cookie";
-import { OneChat, GroupChat, LoginChat, ChatUsers } from ".";
+import { OneChat, GroupChat, LoginChat, ChatUsers, ChattingInput } from "./index";
 import io from "socket.io-client";
 import axios from "axios";
 import { config } from "../shared/config";
 
 
 const Chat = (props) => {
-  const dispatch = useDispatch();
-  const chatList = useSelector((state) => state.chat.chat_list);
-  const userList = useSelector((state) => state.chat.user_list);
-  const Chat = chatList?.length;
-  console.log("챗리스트", chatList);
-  const token = getCookie("user_login");
+  console.log("Chat 렌더링이 계속되어서 문제다..");
 
+  //detail 페이지에서 프롭스로 채팅방ID, 아이템ID 받아옴
   const { icrId, itemId } = props;
 
+  const dispatch = useDispatch();
+
+  //리덕스에 저장해놓은 채팅 리스트와, 참여 유저리스트를 가져온다
+  const chatList = useSelector((state) => state.chat.chat_list);
+  const userList = useSelector((state) => state.chat.user_list);
+
+  console.log("챗 리스트", chatList);
+
+  //채팅에 입력한 내 메세지를 state로 저장
+  const [message, setMessage] = useState("");
+  //채팅 input에 걸어놓은 onChange 함수
+  const onChangeMessage = useCallback((e) => setMessage(e.target.value), []);
+
+  //토큰과 이메일은 각 쿠키, 로컬스토리지에서 가져옴
+  const token = getCookie("user_login");
   const email = localStorage.getItem("email");
+
+  //렌더링될때 소켓 연결
   const socket = io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${icrId}` });
 
   //채팅 보여주기
   const [chatView, setChatView] = useState(false);
 
-  //모달 설정 부분
+  //모달 설정(실시간채팅, 1:1채팅 분기)
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
@@ -34,11 +47,6 @@ const Chat = (props) => {
   const closeModal = () => {
     setModalOpen(false);
   };
-
-  //소켓에 보내줄 내 채팅 메세지
-  const [message, setMessage] = useState("");
-
-  const onChangeMessage = useCallback((e) => setMessage(e.target.value), []);
 
   //버튼 활성화 유무
   const [ShowBtn, setShowBtn] = useState(true);
@@ -103,30 +111,6 @@ const Chat = (props) => {
       icrId: icrId,
     };
     dispatch(chatActions.addUserList(socket, data));
-
-    // console.log("인증할때 보내는 데이터", data);
-    // socket.emit(
-    //   "authenticate",
-    //   {
-    //     token: token,
-    //   },
-    //   (data) => {
-    //     if (data["msg"] === "success") {
-    //       console.log("msg가 성공이라면 if문");
-    //       const joinRoom_data = {
-    //         email: email,
-    //         icrId: icrId,
-    //       };
-    //       //버튼 누르면 누가 참여했는지 서버에 보내준다
-    //       socket.emit("joinRoom", joinRoom_data);
-    //       //서버에서 내려준 참여자 목록을 저장해서 화면에 보여준다
-    //       socket.on("addUser", (addUser_data) => {
-    //         console.log("추가된 사용자는 누구?", addUser_data);
-    //         dispatch(chatActions.addUserList(addUser_data));
-    //       });
-    //     }
-    //   }
-    // );
   };
 
   useEffect(() => {
@@ -138,13 +122,7 @@ const Chat = (props) => {
     if (socket.connected) {
       console.log("연결완료");
     }
-    // socket.connect();
-    // console.log("연결완료");
-    // return () => {
-    //   chatActions.socket.disconnect();
-    //   console.log("연결해제");
-    // };
-
+    //언마운트될때 소켓 연결 해제
     return () => {
       socket.disconnect();
       console.log("연결해제");
@@ -153,42 +131,14 @@ const Chat = (props) => {
 
   //렌더링 될 때마다, 데이터 가져오고 추가
   useEffect(() => {
-    console.log("렌더링되는지 확인");
+    //채팅리스트 가져오기(기존 리스트 + 추가된 리스트)
     dispatch(chatActions.getAllChatList(socket));
+
+    //채팅 받아오기
     dispatch(chatActions.addChatList(socket));
-    console.log("getall, addchat");
   }, [icrId]);
 
-  //최초에 이전 채팅 히스토리 받아온다
-  // useEffect(() => {
-  //   // socket.connect();
-  //   //메세지 받기(1개씩)
-  //   socket.emit(
-  //     //인증 필요함
-  //     "authenticate",
-  //     {
-  //       token: token,
-  //     },
-  //     (data) => {
-  //       if (data["msg"] === "success") {
-  //         console.log("msg가 성공이라면 if문");
-  //         //보낼데이터
-  //         socket.on("getMsg", (getData) => {
-  //           console.log("겟데이터", getData);
-  //           console.log("겟데이터의데이터", getData.data);
-  //           dispatch(chatActions.addChatList(getData.data));
-  //         });
-  //       }
-  //     }
-  //   );
-  //   //언마운트될때 소켓 연결 끊기
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  //   //빈배열의 경우 새로고침할때 리덕스가 날아가면서 icrId를 가져오지 못해 채팅을 못불러옴.
-  // }, [icrId]);
-
-  //스크롤넣어줄것임
+  // 채팅에 스크롤 넣어줌
   const scroll = useRef(null);
   const bottomView = () => {
     scroll.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -223,8 +173,6 @@ const Chat = (props) => {
             </div>
             <LiveChatBtn>실시간 대화 참여</LiveChatBtn>
           </BtnArea>
-          {/* ShowBtn이 false면 채팅방이 보여지고, LoginChat이 사라져야한다 */}
-
           {modalOpen ? (
             <OneChat open={modalOpen} close={closeModal} />
           ) : (
@@ -235,19 +183,19 @@ const Chat = (props) => {
                 })}
                 <div ref={scroll}></div>
               </ChatView>
-              <ChatInput
+              <ChattingInput icrId={icrId} />
+              {/* <ChatInput
                 type="text"
                 placeholder="텍스트를 입력하세요."
                 value={message}
                 onChange={onChangeMessage}
                 onKeyPress={(e) => {
-                  console.log("이키", e.key);
                   if (e.key === "Enter") {
                     e.preventDefault();
                     submitMessage(message);
                   }
                 }}
-              />
+              /> */}
               <WrapButtons>
                 <TradeCancelBtn>
                   <BtnText>교환취소</BtnText>
@@ -330,21 +278,6 @@ const ChatView = styled.div`
   box-sizing: border-box;
 `;
 
-const EntranceMsg = styled.div`
-  width: 270px;
-  height: 24px;
-  flex-grow: 0;
-  margin: 14px auto;
-  font-size: 18px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.33;
-  letter-spacing: normal;
-  text-align: center;
-  color: #7d7d7d;
-`;
-
 const ChatInput = styled.input`
   width: 724px;
   height: 74px;
@@ -359,19 +292,6 @@ const ChatInput = styled.input`
 
   position: relative;
   top: 520px;
-`;
-
-const SendText = styled.div`
-  flex-grow: 0;
-  font-family: Roboto;
-  font-size: 16px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #ffffff;
 `;
 
 const WrapButtons = styled.div`
@@ -418,46 +338,6 @@ const TradeSuccessBtn = styled.button`
   border-radius: 8px;
   border: solid 2px #3fbe81;
   background-color: #ffffff;
-`;
-
-const UserView = styled.div`
-  margin-bottom: 300px;
-  margin-left: 30px;
-
-  text-align: center;
-`;
-
-const UserBox = styled.div`
-  background: #d6d6d6;
-  height: 550px;
-  width: 150px;
-  border-radius: 20px;
-`;
-
-const UserNameBtn = styled.div`
-  display: flex;
-  flex-direction: row;
-  div {
-    margin: 14epx auto;
-    border: 1px solid #dbdbdb;
-    cursor: pointer;
-    outline: none;
-    background-color: #ffe0a2;
-    color: black;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 10px;
-    width: 100px;
-    height: 40px;
-  }
-`;
-
-const OfferChatBtn = styled.button`
-  width: 80px;
-  height: 24px;
-  border-radius: 10px;
-  background-color: #91be89;
 `;
 
 const ChatJoinBtn = styled.button`

@@ -36,19 +36,35 @@ const getIcrId = () => {
   };
 };
 
-const socket = io("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${getIcrId}` });
+const socket = io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${getIcrId}` });
 
-// const getSocket = (socket) => {
-//   return console.log(socket);
-// };
+//채팅창 보낼때 사용하려고 만들었으나 사용하고있지 않음(ChatInput에서 사용하고파)
+const sendChat = (socket, message, icrId) => {
+  return function (dispatch, getState, { history }) {
+    let token = getCookie("user_login");
+    socket.emit(
+      "authenticate",
+      {
+        token: token,
+      },
+      (data) => {
+        if (data["msg"] === "success") {
+          console.log("msg가 성공이라면 if문");
+          let send_data = {
+            email: email,
+            icrId: icrId,
+            chatMsg: message,
+          };
+          socket.emit("sendMsg", send_data);
+        }
+      }
+    );
+  };
+};
 
 //setRoom에서 받아온 채팅 목록 && 유저목록 추가
 const getAllChatList = (socket) => {
-  console.log("아무거나");
-  console.log("내려오는소켓", socket);
-  console.log("함수실행체크123");
   return function (dispatch, getState, { history }) {
-    console.log("함수실행체크");
     socket.on("setRoom", (data) => {
       console.log("셋룸데이터", data);
       dispatch(getChat(data.msgList));
@@ -124,6 +140,9 @@ export default handleActions(
       }),
     [ADD_CHAT]: (state, action) =>
       produce(state, (draft) => {
+        if (!draft.chat_list) {
+          draft.chat_list = action.payload.message;
+        }
         // draft.chat_list = [...draft.chat_list, action.payload.message];
         draft.chat_list.push(action.payload.message);
       }),
@@ -138,6 +157,9 @@ export default handleActions(
     [ADD_USER]: (state, action) =>
       produce(state, (draft) => {
         //draft.user_list = [draft.user_list, action.payload.user];
+        if (!draft.user_list) {
+          draft.user_list = action.payload.user;
+        }
         draft.user_list.push(action.payload.user);
       }),
     [LOADING]: (state, action) =>
@@ -159,6 +181,7 @@ const actionCreators = {
   loading,
   getIcrId,
   socket,
+  sendChat,
 };
 
 export { actionCreators };

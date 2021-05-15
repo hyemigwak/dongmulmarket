@@ -10,7 +10,7 @@ const ONE_POST = "ONE_POST";
 const ADD_POST = "ADD_POST";
 const LOADING = "LOADING";
 const ISBOSS = "ISBOSS";
-const DELETE_POST ="DELETE_POST";
+const DELETE_POST = "DELETE_POST";
 
 //actionCreators
 const loading = createAction(LOADING, (loading) => ({ loading }));
@@ -18,7 +18,7 @@ const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const onePost = createAction(ONE_POST, (post) => ({ post }));
 const isBoss = createAction(ISBOSS, (button) => ({ button }));
-const deletePost=createAction(DELETE_POST,(id)=>({id}));
+const deletePost = createAction(DELETE_POST, (itemId) => ({ itemId }));
 
 //initialState
 const initialState = {
@@ -26,6 +26,32 @@ const initialState = {
   detail_list: [],
   is_loading: false,
   boss: {},
+};
+
+//물품 삭제하기
+const deletePostAPI = (itemId) => {
+  return function (dispatch, getState, { history }) {
+    let token = getCookie("user_login");
+    axios({
+      method: "DELETE",
+      url: `${config.api}/mainPage/delete`,
+      headers: {
+        authorization: token,
+      },
+      data: {
+        itemId: itemId,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.msg === "success") {
+          dispatch(deletePost(itemId));
+        }
+      })
+      .catch((err) => {
+        console.log("deletePostAPI에서 오류", err);
+      });
+  };
 };
 
 //물품 불러오기(메인)
@@ -37,7 +63,7 @@ const getPostAPI = () => {
     })
       .then((res) => {
         console.log(res.data);
-      
+
         if (res.data.msg === "success") {
           const post_list = res.data.data;
           //종료일 기준으로 내림차순 정렬
@@ -45,7 +71,6 @@ const getPostAPI = () => {
             return a.deadLine < b.deadLine ? -1 : a.deadLine > b.deadLine ? 1 : 0;
           });
           dispatch(getPost(post_list));
-          dispatch(loading(false));
         } else {
           console.log("데이터 fail");
         }
@@ -124,7 +149,6 @@ export default handleActions(
     [GET_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.post_list = action.payload.post_list;
-        console.log(action.payload.post_list);
       }),
     [ONE_POST]: (state, action) =>
       produce(state, (draft) => {
@@ -141,6 +165,10 @@ export default handleActions(
       produce(state, (draft) => {
         draft.boss = action.payload.button;
       }),
+    [DELETE_POST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.post_list = draft.post_list.filter((p) => p.itemId !== action.payload.itemId);
+      }),
   },
   initialState
 );
@@ -152,6 +180,7 @@ const actionCreators = {
   getPostAPI,
   addPostAPI,
   getOnePostAPI,
+  deletePostAPI,
 };
 
 export { actionCreators };

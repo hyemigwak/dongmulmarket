@@ -9,5 +9,6 @@ import OneChat from "./OneChat";
 import NoLogin from "./NoLogin";
 import LoginChat from "./LoginChat";
 import ChatUsers from "./ChatUsers";
+import ChattingInput from "./ChattingInput";
 
-export { Footer, Header, MyLocation, EditAddress, Chat, Testpost, OneChat, GroupChat, NoLogin, LoginChat, ChatUsers };
+export { Footer, Header, MyLocation, EditAddress, Chat, Testpost, OneChat, GroupChat, NoLogin, LoginChat, ChatUsers, ChattingInput };
