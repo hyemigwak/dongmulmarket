@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef, useCallback, memo } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as chatActions } from "../redux/modules/chat";
@@ -8,8 +8,8 @@ import io from "socket.io-client";
 import axios from "axios";
 import { config } from "../shared/config";
 
-const Chat = (props) => {
-  console.log("Chat 렌더링이 계속되어서 문제다..");
+const Chat = memo((props) => {
+  console.log("2");
 
   //detail 페이지에서 프롭스로 채팅방ID, 아이템ID 받아옴
   const { icrId, itemId } = props;
@@ -22,20 +22,19 @@ const Chat = (props) => {
 
   console.log("챗 리스트", chatList);
 
-  //채팅에 입력한 내 메세지를 state로 저장
-  const [message, setMessage] = useState("");
-  //채팅 input에 걸어놓은 onChange 함수
-  const onChangeMessage = useCallback((e) => setMessage(e.target.value), []);
+  // //채팅에 입력한 내 메세지를 state로 저장
+  // const [message, setMessage] = useState("");
+  // //채팅 input에 걸어놓은 onChange 함수
+  // const onChangeMessage = useCallback((e) => setMessage(e.target.value), []);
+
+  const [socket, setSocket] = useState("");
 
   //토큰과 이메일은 각 쿠키, 로컬스토리지에서 가져옴
   const token = getCookie("user_login");
   const email = localStorage.getItem("email");
 
-  //렌더링될때 소켓 연결
-  const socket = io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${icrId}` });
-
   //채팅 보여주기
-  const [chatView, setChatView] = useState(false);
+  // const [chatView, setChatView] = useState(false);
 
   //모달 설정(실시간채팅, 1:1채팅 분기)
   const [modalOpen, setModalOpen] = useState(false);
@@ -49,6 +48,8 @@ const Chat = (props) => {
 
   //버튼 활성화 유무
   const [ShowBtn, setShowBtn] = useState(true);
+
+  //렌더링될때 소켓 연결
 
   //채팅방 버튼 보여주기 유무 불러오기
   const isBossAPI = (icrId) => {
@@ -72,38 +73,10 @@ const Chat = (props) => {
       });
   };
 
-  //서버로 메세지 보낼때
-  const submitMessage = (message) => {
-    if (!message) {
-      window.alert("메세지를 입력해주세요!");
-      return;
-    } else {
-      socket.emit(
-        "authenticate",
-        {
-          token: token,
-        },
-        (data) => {
-          if (data["msg"] === "success") {
-            console.log("msg가 성공이라면 if문");
-            let send_data = {
-              email: email,
-              icrId: icrId,
-              chatMsg: message,
-            };
-            console.log("센드데이터", send_data);
-            socket.emit("sendMsg", send_data);
-            setMessage("");
-          }
-        }
-      );
-    }
-  };
-
   //참여 버튼 눌렀을 때, 화면 분기 & 데이터 받아오기
   const ChatStart = () => {
     //화면 분기에 필요
-    setChatView(true);
+    // setChatView(true);
     setShowBtn(false);
     let data = {
       email: email,
@@ -112,30 +85,31 @@ const Chat = (props) => {
     dispatch(chatActions.addUserList(socket, data));
   };
 
+  //렌더링될때 소켓을 연결해준다.
+  // useEffect(() => {
+  //   if (socket.connected) {
+  //     console.log("연결완료");
+  //   }
+  //   //언마운트될때 소켓 연결 해제
+  //   return () => {
+  //     socket.disconnect();
+  //     console.log("연결해제");
+  //   };
+  // }, []);
+
+  console.log("icrId", icrId);
   useEffect(() => {
     isBossAPI(icrId);
   }, [icrId]);
 
-  //렌더링될때 소켓을 연결해준다.
   useEffect(() => {
-    if (socket.connected) {
-      console.log("연결완료");
-    }
-    //언마운트될때 소켓 연결 해제
-    return () => {
-      socket.disconnect();
-      console.log("연결해제");
-    };
-  }, []);
-
-  //렌더링 될 때마다, 데이터 가져오고 추가
-  useEffect(() => {
+    setSocket(io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${icrId}` }));
+    console.log("소켓", socket);
     //채팅리스트 가져오기(기존 리스트 + 추가된 리스트)
     dispatch(chatActions.getAllChatList(socket));
-
     //채팅 받아오기
     dispatch(chatActions.addChatList(socket));
-  }, [icrId]);
+  }, [socket, icrId]);
 
   // 채팅에 스크롤 넣어줌
   const scroll = useRef(null);
@@ -144,9 +118,9 @@ const Chat = (props) => {
   };
 
   //챗리스트 바뀔때마다 스크롤 내려주기
-  useEffect(() => {
-    bottomView();
-  }, [chatList]);
+  // useEffect(() => {
+  //   bottomView();
+  // }, [chatList]);
 
   if (ShowBtn) {
     return (
@@ -182,7 +156,7 @@ const Chat = (props) => {
                 })}
                 <div ref={scroll}></div>
               </ChatView>
-              <ChattingInput icrId={icrId} />
+              <ChattingInput icrId={icrId} socket={socket} />
               {/* <ChatInput
                 type="text"
                 placeholder="텍스트를 입력하세요."
@@ -210,7 +184,7 @@ const Chat = (props) => {
       </ChatContainer>
     );
   }
-};
+});
 
 const ChatContainer = styled.div`
   display: flex;

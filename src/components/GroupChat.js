@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import styled from "styled-components";
 
-const GroupChat = (props) => {
+const GroupChat = memo((props) => {
   const email = localStorage.getItem("email");
   const is_me = email === props.email ? true : false;
 
@@ -52,7 +52,7 @@ const GroupChat = (props) => {
       </>
     );
   }
-};
+});
 
 const EntranceMsg = styled.div`
   width: 270px;

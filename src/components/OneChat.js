@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
-const OneChat = (props) => {
+const OneChat = memo((props) => {
   const { open, close } = props;
 
   return (
@@ -14,7 +14,7 @@ const OneChat = (props) => {
       ) : null}
     </>
   );
-};
+});
 
 const ChatView = styled.div`
   background: #dce1df;

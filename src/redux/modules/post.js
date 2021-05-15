@@ -83,12 +83,13 @@ const getPostAPI = () => {
 
 //디테일 하나만 불러오기
 const getOnePostAPI = (itemId) => {
-  return function (dispatch, getState, { history }) {
-    axios
+  console.log("itemId", itemId);
+  return async function (dispatch, getState, { history }) {
+    await axios
       .get(`${config.api}/mainPage/${itemId}`)
       .then((res) => {
-        console.log(res);
         if (res.data.msg === "success") {
+          console.log(res);
           dispatch(onePost(res.data.data));
         } else {
           console.log("한개 데이터 불러오기 fail");

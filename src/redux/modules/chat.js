@@ -2,7 +2,6 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { getCookie } from "../../shared/Cookie";
 import io from "socket.io-client";
-// import { socket } from "../../components/Chat";
 
 //actions
 const ADD_CHAT = "ADD_CHAT";
@@ -36,7 +35,7 @@ const getIcrId = () => {
   };
 };
 
-const socket = io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${getIcrId}` });
+// const socket = io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${getIcrId}` });
 
 //채팅창 보낼때 사용하려고 만들었으나 사용하고있지 않음(ChatInput에서 사용하고파)
 const sendChat = (socket, message, icrId) => {
@@ -64,9 +63,11 @@ const sendChat = (socket, message, icrId) => {
 
 //setRoom에서 받아온 채팅 목록 && 유저목록 추가
 const getAllChatList = (socket) => {
+  console.log(socket);
   return function (dispatch, getState, { history }) {
     socket.on("setRoom", (data) => {
       console.log("셋룸데이터", data);
+
       dispatch(getChat(data.msgList));
       dispatch(getUsers(data.userList));
     });
@@ -157,10 +158,12 @@ export default handleActions(
     [ADD_USER]: (state, action) =>
       produce(state, (draft) => {
         //draft.user_list = [draft.user_list, action.payload.user];
-        if (!draft.user_list) {
-          draft.user_list = action.payload.user;
-        }
-        draft.user_list.push(action.payload.user);
+        // if (!draft.user_list) {
+        //   draft.user_list = action.payload.user;
+        //   return;
+        // }
+        console.log(action.payload.user);
+        draft.user_list.push(action.payload.user.userList);
       }),
     [LOADING]: (state, action) =>
       produce(state, (draft) => {
@@ -180,7 +183,6 @@ const actionCreators = {
   addChat,
   loading,
   getIcrId,
-  socket,
   sendChat,
 };
 

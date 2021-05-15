@@ -1,42 +1,41 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, memo } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { OneChat, GroupChat, NoLogin, LoginChat, ChatUsers } from "../components";
 import { getCookie } from "../shared/Cookie";
 import { Chat } from "../components";
-import io from "socket.io-client";
-import axios from "axios";
-import { config } from "../shared/config";
 
-const Detail = (props) => {
+const Detail = memo((props) => {
+  console.log("1");
   const dispatch = useDispatch();
-  const id = props.match.params.id;
+  const { id } = useParams();
+  // const id = props.match.params.id;
+  console.log(id);
   const detail = useSelector((state) => state.post.detail_list);
   const is_login = useSelector((state) => state.user.is_login);
-  console.log(detail);
 
   const email = localStorage.getItem("email");
-  const icrId = detail?.icrId;
-  console.log("icrId", icrId);
-
-  const socket = io("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${icrId}` });
+  // const icrId = detail?.icrId;
 
   //채팅 보여주기
   const [chatView, setChatView] = useState(false);
 
-  //렌더링 될때, 디테일 데이터 받아오기 & 소켓 연결하기(확인)
   useEffect(() => {
+    console.log("3");
     dispatch(postActions.getOnePostAPI(id));
-  }, [icrId, id]);
+    console.log(detail);
+  }, [id]);
 
+  console.log(detail);
   return (
     <React.Fragment>
       <WrapDetail>
         <Title>물품 교환하기</Title>
         <WrapBox>
-         <ProductsBox>
+          <ProductsBox>
             <InfoTitle>상품 정보</InfoTitle>
             <Img src={detail.image} />
             <InfoBox>
@@ -58,12 +57,12 @@ const Detail = (props) => {
               </DetailArea>
             </InfoBox>
           </ProductsBox>
-          {is_login ? <Chat {...detail} /> : <NoLogin />}
+          {detail ? <NoLogin /> : <Chat {...detail} />}
         </WrapBox>
       </WrapDetail>
     </React.Fragment>
   );
-};
+});
 
 const WrapDetail = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
