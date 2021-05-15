@@ -7,7 +7,7 @@ import { OneChat, GroupChat, LoginChat, ChatUsers } from ".";
 import io from "socket.io-client";
 import axios from "axios";
 import { config } from "../shared/config";
-import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
+
 
 const Chat = (props) => {
   const dispatch = useDispatch();
@@ -249,9 +249,6 @@ const Chat = (props) => {
                 }}
               />
               <WrapButtons>
-                <ForceExitBtn>
-                  <BtnText>강퇴</BtnText>
-                </ForceExitBtn>
                 <TradeCancelBtn>
                   <BtnText>교환취소</BtnText>
                 </TradeCancelBtn>
@@ -389,22 +386,6 @@ const BtnText = styled.div`
   font-weight: 500;
   color: #3fbe81;
   cursor: pointer;
-`;
-
-const ForceExitBtn = styled.button`
-  min-width: 159px;
-  min-height: 53px;
-  flex-grow: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin: 0 218px 0 0;
-  padding: 10px 30px;
-  border-radius: 8px;
-  border: solid 2px #3fbe81;
-  background-color: #ffffff;
 `;
 
 const TradeCancelBtn = styled.button`
