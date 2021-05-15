@@ -7,19 +7,12 @@ import { actionCreators as postActions } from "../redux/modules/post";
 import PostList from "./PostList";
 import Banners from "../components/Banners";
 const Main = (props) => {
-  const dispatch = useDispatch();
-  const postList = useSelector((state) => state.post.post_list);
-
-  useEffect(() => {
-    dispatch(postActions.getPostAPI());
-  }, []);
-
   return (
     <React.Fragment>
       <WrapMain>
         <Banners />
         <Title>교환을 기다리고 있어요!</Title>
-        <PostList postList={postList} />
+        <PostList />
       </WrapMain>
     </React.Fragment>
   );

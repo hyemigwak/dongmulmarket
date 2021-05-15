@@ -6,18 +6,22 @@ import { useDispatch, useSelector } from "react-redux";
 import bellimg from "../image/bell.png";
 import LVector from "../image/LVector.png";
 import RVector from "../image/RVector.png";
-
 import { actionCreators as postActions } from "../redux/modules/post";
 import SalesDetails from "./SalesDetails";
 
 const Mypage = (props) => {
   const dispatch = useDispatch();
   const salesList = useSelector((state) => state.post.post_list);
+  console.log(salesList);
+  const email = localStorage.getItem("email");
 
   const cookie = getCookie("user_login") ? true : false;
   const is_login = useSelector((state) => state.user.is_login);
 
-  const [showResults, setShowResults] = React.useState(false);
+  //내 게시글인것만 가져와서 리스트로 만든다.
+  const MyProductList = salesList.filter((s) => s.email === email);
+
+  const [showResults, setShowResults] = useState(false);
   const showFunction = (props) => {
     setShowResults(true);
   };
@@ -34,77 +38,62 @@ const Mypage = (props) => {
   //   );
   // };
 
-  if (is_login && cookie) {
-    console.log(salesList);
-    return (
-      <React.Fragment>
-        <WrapMypage>
-          <MpageHeader>
-            <Title>마이페이지</Title>
-            <div>
-              <AlarmIcon className="bell"  src={bellimg}/>
-            </div>
-            <LocationBtn
-                  onClick={() => {
-                    history.push("/mylocation");
-                  }}
-                >
-                  나의 위치 설정하기 >
-                </LocationBtn>
-          </MpageHeader>
-          
-          <MyPageC>
-           <SellTitle>나의 판매내역</SellTitle>
-           <SellContainer>
-            <LeftArrow src={LVector}/>
+  return (
+    <React.Fragment>
+      <WrapMypage>
+        <MpageHeader>
+          <Title>마이페이지</Title>
+          <div>
+            <AlarmIcon className="bell" src={bellimg} />
+          </div>
+          <LocationBtn
+            onClick={() => {
+              history.push("/mylocation");
+            }}
+          >
+            나의 위치 설정하기 >
+          </LocationBtn>
+        </MpageHeader>
+
+        <MyPageC>
+          <SellTitle>나의 판매내역</SellTitle>
+          <SellContainer>
+            <LeftArrow src={LVector} />
             <SellBoxC>
-              <SalesDetails salesList={salesList}/>
-                {/* <ProductBox/>
-                <ProductBox/>
-                <ProductBox/>
-                <ProductBox/> */}
+              {MyProductList?.map((myProduct, idx) => (
+                <SalesDetails {...myProduct} key={idx} />
+              ))}
             </SellBoxC>
-            <RightArrow src={RVector}/>
-           </SellContainer>
+            <RightArrow src={RVector} />
+          </SellContainer>
 
-           <DoneTitle>교환완료 내역</DoneTitle>
-           <DoneContainer>
-           <LeftArrow src={LVector}/>
+          <DoneTitle>교환완료 내역</DoneTitle>
+          <DoneContainer>
+            <LeftArrow src={LVector} />
             <DoneBoxC>
-                <ProductBox/>
-                <ProductBox/>
-                <ProductBox/>
-                <ProductBox/>
+              <ProductBox />
+              <ProductBox />
+              <ProductBox />
+              <ProductBox />
             </DoneBoxC>
-            <RightArrow src={RVector}/>
-           </DoneContainer>
-           
-           <IngTitle>교환 진행중</IngTitle>
-           <IngContainer>
-            <LeftArrow src={LVector}/>
-              <DoneBoxC>
-                    <ProductBox/>
-                    <ProductBox/>
-                    <ProductBox/>
-                    <ProductBox/>
-                </DoneBoxC>
-              <RightArrow src={RVector}/>            
+            <RightArrow src={RVector} />
+          </DoneContainer>
 
-           </IngContainer>
-          
-           
-           
-          </MyPageC>
-
-
-        </WrapMypage>
-      </React.Fragment>
-    );
-  } else {
-    window.alert("로그인 해주세요!");
-    history.push("/login");
-    return null;
-  }
+          <IngTitle>교환 진행중</IngTitle>
+          <IngContainer>
+            <LeftArrow src={LVector} />
+            <DoneBoxC>
+              <ProductBox />
+              <ProductBox />
+              <ProductBox />
+              <ProductBox />
+            </DoneBoxC>
+            <RightArrow src={RVector} />
+          </IngContainer>
+        </MyPageC>
+      </WrapMypage>
+    </React.Fragment>
+  );
 };
 
 const WrapMypage = styled.div`
@@ -117,10 +106,9 @@ const WrapMypage = styled.div`
   } */
 `;
 
-const MpageHeader=styled.div`
-display:flex;
-height:200px;
-
+const MpageHeader = styled.div`
+  display: flex;
+  height: 200px;
 `;
 
 const Title = styled.div`
@@ -130,10 +118,10 @@ const Title = styled.div`
   line-height: 1.25;
   letter-spacing: 0.72px;
   text-align: left;
-  color:#1c1c1c;
+  color: #1c1c1c;
 `;
 
-const AlarmIcon= styled.img`
+const AlarmIcon = styled.img`
   width: 51px;
   height: 51px;
   flex-grow: 0;
@@ -143,31 +131,30 @@ const AlarmIcon= styled.img`
   border-radius: 30px;
   z-index: 1;
 
-  .bell{
+  .bell {
     z-index: 1000;
     width: 24px;
     height: 24px;
     flex-grow: 0;
     object-fit: contain;
-    color:#fffff;
-    
+    color: #ffffff;
   }
 `;
 
 const LocationBtn = styled.button`
-width: 184px;
-height: 34px;
-background-color:#ffffff;
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-gap: 10px;
-margin: 98.1px 200px;
-padding: 7px 14px 6px;
-border-radius: 83px;
-border: solid 2px #3fbe81;
-cursor: pointer;
+  width: 184px;
+  height: 34px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 98.1px 200px;
+  padding: 7px 14px 6px;
+  border-radius: 83px;
+  border: solid 2px #3fbe81;
+  cursor: pointer;
 `;
 
 const MyPageC = styled.div`
@@ -175,109 +162,103 @@ const MyPageC = styled.div`
   width: 1400px;
 
   height: 100vh;
-
 `;
 
-const SellContainer=styled.div`
-display:flex;
+const SellContainer = styled.div`
+  display: flex;
 `;
 
-const DoneContainer=styled.div`
-display:flex;
+const DoneContainer = styled.div`
+  display: flex;
 `;
 
-const IngContainer=styled.div`
-display:flex;
+const IngContainer = styled.div`
+  display: flex;
 `;
-const SellTitle=styled.div`
-flex-grow: 0;
-margin-left:100px;
-font-size: 24px;
-font-weight: 500;
-line-height: 1;
-letter-spacing: normal;
-display:flex;
-color: #2f2f2f;
-margin-bottom:24px;
-`;
-
-const LeftArrow=styled.img`
-
-width: 18px;
-height: 36.3px;
-object-fit: contain;
-margin: 100px 0px 0px 0px;
-z-index: 1000;
+const SellTitle = styled.div`
+  flex-grow: 0;
+  margin-left: 100px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: normal;
+  display: flex;
+  color: #2f2f2f;
+  margin-bottom: 24px;
 `;
 
-const RightArrow=styled.img`
-width: 18px;
-height: 36.3px;
-margin: 100px 0px 0px 0px;
-object-fit: contain;
-
-
-`;
-const SellBoxC=styled.div`
-width:1200px;
-margin:auto;
-
-display:flex;
-justify-content: space-between;
+const LeftArrow = styled.img`
+  width: 18px;
+  height: 36.3px;
+  object-fit: contain;
+  margin: 100px 0px 0px 0px;
+  z-index: 1000;
 `;
 
-const ProductBox=styled.div`
-width: 205px;
-height: 230px;
-flex-grow: 0;
-margin: 0 1px 0 0;
-padding: 180px 32px 16px 16px;
-border-radius: 8px;
-border: solid 1px #91be89;
+const RightArrow = styled.img`
+  width: 18px;
+  height: 36.3px;
+  margin: 100px 0px 0px 0px;
+  object-fit: contain;
+`;
+const SellBoxC = styled.div`
+  width: 1200px;
+  margin: auto;
+
+  display: flex;
+  justify-content: flex-start;
 `;
 
-const DoneTitle=styled.div`
-flex-grow: 0;
-margin-top:50px;
-margin-left:100px;
-font-size: 24px;
-font-weight: 500;
-line-height: 1;
-letter-spacing: normal;
-display:flex;
-color: #2f2f2f;
-margin-bottom:24px;
+const ProductBox = styled.div`
+  width: 205px;
+  height: 230px;
+  flex-grow: 0;
+  margin: 0 1px 0 0;
+  padding: 180px 32px 16px 16px;
+  border-radius: 8px;
+  border: solid 1px #91be89;
 `;
 
-const DoneBoxC=styled.div`
-width:1200px;
-margin:auto;
-
-display:flex;
-justify-content: space-between;
+const DoneTitle = styled.div`
+  flex-grow: 0;
+  margin-top: 50px;
+  margin-left: 100px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: normal;
+  display: flex;
+  color: #2f2f2f;
+  margin-bottom: 24px;
 `;
 
-const IngTitle=styled.div`
-flex-grow: 0;
-margin-top:50px;
-margin-left:100px;
-font-size: 24px;
-font-weight: 500;
-line-height: 1;
-letter-spacing: normal;
-display:flex;
-color: #2f2f2f;
-margin-bottom:24px;
-`;
-const IngBoxC=styled.div`
-width:1200px;
-margin:auto;
+const DoneBoxC = styled.div`
+  width: 1200px;
+  margin: auto;
 
-display:flex;
-justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 `;
 
+const IngTitle = styled.div`
+  flex-grow: 0;
+  margin-top: 50px;
+  margin-left: 100px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: normal;
+  display: flex;
+  color: #2f2f2f;
+  margin-bottom: 24px;
+`;
+const IngBoxC = styled.div`
+  width: 1200px;
+  margin: auto;
 
+  display: flex;
+  justify-content: space-between;
+`;
 
 const SettingC = styled.div`
   width: 200px;
@@ -289,7 +270,6 @@ const SettingC = styled.div`
     font-weight: 600;
   }
 `;
-
 
 const FinishC = styled.div`
   justify-content: space-evenly;
@@ -320,6 +300,5 @@ const Box = styled.div`
   background: #eee;
   margin-right: 10px;
 `;
-
 
 export default Mypage;
