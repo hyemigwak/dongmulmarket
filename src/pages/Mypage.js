@@ -21,31 +21,38 @@ const Mypage = (props) => {
   //내 게시글인것만 가져와서 리스트로 만든다.
   const MyProductList = salesList.filter((s) => s.email === email);
 
+
   const [showResults, setShowResults] = useState(false);
+  
+  const [isEmpty, setisEmpty]=useState(false);
+
   const showFunction = (props) => {
     setShowResults(true);
   };
+
 
   useEffect(() => {
     dispatch(postActions.getPostAPI());
   }, []);
 
-  // const Results = (props) => {
-  //   return (
-  //     <BoxContainer>
-  //       <Box />
-  //     </BoxContainer>
-  //   );
-  // };
+  useEffect(()=>{
+    const len=MyProductList.length;
+    console.log(len);
+    if(len==0)
+    {
+      setisEmpty(true);
+      
+    }
+    console.log(isEmpty);
+  },[]);
+
 
   return (
     <React.Fragment>
       <WrapMypage>
         <MpageHeader>
           <Title>마이페이지</Title>
-          <div>
-            <AlarmIcon className="bell" src={bellimg} />
-          </div>
+          <AlarmIcon className="bell" src={bellimg} />
           <LocationBtn
             onClick={() => {
               history.push("/mylocation");
@@ -56,41 +63,53 @@ const Mypage = (props) => {
         </MpageHeader>
 
         <MyPageC>
-          <SellTitle>나의 판매내역</SellTitle>
-          <SellContainer>
-            <LeftArrow src={LVector} />
-            <SellBoxC>
-              {MyProductList?.map((myProduct, idx) => (
+         
+        {isEmpty ? 
+          <Blank>
+              게시물을 등록해주세요!
+          </Blank>
+        : 
+        <>
+        <SellTitle>나의 판매내역</SellTitle>
+        <SellContainer>
+          <LeftArrow src={LVector} />
+          <SellBoxC>
+            {MyProductList?.map((myProduct, idx) => (
                 <SalesDetails {...myProduct} key={idx} />
               ))}
-            </SellBoxC>
-            <RightArrow src={RVector} />
-          </SellContainer>
+          </SellBoxC>
+          <RightArrow src={RVector} />
+        </SellContainer>
 
-          <DoneTitle>교환완료 내역</DoneTitle>
-          <DoneContainer>
-            <LeftArrow src={LVector} />
-            <DoneBoxC>
-              <ProductBox />
-              <ProductBox />
-              <ProductBox />
-              <ProductBox />
-            </DoneBoxC>
-            <RightArrow src={RVector} />
-          </DoneContainer>
 
-          <IngTitle>교환 진행중</IngTitle>
-          <IngContainer>
-            <LeftArrow src={LVector} />
-            <DoneBoxC>
-              <ProductBox />
-              <ProductBox />
-              <ProductBox />
-              <ProductBox />
-            </DoneBoxC>
-            <RightArrow src={RVector} />
-          </IngContainer>
-        </MyPageC>
+        <DoneTitle>교환완료 내역</DoneTitle>
+        <DoneContainer>
+          <LeftArrow src={LVector} />
+          <DoneBoxC>
+            <ProductBox />
+            <ProductBox />
+            <ProductBox />
+            <ProductBox />
+          </DoneBoxC>
+          <RightArrow src={RVector} />
+        </DoneContainer>
+
+        {/* <IngTitle>교환 진행중</IngTitle>
+        <IngContainer>
+          <LeftArrow src={LVector} />
+          <DoneBoxC>
+            <ProductBox />
+            <ProductBox />
+            <ProductBox />
+            <ProductBox />
+          </DoneBoxC>
+          <RightArrow src={RVector} />
+        </IngContainer> */}
+        </>
+        }
+          
+          
+      </MyPageC>
       </WrapMypage>
     </React.Fragment>
   );
@@ -98,9 +117,12 @@ const Mypage = (props) => {
 
 const WrapMypage = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
+  width:100vw;
   padding-top: 60px;
   display: flex;
   flex-direction: column;
+  height: 1460px;
+ 
   /* @media (max-width: 1000px){
     heigth: 
   } */
@@ -108,6 +130,7 @@ const WrapMypage = styled.div`
 
 const MpageHeader = styled.div`
   display: flex;
+  
   height: 200px;
 `;
 
@@ -115,10 +138,10 @@ const Title = styled.div`
   margin: 90px 16px 0px 144px;
   font-size: 36px;
   font-weight: bold;
-  line-height: 1.25;
-  letter-spacing: 0.72px;
-  text-align: left;
+  width:200px;
+  display: table;
   color: #1c1c1c;
+
 `;
 
 const AlarmIcon = styled.img`
@@ -142,8 +165,9 @@ const AlarmIcon = styled.img`
 `;
 
 const LocationBtn = styled.button`
-  width: 184px;
-  height: 34px;
+  width: 11.500em; //184px
+
+  height: 2.125em; //34px;
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
@@ -155,26 +179,45 @@ const LocationBtn = styled.button`
   border-radius: 83px;
   border: solid 2px #3fbe81;
   cursor: pointer;
+  
+  //display: table;
+
+  text-align:center;
 `;
 
 const MyPageC = styled.div`
   margin: auto;
   width: 1400px;
-
+  margin-top:30px;
   height: 100vh;
 `;
 
+const Blank =styled.div`
+width:1000px;
+margin:auto;
+background-color: #d0d0d0;
+text-align:center;
+font-size: 30px;
+font-weight: bold;
+color:#ffffff;
+`;
+
+
 const SellContainer = styled.div`
   display: flex;
+
 `;
 
 const DoneContainer = styled.div`
   display: flex;
+  
 `;
 
 const IngContainer = styled.div`
   display: flex;
+
 `;
+
 const SellTitle = styled.div`
   flex-grow: 0;
   margin-left: 100px;
@@ -201,22 +244,25 @@ const RightArrow = styled.img`
   margin: 100px 0px 0px 0px;
   object-fit: contain;
 `;
-const SellBoxC = styled.div`
-  width: 1200px;
-  margin: auto;
 
-  display: flex;
-  justify-content: flex-start;
+const SellBoxC = styled.div`
+width: 1200px;
+margin: auto;
+display: flex;
+justify-content: flex-start;
 `;
 
 const ProductBox = styled.div`
-  width: 205px;
-  height: 230px;
-  flex-grow: 0;
-  margin: 0 1px 0 0;
-  padding: 180px 32px 16px 16px;
-  border-radius: 8px;
-  border: solid 1px #91be89;
+width: 205px;
+height: 278px;
+flex-grow: 0;
+
+margin: 40px 30px 50px 60px;
+
+padding: 0 0 16px;
+border-radius: 8px;
+border: solid 1px #91be89;
+position: relative;
 `;
 
 const DoneTitle = styled.div`
@@ -235,9 +281,8 @@ const DoneTitle = styled.div`
 const DoneBoxC = styled.div`
   width: 1200px;
   margin: auto;
-
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
 `;
 
 const IngTitle = styled.div`
@@ -251,54 +296,6 @@ const IngTitle = styled.div`
   display: flex;
   color: #2f2f2f;
   margin-bottom: 24px;
-`;
-const IngBoxC = styled.div`
-  width: 1200px;
-  margin: auto;
-
-  display: flex;
-  justify-content: space-between;
-`;
-
-const SettingC = styled.div`
-  width: 200px;
-  height: 100vh;
-  margin-top: 50px;
-  h2 {
-    margin-left: 2rem;
-    font-size: 24px;
-    font-weight: 600;
-  }
-`;
-
-const FinishC = styled.div`
-  justify-content: space-evenly;
-  margin-top: 20px;
-  width: 600px;
-  height: 300px;
-`;
-
-const FinishTitle = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const BoxContainer = styled.div`
-  justify-content: space-evenly;
-  display: flex;
-`;
-
-const StillC = styled.div`
-  justify-content: space-evenly;
-  margin-top: 50px;
-`;
-
-const StillTitle = styled.div``;
-const Box = styled.div`
-  width: 200px;
-  height: 200px;
-  background: #eee;
-  margin-right: 10px;
 `;
 
 export default Mypage;

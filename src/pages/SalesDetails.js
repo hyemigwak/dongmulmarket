@@ -52,14 +52,16 @@ const SalesListC = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin-left: 118px;
+ 
 `;
 
 const Box = styled.div`
   width: 205px;
   height: 278px;
   flex-grow: 0;
-  margin: 40px 31px 50px 16px;
+  
+  margin: 40px 30px 50px 60px;
+  
   padding: 0 0 16px;
   border-radius: 8px;
   border: solid 1px #91be89;

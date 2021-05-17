@@ -51,6 +51,7 @@ const Chat = (props) => {
   //버튼 활성화 유무
   const [ShowBtn, setShowBtn] = useState(true);
 
+
   //채팅방 버튼 보여주기 유무 불러오기
   const isBossAPI = (icrId) => {
     let token = getCookie("user_login");
@@ -149,6 +150,8 @@ const Chat = (props) => {
     bottomView();
   }, [chatList]);
 
+
+
   if (ShowBtn) {
     return (
       <>
@@ -196,14 +199,17 @@ const Chat = (props) => {
                   }
                 }}
               /> */}
+       
               <WrapButtons>
-                <TradeCancelBtn>
-                  <BtnText>교환취소</BtnText>
-                </TradeCancelBtn>
-                <TradeSuccessBtn>
-                  <BtnText>교환성사</BtnText>
-                </TradeSuccessBtn>
-              </WrapButtons>
+              <TradeCancelBtn>
+                <BtnText>교환취소</BtnText>
+              </TradeCancelBtn>
+              <TradeSuccessBtn>
+                <BtnText>교환성사</BtnText>
+              </TradeSuccessBtn>
+            </WrapButtons>
+            
+              
             </>
           )}
         </ChatBox>

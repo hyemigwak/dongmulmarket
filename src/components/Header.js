@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { getCookie } from "../shared/Cookie";
 import "./Header.css";
+import logo1 from "../image/logo1.png";
 
 const Header = (props) => {
   const dispatch = useDispatch();
@@ -30,12 +31,12 @@ const Header = (props) => {
               history.push("/");
             }}
           >
-            <LogoBox
+            <LogoBox src={logo1}
               onClick={() => {
                 history.push("/");
               }}
             ></LogoBox>
-            <LogoText>동물마켓</LogoText>
+          
           </WelcomeWords>
           <BtnArea>
             <HeaderCategory
@@ -80,12 +81,12 @@ const Header = (props) => {
               history.push("/");
             }}
           >
-            <LogoBox
+            <LogoBox src={logo1}
               onClick={() => {
                 history.push("/");
               }}
             ></LogoBox>
-            <LogoText>동물마켓</LogoText>
+            
           </WelcomeWords>
 
           <BtnArea2>
@@ -139,28 +140,11 @@ const WelcomeWords = styled.div`
   }
 `;
 
-const LogoBox = styled.div`
-  width: 53px;
-  height: 53px;
-  margin: 0 24px 1px 0;
-  background-color: #c4c4c4;
+const LogoBox = styled.img`
+margin-left:50px;
 `;
 
-const LogoText = styled.div`
-  width: 125px;
-  height: 40px;
-  margin: 8px 357px 6px 24px;
-  flex-grow: 0;
-  font-size: 30px;
-  text-align: left;
-  color: #2f2f2f;
-  font-family: "Binggrae";
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-`;
+
 
 const HeaderCategory = styled.div`
   width: 77px;
