@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback, memo } from "react";
+import React, { useState, useCallback, memo } from "react";
 import styled from "styled-components";
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { getCookie } from "../shared/Cookie";

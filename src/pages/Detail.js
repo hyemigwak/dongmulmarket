@@ -1,35 +1,21 @@
-import React, { useEffect, useState, useRef, memo } from "react";
+import React, { useEffect, memo } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
-import { actionCreators as chatActions } from "../redux/modules/chat";
-import { OneChat, GroupChat, NoLogin, LoginChat, ChatUsers } from "../components";
-import { getCookie } from "../shared/Cookie";
-import { Chat } from "../components";
+import { NoLogin, Chat } from "../components";
 
 const Detail = memo((props) => {
-  console.log("1");
   const dispatch = useDispatch();
   const { id } = useParams();
-  // const id = props.match.params.id;
-  console.log(id);
+
   const detail = useSelector((state) => state.post.detail_list);
   const is_login = useSelector((state) => state.user.is_login);
 
-  const email = localStorage.getItem("email");
-  // const icrId = detail?.icrId;
-
-  //채팅 보여주기
-  const [chatView, setChatView] = useState(false);
-
   useEffect(() => {
-    console.log("3");
     dispatch(postActions.getOnePostAPI(id));
-    console.log(detail);
-  }, [id]);
+  }, [dispatch, id]);
 
-  console.log(detail);
   return (
     <React.Fragment>
       <WrapDetail>
@@ -57,7 +43,7 @@ const Detail = memo((props) => {
               </DetailArea>
             </InfoBox>
           </ProductsBox>
-          {detail ? <NoLogin /> : <Chat {...detail} />}
+          {detail?.icrId && is_login ? <Chat {...detail} /> : <NoLogin />}
         </WrapBox>
       </WrapDetail>
     </React.Fragment>

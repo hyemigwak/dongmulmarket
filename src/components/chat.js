@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useRef, useCallback, memo } from "react";
+import React, { useEffect, useState, useRef, useCallback, memo, useMemo } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as chatActions } from "../redux/modules/chat";
+import { actionCreators as postActions } from "../redux/modules/post";
 import { getCookie } from "../shared/Cookie";
 import { OneChat, GroupChat, LoginChat, ChatUsers, ChattingInput } from "./index";
 import io from "socket.io-client";
@@ -9,50 +10,47 @@ import axios from "axios";
 import { config } from "../shared/config";
 
 const Chat = memo((props) => {
-  console.log("2");
-
   //detail 페이지에서 프롭스로 채팅방ID, 아이템ID 받아옴
   const { icrId, itemId } = props;
-
+  console.log("props:", props);
+  // 채팅에 스크롤 넣어줌
+  const scroll = useRef(null);
   const dispatch = useDispatch();
+
+  const [socket, setSocket] = useState("");
+  const email = useMemo(() => localStorage.getItem("email"), []);
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  //채팅에 이미 참여되어있는 사람인지, 신규인지 확인하는 값
+  const [ShowBtn, setShowBtn] = useState(true);
 
   //리덕스에 저장해놓은 채팅 리스트와, 참여 유저리스트를 가져온다
   const chatList = useSelector((state) => state.chat.chat_list);
   const userList = useSelector((state) => state.chat.user_list);
 
-  console.log("챗 리스트", chatList);
+  const bottomView = () => {
+    scroll.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  };
 
-  // //채팅에 입력한 내 메세지를 state로 저장
-  // const [message, setMessage] = useState("");
-  // //채팅 input에 걸어놓은 onChange 함수
-  // const onChangeMessage = useCallback((e) => setMessage(e.target.value), []);
-
-  const [socket, setSocket] = useState("");
-
-  //토큰과 이메일은 각 쿠키, 로컬스토리지에서 가져옴
-  const token = getCookie("user_login");
-  const email = localStorage.getItem("email");
-
-  //채팅 보여주기
-  // const [chatView, setChatView] = useState(false);
-
-  //모달 설정(실시간채팅, 1:1채팅 분기)
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const openModal = () => {
+  console.log(ShowBtn);
+  if (!socket) {
+    console.log("소켓연결");
+    setSocket(
+      io.connect("http://15.165.76.76:3001/chatting", {
+        query: `email=${email}&icrId=${icrId}`,
+      })
+    );
+  }
+  const openModal = useCallback(() => {
     setModalOpen(true);
-  };
-  const closeModal = () => {
+  }, []);
+  const closeModal = useCallback(() => {
     setModalOpen(false);
-  };
-
-  //버튼 활성화 유무
-  const [ShowBtn, setShowBtn] = useState(true);
-
-  //렌더링될때 소켓 연결
+  }, []);
 
   //채팅방 버튼 보여주기 유무 불러오기
-  const isBossAPI = (icrId) => {
+  const isBossAPI = useCallback((icrId) => {
     let token = getCookie("user_login");
     axios({
       method: "POST",
@@ -62,7 +60,6 @@ const Chat = memo((props) => {
       },
     })
       .then((res) => {
-        console.log("버튼에서 내려오는 값", res.data);
         // false면 채팅방 버튼 없어져야 함
         if (res.data.buttonYn["groupJoinButton"] === false) {
           setShowBtn(false);
@@ -71,56 +68,41 @@ const Chat = memo((props) => {
       .catch((err) => {
         console.log("isBossAPI에러", err);
       });
-  };
+  }, []);
 
   //참여 버튼 눌렀을 때, 화면 분기 & 데이터 받아오기
-  const ChatStart = () => {
-    //화면 분기에 필요
-    // setChatView(true);
+  const ChatStart = useCallback(() => {
     setShowBtn(false);
-    let data = {
-      email: email,
-      icrId: icrId,
-    };
-    dispatch(chatActions.addUserList(socket, data));
-  };
+    dispatch(chatActions.addUserList(socket, { email, icrId }));
+    // dispatch(chatActions.)
+  }, [email, icrId, dispatch, socket]);
 
   //렌더링될때 소켓을 연결해준다.
-  // useEffect(() => {
-  //   if (socket.connected) {
-  //     console.log("연결완료");
-  //   }
-  //   //언마운트될때 소켓 연결 해제
-  //   return () => {
-  //     socket.disconnect();
-  //     console.log("연결해제");
-  //   };
-  // }, []);
+  useEffect(() => {
+    if (socket.connected) {
+      console.log("연결완료");
+    }
+    //언마운트될때 소켓 연결 해제
+    return () => {
+      socket.disconnect();
+      dispatch(postActions.clearOne());
+      console.log("연결해제");
+    };
+  }, [socket, dispatch]);
 
-  console.log("icrId", icrId);
   useEffect(() => {
     isBossAPI(icrId);
-  }, [icrId]);
+  });
 
   useEffect(() => {
-    setSocket(io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${icrId}` }));
-    console.log("소켓", socket);
-    //채팅리스트 가져오기(기존 리스트 + 추가된 리스트)
     dispatch(chatActions.getAllChatList(socket));
-    //채팅 받아오기
     dispatch(chatActions.addChatList(socket));
-  }, [socket, icrId]);
-
-  // 채팅에 스크롤 넣어줌
-  const scroll = useRef(null);
-  const bottomView = () => {
-    scroll.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  };
+  }, [dispatch, socket]);
 
   //챗리스트 바뀔때마다 스크롤 내려주기
-  // useEffect(() => {
-  //   bottomView();
-  // }, [chatList]);
+  useEffect(() => {
+    bottomView();
+  }, [chatList]);
 
   if (ShowBtn) {
     return (
@@ -157,18 +139,6 @@ const Chat = memo((props) => {
                 <div ref={scroll}></div>
               </ChatView>
               <ChattingInput icrId={icrId} socket={socket} />
-              {/* <ChatInput
-                type="text"
-                placeholder="텍스트를 입력하세요."
-                value={message}
-                onChange={onChangeMessage}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    submitMessage(message);
-                  }
-                }}
-              /> */}
               <WrapButtons>
                 <TradeCancelBtn>
                   <BtnText>교환취소</BtnText>

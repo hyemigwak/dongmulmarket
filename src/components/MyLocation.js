@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as mapActions } from "../redux/modules/map";
-import DaumPostcode from "react-daum-postcode";
-import { EditAddress } from "./index";
 import { history } from "../redux/configureStore";
 import Testpost from "./Testpost";
 

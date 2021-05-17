@@ -1,9 +1,10 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useSelector } from "react";
 import styled from "styled-components";
 
 const GroupChat = memo((props) => {
   const email = localStorage.getItem("email");
   const is_me = email === props.email ? true : false;
+  // const chatList = useSelector((state) => state.chat.chat_list);
 
   if (is_me) {
     return (

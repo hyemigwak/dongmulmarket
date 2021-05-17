@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
 import AddIcon from "@material-ui/icons/Add";
-import { useSelector, useDispatch } from "react-redux";
-import { actionCreators as postActions } from "../redux/modules/post";
 import PostList from "./PostList";
 import Banners from "../components/Banners";
 const Main = (props) => {
@@ -43,5 +41,3 @@ const Title = styled.h2`
 `;
 
 export default Main;
-
-

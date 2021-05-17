@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { getCookie } from "../shared/Cookie";
-import io from "socket.io-client";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 const ChatUsers = memo((props) => {
