@@ -1,5 +1,5 @@
 import { createAction, handleActions } from "redux-actions";
-import { produce } from "immer";
+import { produce, produceWithPatches } from "immer";
 import axios from "axios";
 import { getCookie } from "../../shared/Cookie";
 import { config } from "../../shared/config";
@@ -7,6 +7,7 @@ import { config } from "../../shared/config";
 //actions
 const GET_POST = "GET_POST";
 const ONE_POST = "ONE_POST";
+const CLEAR_ONE = "CLEAR_ONE";
 const ADD_POST = "ADD_POST";
 const LOADING = "LOADING";
 const ISBOSS = "ISBOSS";
@@ -19,6 +20,7 @@ const addPost = createAction(ADD_POST, (post) => ({ post }));
 const onePost = createAction(ONE_POST, (post) => ({ post }));
 const isBoss = createAction(ISBOSS, (button) => ({ button }));
 const deletePost = createAction(DELETE_POST, (itemId) => ({ itemId }));
+const clearOne = createAction(CLEAR_ONE, () => ({}));
 
 //initialState
 const initialState = {
@@ -83,12 +85,13 @@ const getPostAPI = () => {
 
 //디테일 하나만 불러오기
 const getOnePostAPI = (itemId) => {
-  return function (dispatch, getState, { history }) {
-    axios
+  console.log("itemId", itemId);
+  return async function (dispatch, getState, { history }) {
+    await axios
       .get(`${config.api}/mainPage/${itemId}`)
       .then((res) => {
-        console.log(res);
         if (res.data.msg === "success") {
+          console.log(res);
           dispatch(onePost(res.data.data));
         } else {
           console.log("한개 데이터 불러오기 fail");
@@ -119,7 +122,7 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
       url: `${config.api}/mainPage`,
       data: formdata,
       headers: {
-        authorization: token,
+        // authorization: token,
         "Content-Type": "multipart/form-data",
       },
     })
@@ -152,6 +155,8 @@ export default handleActions(
       }),
     [ONE_POST]: (state, action) =>
       produce(state, (draft) => {
+        // draft.detail_list = [];
+        console.log("액션포스트", action.payload.post);
         draft.detail_list = action.payload.post;
       }),
     [ADD_POST]: (state, action) =>
@@ -169,6 +174,12 @@ export default handleActions(
       produce(state, (draft) => {
         draft.post_list = draft.post_list.filter((p) => p.itemId !== action.payload.itemId);
       }),
+    [CLEAR_ONE]: (state, action) =>
+      produce(state, (draft) => {
+        draft.detail_list = [];
+        draft.chat_list = [];
+        draft.user_list = [];
+      }),
   },
   initialState
 );
@@ -181,6 +192,7 @@ const actionCreators = {
   addPostAPI,
   getOnePostAPI,
   deletePostAPI,
+  clearOne,
 };
 
 export { actionCreators };

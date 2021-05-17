@@ -3,6 +3,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import Slick from "react-slick";
+import mainbanner1 from "../image/mainbanner1.png";
+import mainbanner2 from "../image/mainbanner2.png";
+import mainbanner3 from "../image/mainbanner3.png";
 
 const Banners = () => {
   const settings = {
@@ -86,12 +89,14 @@ const ArrowRight = styled.div`
 const BannerBox = styled.div`
   width: 100vw;
   height: 450px;
-  margin: -15px 0px 100px;
-  padding: 60px 50px 30px 144px;
-  background-color: #f5f5f5;
+  /* margin: -15px 0px 100px; */
+  /* padding: 60px 50px 30px 144px; */
+  box-sizing: border-box;
 `;
 
-const BannerImg1 = styled.div``;
+const BannerImg1 = styled.div`
+  background-image: url("${mainbanner1}");
+`;
 
 const SmallGreen1 = styled.div`
   height: 14px;

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, memo, useSelector } from "react";
 import styled from "styled-components";
 
-const GroupChat = (props) => {
+const GroupChat = memo((props) => {
   const email = localStorage.getItem("email");
   const is_me = email === props.email ? true : false;
+  // const chatList = useSelector((state) => state.chat.chat_list);
 
   if (is_me) {
     return (
@@ -52,7 +53,7 @@ const GroupChat = (props) => {
       </>
     );
   }
-};
+});
 
 const EntranceMsg = styled.div`
   width: 270px;

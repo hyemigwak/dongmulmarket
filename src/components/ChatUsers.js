@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { getCookie } from "../shared/Cookie";
-import io from "socket.io-client";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
-const ChatUsers = (props) => {
+const ChatUsers = memo((props) => {
   const dispatch = useDispatch();
   const token = getCookie("user_login");
   const userList = useSelector((state) => state.chat.user_list);
@@ -75,7 +74,7 @@ const ChatUsers = (props) => {
       </LiveChatBox>
     </div>
   );
-};
+});
 
 const LiveChatBox = styled.div`
   width: 175px;
@@ -116,8 +115,6 @@ const LiveTalkBtn = styled.div`
   cursor: point;
   margin-right: 8px;
 `;
-
-
 
 const EntranceMsg = styled.div`
   width: 270px;

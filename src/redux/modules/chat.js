@@ -2,11 +2,11 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { getCookie } from "../../shared/Cookie";
 import io from "socket.io-client";
-// import { socket } from "../../components/Chat";
 
 //actions
 const ADD_CHAT = "ADD_CHAT";
 const GET_CHAT = "GET_CHAT";
+const REMOVE_CHAT = "REMOVE_CHAT";
 const GET_USERS = "GET_USERS";
 const ADD_USER = "ADD_USER";
 const LOADING = "LOADING";
@@ -15,6 +15,7 @@ const REMOVE_USER = "REMOVE_USER";
 //actionCreators
 const addChat = createAction(ADD_CHAT, (message) => ({ message }));
 const getChat = createAction(GET_CHAT, (messages) => ({ messages }));
+const removeChat = createAction(REMOVE_CHAT, () => ({}));
 const getUsers = createAction(GET_USERS, (users) => ({ users }));
 const addUser = createAction(ADD_USER, (user) => ({ user }));
 const removeUser = createAction(REMOVE_USER, (user) => ({ user }));
@@ -36,7 +37,7 @@ const getIcrId = () => {
   };
 };
 
-const socket = io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${getIcrId}` });
+// const socket = io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${getIcrId}` });
 
 //채팅창 보낼때 사용하려고 만들었으나 사용하고있지 않음(ChatInput에서 사용하고파)
 const sendChat = (socket, message, icrId) => {
@@ -67,6 +68,7 @@ const getAllChatList = (socket) => {
   return function (dispatch, getState, { history }) {
     socket.on("setRoom", (data) => {
       console.log("셋룸데이터", data);
+      console.log(data.msgList);
       dispatch(getChat(data.msgList));
       dispatch(getUsers(data.userList));
     });
@@ -75,7 +77,6 @@ const getAllChatList = (socket) => {
 
 //받은 메세지 채팅 리스트에 추가하기
 const addChatList = (socket) => {
-  console.log("애드챗확인", addChatList);
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login");
     socket.emit(
@@ -96,7 +97,7 @@ const addChatList = (socket) => {
 };
 
 //채팅 유저 추가하기(참여버튼 누를때)
-const addUserList = (socket, my_data) => {
+const addUserList = (socket, { email, icrId }) => {
   console.log(socket);
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login");
@@ -108,15 +109,13 @@ const addUserList = (socket, my_data) => {
       (data) => {
         if (data["msg"] === "success") {
           console.log("msg가 성공이라면 if문");
-          const joinRoom_data = {
-            email: my_data.email,
-            icrId: my_data.icrId,
-          };
-          socket.emit("joinRoom", joinRoom_data);
+          socket.emit("joinRoom", { email, icrId });
           //서버에서 내려준 참여자 목록을 저장해서 화면에 보여준다
           socket.on("addUser", (addUser_data) => {
             console.log("참여 유저 정보 받나요???");
-            dispatch(addUser(addUser_data));
+            console.log(addUser_data);
+            dispatch(addUser(addUser_data.userList));
+            // dispatch(addChat(addUser_data.msgList));
           });
         }
       }
@@ -136,14 +135,11 @@ export default handleActions(
   {
     [GET_CHAT]: (state, action) =>
       produce(state, (draft) => {
-        draft.chat_list = action.payload.messages;
+        console.log("챗리스트 확인", draft.chat_list);
+        if (action.payload.messages) draft.chat_list = action.payload.messages;
       }),
     [ADD_CHAT]: (state, action) =>
       produce(state, (draft) => {
-        if (!draft.chat_list) {
-          draft.chat_list = action.payload.message;
-        }
-        // draft.chat_list = [...draft.chat_list, action.payload.message];
         draft.chat_list.push(action.payload.message);
       }),
     [REMOVE_USER]: (state, action) =>
@@ -152,19 +148,22 @@ export default handleActions(
       }),
     [GET_USERS]: (state, action) =>
       produce(state, (draft) => {
-        draft.user_list = action.payload.users;
+        if (action.payload.users) draft.user_list = action.payload.users;
       }),
     [ADD_USER]: (state, action) =>
       produce(state, (draft) => {
-        //draft.user_list = [draft.user_list, action.payload.user];
-        if (!draft.user_list) {
-          draft.user_list = action.payload.user;
-        }
-        draft.user_list.push(action.payload.user);
+        console.log(action.payload.user);
+        // draft.chat_list = [];
+        draft.user_list = action.payload.user;
+        // draft.chat_list = action.payload.
       }),
     [LOADING]: (state, action) =>
       produce(state, (draft) => {
         draft.is_loading = action.payload.is_loading;
+      }),
+    [REMOVE_CHAT]: (state, action) =>
+      produce(state, (draft) => {
+        draft.chat_list = [];
       }),
   },
   initialState
@@ -180,8 +179,8 @@ const actionCreators = {
   addChat,
   loading,
   getIcrId,
-  socket,
   sendChat,
+  removeChat,
 };
 
 export { actionCreators };

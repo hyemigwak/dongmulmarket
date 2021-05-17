@@ -58,7 +58,7 @@ const Mypage = (props) => {
               history.push("/mylocation");
             }}
           >
-            나의 위치 설정하기 >
+            나의 위치 설정하기
           </LocationBtn>
         </MpageHeader>
 
@@ -299,4 +299,3 @@ const IngTitle = styled.div`
 `;
 
 export default Mypage;
-
