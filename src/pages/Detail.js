@@ -52,7 +52,7 @@ const Detail = memo((props) => {
 
 const WrapDetail = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
-  width: 1200px;
+  width: 100vw;
   margin: 200px auto;
 
   /* @media (max-width: 1000px){

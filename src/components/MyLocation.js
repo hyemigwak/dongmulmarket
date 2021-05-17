@@ -111,44 +111,91 @@ const MyLocation = (props) => {
   }, [lati, longi]);
 
   return (
-    <>
-      <Title>지역인증</Title>
-      <Container>
-        {/* <div className="map_wrap"> */}
-        <div id="map" style={{ display: "none" }}></div>
-        <div className="hAddr">
-          <h1>현재 위치는</h1>
-          <span id="centerAddr"></span>
-          <h2>맞나요?</h2>
-          <Btn onClick={locationCheck}>맞아요!</Btn>
-          <Btn onClick={openModal}>아니요!</Btn>
-          {/* <EditAddress open={modalOpen} close={closeModal} /> */}
-          <Testpost open={modalOpen} close={closeModal} />
-        </div>
-        {/* </div> */}
-      </Container>
-    </>
+    
+    <WrapLoca>
+      <WrapTitles>
+        <Title>위치 설정하기</Title>
+        <SubTitle>현재 거주중인 위치를 확인해주세요</SubTitle>
+      </WrapTitles>
+
+        <Container>
+          {/* <div className="map_wrap"> */}
+          <div id="map" style={{ display: "none" }}></div>
+          <div className="hAddr">
+            <BoldText>나의 현재 위치는</BoldText>
+            <span id="centerAddr"></span> 
+            <NormalText>맞나요?</NormalText>
+            <WrapBtn>
+              <NoBtn onClick={openModal}>아니오</NoBtn>
+              <YBtn onClick={locationCheck}>네 맞습니다</YBtn>
+            </WrapBtn>
+            {/* <EditAddress open={modalOpen} close={closeModal} /> */}
+            
+            <Testpost open={modalOpen} close={closeModal} />
+          </div>
+          {/* </div> */}
+        </Container>
+    </WrapLoca>
+    
+    
   );
 };
 
-const Title = styled.div`
-  padding-top: 100px;
-  width: 100%;
-  margin: 10px;
-  font-size: 30px;
-  font-weight: 600;
-  text-align: center;
+
+const WrapLoca=styled.div`
+width: 29rem;
+margin:auto;
+align-items:center;
 `;
+
+const WrapTitles=styled.div`
+align-items:center;
+width: 208px;
+margin:auto;
+`;
+
+const Title = styled.div`
+padding-top: 200px;
+width: 208px;
+font-size: 30px;
+font-weight: 600;
+text-align: center;
+`;
+
+const SubTitle=styled.div`
+width: 208px;
+margin-right: 10px;
+font-size: 14px;
+color: #5f5f5f;
+text-align: center;
+`;
+
+const BoldText=styled.div`
+flex-grow: 0;
+font-size: 30px;
+font-weight: bold;
+text-align: center;
+color: #2f2f2f;
+margin: 0 41px 20px;
+`;
+
+const NormalText=styled.div`
+font-size:14px;
+text-align:center;
+color: #2f2f2f;
+`;
+
 const Container = styled.div`
-  margin: 0 auto;
+  margin: 60px auto;
   width: 29rem;
   height: 20rem;
   background: #ffffff;
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.07);
-  border-radius: 20px;
+  border: solid 1px #3fbe81;
+  border-radius: 8px;
   text-align: center;
   display: flex;
   align-items: center;
+  position: relative;
 
   .hAddr {
     width: 100%;
@@ -156,19 +203,45 @@ const Container = styled.div`
 
   #centerAddr {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: bold;
   }
 `;
+const WrapBtn=styled.div`
+display:flex;
+margin:50px;
+justify-content:center;
+`;
+const NoBtn = styled.button`
+width: 135px;
+height: 48px;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 10px;
+padding: 10px 34px;
+border-radius: 83px;
+background-color: #d6d6d6;
+border: 1px solid #d6d6d6;
+font-size:20px;
+color: #ffffff;
+margin-right: 20px;
+`;
 
-const Btn = styled.button`
-  width: 100px;
-  height: 30px;
-  border-radius: 16px;
-  background: #ffc149;
-  border: none;
-  color: white;
-  font-weight: 600;
-  margin: 1rem 1rem 0rem 0rem;
+const YBtn =styled.button`
+width: 185px;
+height: 48px;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 10px;
+padding: 10px 34px;
+border-radius: 83px;
+border: 1px solid #3fbe81;
+background-color: #3fbe81;
+font-size:20px;
+color: #ffffff;
 `;
 
 export default MyLocation;

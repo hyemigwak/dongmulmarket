@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import logo1 from "../image/logo1.png";
 
 const Footer = () => {
     return (
@@ -7,8 +8,7 @@ const Footer = () => {
             <FootC>
               <WrapMarketInfo>
                 <LogoWrap>
-                      <LogoBox/>
-                      <LogoText>동물마켓</LogoText>
+                      <LogoBox src={logo1} />
                   </LogoWrap>
                   <Contents>
                   동물마켓은 사용자 위치를 기반으로 물물 교환을 통해<br/>
@@ -94,30 +94,11 @@ display:flex;
 align-items:center;
 `;
 
-const LogoBox = styled.div`
-  width: 42px;
-  height: 42px;
-  margin: 0 0 1px 0;
-  background-color: #c4c4c4;
+const LogoBox = styled.img`
+  
 `;
 
-const LogoText = styled.div`
-  width: 118px;
-  height: 40px;
-  margin: 0px 357px 0px 0px;
-  flex-grow: 0;
-  font-size: 30px;
-  text-align: left;
-  color: #2f2f2f;
-  font-family: "Binggrae";
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  position:relative;
-  left: 16px;
-`;
+
 
 const Contents = styled.div`
   font-size: 12px;
@@ -158,6 +139,7 @@ margin: 23px 60px 0 0;
 
 const FBD=styled.div`
 display:flex;
+margin-left:121px;
 position:relative;
 right:121px;
 

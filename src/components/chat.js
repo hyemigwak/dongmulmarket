@@ -49,6 +49,7 @@ const Chat = memo((props) => {
     setModalOpen(false);
   }, []);
 
+
   //채팅방 버튼 보여주기 유무 불러오기
   const isBossAPI = useCallback((icrId) => {
     let token = getCookie("user_login");
@@ -104,6 +105,8 @@ const Chat = memo((props) => {
     bottomView();
   }, [chatList]);
 
+
+
   if (ShowBtn) {
     return (
       <>
@@ -140,13 +143,15 @@ const Chat = memo((props) => {
               </ChatView>
               <ChattingInput icrId={icrId} socket={socket} />
               <WrapButtons>
-                <TradeCancelBtn>
-                  <BtnText>교환취소</BtnText>
-                </TradeCancelBtn>
-                <TradeSuccessBtn>
-                  <BtnText>교환성사</BtnText>
-                </TradeSuccessBtn>
-              </WrapButtons>
+              <TradeCancelBtn>
+                <BtnText>교환취소</BtnText>
+              </TradeCancelBtn>
+              <TradeSuccessBtn>
+                <BtnText>교환성사</BtnText>
+              </TradeSuccessBtn>
+            </WrapButtons>
+            
+              
             </>
           )}
         </ChatBox>
