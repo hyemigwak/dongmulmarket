@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import preview_img from "../image/preview_img.JPG";
+import trashcan from "../image/trashcan.png";
 import Post from "../components/Post";
 
 const SalesDetails = (props) => {
@@ -39,7 +38,7 @@ const SalesDetails = (props) => {
             </Title>
           </TextBox>
           <DELETEBOX>
-            <DeleteForeverIcon onClick={postDelete}></DeleteForeverIcon>
+            <TrashImg src={trashcan} onClick={postDelete}/>
           </DELETEBOX>
         </Box>
       </SalesListC>
@@ -196,6 +195,11 @@ const Time = styled.div`
 
 const DELETEBOX = styled.div`
   margin: 25px 0px 0px 170px;
+`;
+
+const TrashImg=styled.img`
+width:30px;
+height:30px;
 `;
 
 export default SalesDetails;

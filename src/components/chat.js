@@ -55,7 +55,7 @@ const Chat = memo((props) => {
     let token = getCookie("user_login");
     axios({
       method: "POST",
-      url: `${config.api}/mainPage/${icrId}`,
+      url: `${config.api}/postDetail/${icrId}`,
       headers: {
         authorization: token,
       },
@@ -110,31 +110,21 @@ const Chat = memo((props) => {
   if (ShowBtn) {
     return (
       <>
-        <ChatBox>
+        <BlankChatBox>
           <LoginChat />
           <ChatJoinBtn onClick={ChatStart}>채팅 참여하기</ChatJoinBtn>
-        </ChatBox>
+        </BlankChatBox>
       </>
     );
   } else {
     return (
       <ChatContainer>
-        <ChatBox>
-          <BtnArea>
-            <div>
-              <button className="group" onClick={closeModal}>
+        <LiveChatBox>
+          <BtnArea>       
+              <ChatLabel onClick={closeModal}>
                 실시간채팅
-              </button>
-              <button className="one" onClick={openModal}>
-                1:1 대화하기
-              </button>
-            </div>
-            <LiveChatBtn>실시간 대화 참여</LiveChatBtn>
+              </ChatLabel>
           </BtnArea>
-          {modalOpen ? (
-            <OneChat open={modalOpen} close={closeModal} />
-          ) : (
-            <>
               <ChatView>
                 {chatList?.map((data, idx) => {
                   return <GroupChat {...data} key={idx} chatList={chatList} />;
@@ -149,12 +139,8 @@ const Chat = memo((props) => {
               <TradeSuccessBtn>
                 <BtnText>교환성사</BtnText>
               </TradeSuccessBtn>
-            </WrapButtons>
-            
-              
-            </>
-          )}
-        </ChatBox>
+            </WrapButtons>    
+        </LiveChatBox>
         <ChatUsers userList={userList} itemId={itemId} icrId={icrId} />
       </ChatContainer>
     );
@@ -165,16 +151,47 @@ const ChatContainer = styled.div`
   display: flex;
 `;
 
-const ChatBox = styled.div`
+const BlankChatBox = styled.div`
   margin-left: 30px;
-  width: 723px;
+  height: 522px;
+  width: 723px;  
+  position:relative;
 `;
+
+const ChatJoinBtn = styled.button`
+  display: inline-block;
+  width: 250px;
+  height: 60px;
+  padding: 10px;
+  border: none;
+  background-color: #3fbe81;
+  border-radius: 83px;
+  cursor: pointer;
+  margin: 80px 30px 0px 90px;
+  color: #ffffff;
+  font-size: 20px;
+  
+  position: absolute;
+  top: 270px;
+  left: 270px;
+  right: auto;
+  transform: translate(-50%, -50%);
+`;
+
+const LiveChatBox = styled.div`
+  margin-left: 30px;
+  width: 565px;
+ 
+`;
+
 
 const BtnArea = styled.div`
   display: flex;
-  width: 723px;
+  position:absolute;
+  top:217px;
+`;
 
-  .group {
+const ChatLabel=styled.button`
     background-color: #3fbe81;
     color: #ffffff;
     cursor: pointer;
@@ -184,44 +201,15 @@ const BtnArea = styled.div`
     padding: 10px 36px;
     width: 156px;
     height: 44px;
-    border-radius: 8px 0 0 0;
-  }
-  .one {
-    background-color: #ffffff;
-    color: #7d7d7d;
-    cursor: pointer;
-    border: solid 1px #7d7d7d;
-    font-size: 16px;
-    line-height: 1.33;
-    padding: 10px 29px;
-    width: 156px;
-    height: 44px;
-    border-radius: 0 8px 0 0;
-  }
-`;
-
-const LiveChatBtn = styled.div`
-  width: 158px;
-  height: 24px;
-  flex-grow: 0;
-  margin: 11px 0px 9px 240px;
-  font-size: 18px;
-  line-height: 1.33;
-  letter-spacing: normal;
-  text-align: left;
-  color: #7d7d7d;
-  cursor: pointer;
+    border-radius: 8px; 
 `;
 
 const ChatView = styled.div`
-  width: 723px;
+  width: 565px;
   height: 522px;
   background-color: #efefef;
-  position: absolute;
-  top: 290px;
   margin-top: 0px;
-  bottom: 0px;
-
+  position:relative;
   overflow-y: scroll;
   box-sizing: border-box;
 `;
@@ -244,12 +232,11 @@ const ChatInput = styled.input`
 
 const WrapButtons = styled.div`
   display: flex;
-  margin-top: 600px;
+  margin-left: 250px;
 `;
 
 const BtnText = styled.div`
   flex-grow: 0;
-  font-family: NotoSans;
   font-size: 20px;
   font-weight: 500;
   color: #3fbe81;
@@ -257,55 +244,40 @@ const BtnText = styled.div`
 `;
 
 const TradeCancelBtn = styled.button`
-  min-width: 159px;
-  min-height: 53px;
+
+  min-width: 145px;
+  min-height: 49px;
   flex-grow: 0;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin: 0 20px 0 0;
+  margin: 40px 20px 0 0;
   padding: 10px 30px;
   border-radius: 8px;
   border: solid 2px #3fbe81;
   background-color: #ffffff;
+  font-size: 16px;
 `;
 
 const TradeSuccessBtn = styled.button`
-  min-width: 159px;
-  min-height: 53px;
+min-width: 145px;
+min-height: 49px;
   flex-grow: 0;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin: 0 218px 0 0;
+  margin: 40px 218px 0 0;
   padding: 10px 30px;
   border-radius: 8px;
   border: solid 2px #3fbe81;
   background-color: #ffffff;
+  font-size: 16px;
 `;
 
-const ChatJoinBtn = styled.button`
-  display: inline-block;
-  width: 250px;
-  height: 60px;
-  padding: 10px;
-  border: none;
 
-  background-color: #3fbe81;
-  border-radius: 83px;
-
-  cursor: pointer;
-  margin: 80px 30px 0px 90px;
-  color: #ffffff;
-  font-size: 20px;
-
-  position: relative;
-  right: 80px;
-  top: 20px;
-`;
 
 export default Chat;
