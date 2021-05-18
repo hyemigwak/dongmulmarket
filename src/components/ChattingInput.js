@@ -69,8 +69,8 @@ const ChattingInput = memo((props) => {
 });
 
 const SendInput = styled.input`
-  width: 724px;
-  height: 74px;
+  width: 565px;
+  height: 65px;
   flex-grow: 0;
 
   border: solid 2px #6fcea1;
@@ -81,7 +81,7 @@ const SendInput = styled.input`
   }
 
   position: relative;
-  top: 520px;
+
 `;
 
 export default ChattingInput;

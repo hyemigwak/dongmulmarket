@@ -53,14 +53,13 @@ const ChatInput = styled.input`
   margin-top: 220px;
   border: solid 2px #6fcea1;
   background-color: #ffffff;
-
+  padding-bottom: 19px;
   ::placeholder {
     padding: 0px 20px;
+   
     font-size: 18px;
   }
 
-  // position: relative;
-  // top: 245px;
 `;
 
 export default NoLogin;

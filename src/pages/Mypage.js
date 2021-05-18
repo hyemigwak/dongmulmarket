@@ -9,6 +9,8 @@ import RVector from "../image/RVector.png";
 import { actionCreators as postActions } from "../redux/modules/post";
 import SalesDetails from "./SalesDetails";
 
+import Carousel from '../components/Carousel';
+
 const Mypage = (props) => {
   const dispatch = useDispatch();
   const salesList = useSelector((state) => state.post.post_list);
@@ -40,8 +42,7 @@ const Mypage = (props) => {
     console.log(len);
     if(len==0)
     {
-      setisEmpty(true);
-      
+      setisEmpty(true);     
     }
     console.log(isEmpty);
   },[]);
@@ -84,14 +85,15 @@ const Mypage = (props) => {
 
         <DoneTitle>교환완료 내역</DoneTitle>
         <DoneContainer>
-          <LeftArrow src={LVector} />
+        <Carousel/>
+          {/* <LeftArrow src={LVector} />
           <DoneBoxC>
             <ProductBox />
             <ProductBox />
             <ProductBox />
             <ProductBox />
           </DoneBoxC>
-          <RightArrow src={RVector} />
+          <RightArrow src={RVector} /> */}
         </DoneContainer>
 
         {/* <IngTitle>교환 진행중</IngTitle>
@@ -117,28 +119,26 @@ const Mypage = (props) => {
 
 const WrapMypage = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
-  width:100vw;
+  width: 1200px;
+  height: 1200px;
   padding-top: 60px;
   display: flex;
   flex-direction: column;
-  height: 1460px;
- 
-  /* @media (max-width: 1000px){
-    heigth: 
-  } */
+
+  margin: auto;
+  background-color:pink;
 `;
 
 const MpageHeader = styled.div`
   display: flex;
   
-  height: 200px;
 `;
 
 const Title = styled.div`
-  margin: 90px 16px 0px 144px;
+  margin: 90px 0px 0px 50px;
   font-size: 36px;
   font-weight: bold;
-  width:200px;
+  min-width:180px;
   display: table;
   color: #1c1c1c;
 
@@ -148,7 +148,7 @@ const AlarmIcon = styled.img`
   width: 51px;
   height: 51px;
   flex-grow: 0;
-  margin: 83px 683px 0px 20px;
+  margin: 93px 683px 0px 16px;
   padding: 14px 14px 13px 13px;
   background-color: #3fbe81;
   border-radius: 30px;
@@ -165,16 +165,16 @@ const AlarmIcon = styled.img`
 `;
 
 const LocationBtn = styled.button`
-  width: 11.500em; //184px
-
-  height: 2.125em; //34px;
+  min-width: 11.500em; 
+  height: 2.125em; 
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin: 98.1px 200px;
+  margin-top: 100px;
+  margin-bottom: 0px;
   padding: 7px 14px 6px;
   border-radius: 83px;
   border: solid 2px #3fbe81;
@@ -187,8 +187,8 @@ const LocationBtn = styled.button`
 
 const MyPageC = styled.div`
   margin: auto;
-  width: 1400px;
-  margin-top:30px;
+  width: 1200px;
+  margin-top:70px;
   height: 100vh;
 `;
 

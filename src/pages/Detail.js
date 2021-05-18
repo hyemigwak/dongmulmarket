@@ -20,28 +20,32 @@ const Detail = memo((props) => {
     <React.Fragment>
       <WrapDetail>
         <Title>물품 교환하기</Title>
+        <InfoTitle>상품 정보</InfoTitle>
         <WrapBox>
           <ProductsBox>
-            <InfoTitle>상품 정보</InfoTitle>
             <Img src={detail.image} />
-            <InfoBox>
-              <TitleArea>
-                <TitleText>품목명:</TitleText>
-                <TitleText>카테고리:</TitleText>
-                <TitleText>글 올린 시간:</TitleText>
-                <TitleText>교환 종료 시간:</TitleText>
-                <TitleText>참여 인원:</TitleText>
-                <TitleText>코멘트:</TitleText>
-              </TitleArea>
-              <DetailArea>
+            <TableBox>
+              <tr>
+                <TitleText>품목명</TitleText>
                 <DetailText>{detail.title}</DetailText>
+              </tr>
+              <tr>
+                <TitleText>카테고리</TitleText>
                 <DetailText>{detail.category}</DetailText>
+              </tr>
+              <tr>
+                <TitleText>글 올린 시간</TitleText>
                 <DetailText>{detail.createdDt}</DetailText>
+              </tr>
+              <tr>
+                <TitleText>교환 종료 시간</TitleText>
                 <DetailText>{detail.deadLine}</DetailText>
-                <DetailText>2명</DetailText>
+              </tr>
+              <tr>
+                <TitleText>코멘트</TitleText>
                 <DetailText>{detail.comment}</DetailText>
-              </DetailArea>
-            </InfoBox>
+              </tr>
+            </TableBox>
           </ProductsBox>
           {detail?.icrId && is_login ? <Chat {...detail} /> : <NoLogin />}
         </WrapBox>
@@ -52,126 +56,72 @@ const Detail = memo((props) => {
 
 const WrapDetail = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
-  width: 100vw;
-  margin: 200px auto;
-
-  /* @media (max-width: 1000px){
-    heigth: 
-  } */
+  width: 1200px;
+  height: 100vh;
+  margin: 160px auto;
 `;
 
 const Title = styled.div`
   height: 40px;
-  margin: 63px 167px 6px 0px;
-  font-family: NotoSans;
+  margin: 63px 167px 0px 50px;
   font-size: 36px;
   font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.11;
-  letter-spacing: normal;
   text-align: left;
   color: #1c1c1c;
-`;
-
-const WrapBox = styled.div`
-  display: flex;
-  /* width: 100%;
-  margin: 0 auto; */
-`;
-
-const ProductsBox = styled.div`
-  /* margin-left: 51px; */
 `;
 
 const InfoTitle = styled.div`
   height: 24px;
   flex-grow: 0;
-  margin: 0 281px 10px 1px;
-  font-size: 18px;
+  margin: 26px 281px 10px 0px;
+  font-size: 20px;
   font-weight: 500;
   line-height: 1.33;
-  letter-spacing: normal;
   text-align: left;
   color: #1c1c1c;
-  position: relative;
-  top: 26px;
+  margin-left: 50px;
 `;
 
-const InfoBox = styled.div`
+const WrapBox = styled.div`
   display: flex;
-  width: 353.1px;
-  height: 240px;
-  flex-grow: 0;
-  margin: 30px 0 0;
-  justify-content: space-between;
+  margin-left: 50px;
 `;
 
-const TitleArea = styled.div`
-  margin: 0 10px 12px 0;
-  width: 150px;
-  flex-grow: 1;
-`;
-
-const DetailArea = styled.div``;
-
-const TitleText = styled.div`
-  flex-grow: 0;
-  margin-bottom: 12px;
-  font-size: 18px;
-  line-height: 1.67;
-  text-align: left;
-  color: #7d7d7d; ;
-`;
-
-const DetailText = styled.div`
-  flex-grow: 0;
-  margin-bottom: 12px;
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 1.67;
-  text-align: left;
-  color: #1c1c1c;
-`;
+const ProductsBox = styled.div``;
 
 const Img = styled.img`
   width: 347px;
   height: 310px;
-  margin: 10px 6px 34px 0.1px;
+  margin: 0px 6px 34px 0.1px;
   border-radius: 8px;
   border: solid 2px #6fcea1;
   position: relative;
   top: 10px;
 `;
 
-const BtnArea = styled.div`
-  display: flex;
-  width: 723px;
+const TableBox = styled.table`
+  width: 353.1px;
+  height: 240px;
+`;
 
-  .group {
-    background-color: #3fbe81;
-    color: #ffffff;
-    cursor: pointer;
-    border: solid 1px #3fbe81;
-    font-size: 16px;
-    line-height: 1.33;
-    padding: 10px 36px;
-    width: 156px;
-    height: 44px;
-    border-radius: 8px 0 0 0;
-  }
-  .one {
-    background-color: #ffffff;
-    color: #7d7d7d;
-    cursor: pointer;
-    border: solid 1px #7d7d7d;
-    font-size: 16px;
-    line-height: 1.33;
-    padding: 10px 29px;
-    width: 156px;
-    height: 44px;
-    border-radius: 0 8px 0 0;
-  }
+const TitleText = styled.td`
+  flex-grow: 0;
+  font-size: 18px;
+  line-height: 1.67;
+  text-align: left;
+  color: #7d7d7d;
+  width: 125px;
+`;
+
+const DetailText = styled.td`
+  flex-grow: 0;
+  font-size: 18px;
+  line-height: 1.67;
+  text-align: left;
+
+  color: #1c1c1c;
+  font-weight: bold;
 `;
 
 export default Detail;

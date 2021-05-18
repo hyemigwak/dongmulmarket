@@ -79,6 +79,7 @@ const Footer = () => {
 const FootC = styled.div`
   width: 100%;
   height: 360px;
+  margin-top: 200px;
   padding: 70px 110px 100px;
   background: #f5f5f5;
   display: flex;
