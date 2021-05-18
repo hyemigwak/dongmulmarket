@@ -34,6 +34,7 @@ const Header = (props) => {
                   history.push("/");
                 }}
               ></Logo>
+              <Beta>베타서비스 1.0v</Beta>
             </LogoBox>
             <BtnArea>
               <HeaderCategory
@@ -111,7 +112,7 @@ const HeaderC = styled.div`
   margin: 0 auto;
   border-bottom: 1px solid #dbdbdb;
   box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.04);
-  z-index: 10;
+  z-index: 2000;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -131,6 +132,13 @@ const LogoBox = styled.div`
 `;
 
 const Logo = styled.img``;
+
+const Beta = styled.div`
+  font-size: 14px;
+  color: #d2d2d2;
+  margin-left: 10px;
+  margin-top: 10px;
+`;
 
 const HeaderCategory = styled.div`
   width: 77px;

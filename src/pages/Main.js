@@ -30,10 +30,7 @@ const Title = styled.h2`
   margin: 0px 171px 10px 180px;
   font-size: 25px;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 0.96;
-  letter-spacing: normal;
   text-align: left;
   color: #2f2f2f;
 `;
