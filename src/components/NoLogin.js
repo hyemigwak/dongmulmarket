@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
-const NoLogin = (props) => {
+const NoLogin = memo(() => {
   return (
     <React.Fragment>
       <ChatView>
@@ -13,7 +13,7 @@ const NoLogin = (props) => {
       </ChatView>
     </React.Fragment>
   );
-};
+});
 
 const ChatView = styled.div`
   background: #d0d0d0;
@@ -56,10 +56,9 @@ const ChatInput = styled.input`
   padding-bottom: 19px;
   ::placeholder {
     padding: 0px 20px;
-   
+
     font-size: 18px;
   }
-
 `;
 
 export default NoLogin;

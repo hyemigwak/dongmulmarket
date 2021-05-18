@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { getCookie } from "../shared/Cookie";
 import { Container } from "../element";
 import logo1 from "../image/logo1.png";
 
-const Header = (props) => {
+const Header = memo((props) => {
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
   const cookie = getCookie("user_login") ? true : false;
@@ -98,7 +98,7 @@ const Header = (props) => {
       </React.Fragment>
     );
   }
-};
+});
 
 const HeaderC = styled.div`
   position: fixed;

@@ -11,6 +11,7 @@ const GET_USERS = "GET_USERS";
 const ADD_USER = "ADD_USER";
 const LOADING = "LOADING";
 const REMOVE_USER = "REMOVE_USER";
+const CLEAR_ONE = "CLEAR_ONE";
 
 //actionCreators
 const addChat = createAction(ADD_CHAT, (message) => ({ message }));
@@ -20,6 +21,7 @@ const getUsers = createAction(GET_USERS, (users) => ({ users }));
 const addUser = createAction(ADD_USER, (user) => ({ user }));
 const removeUser = createAction(REMOVE_USER, (user) => ({ user }));
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
+const clearOne = createAction(CLEAR_ONE);
 
 //initialState
 const initialState = {
@@ -113,9 +115,10 @@ const addUserList = (socket, { email, icrId }) => {
           //서버에서 내려준 참여자 목록을 저장해서 화면에 보여준다
           socket.on("addUser", (addUser_data) => {
             console.log("참여 유저 정보 받나요???");
-            console.log(addUser_data);
+            console.log("adduserData " + JSON.stringify(addUser_data.msgList));
+
             dispatch(addUser(addUser_data.userList));
-            // dispatch(addChat(addUser_data.msgList));
+            dispatch(addChat(addUser_data.msgList.data));
           });
         }
       }
@@ -165,6 +168,11 @@ export default handleActions(
       produce(state, (draft) => {
         draft.chat_list = [];
       }),
+    [CLEAR_ONE]: (state, action) =>
+      produce(state, (draft) => {
+        draft.chat_list = [];
+        draft.user_list = [];
+      }),
   },
   initialState
 );
@@ -181,6 +189,7 @@ const actionCreators = {
   getIcrId,
   sendChat,
   removeChat,
+  clearOne,
 };
 
 export { actionCreators };

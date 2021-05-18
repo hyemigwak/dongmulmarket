@@ -18,13 +18,13 @@ const Login = () => {
   const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
 
   //일반 로그인
-  const onSiteLogin = () => {
+  const onSiteLogin = useCallback(() => {
     if (email === "" || pwd === "") {
       window.alert("이메일과 비밀번호를 모두 입력해주세요!");
       return;
     }
     dispatch(userActions.loginAPI(email, pwd));
-  };
+  }, [dispatch, pwd, email]);
 
   //카카오로그인
   const kakaoLoginSuccess = (res) => {
@@ -57,7 +57,13 @@ const Login = () => {
           </TitleArea>
           <LoginC>
             <InputC>
-              <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} tabIndex="1" />
+              <Input
+                type="text"
+                placeholder="이메일을 입력해주세요"
+                value={email}
+                onChange={onChangeEmail}
+                tabIndex="1"
+              />
               <Input2
                 type="password"
                 placeholder="비밀번호를 입력해주세요"
@@ -141,7 +147,10 @@ const Login = () => {
                   onFailure={responseGoogle}
                   cookiePolicy={"single_host_origin"}
                   render={(props) => (
-                    <GoogleBtn onClick={props.onClick} disabled={props.disabled}>
+                    <GoogleBtn
+                      onClick={props.onClick}
+                      disabled={props.disabled}
+                    >
                       <div>
                         <img src={googleLogo} alt="구글로고" />
                         Google로 계속

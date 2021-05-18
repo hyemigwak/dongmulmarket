@@ -6,8 +6,16 @@ import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
 import { actionCreators as userActions } from "../redux/modules/user";
-import { Container } from "../element";
-import { Login, Main, Mypage, Signup, Findpwd, AddProduct, Detail, PwdChange } from "../pages";
+import {
+  Login,
+  Main,
+  Mypage,
+  Signup,
+  Findpwd,
+  AddProduct,
+  Detail,
+  PwdChange,
+} from "../pages";
 import { Header, Footer, MyLocation, Testpost } from "../components";
 import { getCookie } from "./Cookie";
 function App() {
@@ -18,7 +26,7 @@ function App() {
     if (cookie) {
       dispatch(userActions.loginCheck(cookie));
     }
-  }, []);
+  });
 
   return (
     <>

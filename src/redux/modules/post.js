@@ -7,11 +7,11 @@ import { config } from "../../shared/config";
 //actions
 const GET_POST = "GET_POST";
 const ONE_POST = "ONE_POST";
-const CLEAR_ONE = "CLEAR_ONE";
 const ADD_POST = "ADD_POST";
 const LOADING = "LOADING";
 const ISBOSS = "ISBOSS";
 const DELETE_POST = "DELETE_POST";
+const CLEAR_POST = "CLEAR_POST";
 
 //actionCreators
 const loading = createAction(LOADING, (loading) => ({ loading }));
@@ -20,7 +20,7 @@ const addPost = createAction(ADD_POST, (post) => ({ post }));
 const onePost = createAction(ONE_POST, (post) => ({ post }));
 const isBoss = createAction(ISBOSS, (button) => ({ button }));
 const deletePost = createAction(DELETE_POST, (itemId) => ({ itemId }));
-const clearOne = createAction(CLEAR_ONE, () => ({}));
+const clearPost = createAction(CLEAR_POST);
 
 //initialState
 const initialState = {
@@ -70,7 +70,11 @@ const getPostAPI = () => {
           const post_list = res.data.data;
           //종료일 기준으로 내림차순 정렬
           post_list.sort(function (a, b) {
-            return a.deadLine < b.deadLine ? -1 : a.deadLine > b.deadLine ? 1 : 0;
+            return a.deadLine < b.deadLine
+              ? -1
+              : a.deadLine > b.deadLine
+              ? 1
+              : 0;
           });
           dispatch(getPost(post_list));
         } else {
@@ -104,7 +108,14 @@ const getOnePostAPI = (itemId) => {
 };
 
 //물품 등록하기
-const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) => {
+const addPostAPI = (
+  imgfile,
+  category,
+  myItem,
+  wantItem,
+  content,
+  expireDate
+) => {
   return function (dispatch, getState, { history }) {
     //이미지 전달, formdata 사용
     let token = getCookie("user_login");
@@ -122,14 +133,15 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
       url: `${config.api}/mainPage/write`,
       data: formdata,
       headers: {
-        // authorization: token,
         "Content-Type": "multipart/form-data",
       },
     })
       .then((res) => {
         if (res.data.msg === "success") {
           console.log(res.data);
-          dispatch(addPost(imgfile, category, myItem, wantItem, content, expireDate));
+          dispatch(
+            addPost(imgfile, category, myItem, wantItem, content, expireDate)
+          );
           window.alert("등록 완료입니다!");
         } else {
           window.alert("등록 불러오기 실패");
@@ -141,11 +153,6 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
   };
 };
 
-//상품 게시물 삭제하기
-// const deletePostAPI =()=>{
-
-// }
-
 //reducer
 export default handleActions(
   {
@@ -156,7 +163,6 @@ export default handleActions(
     [ONE_POST]: (state, action) =>
       produce(state, (draft) => {
         // draft.detail_list = [];
-        console.log("액션포스트", action.payload.post);
         draft.detail_list = action.payload.post;
       }),
     [ADD_POST]: (state, action) =>
@@ -172,13 +178,13 @@ export default handleActions(
       }),
     [DELETE_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.post_list = draft.post_list.filter((p) => p.itemId !== action.payload.itemId);
+        draft.post_list = draft.post_list.filter(
+          (p) => p.itemId !== action.payload.itemId
+        );
       }),
-    [CLEAR_ONE]: (state, action) =>
+    [CLEAR_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.detail_list = [];
-        draft.chat_list = [];
-        draft.user_list = [];
       }),
   },
   initialState
@@ -192,7 +198,7 @@ const actionCreators = {
   addPostAPI,
   getOnePostAPI,
   deletePostAPI,
-  clearOne,
+  clearPost,
 };
 
 export { actionCreators };

@@ -1,5 +1,5 @@
-import React, { useCallback, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import styled from "styled-components";
 
@@ -15,7 +15,10 @@ const PwdChange = (props) => {
   const [newPwdChk, setNewPwdChk] = useState("");
   const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
   const onChangeNewPwd = useCallback((e) => setNewPwd(e.target.value), []);
-  const onChangeNewPwdChk = useCallback((e) => setNewPwdChk(e.target.value), []);
+  const onChangeNewPwdChk = useCallback(
+    (e) => setNewPwdChk(e.target.value),
+    []
+  );
 
   const password_regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,14}$/;
 
@@ -45,9 +48,24 @@ const PwdChange = (props) => {
           <SubTitle>변경하실 비밀번호를 입력해주세요</SubTitle>
         </TopArea>
         <FindPwdC>
-          <Input type="text" placeholder="인증번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
-          <Input type="password" placeholder="새 비밀번호를 입력해주세요" value={newPwd} onChange={onChangeNewPwd} />
-          <Input type="password" placeholder="새 비밀번호를 한번 더 입력해주세요" value={newPwdChk} onChange={onChangeNewPwdChk} />
+          <Input
+            type="text"
+            placeholder="인증번호를 입력해주세요"
+            value={pwd}
+            onChange={onChangePwd}
+          />
+          <Input
+            type="password"
+            placeholder="새 비밀번호를 입력해주세요"
+            value={newPwd}
+            onChange={onChangeNewPwd}
+          />
+          <Input
+            type="password"
+            placeholder="새 비밀번호를 한번 더 입력해주세요"
+            value={newPwdChk}
+            onChange={onChangeNewPwdChk}
+          />
           <FindpwdBtn onClick={sitepwdChange}>변경 완료</FindpwdBtn>
         </FindPwdC>
       </WrapFindPwd>

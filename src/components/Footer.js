@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import logo1 from "../image/logo1.png";
 import { Container } from "../element";
 
-const Footer = () => {
+const Footer = memo(() => {
   return (
     <React.Fragment>
       <Container>
@@ -74,7 +74,7 @@ const Footer = () => {
       </Container>
     </React.Fragment>
   );
-};
+});
 
 const FootC = styled.div`
   width: 100%;

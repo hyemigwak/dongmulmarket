@@ -1,10 +1,16 @@
-import React, { useEffect, useState, useRef, useCallback, memo, useMemo } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  memo,
+  useMemo,
+} from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { actionCreators as postActions } from "../redux/modules/post";
-import { getCookie } from "../shared/Cookie";
-import { OneChat, GroupChat, LoginChat, ChatUsers, ChattingInput } from "./index";
+import { GroupChat, LoginChat, ChatUsers, ChattingInput } from "./index";
 import io from "socket.io-client";
 import axios from "axios";
 import { config } from "../shared/config";
@@ -33,15 +39,14 @@ const Chat = memo((props) => {
     scroll.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   };
 
-  console.log(ShowBtn);
   if (!socket) {
-    console.log("소켓연결");
     setSocket(
       io.connect("http://15.165.76.76:3001/chatting", {
         query: `email=${email}&icrId=${icrId}`,
       })
     );
   }
+
   const openModal = useCallback(() => {
     setModalOpen(true);
   }, []);
@@ -51,13 +56,9 @@ const Chat = memo((props) => {
 
   //채팅방 버튼 보여주기 유무 불러오기
   const isBossAPI = useCallback((icrId) => {
-    let token = getCookie("user_login");
     axios({
-      method: "POST",
-      url: `${config.api}/postDetail/${icrId}`,
-      headers: {
-        authorization: token,
-      },
+      method: "GET",
+      url: `${config.api}/postDetail/icrId/${icrId}`,
     })
       .then((res) => {
         // false면 채팅방 버튼 없어져야 함
@@ -74,7 +75,6 @@ const Chat = memo((props) => {
   const ChatStart = useCallback(() => {
     setShowBtn(false);
     dispatch(chatActions.addUserList(socket, { email, icrId }));
-    // dispatch(chatActions.)
   }, [email, icrId, dispatch, socket]);
 
   //렌더링될때 소켓을 연결해준다.
@@ -85,7 +85,8 @@ const Chat = memo((props) => {
     //언마운트될때 소켓 연결 해제
     return () => {
       socket.disconnect();
-      dispatch(postActions.clearOne());
+      dispatch(chatActions.clearOne());
+      dispatch(postActions.clearPost());
       console.log("연결해제");
     };
   }, [socket, dispatch]);
@@ -97,7 +98,8 @@ const Chat = memo((props) => {
   useEffect(() => {
     dispatch(chatActions.getAllChatList(socket));
     dispatch(chatActions.addChatList(socket));
-  }, [dispatch, socket]);
+    dispatch(chatActions.addUserList(socket, { email, icrId }));
+  }, [dispatch, socket, email, icrId]);
 
   //챗리스트 바뀔때마다 스크롤 내려주기
   useEffect(() => {

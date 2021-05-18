@@ -1,11 +1,11 @@
-import React, { useEffect, memo } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { NoLogin, Chat } from "../components";
 
-const Detail = memo((props) => {
+const Detail = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -17,7 +17,7 @@ const Detail = memo((props) => {
   }, [dispatch, id]);
 
   return (
-    <React.Fragment>
+    <>
       <WrapDetail>
         <Title>물품 교환하기</Title>
         <InfoTitle>상품 정보</InfoTitle>
@@ -50,9 +50,9 @@ const Detail = memo((props) => {
           {detail?.icrId && is_login ? <Chat {...detail} /> : <NoLogin />}
         </WrapBox>
       </WrapDetail>
-    </React.Fragment>
+    </>
   );
-});
+};
 
 const WrapDetail = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
