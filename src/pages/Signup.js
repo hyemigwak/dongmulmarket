@@ -27,6 +27,8 @@ const Signup = (props) => {
   const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
   const onChangepwdCheck = useCallback((e) => setPwdCheck(e.target.value), []);
 
+  const [pwdDetail, setPwdDetail] = useState(false);
+
   //ref 걸어서 focus 이벤트 주기
   const _email = useRef();
   const _authnum = useRef();
@@ -141,6 +143,13 @@ const Signup = (props) => {
                 onClick={() => {
                   GetAuthNumAPI(email);
                 }}
+                tabIndex="0"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    GetAuthNumAPI(email);
+                  }
+                }}
               >
                 인증하기
               </CertiBtn>
@@ -157,6 +166,13 @@ const Signup = (props) => {
                     onClick={() => {
                       EmailValidationAPI(email, authnumber);
                     }}
+                    tabIndex="0"
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        EmailValidationAPI(email, authnumber);
+                      }
+                    }}
                   >
                     인증번호 확인
                   </VerifyNum>
@@ -171,14 +187,37 @@ const Signup = (props) => {
             </InfoArea>
             <InfoArea>
               <InputInfo>비밀번호</InputInfo>
-              <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} ref={_pwd} />
+              <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} ref={_pwd} onFocus={() => setPwdDetail(true)} />
             </InfoArea>
+            <PasswordDetail Open={pwdDetail}>비밀번호는 8~14자리의 영문/숫자 혼합입니다.</PasswordDetail>
             <InfoArea>
               <InputInfo>비밀번호 확인</InputInfo>
-              <Input type="password" placeholder="비밀번호를 다시 입력해주세요" value={pwdCheck} onChange={onChangepwdCheck} ref={_pwdchk} />
+              <Input
+                type="password"
+                placeholder="비밀번호를 다시 입력해주세요"
+                value={pwdCheck}
+                onChange={onChangepwdCheck}
+                ref={_pwdchk}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    onSiteSignup();
+                  }
+                }}
+              />
             </InfoArea>
           </InputC>
-          <SignInBtn mybtn onClick={onSiteSignup}>
+          <SignInBtn
+            mybtn
+            onClick={onSiteSignup}
+            tabIndex="0"
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                onSiteSignup();
+              }
+            }}
+          >
             가입하기
           </SignInBtn>
         </SignUpC>
@@ -190,6 +229,7 @@ const Signup = (props) => {
 const SignUpLogin = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
   padding-top: 40px;
+  margin-bottom: 180px;
   display: flex;
   flex-direction: column;
   /* @media (max-width: 1000px){
@@ -314,6 +354,17 @@ const Input = styled.input`
   }
 `;
 
+const PasswordDetail = styled.div`
+  display: ${(props) => (props.Open ? "inline-block" : "none")};
+  font-size: 14px;
+  color: #d6d6d6;
+  margin: 0 auto;
+  padding-top: 0.4rem;
+  width: 359px;
+  position: relative;
+  left: 450px;
+`;
+
 const CertiBtn = styled.div`
   width: 105px;
   height: 50px;
@@ -371,13 +422,9 @@ const SignInBtn = styled.div`
   padding: 14px 45px;
   border-radius: 8px;
   background-color: #d6d6d6;
-  font-family: Roboto;
   font-size: 18px;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.33;
-  letter-spacing: normal;
   text-align: left;
   color: #ffffff;
 

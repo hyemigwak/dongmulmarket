@@ -88,7 +88,7 @@ const getOnePostAPI = (itemId) => {
   console.log("itemId", itemId);
   return async function (dispatch, getState, { history }) {
     await axios
-      .get(`${config.api}/mainPage/${itemId}`)
+      .get(`${config.api}/postDetail/${itemId}`)
       .then((res) => {
         if (res.data.msg === "success") {
           console.log(res);
@@ -119,7 +119,7 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
 
     axios({
       method: "POST",
-      url: `${config.api}/mainPage`,
+      url: `${config.api}/mainPage/write`,
       data: formdata,
       headers: {
         // authorization: token,

@@ -8,8 +8,10 @@ import { DatePicker, Space } from "antd";
 import { history } from "../redux/configureStore";
 import "antd/dist/antd.css";
 import { getCookie } from "../shared/Cookie";
+import { Container } from "../element";
 import camera from "../image/camera.svg";
 import preview_img from "../image/preview_img.JPG";
+import downarrow from "../image/downarrow.png";
 
 const AddProduct = (props) => {
   const dispatch = useDispatch();
@@ -51,42 +53,64 @@ const AddProduct = (props) => {
     console.log("Selected Time: ", value);
     console.log("Formatted Selected Time: ", dateString);
     setExpireDate(dateString);
+    console.log(typeof dateString);
     console.log();
   }
   function onOk(value) {
     console.log("onOk: ", value);
   }
+
+  function range(start, end) {
+    const result = [];
+    for (let i = start; i < end; i++) {
+      result.push(i);
+    }
+    return result;
+  }
+
+  //오늘 이전 날짜는 선택 못하게 함
+  function disabledDate(current) {
+    return current < moment().startOf("day");
+  }
+  //최소 1시간 이상은 판매할 수 있도록 이전 시간 +1 disabled 설정
+  function disabledDateTime(current) {
+    let mydate = Number(1) + Number(moment().format("HH"));
+    let _mydate = String(mydate);
+    return {
+      disabledHours: () => range(0, 24).splice(0, _mydate),
+    };
+  }
+
   //물품 등록하기 버튼 누르면 디스패치
   const onSiteAddProduct = () => {
+    //하나라도 공란일 경우 되돌리기
+    if (imgfile === "" || category === "" || myItem === "" || wantItem === "" || content === "" || expireDate === "") {
+      window.alert("모두 입력해주세요!");
+      return;
+    }
     dispatch(postActions.addPostAPI(imgfile, category, myItem, wantItem, content, expireDate));
     //라우터에서 detail 게시물로 가서 확인하게 하기
     history.replace("/");
   };
 
-  if (cookie && is_login) {
-    return (
-      <React.Fragment>
+  return (
+    <React.Fragment>
+      <Container>
         <Title>물품 등록하기</Title>
         <AddProductWrap>
           <ProductArea>
             <Camerabox>
-              <label for="inputFile">
+              <label htmlFor="inputFile">
                 <img src={camera} alt="카메라" className="cameraIcon" />
               </label>
               <input id="inputFile" className="uploadImg" type="file" onChange={selectFile} />
             </Camerabox>
             <SubText>물품 사진 등록하기</SubText>
             <img className="productImg" src={preview} alt="이미지" />
-            {/* <ImageBox>
-              <div>
-                등록하고 싶은 물건 사진을
-                <br />
-                첨부해주세요
-              </div>
-            </ImageBox> */}
             <InputArea>
               <SubText>교환상품 설정</SubText>
-              <Input type="text" placeholder="물물교환 할 상품을 입력해주세요!" value={myItem} onChange={onChangeMyItem} />
+              <Input type="text" placeholder="물물교환 할 상품을 입력해주세요!" value={myItem} onChange={onChangeMyItem} maxLength="31" />
+              {/* <ArrowDropDownIcon style={{ position: "relative", top: "67px", left: "220px", width: "35px", height: "35px" }} /> */}
               <CateArea>
                 <select required size="1" value={category} onChange={onChangeCategory}>
                   <option className="placehd" hidden>
@@ -109,44 +133,57 @@ const AddProduct = (props) => {
                   <option value="기타 중고물품">기타 중고물품</option>
                 </select>
               </CateArea>
-              <Input type="text" placeholder="희망 교환 물품을 입력해주세요" value={wantItem} onChange={onChangeWantItem} />
+              <Input type="text" placeholder="희망 교환 물품을 입력해주세요" value={wantItem} onChange={onChangeWantItem} maxLength="31" />
               <div>
                 <Textarea type="text" placeholder="물품을 설명해주세요" rows="5" value={content} onChange={onChangeContent} />
               </div>
               <SubText>교환종료일</SubText>
               <CalendarArea>
                 <Calend>
-                  <Space direction="vertical" size={12}>
+                  <Space direction="vertical" size={14}>
                     <DatePicker
                       className="datepicker"
-                      showTime={{ format: "HH:mm" }}
+                      showTime={{ format: "HH" }}
+                      disabledDate={disabledDate}
+                      disabledTime={disabledDateTime}
+                      format="YYYY-MM-DD HH:00"
                       onChange={onChange}
                       onOk={onOk}
                       placeholder="달력에서 날짜를 선택해주세요"
+                      suffixIcon={null}
+                      showNow={false}
                       style={{
                         width: "536px",
                         height: "56px",
                         padding: "17.6px 14px 14px 23.9px",
                         borderRadius: "8px",
                         border: "solid 2px #d6d6d6",
+                        cursor: "pointer",
                       }}
                     />
                   </Space>
                 </Calend>
               </CalendarArea>
               <BtnArea>
-                <Btn onClick={onSiteAddProduct}>물품 올리기</Btn>
+                <Btn
+                  tabIndex="0"
+                  onClick={onSiteAddProduct}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      onSiteAddProduct();
+                    }
+                  }}
+                >
+                  물품 올리기
+                </Btn>
               </BtnArea>
             </InputArea>
           </ProductArea>
         </AddProductWrap>
-      </React.Fragment>
-    );
-  } else {
-    window.alert("로그인 해주세요!");
-    history.push("/login");
-    return null;
-  }
+      </Container>
+    </React.Fragment>
+  );
 };
 
 const AddProductWrap = styled.div`
@@ -190,6 +227,7 @@ const Camerabox = styled.div`
     width: 80px;
     height: 80px;
     border-radius: 10px;
+    cursor: pointer;
   }
 
   .uploadImg {
@@ -229,17 +267,17 @@ const InputArea = styled.div`
 
 const SubText = styled.div`
   font-size: 18px;
+  margin-bottom: 5px;
   line-height: 1.33;
   text-align: left;
   color: #1c1c1c;
-}
 `;
 
 const Input = styled.input`
   width: 536px;
   height: 56px;
   margin: 16px auto 25.8px;
-  padding: 17.6px 266.1px 14.4px 23.9px;
+  padding: 17.6px 23px 14.4px 23.9px;
   border-radius: 8px;
   border: solid 2px #d6d6d6;
   ::placeholder {
@@ -249,10 +287,10 @@ const Input = styled.input`
     color: #7d7d7d;
   }
   :hover {
-    border: solid 2px #6fcea1;
+    border: 2px solid #6fcea1;
   }
   :focus {
-    border: solid 2px #6fcea1;
+    border: 2px solid #6fcea1;
     outline: none;
   }
 `;
@@ -262,9 +300,9 @@ const Textarea = styled.textarea`
   height: 99px;
   resize: none;
   margin: 16px auto 25.8px;
-  padding: 17.6px 266.1px 14.4px 23.9px;
+  padding: 17.6px 23px 14.4px 23.9px;
   border-radius: 8px;
-  border: solid 2px #d6d6d6;
+  border: 2px solid #d6d6d6;
   ::placeholder {
     font-size: 18px;
     line-height: 1.33;
@@ -287,15 +325,20 @@ const CateArea = styled.div`
     margin: 16px auto 25.8px;
     padding: 13px 266.1px 12px 23.9px;
     border-radius: 8px;
-    border: solid 2px #d6d6d6;
+    border: 2px solid #d6d6d6;
     font-size: 18px;
     text-align: left;
     color: #7d7d7d;
+    -webkit-appearance: none; /* 외형 감추기 */
+    -moz-appearance: none;
+    appearance: none;
+    background: url(${downarrow}) no-repeat 95% 57%;
+
     :hover {
-      border: solid 2px #6fcea1;
+      border: 2px solid #6fcea1;
     }
     :focus {
-      border: solid 2px #6fcea1;
+      border: 2px solid #6fcea1;
       outline: none;
     }
   }
@@ -309,16 +352,19 @@ const CateArea = styled.div`
 
 const Calend = styled.div`
   margin-top: 1rem;
+  cursor: pointer;
   input {
     font-size: 18px;
     text-align: left;
     color: #7d7d7d;
     line-height: 1.33;
+    cursor: pointer;
   }
   :hover {
-    border: solid 2px #6fcea1;
+    border: 2px solid #6fcea1;
   }
 `;
+
 const CalendarArea = styled.div`
   display: flex;
   align-items: center;

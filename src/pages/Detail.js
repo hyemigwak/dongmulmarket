@@ -118,27 +118,18 @@ const DetailArea = styled.div``;
 const TitleText = styled.div`
   flex-grow: 0;
   margin-bottom: 12px;
-  font-family: NotoSans;
   font-size: 18px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.67;
-  letter-spacing: normal;
   text-align: left;
-  color: #7d7d7d;
+  color: #7d7d7d; ;
 `;
 
 const DetailText = styled.div`
   flex-grow: 0;
   margin-bottom: 12px;
-  font-family: NotoSans;
   font-size: 18px;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.67;
-  letter-spacing: normal;
   text-align: left;
   color: #1c1c1c;
 `;

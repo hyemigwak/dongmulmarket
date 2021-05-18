@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import styled from "styled-components";
 import "./App.css";
 import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
 import { actionCreators as userActions } from "../redux/modules/user";
+import { Container } from "../element";
 import { Login, Main, Mypage, Signup, Findpwd, AddProduct, Detail, PwdChange } from "../pages";
 import { Header, Footer, MyLocation, Testpost } from "../components";
 import { getCookie } from "./Cookie";
@@ -19,7 +21,7 @@ function App() {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <ConnectedRouter history={history}>
         <Header />
         <Route exact path="/login" component={Login} />
@@ -32,9 +34,9 @@ function App() {
         <Route exact path="/detail/:id" component={Detail} />
         <Route exact path="/testpost" component={Testpost} />
         <Route exact path="/pwdchange" component={PwdChange} />
+        <Footer />
       </ConnectedRouter>
-      <Footer />
-    </React.Fragment>
+    </>
   );
 }
 

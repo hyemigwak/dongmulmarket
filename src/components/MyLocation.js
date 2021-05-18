@@ -26,7 +26,6 @@ const MyLocation = (props) => {
   const [lati, setLati] = useState(0); //위도
   const [longi, setLong] = useState(0); //경도
   const [address, setAddress] = useState("");
-  console.log(address);
 
   //위치가 관악구일때만 로그인 창으로 가게하기
   const locationCheck = () => {
@@ -45,8 +44,6 @@ const MyLocation = (props) => {
       // GPS를 지원하면
       navigator.geolocation.getCurrentPosition(
         function (position) {
-          console.log(position.coords.latitude + " " + position.coords.longitude);
-          console.log("위도,경도", lati, longi);
           setLati(position.coords.latitude);
           setLong(position.coords.longitude);
         },
@@ -100,7 +97,6 @@ const MyLocation = (props) => {
           // 행정동의 region_type 값은 'H' 이므로
           if (result[i].region_type === "H") {
             infoDiv.innerHTML = result[i].address_name;
-            console.log(infoDiv.innerHTML);
             setAddress(result[i].address_name);
             dispatch(mapActions.getAddress(infoDiv.innerHTML));
             break;
@@ -111,82 +107,99 @@ const MyLocation = (props) => {
   }, [lati, longi]);
 
   return (
-    
     <WrapLoca>
       <WrapTitles>
         <Title>위치 설정하기</Title>
         <SubTitle>현재 거주중인 위치를 확인해주세요</SubTitle>
       </WrapTitles>
 
-        <Container>
-          {/* <div className="map_wrap"> */}
-          <div id="map" style={{ display: "none" }}></div>
-          <div className="hAddr">
-            <BoldText>나의 현재 위치는</BoldText>
-            <span id="centerAddr"></span> 
-            <NormalText>맞나요?</NormalText>
-            <WrapBtn>
-              <NoBtn onClick={openModal}>아니오</NoBtn>
-              <YBtn onClick={locationCheck}>네 맞습니다</YBtn>
-            </WrapBtn>
-            {/* <EditAddress open={modalOpen} close={closeModal} /> */}
-            
-            <Testpost open={modalOpen} close={closeModal} />
-          </div>
-          {/* </div> */}
-        </Container>
+      <Container>
+        {/* <div className="map_wrap"> */}
+        <div id="map" style={{ display: "none" }}></div>
+        <div className="hAddr">
+          <BoldText>나의 현재 위치는</BoldText>
+          <span id="centerAddr"></span>
+          <NormalText>맞나요?</NormalText>
+          <WrapBtn>
+            <NoBtn
+              onClick={openModal}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  openModal();
+                }
+              }}
+            >
+              아니오
+            </NoBtn>
+            <YBtn
+              onClick={locationCheck}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  locationCheck();
+                }
+              }}
+            >
+              네 맞습니다
+            </YBtn>
+          </WrapBtn>
+          {/* <EditAddress open={modalOpen} close={closeModal} /> */}
+
+          <Testpost open={modalOpen} close={closeModal} />
+        </div>
+        {/* </div> */}
+      </Container>
     </WrapLoca>
-    
-    
   );
 };
 
+const WrapLoca = styled.div`
+  width: 29rem;
+  margin: 100px auto 200px;
 
-const WrapLoca=styled.div`
-width: 29rem;
-margin:auto;
-align-items:center;
+  align-items: center;
 `;
 
-const WrapTitles=styled.div`
-align-items:center;
-width: 208px;
-margin:auto;
+const WrapTitles = styled.div`
+  align-items: center;
+  width: 208px;
+  margin: auto;
 `;
 
 const Title = styled.div`
-padding-top: 200px;
-width: 208px;
-font-size: 30px;
-font-weight: 600;
-text-align: center;
+  padding-top: 100px;
+  width: 208px;
+  font-size: 36px;
+  font-weight: 600;
+  text-align: center;
 `;
 
-const SubTitle=styled.div`
-width: 208px;
-margin-right: 10px;
-font-size: 14px;
-color: #5f5f5f;
-text-align: center;
+const SubTitle = styled.div`
+  width: 208px;
+  margin-right: 10px;
+  font-size: 14px;
+  color: #5f5f5f;
+  text-align: center;
 `;
 
-const BoldText=styled.div`
-flex-grow: 0;
-font-size: 30px;
-font-weight: bold;
-text-align: center;
-color: #2f2f2f;
-margin: 0 41px 20px;
+const BoldText = styled.div`
+  flex-grow: 0;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  color: #2f2f2f;
+  margin: 0 41px 20px;
 `;
 
-const NormalText=styled.div`
-font-size:14px;
-text-align:center;
-color: #2f2f2f;
+const NormalText = styled.div`
+  font-size: 14px;
+  text-align: center;
+  color: #2f2f2f;
 `;
 
 const Container = styled.div`
-  margin: 60px auto;
+  margin: 50px auto;
   width: 29rem;
   height: 20rem;
   background: #ffffff;
@@ -206,42 +219,44 @@ const Container = styled.div`
     font-weight: bold;
   }
 `;
-const WrapBtn=styled.div`
-display:flex;
-margin:50px;
-justify-content:center;
+const WrapBtn = styled.div`
+  display: flex;
+  margin: 50px;
+  justify-content: center;
 `;
 const NoBtn = styled.button`
-width: 135px;
-height: 48px;
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-gap: 10px;
-padding: 10px 34px;
-border-radius: 83px;
-background-color: #d6d6d6;
-border: 1px solid #d6d6d6;
-font-size:20px;
-color: #ffffff;
-margin-right: 20px;
+  width: 135px;
+  height: 48px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 34px;
+  border-radius: 83px;
+  background-color: #d6d6d6;
+  border: 1px solid #d6d6d6;
+  font-size: 20px;
+  color: #ffffff;
+  margin-right: 20px;
+  cursor: pointer;
 `;
 
-const YBtn =styled.button`
-width: 185px;
-height: 48px;
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-gap: 10px;
-padding: 10px 34px;
-border-radius: 83px;
-border: 1px solid #3fbe81;
-background-color: #3fbe81;
-font-size:20px;
-color: #ffffff;
+const YBtn = styled.button`
+  width: 185px;
+  height: 48px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 34px;
+  border-radius: 83px;
+  border: 1px solid #3fbe81;
+  background-color: #3fbe81;
+  font-size: 20px;
+  color: #ffffff;
+  cursor: pointer;
 `;
 
 export default MyLocation;

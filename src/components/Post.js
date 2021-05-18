@@ -54,27 +54,16 @@ const Post = (props) => {
   );
 };
 
-// Post.defaultProps = {
-//   image:
-//     "https://mblogthumb-phinf.pstatic.net/MjAxNzA5MTFfOTUg/MDAxNTA1MDkwOTQ4Nzkx.d6WmUQbJNVn_AgreyvKeQVnSTLnlzHFJsi4lWdgsTr0g.2BA8M9s7-eZEwkJZ5SJ6uVYD4g3kCAXUuQYOZtw1Uusg.PNG.nong-up/image.png?type=w800",
-//   myItem: "고구마 3개",
-//   wantItem: "감자 3개",
-//   location: "신림 1동",
-//   expireDate: "2021-04-29 10:00:00",
-// };
+Post.defaultProps = {
+  image:
+    "https://mblogthumb-phinf.pstatic.net/MjAxNzA5MTFfOTUg/MDAxNTA1MDkwOTQ4Nzkx.d6WmUQbJNVn_AgreyvKeQVnSTLnlzHFJsi4lWdgsTr0g.2BA8M9s7-eZEwkJZ5SJ6uVYD4g3kCAXUuQYOZtw1Uusg.PNG.nong-up/image.png?type=w800",
+  myItem: "고구마 3개",
+  wantItem: "감자 3개",
+  location: "신림 1동",
+  expireDate: "2021-04-29 10:00:00",
+};
 
 const Box = styled.div`
-  // height: 278px;
-  // border-radius: 12px;
-  // width: 205px;
-  // margin: 0rem 2rem 1rem 0rem;
-  // background: #ffffff;
-  // box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.07);
-  // border-radius: 20px;
-  // display: flex;
-  // flex-wrap: wrap;
-  // margin-right: 30px;
-  // margin-top: 30px;
   width: 205px;
   height: 278px;
   flex-grow: 0;
@@ -82,71 +71,76 @@ const Box = styled.div`
   padding: 0 0 16px;
   border-radius: 8px;
   border: solid 1px #91be89;
-  position: relative;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 const ImgBox = styled.div`
-  margin: auto;
-  object-fit: contain;
+  margin: 0 auto;
   border-radius: 8px;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
   max-width: 100%;
-  text-align: right;
   z-index: 1000;
+  position: relative;
+  top: -2px;
+  left: -1px;
   img {
-    width: 202px;
+    width: 205px;
     height: 160px;
     object-fit: cover;
   }
 `;
 
 const Img = styled.img`
-  border-radius: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   z-index: 2;
+  width: 205px;
+  height: 165px;
+  border: solid 1px #91be89;
 `;
 
 const Label = styled.div`
   width: 72px;
   height: 40px;
   flex-grow: 0;
-  border-radius: 8px;
-  padding: 11px 12px 10px 11px;
+  border-top-right-radius: 8px;
+  padding: 8px 12px 10px 11px;
   background-color: #3fbe81;
   font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
   color: #ffffff;
 
   display: block;
   position: absolute;
   top: 0px;
-  left: 130.8px;
+  left: 133px;
 
   z-index: 1;
 `;
 const ProductTitle = styled.div`
+  width: 157px;
+  height: 24px;
   flex-grow: 0;
   margin: 2px 0 4px;
-  font-family: Roboto;
   font-size: 18px;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.33;
-  letter-spacing: normal;
   text-align: left;
   color: #2f2f2f;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 const Title = styled.div`
   font-size: 13px;
   text-align: left;
   color: #2a2a2a;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+  height: 17px;
   span {
     font-size: 12px;
     color: #737373;
@@ -179,13 +173,8 @@ const Time = styled.div`
   height: 16px;
   flex-grow: 0;
   margin: 9px 85px 0 0;
-  font-family: Roboto;
   font-size: 14px;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
   text-align: left;
   color: #0c6550;
 `;

@@ -86,32 +86,34 @@ const Testpost = (props) => {
         <Container>
           {isPostOpen && <DaumPostcode />}
           <AddressInputArea>
-          <TextInputC>
-            <SmallTitle>도로명 주소</SmallTitle>
-            <AInput type="text" id="sample4_roadAddress" placeholder="도로명주소를 입력하세요" />
-          </TextInputC>
-           
-           <TextInputC>
-             <SmallTitle>지번 주소</SmallTitle>
-              <AInput style={{marginLeft : "20px"}} type="text" id="sample4_jibunAddress" placeholder="지번주소를 입력하세요" value={isAddress} />
+            <TextInputC>
+              <SmallTitle>도로명 주소</SmallTitle>
+              <AInput type="text" id="sample4_roadAddress" placeholder="도로명주소를 입력하세요" />
+            </TextInputC>
+
+            <TextInputC>
+              <SmallTitle>지번 주소</SmallTitle>
+              <AInput type="text" id="sample4_jibunAddress" placeholder="지번주소를 입력하세요" value={isAddress} />
               <span id="guide" style={{ color: "#999", display: "none" }}></span>
-           </TextInputC>
+            </TextInputC>
 
-           <TextInputC>
-             <SmallTitle>상세주소</SmallTitle>
-             <AInput style={{marginLeft : "20px"}} type="text" id="sample4_detailAddress" placeholder="상세주소를 입력하세요" />
-           </TextInputC>
+            <TextInputC>
+              <SmallTitle>상세주소</SmallTitle>
+              <AInput type="text" id="sample4_detailAddress" placeholder="상세주소를 입력하세요" />
+            </TextInputC>
 
-           <TextInputC>
-             <SmallTitle>우편번호</SmallTitle>
-             <PInput style={{marginLeft : "20px", width: "170px"}} type="text" id="sample4_postcode" placeholder="우편번호 입력" />
-             <PInput type="button" onClick={sample4_execDaumPostcode} value="우편번호 검색" />
-           </TextInputC>
-            
+            <TextInputC>
+              <SmallTitle>우편번호</SmallTitle>
+              <PInput type="text" id="sample4_postcode" placeholder="우편번호 입력" />
+              <SInput type="button" onClick={sample4_execDaumPostcode} value="우편번호 검색" />
+            </TextInputC>
+
             {/* <PInput type="text" id="sample4_extraAddress" placeholder="참고항목" /> */}
           </AddressInputArea>
-          <Btn onClick={close}>뒤로가기</Btn>
-          <Btn onClick={editMyAddress}>수정하기</Btn>
+          <BtnArea>
+            <Btn onClick={close}>뒤로가기</Btn>
+            <Btn onClick={editMyAddress}>수정하기</Btn>
+          </BtnArea>
         </Container>
       ) : null}
     </React.Fragment>
@@ -119,74 +121,109 @@ const Testpost = (props) => {
 };
 
 const Container = styled.div`
-  width: 30rem;
-  height: 21rem;
+  width: 600px;
+  height: 380px;
   z-index: 1000;
   background-color: #ffffff;
 
   border-radius: 8px;
   position: absolute;
-  left:50%; 
-  top:-1%;
-  transform:translateX(-50%);
+  left: 50%;
+  top: -1%;
+  transform: translateX(-50%);
   border: solid 1px #ffffff;
- 
-
 `;
 
-const TextInputC=styled.div`
-display:flex;
-align-items:center;
+const TextInputC = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
-const SmallTitle=styled.div`
-  font-size: 14px;
-  font-weight: 500;
-  margin-left: 10px;
-  margin-right: 30px;
+const SmallTitle = styled.div`
+  width: 90px;
+  height: 24px;
+  font-size: 18px;
   line-height: 1.33;
-  letter-spacing: normal;
   text-align: left;
   color: #2f2f2f;
 `;
 
 const AInput = styled.input`
-  width: 280px;
-  padding: 0.4rem;
-  height: 2rem;
+  width: 359px;
+  height: 56px;
+  padding: 16px 97px 16px 16px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-  border: none;
+  border: 3px solid #d2d2d2;
   border-radius: 8px;
-  margin: 0.4rem;
+  margin: 24px 68px 24px 97px;
+  ::placeholder {
+    font-size: 18px;
+    line-height: 1.33;
+    color: #b5b5b5;
+  }
+  :hover {
+    border: 3px solid #656565;
+  }
 `;
 
-const PInput = styled(AInput)`
-  width: 150px;
+const PInput = styled.input`
+  width: 199px;
+  height: 57px;
+  margin: 16px 16px 16px 97px;
+  padding: 16.6px 40px 15.6px 16px;
+  border-radius: 8px;
+  border: 3px solid #c4c4c4;
+  ::placeholder {
+    color: #b5b5b5;
+    font-size: 18px;
+    line-height: 1.33;
+  }
+  :hover {
+    border: 3px solid #656565;
+  }
 `;
 
-const SearchBtn=styled.button`
-width: 100px;
-  padding: 0.4rem;
-  height: 2rem;
+const SInput = styled.input`
+  width: 144px;
+  height: 55px;
+  flex-grow: 0;
+  margin: 16px 68px 16px 16px;
+  padding: 12px 2px;
   border-radius: 8px;
-color:#6fcea1;
-border: solid 2px #6fcea1;
-background:#ffffff;
-justify-content:center;
-text-align:center;
-margin-left:5px;
+  border: 3px solid #6fcea1;
+  background-color: #ffffff;
+  font-size: 18px;
+  color: #6fcea1;
+  line-height: 1.33;
+  :hover {
+    background-color: #3fbe81;
+    color: #ffffff;
+  }
+  cursor: pointer;
 `;
 
 const Btn = styled.button`
-  width: 100px;
-  height: 40px;
+  width: 115px;
+  height: 50px;
   border-radius: 8px;
   background-color: #d6d6d6;
   border: none;
   color: white;
   font-weight: 600;
   margin: 2rem 0.5rem;
+  font-size: 18px;
+  cursor: pointer;
+  :hover {
+    background-color: #3fbe81;
+  }
+`;
 
+const BtnArea = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 460px;
 `;
 
 const AddressInputArea = styled.div`

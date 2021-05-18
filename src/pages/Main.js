@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { history } from "../redux/configureStore";
-import AddIcon from "@material-ui/icons/Add";
 import PostList from "./PostList";
 import Banners from "../components/Banners";
 const Main = (props) => {
@@ -19,7 +17,7 @@ const Main = (props) => {
 const WrapMain = styled.div`
   margin-top: 120px;
   display: flex;
-  width: 100vw;
+  width: 100%;
   flex-direction: column;
   /* @media (max-width: 1000px){
     heigth: 
@@ -29,7 +27,7 @@ const WrapMain = styled.div`
 const Title = styled.h2`
   height: 24px;
   flex-grow: 0;
-  margin: 0px 171px 10px 143px;
+  margin: 0px 171px 10px 180px;
   font-size: 25px;
   font-weight: bold;
   font-stretch: normal;

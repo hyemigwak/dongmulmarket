@@ -4,7 +4,7 @@ import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { getCookie } from "../shared/Cookie";
-import "./Header.css";
+import { Container } from "../element";
 import logo1 from "../image/logo1.png";
 
 const Header = (props) => {
@@ -25,87 +25,75 @@ const Header = (props) => {
   if (cookie && is_login) {
     return (
       <React.Fragment>
-        <HeaderC>
-          <WelcomeWords
-            onClick={() => {
-              history.push("/");
-            }}
-          >
-            <LogoBox src={logo1}
-              onClick={() => {
-                history.push("/");
-              }}
-            ></LogoBox>
-          
-          </WelcomeWords>
-          <BtnArea>
-            <HeaderCategory
-              onClick={() => {
-                history.push("/");
-              }}
-            >
-              홈페이지
-            </HeaderCategory>
-            <HeaderCategory
-              onClick={() => {
-                history.push("/addproduct");
-              }}
-            >
-              판매하기
-            </HeaderCategory>
-            <MypageBox
-              onClick={() => {
-                history.push("/mypage");
-              }}
-            >
-              마이페이지
-            </MypageBox>
-            <HeaderCategory
-              onClick={() => {
-                history.push("/mylocation");
-              }}
-            >
-              위치설정
-            </HeaderCategory>
-            <LogoutBtn onClick={siteLogout}>로그아웃</LogoutBtn>
-          </BtnArea>
-        </HeaderC>
+        <Container>
+          <HeaderC>
+            <LogoBox>
+              <Logo
+                src={logo1}
+                onClick={() => {
+                  history.push("/");
+                }}
+              ></Logo>
+            </LogoBox>
+            <BtnArea>
+              <HeaderCategory
+                onClick={() => {
+                  history.push("/");
+                }}
+              >
+                홈페이지
+              </HeaderCategory>
+              <HeaderCategory
+                onClick={() => {
+                  history.push("/addproduct");
+                }}
+              >
+                판매하기
+              </HeaderCategory>
+              <MypageBox
+                onClick={() => {
+                  history.push("/mypage");
+                }}
+              >
+                마이페이지
+              </MypageBox>
+              <LogoutBtn onClick={siteLogout}>로그아웃</LogoutBtn>
+            </BtnArea>
+          </HeaderC>
+        </Container>
       </React.Fragment>
     );
   } else {
     return (
       <React.Fragment>
-        <HeaderC>
-          <WelcomeWords
-            onClick={() => {
-              history.push("/");
-            }}
-          >
-            <LogoBox src={logo1}
-              onClick={() => {
-                history.push("/");
-              }}
-            ></LogoBox>
-            
-          </WelcomeWords>
-
-          <BtnArea2>
-            <SignupBtn
-              onClick={() => {
-                history.push("/signup");
-              }}
-            >
-              회원가입
-            </SignupBtn>
-            <LogInBtn
-              onClick={() => {
-                history.push("/login");
-              }}
-            >
-              로그인
-            </LogInBtn>
-          </BtnArea2>
-        </HeaderC>
+        <Container>
+          <HeaderC>
+            <LogoBox>
+              <Logo
+                src={logo1}
+                onClick={() => {
+                  history.push("/");
+                }}
+              ></Logo>
+            </LogoBox>
+            <BtnArea2>
+              <SignupBtn
+                onClick={() => {
+                  history.push("/signup");
+                }}
+              >
+                회원가입
+              </SignupBtn>
+              <LogInBtn
+                onClick={() => {
+                  history.push("/login");
+                }}
+              >
+                로그인
+              </LogInBtn>
+            </BtnArea2>
+          </HeaderC>
+        </Container>
       </React.Fragment>
     );
   }
@@ -116,10 +104,11 @@ const HeaderC = styled.div`
   background-color: #ffffff;
   left: 0;
   top: 0;
-  width: 100%;
-  height: 104px;
-  padding: 15px 25px 10px;
+  height: 118px;
   border: none;
+  width: 100%;
+  /* max-width: 1200px; */
+  margin: 0 auto;
   border-bottom: 1px solid #dbdbdb;
   box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.04);
   z-index: 10;
@@ -128,10 +117,11 @@ const HeaderC = styled.div`
   justify-content: space-between;
 `;
 
-const WelcomeWords = styled.div`
+const LogoBox = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 20px;
+  margin: 0px 389px 0px 20px;
+
   cursor: pointer;
   span {
     font-weight: 600;
@@ -140,11 +130,7 @@ const WelcomeWords = styled.div`
   }
 `;
 
-const LogoBox = styled.img`
-margin-left:50px;
-`;
-
-
+const Logo = styled.img``;
 
 const HeaderCategory = styled.div`
   width: 77px;
@@ -160,7 +146,7 @@ const HeaderCategory = styled.div`
 `;
 
 const SignupBtn = styled(HeaderCategory)`
-  margin: 0px 44px;
+  margin: 0px 40px;
   text-align: center;
   display: table-cell;
   vertical-align: middle;
@@ -168,7 +154,7 @@ const SignupBtn = styled(HeaderCategory)`
 
 const MypageBox = styled.div`
   width: 90px;
-  margin: 0px 30px 0px 30px;
+  margin: 0px 40px 0px 40px;
   font-size: 18px;
   font-weight: 500;
   text-align: left;
@@ -216,11 +202,6 @@ const LogInBtn = styled.div`
   background-color: #3fbe81;
 
   font-size: 18px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
   text-align: left;
   color: #ffffff;
   cursor: pointer;
@@ -231,9 +212,9 @@ const LogInBtn = styled.div`
 `;
 
 const BtnArea = styled.div`
-  margin-right: 30px;
   display: flex;
   align-items: center;
+  margin-right: 28px;
 `;
 
 const BtnArea2 = styled.div`

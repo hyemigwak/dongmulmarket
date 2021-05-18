@@ -7,6 +7,7 @@ import KaKaoLogin from "react-kakao-login";
 import GoogleLogin from "react-google-login";
 import kakao from "../image/kakao.png";
 import googleLogo from "../image/google_logo.png";
+import { ClickAwayListener } from "@material-ui/core";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const Login = () => {
     console.log(res);
     console.log(res.profile.properties.nickname);
     console.log(res.profile.kakao_account.email);
-   
+
     dispatch(userActions.kakaoLoginAPI(res));
   };
 
@@ -56,31 +57,57 @@ const Login = () => {
           </TitleArea>
           <LoginC>
             <InputC>
-              <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} />
-              <Input2 type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} />
+              <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} tabIndex="1" />
+              <Input2
+                type="password"
+                placeholder="비밀번호를 입력해주세요"
+                value={pwd}
+                onChange={onChangePwd}
+                tabIndex="2"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    onSiteLogin();
+                  }
+                }}
+              />
             </InputC>
             <AutoLoginC>
-              <Autologin>
+              {/* <Autologin>
                 <input type="checkbox" />
                 <span>자동로그인</span>
-              </Autologin>
+              </Autologin> */}
               <div
                 className="findPwd"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    history.push("/findpwd");
+                  }
+                }}
                 onClick={() => {
                   history.push("/findpwd");
                 }}
+                tabIndex="3"
               >
                 비밀번호를 잊으셨나요?
               </div>
             </AutoLoginC>
 
-            <LoginBtn onClick={onSiteLogin}>로그인</LoginBtn>
+            <LoginBtn tabIndex="4" onClick={onSiteLogin}>
+              로그인
+            </LoginBtn>
             <SignInArea>
               <span>신규 사용자이신가요?</span>{" "}
               <div
                 className="makeaccount"
                 onClick={() => {
                   history.push("/signup");
+                }}
+                tabIndex="5"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    history.push("/signup");
+                  }
                 }}
               >
                 계정 만들기
@@ -92,34 +119,37 @@ const Login = () => {
               <div></div>
             </OrLine>
             <SocialBtnArea>
-              <KaKaoLogin
-                token={"dbf3a7f227849392ad80f6426c8d9526"}
-                onSuccess={kakaoLoginSuccess}
-                onFailure={(result) => console.log(result)}
-                buttonText="kakao"
-                render={(props) => (
-                  <KakaoBtn onClick={props.onClick}>
-                    <img src={kakao} alt="카톡" />
-                    카카오톡으로 계속
-                  </KakaoBtn>
-                )}
-              ></KaKaoLogin>
-              <GoogleLogin
-                clientId="797391183659-j67nu7drmq094hs3ghtfpjmsh25dah67.apps.googleusercontent.com"
-                buttonText="Google"
-                onSuccess={GoogleLoginSuccess}
-                onFailure={responseGoogle}
-                cookiePolicy={"single_host_origin"}
-                // isSignedIn={true}
-                render={(props) => (
-                  <GoogleBtn onClick={props.onClick} disabled={props.disabled}>
-                    <div>
-                      <img src={googleLogo} alt="구글로고" />
-                      Google로 계속
-                    </div>
-                  </GoogleBtn>
-                )}
-              />
+              <div tabIndex="6">
+                <KaKaoLogin
+                  token={"dbf3a7f227849392ad80f6426c8d9526"}
+                  onSuccess={kakaoLoginSuccess}
+                  onFailure={(result) => console.log(result)}
+                  buttonText="kakao"
+                  render={(props) => (
+                    <KakaoBtn onClick={props.onClick}>
+                      <img src={kakao} alt="카톡" />
+                      카카오톡으로 계속
+                    </KakaoBtn>
+                  )}
+                ></KaKaoLogin>
+              </div>
+              <div tabIndex="7">
+                <GoogleLogin
+                  clientId="797391183659-j67nu7drmq094hs3ghtfpjmsh25dah67.apps.googleusercontent.com"
+                  buttonText="Google"
+                  onSuccess={GoogleLoginSuccess}
+                  onFailure={responseGoogle}
+                  cookiePolicy={"single_host_origin"}
+                  render={(props) => (
+                    <GoogleBtn onClick={props.onClick} disabled={props.disabled}>
+                      <div>
+                        <img src={googleLogo} alt="구글로고" />
+                        Google로 계속
+                      </div>
+                    </GoogleBtn>
+                  )}
+                />
+              </div>
             </SocialBtnArea>
           </LoginC>
         </WrapLogin>
@@ -132,6 +162,7 @@ const Login = () => {
 const WrapLogin = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
   padding-top: 60px;
+  margin-bottom: 180px;
   display: flex;
   flex-direction: column;
   /* @media (max-width: 1000px){
@@ -223,7 +254,7 @@ const Input2 = styled.input`
 const AutoLoginC = styled.div`
   width: 360px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 10px;
   input {
@@ -245,28 +276,33 @@ const AutoLoginC = styled.div`
     text-align: left;
     color: #5f5f5f;
     cursor: pointer;
+
+    :hover {
+      font-weight: bold;
+      color: #212121;
+    }
   }
 `;
 
-const Autologin = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  span {
-    width: 70px;
-    height: 16px;
-    flex-grow: 0;
-    margin: 4px 0 4px 8px;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: left;
-    color: #5f5f5f;
-  }
-`;
+// const Autologin = styled.div`
+//   display: flex;
+//   align-items: center;
+//   cursor: pointer;
+//   span {
+//     width: 70px;
+//     height: 16px;
+//     flex-grow: 0;
+//     margin: 4px 0 4px 8px;
+//     font-size: 14px;
+//     font-weight: normal;
+//     font-stretch: normal;
+//     font-style: normal;
+//     line-height: normal;
+//     letter-spacing: normal;
+//     text-align: left;
+//     color: #5f5f5f;
+//   }
+// `;
 
 const LoginBtn = styled.div`
   width: 359px;
@@ -307,6 +343,9 @@ const SignInArea = styled.div`
     text-align: left;
     color: #3fbe81;
     cursor: pointer;
+    :hover {
+      font-weight: bold;
+    }
   }
 `;
 
@@ -314,6 +353,7 @@ const OrLine = styled.div`
   display: flex;
   align-items: center;
   margin-top: 32px;
+  margin-bottom: 10px;
   div {
     width: 156px;
     height: 1px;

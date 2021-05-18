@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
+import { Container } from "../element";
 
 import Post from "../components/Post";
 const PostList = (props) => {
@@ -17,11 +18,13 @@ const PostList = (props) => {
 
   return (
     <React.Fragment>
-      <PostListC>
-        {postList?.map((post, idx) => {
-          return <Post {...post} key={idx} />;
-        })}
-      </PostListC>
+      <Container>
+        <PostListC>
+          {postList?.map((post, idx) => {
+            return <Post {...post} key={idx} />;
+          })}
+        </PostListC>
+      </Container>
     </React.Fragment>
   );
 };
@@ -30,8 +33,7 @@ const PostListC = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-left: 118px;
+  justify-content: center;
 `;
 
 export default PostList;
