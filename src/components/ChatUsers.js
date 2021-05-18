@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { getCookie } from "../shared/Cookie";
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+
 
 const ChatUsers = memo((props) => {
   const dispatch = useDispatch();
@@ -60,30 +62,50 @@ const ChatUsers = memo((props) => {
   const kickUser = () => {};
 
   return (
-    <div>
-      <LiveChatBox isBoss>
+    <Wrapping>
+      <LiveChatBtn>실시간 대화 참여</LiveChatBtn>     
+      <LiveChatBox isBoss>     
         {userList?.map((user, idx) => {
           return (
             <OneChatUser key={idx}>
               <LiveUser>{user.nickname}</LiveUser>
-              <LiveTalkBtn>대화하기</LiveTalkBtn>
-              <HighlightOffIcon onClick={kickUser} style={{ color: "gray", marginRight: "5px", width: "16px", cursor: "pointer" }} />
+              <CheckCircleOutlineIcon onClick={kickUser} style={{ color: "green", marginRight: "10px", width: "20px", cursor: "pointer" }}/>
+              <HighlightOffIcon onClick={kickUser} style={{ color: "gray", width: "20px", cursor: "pointer" }} />
             </OneChatUser>
           );
         })}
-      </LiveChatBox>
-    </div>
+      </LiveChatBox> 
+    </Wrapping>
   );
 });
+
+const Wrapping=styled.div`
+
+`;
+
+const LiveChatBtn = styled.div`
+  width: 158px;
+  height: 24px;
+  flex-grow: 0;
+  margin-left: 25px;
+  font-size: 18px;
+  line-height: 1.33;
+  text-align: left;
+  color: #7d7d7d;
+  cursor: pointer;
+  position:absolute;
+  top:225px;
+`;
 
 const LiveChatBox = styled.div`
   width: 175px;
   height: 522px;
   flex-grow: 0;
-  margin-top: 44px;
+  margin-top: 0px;
   ${(props) => (props.isBoss ? "background-color:#3fbe81" : "background-color: #d9d9d9")}
   /* background-color: #d9d9d9; */
   display: block;
+  position:relative;
 `;
 
 const OneChatUser = styled.div`
@@ -99,22 +121,11 @@ const OneChatUser = styled.div`
 const LiveUser = styled.div`
   flex-grow: 0;
   margin: 0px 20px 0px 6px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.71;
   color: #373737;
 `;
 
-const LiveTalkBtn = styled.div`
-  width: 68px;
-  height: 24px;
-  padding: 3px 11px;
-  font-size: 12px;
-  border-radius: 83px;
-  background-color: #a8a8a8;
-  color: #ffffff;
-  cursor: point;
-  margin-right: 8px;
-`;
 
 const EntranceMsg = styled.div`
   width: 270px;

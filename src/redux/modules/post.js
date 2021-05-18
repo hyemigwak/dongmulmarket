@@ -88,7 +88,7 @@ const getOnePostAPI = (itemId) => {
   console.log("itemId", itemId);
   return async function (dispatch, getState, { history }) {
     await axios
-      .get(`${config.api}/mainPage/${itemId}`)
+      .get(`${config.api}/postDetail/${itemId}`)
       .then((res) => {
         if (res.data.msg === "success") {
           console.log(res);
