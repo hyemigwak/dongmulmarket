@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { history } from "../redux/configureStore";
 
 const Post = (props) => {
+  console.log(props);
+
   const { image, title, wantItem, address, deadLine, itemId } = props;
   const _itemId = props.itemId;
 
@@ -12,7 +14,9 @@ const Post = (props) => {
     const timeValue = new Date(value);
 
     //ms 초 단위로 계산되기때문에 1000으로 나누고 다시 분(60)으로 나눈다. 1분전일때는 -> 방금 전 표기
-    const betweenTime = Math.floor((timeValue.getTime() - today.getTime()) / 1000 / 60);
+    const betweenTime = Math.floor(
+      (timeValue.getTime() - today.getTime()) / 1000 / 60
+    );
     // if (betweenTime < 1) return "방금 전";
     if (betweenTime < 60) {
       return `${betweenTime}분`;

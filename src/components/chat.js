@@ -138,7 +138,7 @@ const Chat = memo((props) => {
             </TradeSuccessBtn>
           </WrapButtons>
         </LiveChatBox>
-        <ChatUsers userList={userList} itemId={itemId} icrId={icrId} />
+        <ChatUsers socket={socket} />
       </ChatContainer>
     );
   }

@@ -107,6 +107,33 @@ const getOnePostAPI = (itemId) => {
   };
 };
 
+//채팅 유저 추가하기(참여버튼 누를때)
+const kickUserList = (socket, { itemId, email, icrId }) => {
+  console.log(email, itemId, icrId);
+  return function (dispatch, getState, { history }) {
+    let token = getCookie("user_login");
+    socket.emit(
+      "authenticate",
+      {
+        token: token,
+      },
+      (data) => {
+        if (data["msg"] === "success") {
+          console.log("msg가 성공이라면 if문");
+          socket.emit("kickUser", { email, itemId, icrId });
+          //서버에서 내려준 참여자 목록을 저장해서 화면에 보여준다
+          socket.on("kickUser", (data) => {
+            console.log("참여 유저 정보 받나요???");
+            console.log("kickUserData " + JSON.stringify(data));
+
+            //dispatch(addUser(addUser_data.userList));
+          });
+        }
+      }
+    );
+  };
+};
+
 //물품 등록하기
 const addPostAPI = (
   imgfile,
@@ -199,6 +226,7 @@ const actionCreators = {
   getOnePostAPI,
   deletePostAPI,
   clearPost,
+  kickUserList,
 };
 
 export { actionCreators };
