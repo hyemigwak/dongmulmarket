@@ -33,7 +33,11 @@ const PostListC = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  /* justify-content: center; */
+  @media (max-width: 768px) {
+    margin-left: 12px;
+    margin-right: 25px;
+  }
 `;
 
 export default PostList;

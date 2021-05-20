@@ -6,6 +6,7 @@ import { actionCreators as userActions } from "../redux/modules/user";
 import { getCookie } from "../shared/Cookie";
 import { Container } from "../element";
 import logo1 from "../image/logo1.png";
+import Swal from "sweetalert2";
 
 const Header = (props) => {
   const dispatch = useDispatch();
@@ -13,13 +14,24 @@ const Header = (props) => {
   const cookie = getCookie("user_login") ? true : false;
 
   const siteLogout = () => {
-    if (window.confirm("정말 로그아웃 하시겠습니까?")) {
-      //dispatch(userActions.logOut());
-      dispatch(userActions.LogOutMiddleware());
-      history.replace("/");
-    } else {
-      console.log("로그인 유지");
-    }
+    Swal.fire({
+      title: "로그아웃 하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#3fbe81",
+      cancelButtonColor: "#d6d6d6",
+      confirmButtonText: "로그아웃",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(userActions.LogOutMiddleware());
+        history.replace("/");
+        Swal.fire({
+          text: "로그아웃 되셨습니다.",
+          confirmButtonColor: "#3fbe81",
+          confirmButtonText: "확인",
+        });
+      }
+    });
   };
 
   if (cookie && is_login) {
@@ -34,7 +46,10 @@ const Header = (props) => {
                   history.push("/");
                 }}
               ></Logo>
-              <Beta>베타서비스 1.0v</Beta>
+              <Beta>
+                베타서비스
+                <br /> 1.0v
+              </Beta>
             </LogoBox>
             <BtnArea>
               <HeaderCategory
@@ -108,7 +123,6 @@ const HeaderC = styled.div`
   height: 118px;
   border: none;
   width: 100%;
-  /* max-width: 1200px; */
   margin: 0 auto;
   border-bottom: 1px solid #dbdbdb;
   box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.04);
@@ -116,6 +130,11 @@ const HeaderC = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    height: 104px;
+    width: 768px;
+  }
 `;
 
 const LogoBox = styled.div`
@@ -129,12 +148,18 @@ const LogoBox = styled.div`
     font-size: 18px;
     margin-left: 10px;
   }
+
+  @media (max-width: 768px) {
+    margin: 0 60px 0.1px 0;
+  }
 `;
 
-const Logo = styled.img``;
+const Logo = styled.img`
+  margin-left: 20px;
+`;
 
 const Beta = styled.div`
-  font-size: 14px;
+  font-size: 13px;
   color: #d2d2d2;
   margin-left: 10px;
   margin-top: 10px;
@@ -150,6 +175,9 @@ const HeaderCategory = styled.div`
   color: #7d7d7d;
   :hover {
     color: #373737;
+  }
+  @media (max-width: 768px) {
+    margin: 7px 24px 6px 0;
   }
 `;
 
@@ -170,6 +198,9 @@ const MypageBox = styled.div`
   color: #7d7d7d;
   :hover {
     color: #373737;
+  }
+  @media (max-width: 768px) {
+    margin: 7px 24px 6px 0;
   }
 `;
 
@@ -193,6 +224,9 @@ const LogoutBtn = styled.div`
   cursor: pointer;
   :hover {
     background-color: #999999;
+  }
+  @media (max-width: 768px) {
+    margin: 7px 24px 6px 0;
   }
 `;
 

@@ -3,6 +3,7 @@ import { produce, produceWithPatches } from "immer";
 import axios from "axios";
 import { getCookie } from "../../shared/Cookie";
 import { config } from "../../shared/config";
+import Swal from "sweetalert2";
 
 //actions
 const GET_POST = "GET_POST";
@@ -33,13 +34,13 @@ const initialState = {
 //물품 삭제하기
 const deletePostAPI = (itemId) => {
   return function (dispatch, getState, { history }) {
-    let token = getCookie("user_login");
+    // let token = getCookie("user_login");
     axios({
       method: "DELETE",
       url: `${config.api}/mainPage/delete`,
-      headers: {
-        authorization: token,
-      },
+      // headers: {
+      //   authorization: token,
+      // },
       data: {
         itemId: itemId,
       },
@@ -48,6 +49,11 @@ const deletePostAPI = (itemId) => {
         console.log(res.data);
         if (res.data.msg === "success") {
           dispatch(deletePost(itemId));
+          Swal.fire({
+            title: "삭제 완료되었습니다.",
+            confirmButtonColor: "#3fbe81",
+            confirmButtonText: "확인",
+          });
         }
       })
       .catch((err) => {
@@ -130,9 +136,17 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
         if (res.data.msg === "success") {
           console.log(res.data);
           dispatch(addPost(imgfile, category, myItem, wantItem, content, expireDate));
-          window.alert("등록 완료입니다!");
+          Swal.fire({
+            title: "등록 완료입니다!",
+            confirmButtonColor: "#3fbe81",
+            confirmButtonText: "확인",
+          });
         } else {
-          window.alert("등록 불러오기 실패");
+          Swal.fire({
+            title: "글 작성에 실패했습니다.",
+            confirmButtonColor: "#d6d6d6",
+            confirmButtonText: "확인",
+          });
         }
       })
       .catch((err) => {
@@ -140,11 +154,6 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
       });
   };
 };
-
-//상품 게시물 삭제하기
-// const deletePostAPI =()=>{
-
-// }
 
 //reducer
 export default handleActions(

@@ -4,6 +4,7 @@ import { actionCreators as userActions } from "../redux/modules/user";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
 import lock from "../image/lock.png";
+import Swal from "sweetalert2";
 
 const Findpwd = () => {
   const dispatch = useDispatch();
@@ -15,11 +16,19 @@ const Findpwd = () => {
 
   const onSiteFindPwd = () => {
     if (email === "") {
-      window.alert("이메일을 써주세요!");
+      Swal.fire({
+        title: "이메일을 써주세요!",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
       return;
     }
     if (!email_regExp.test(email)) {
-      window.alert("이메일이 맞지 않습니다");
+      Swal.fire({
+        title: "이메일이 맞지 않습니다",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
       return;
     }
     dispatch(userActions.FindPwdAPI(email));

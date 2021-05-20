@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import DaumPostcode from "react-daum-postcode";
+import Swal from "sweetalert2";
 
 const EditAddress = (props) => {
   const dispatch = useDispatch();
@@ -9,7 +10,11 @@ const EditAddress = (props) => {
 
   const editMyAddress = () => {
     //디스패치하기(주소 수정해서 서버로 보내주기, 마이페이지 주소설정도 바뀌어야함)
-    window.alert("주소를 수정했습니다!");
+    Swal.fire({
+      title: "주소를 수정했습니다!",
+      confirmButtonColor: "#3fbe81",
+      confirmButtonText: "확인",
+    });
     close();
   };
 

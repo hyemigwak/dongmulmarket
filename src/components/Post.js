@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
+import Swal from "sweetalert2";
 
 const Post = (props) => {
   const { image, title, wantItem, address, deadLine, itemId } = props;
-  const _itemId = props.itemId;
+
+  const Today = new Date();
+  const NewDeadLine = new Date(deadLine);
+  const newDate = new Date(NewDeadLine.getTime() + NewDeadLine.getTimezoneOffset() * 60 * 1000);
+  const TimeGap = newDate - Today;
+
+  //만약 경매시간이 지났다면, 클릭 시 알럿 후 리로드, 아니라면 디테일 페이지로 넘김
+  const TimeLimit = () => {
+    if (TimeGap < 0) {
+      Swal.fire({
+        title: "교환이 마감된 상품입니다.",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
+      history.replace("/");
+    } else {
+      history.push(`/detail/${itemId}`);
+    }
+  };
+
+  //마감전 상품 곧 마감 뱃지 붙일 준비
+  const [badge, setBadge] = useState(false);
 
   //몇 분 전을 나타내는 함수
   function timeForToday(value) {
@@ -13,7 +35,7 @@ const Post = (props) => {
 
     //ms 초 단위로 계산되기때문에 1000으로 나누고 다시 분(60)으로 나눈다. 1분전일때는 -> 방금 전 표기
     const betweenTime = Math.floor((timeValue.getTime() - today.getTime()) / 1000 / 60);
-    // if (betweenTime < 1) return "방금 전";
+    if (betweenTime < 1) return "방금 전";
     if (betweenTime < 60) {
       return `${betweenTime}분`;
     }
@@ -30,24 +52,32 @@ const Post = (props) => {
     }
   }
 
+  //마감 1시간 전 상품에 곧마감 뱃지 붙이기
+  const TimeBadge = () => {
+    if (TimeGap / (1000 * 60) < 60) {
+      setBadge(true);
+    }
+  };
+
+  //렌더링될때 1시간 이내 상품은 곧 마감 딱지 붙여줌
+  useEffect(() => {
+    TimeBadge();
+  }, []);
+
   return (
     <React.Fragment>
-      <Box
-        onClick={() => {
-          history.push(`/detail/${_itemId}`);
-        }}
-      >
+      <Box onClick={TimeLimit}>
         <ImgBox>
-          <Img src={props.image} alt="상품이미지" />
-          <Label>곧 마감</Label>
+          <Img src={image} alt="상품이미지" />
+          {badge ? <Label>곧 마감</Label> : null}
         </ImgBox>
         <TextBox>
-          <Address style={{ marginRight: "100px" }}>{props.address}</Address>
-          <ProductTitle>{props.title}</ProductTitle>
+          <Address style={{ marginRight: "100px" }}>{address}</Address>
+          <ProductTitle>{title}</ProductTitle>
           <Title>
-            <span>희망교환템:</span> {props.wantItem}
+            <span>희망교환템:</span> {wantItem}
           </Title>
-          <Time>{timeForToday(props.deadLine)} 남음</Time>
+          <Time>{timeForToday(newDate)} 남음</Time>
         </TextBox>
       </Box>
     </React.Fragment>
@@ -74,6 +104,10 @@ const Box = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+
+  @media (max-width: 768px) {
+    margin: 40px 12.5px 48px 25px;
+  }
 `;
 
 const ImgBox = styled.div`
@@ -101,6 +135,7 @@ const Img = styled.img`
 `;
 
 const Label = styled.div`
+  display: ${(props) => (props.deadLineSoon ? "block" : "none")};
   width: 72px;
   height: 40px;
   flex-grow: 0;

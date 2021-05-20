@@ -23,66 +23,64 @@ const Banners = () => {
 
   return (
     <BannerBox>
-      <Container>
-        <Slick {...settings} dotsClass="dotsCustom">
-          <BannerImg1>
-            <BannerGrid>
-              <SmallGreen1>우리 동네에서 하는 물물교환 거래</SmallGreen1>
-              <WelcomeWords1>
-                동물마켓에
-                <br />
-                오신것을 환영합니다
-              </WelcomeWords1>
-              <Describe1>
-                나에게 필요없는 상품이 누군가에게 꼭 필요한 상품이 될 수 있습니다.
-                <br />
-                동물마켓은 0원의 비용으로 지구와 사람 모두가 행복을 누릴 수 있는 환경을 생각합니다.
-                <br />
-                실시간 채팅을 통해 필요한 상품만 쏙 골라갈 수 있도록 스마트한 소비를 도와드릴게요!
-              </Describe1>
-              <LoginBtn
-                onClick={() => {
-                  history.push("/login");
-                }}
-              >
-                로그인하기
-              </LoginBtn>
-            </BannerGrid>
-          </BannerImg1>
-          <BannerImg2>
-            <BannerGrid2>
-              <SmallGreen2>친절한 냥이가 설명해주는</SmallGreen2>
-              <WelcomeWords1>
-                동물마켓 이용
-                <br />
-                튜토리얼
-              </WelcomeWords1>
-              <Describe2>
-                동물마켓은 내가 가진 물건으로 필요한 물건을 구할 수 있어요.
-                <br />
-                교환하고 싶은 물건이 있다면, 단체 채팅에 참여해보세요.
-                <br />
-                채팅을 통해 구매자와 매칭이 되면 1:1 채팅을 할 수 있습니다!
-              </Describe2>
-              <TradeBtn>거래하러 가기</TradeBtn>
-            </BannerGrid2>
-          </BannerImg2>
-          <BannerImg3>
-            <BannerGrid>
-              <SmallGreen1>우리 동네에서 하는 물물교환 거래</SmallGreen1>
-              <WelcomeWords2>동물마켓 이용 꿀팁!</WelcomeWords2>
-              <Describe1>
-                1. 마감 임박 상품을 노리세요
-                <br />
-                2. 채팅이 활발하지 않은 물건을 선점해보세요
-                <br />
-                3. 원하는게 없을 때는 내가 글을 등록해보세요
-              </Describe1>
-              <TradeBtn>거래하러 가기</TradeBtn>
-            </BannerGrid>
-          </BannerImg3>
-        </Slick>
-      </Container>
+      <Slick {...settings} dotsClass="dotsCustom">
+        <BannerImg1>
+          <BannerGrid>
+            <SmallGreen1>우리 동네에서 하는 물물교환 거래</SmallGreen1>
+            <WelcomeWords1>
+              동물마켓에
+              <br />
+              오신것을 환영합니다
+            </WelcomeWords1>
+            <Describe1>
+              나에게 필요없는 상품이 누군가에게 꼭 필요한 상품이 될 수 있습니다.
+              <br />
+              동물마켓은 0원의 비용으로 지구와 사람 모두가 행복을 누릴 수 있는 환경을 생각합니다.
+              <br />
+              실시간 채팅을 통해 필요한 상품만 쏙 골라갈 수 있도록 스마트한 소비를 도와드릴게요!
+            </Describe1>
+            <LoginBtn
+              onClick={() => {
+                history.push("/login");
+              }}
+            >
+              로그인하기
+            </LoginBtn>
+          </BannerGrid>
+        </BannerImg1>
+        <BannerImg2>
+          <BannerGrid2>
+            <SmallGreen2>친절한 냥이가 설명해주는</SmallGreen2>
+            <WelcomeWords1>
+              동물마켓 이용
+              <br />
+              튜토리얼
+            </WelcomeWords1>
+            <Describe2>
+              동물마켓은 내가 가진 물건으로 필요한 물건을 구할 수 있어요.
+              <br />
+              교환하고 싶은 물건이 있다면, 단체 채팅에 참여해보세요.
+              <br />
+              채팅을 통해 구매자와 매칭이 되면 1:1 채팅을 할 수 있습니다!
+            </Describe2>
+            <TradeBtn>거래하러 가기</TradeBtn>
+          </BannerGrid2>
+        </BannerImg2>
+        <BannerImg3>
+          <BannerGrid>
+            <SmallGreen1>우리 동네에서 하는 물물교환 거래</SmallGreen1>
+            <WelcomeWords2>동물마켓 이용 꿀팁!</WelcomeWords2>
+            <Describe1>
+              1. 마감 임박 상품을 노리세요
+              <br />
+              2. 채팅이 활발하지 않은 물건을 선점해보세요
+              <br />
+              3. 원하는게 없을 때는 내가 글을 등록해보세요
+            </Describe1>
+            <TradeBtn>거래하러 가기</TradeBtn>
+          </BannerGrid>
+        </BannerImg3>
+      </Slick>
     </BannerBox>
   );
 };
@@ -92,9 +90,13 @@ const BannerBox = styled.div`
   height: 540px;
   box-sizing: border-box;
 
-  /* .dotsCustom {
+  @media (max-width: 768px) {
+    height: 450px;
+  }
 
+  /* .dotsCustom {
   } */
+
   .dotsCustom {
     position: absolute;
     bottom: 15px;
@@ -103,6 +105,11 @@ const BannerBox = styled.div`
     list-style: none;
     text-align: end;
     padding: 0;
+
+    @media (max-width: 768px) {
+      bottom: 15px;
+      right: 800px;
+    }
   }
 
   .dotsCustom li {
@@ -150,10 +157,16 @@ const BannerBox = styled.div`
 
 const BannerGrid = styled.div`
   margin: 100px 50px 30px 144px;
+  @media (max-width: 768px) {
+    margin: 104px 35px 81px;
+  }
 `;
 
 const BannerGrid2 = styled.div`
   margin: 100px 127px 82px 710px;
+  @media (max-width: 768px) {
+    margin: 104px 35px 81px;
+  }
 `;
 
 const BannerImg1 = styled.div`
@@ -162,6 +175,10 @@ const BannerImg1 = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   height: 460px;
+
+  @media (max-width: 768px) {
+    height: 450px;
+  }
 `;
 
 const SmallGreen1 = styled.div`
@@ -243,6 +260,10 @@ const BannerImg2 = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   height: 460px;
+
+  @media (max-width: 768px) {
+    height: 450px;
+  }
 `;
 
 const TradeBtn = styled.button`

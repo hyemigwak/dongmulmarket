@@ -3,12 +3,15 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as mapActions } from "../redux/modules/map";
 import { history } from "../redux/configureStore";
-import Testpost from "./Testpost";
+import AddressChange from "./AddressChange";
+import { Container } from "../element";
+import Swal from "sweetalert2";
 
 const { kakao } = window;
 
 const MyLocation = (props) => {
   const dispatch = useDispatch();
+  const nickname = localStorage.getItem("nickname");
 
   //모달 영역
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,10 +33,18 @@ const MyLocation = (props) => {
   //위치가 관악구일때만 로그인 창으로 가게하기
   const locationCheck = () => {
     if (address.includes("관악구")) {
-      window.alert("안녕하세요! 항해13조님 동물마켓에 오신걸 환영해요");
+      Swal.fire({
+        title: `안녕하세요! ${nickname} 님 동물마켓에 오신걸 환영해요`,
+        confirmButtonColor: "#3fbe81",
+        confirmButtonText: "확인",
+      });
       history.push("/login");
     } else {
-      window.alert("안녕하세요! 동물마켓은 관악구 주민만 이용 가능합니다😢");
+      Swal.fire({
+        title: "동물마켓은 관악구 주민만 이용 가능합니다😢",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
       return;
     }
   };
@@ -107,58 +118,63 @@ const MyLocation = (props) => {
   }, [lati, longi]);
 
   return (
-    <WrapLoca>
-      <WrapTitles>
-        <Title>위치 설정하기</Title>
-        <SubTitle>현재 거주중인 위치를 확인해주세요</SubTitle>
-      </WrapTitles>
+    <Container>
+      <WrapLoca>
+        <WrapTitles>
+          <Title>위치 설정하기</Title>
+          <SubTitle>현재 거주중인 위치를 확인해주세요</SubTitle>
+        </WrapTitles>
 
-      <Container>
-        {/* <div className="map_wrap"> */}
-        <div id="map" style={{ display: "none" }}></div>
-        <div className="hAddr">
-          <BoldText>나의 현재 위치는</BoldText>
-          <span id="centerAddr"></span>
-          <NormalText>맞나요?</NormalText>
-          <WrapBtn>
-            <NoBtn
-              onClick={openModal}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  openModal();
-                }
-              }}
-            >
-              아니오
-            </NoBtn>
-            <YBtn
-              onClick={locationCheck}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  locationCheck();
-                }
-              }}
-            >
-              네 맞습니다
-            </YBtn>
-          </WrapBtn>
-          {/* <EditAddress open={modalOpen} close={closeModal} /> */}
+        <ContainerBox>
+          {/* <div className="map_wrap"> */}
+          <div id="map" style={{ display: "none" }}></div>
+          <div className="hAddr">
+            <BoldText>나의 현재 위치는</BoldText>
+            <span id="centerAddr"></span>
+            <NormalText>맞나요?</NormalText>
+            <WrapBtn>
+              <NoBtn
+                onClick={openModal}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    openModal();
+                  }
+                }}
+              >
+                아니오
+              </NoBtn>
+              <YBtn
+                onClick={locationCheck}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    locationCheck();
+                  }
+                }}
+              >
+                네 맞습니다
+              </YBtn>
+            </WrapBtn>
+            {/* <EditAddress open={modalOpen} close={closeModal} /> */}
 
-          <Testpost open={modalOpen} close={closeModal} />
-        </div>
-        {/* </div> */}
-      </Container>
-    </WrapLoca>
+            <AddressChange open={modalOpen} close={closeModal} />
+          </div>
+          {/* </div> */}
+        </ContainerBox>
+      </WrapLoca>
+    </Container>
   );
 };
 
 const WrapLoca = styled.div`
   width: 29rem;
-  margin: 100px auto 200px;
-
+  margin: 150px auto 250px;
   align-items: center;
+
+  @media (max-width: 768px) {
+    margin: 120px auto 100px;
+  }
 `;
 
 const WrapTitles = styled.div`
@@ -173,6 +189,9 @@ const Title = styled.div`
   font-size: 36px;
   font-weight: 600;
   text-align: center;
+  @media (max-width: 768px) {
+    padding-top: 30px;
+  }
 `;
 
 const SubTitle = styled.div`
@@ -198,8 +217,8 @@ const NormalText = styled.div`
   color: #2f2f2f;
 `;
 
-const Container = styled.div`
-  margin: 50px auto;
+const ContainerBox = styled.div`
+  margin: 100px auto;
   width: 29rem;
   height: 20rem;
   background: #ffffff;
@@ -210,6 +229,10 @@ const Container = styled.div`
   align-items: center;
   position: relative;
 
+  @media (max-width: 768px) {
+    margin: 70px auto;
+  }
+
   .hAddr {
     width: 100%;
   }
@@ -219,6 +242,7 @@ const Container = styled.div`
     font-weight: bold;
   }
 `;
+
 const WrapBtn = styled.div`
   display: flex;
   margin: 50px;

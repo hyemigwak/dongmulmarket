@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import styled from "styled-components";
-
+import Swal from "sweetalert2";
 import lock from "../image/lock.png";
 
 const PwdChange = (props) => {
@@ -21,15 +21,27 @@ const PwdChange = (props) => {
 
   const sitepwdChange = () => {
     if (pwd === "" || newPwd === "" || newPwdChk === "") {
-      window.alert("모두 입력해주세요");
+      Swal.fire({
+        title: "모두 입력해주세요",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
       return;
     }
     if (!password_regExp.test(newPwd, newPwdChk)) {
-      window.alert("비밀번호는 영문/숫자 혼합으로 8~14자리로 입력해주세요!");
+      Swal.fire({
+        title: "비밀번호는 영문/숫자 혼합으로 8~14자리로 입력해주세요!",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
       return;
     }
     if (newPwd !== newPwdChk) {
-      window.alert("새 비밀번호가 일치하지 않습니다.");
+      Swal.fire({
+        title: "새 비밀번호가 일치하지 않습니다.",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
       return;
     }
     //디스패치(새 비밀번호 보내주기)

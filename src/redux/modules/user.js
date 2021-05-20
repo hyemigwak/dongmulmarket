@@ -4,6 +4,7 @@ import axios from "axios";
 import { setCookie, deleteCookie, getCookie } from "../../shared/Cookie";
 import { config } from "../../shared/config";
 import GoogleLogin from "react-google-login";
+import Swal from "sweetalert2";
 
 //actions
 const LOG_IN = "LOG_IN"; //로그인
@@ -77,8 +78,12 @@ const GoogleLoginAPI = (response) => {
           //디폴트로 헤더에 토큰 담아주기
           // axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
           dispatch(logIn(user_data, "google"));
-
-          window.alert("정상적으로 로그인 되었습니다!");
+          Swal.fire({
+            title: "로그인 성공",
+            text: "정상적으로 로그인 되었습니다!",
+            confirmButtonColor: "#3fbe81",
+            confirmButtonText: "확인",
+          });
           history.push("/");
         } else {
           console.log("구글로그인 msg === fail");
@@ -130,7 +135,11 @@ const kakaoLoginAPI = (response) => {
           // axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
           // dispatch(logIn(res.data));
 
-          window.alert("정상적으로 로그인 되었습니다!");
+          Swal.fire({
+            title: "로그인 성공",
+            text: "정상적으로 로그인 되었습니다!",
+            confirmButtonColor: "#3fbe81",
+          });
           history.push("/");
         } else {
           console.log("카카오 res.data.msg fail");
@@ -176,20 +185,34 @@ const loginAPI = (email, pwd) => {
           };
 
           //디폴트로 헤더에 토큰 담아주기
-          axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
+          axios.defaults.headers.common["Authorization"] = getCookie("user_login");
 
           dispatch(logIn(user_data, "normal"));
 
-          window.alert("정상적으로 로그인 되었습니다!");
+          Swal.fire({
+            title: "로그인 성공",
+            text: "정상적으로 로그인 되었습니다!",
+            confirmButtonColor: "#3fbe81",
+            confirmButtonText: "확인",
+          });
+
           history.push("/");
           //자동로그아웃 -> 로그인 하자마자 1시간(토큰 만료) 되면 알럿창과 함께 로그아웃 함수 실행
           setTimeout(function () {
-            window.alert("1시간이 경과하여 자동 로그아웃 됩니다");
+            Swal.fire({
+              title: "1시간이 경과하여 자동 로그아웃 됩니다",
+              confirmButtonColor: "#3fbe81",
+              confirmButtonText: "확인",
+            });
             dispatch(logOut());
             history.replace("/");
           }, 1000 * 60 * 60);
         } else {
-          window.alert("로그인에 실패했습니다!");
+          Swal.fire({
+            title: "로그인에 실패했습니다!",
+            confirmButtonColor: "#d6d6d6",
+            confirmButtonText: "확인",
+          });
         }
       })
       .catch((err) => {
@@ -218,7 +241,11 @@ const signupAPI = (email, nickname, pwd, address) => {
     })
       .then((res) => {
         console.log(res);
-        window.alert("축하합니다. 동물마켓의 회원이 되어주셔서 감사합니다.");
+        Swal.fire({
+          title: "회원가입 성공",
+          text: "축하합니다. 동물마켓의 회원이 되어주셔서 감사합니다.",
+          confirmButtonColor: "#3fbe81",
+        });
         history.push("/login");
       })
       .catch((err) => {
@@ -243,7 +270,10 @@ const EmailValidationAPI = (email, authnumber) => {
         if (res.data.msg === "success") {
           dispatch(validateEmail(true));
         } else {
-          window.alert("인증번호가 일치하지 않습니다.");
+          Swal.fire({
+            title: "인증번호가 일치하지 않습니다.",
+            confirmButtonColor: "#d6d6d6",
+          });
         }
       })
       .catch((err) => {
@@ -267,10 +297,18 @@ const FindPwdAPI = (email) => {
         if (res.data.statusCode === 201) {
           dispatch(findPwd(email));
           localStorage.setItem("email", email);
-          window.alert("가입하신 이메일로 비밀번호 재설정 메일을 보내드렸습니다");
+          Swal.fire({
+            title: "가입하신 이메일로 비밀번호 재설정 메일을 보내드렸습니다",
+            confirmButtonColor: "#3fbe81",
+            confirmButtonText: "확인",
+          });
           history.push("/pwdchange");
         } else {
-          window.alert("메일이 존재하지 않습니다!");
+          Swal.fire({
+            title: "메일이 존재하지 않습니다!",
+            confirmButtonColor: "#d6d6d6",
+            confirmButtonText: "확인",
+          });
         }
       })
       .catch((err) => {
@@ -295,11 +333,19 @@ const ChangePwdAPI = (email, pwd, newPwd) => {
       .then((res) => {
         console.log(res.data);
         if (res.data.msg === "비밀번호 변경 성공!") {
-          window.alert("비밀번호가 변경되었습니다. 다시 로그인해주세요!");
+          Swal.fire({
+            title: "비밀번호가 변경되었습니다. 다시 로그인해주세요!",
+            confirmButtonColor: "#3fbe81",
+            confirmButtonText: "확인",
+          });
           localStorage.removeItem("email");
           history.push("/login");
         } else {
-          window.alert("비밀번호 변경에 실패했습니다.");
+          Swal.fire({
+            title: "비밀번호 변경에 실패했습니다.",
+            confirmButtonColor: "#d6d6d6",
+            confirmButtonText: "확인",
+          });
           return;
         }
       })

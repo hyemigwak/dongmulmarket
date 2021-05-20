@@ -2,6 +2,7 @@ import React, { useState, useCallback, memo } from "react";
 import styled from "styled-components";
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { getCookie } from "../shared/Cookie";
+import Swal from "sweetalert2";
 
 //프롭스가 안바뀌면 렌더링이 안됨(프롭스 메모)
 const ChattingInput = memo((props) => {
@@ -24,7 +25,11 @@ const ChattingInput = memo((props) => {
     (message) => {
       console.log("함수실행 여부 확인");
       if (!message) {
-        window.alert("메세지를 입력해주세요!");
+        Swal.fire({
+          title: "메세지를 입력해주세요!",
+          confirmButtonColor: "#d6d6d6",
+          confirmButtonText: "확인",
+        });
         return;
       } else {
         socket.emit(
@@ -81,7 +86,6 @@ const SendInput = styled.input`
   }
 
   position: relative;
-
 `;
 
 export default ChattingInput;

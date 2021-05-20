@@ -7,7 +7,8 @@ import KaKaoLogin from "react-kakao-login";
 import GoogleLogin from "react-google-login";
 import kakao from "../image/kakao.png";
 import googleLogo from "../image/google_logo.png";
-import { ClickAwayListener } from "@material-ui/core";
+import Swal from "sweetalert2";
+import { Container } from "../element";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,11 @@ const Login = () => {
   //일반 로그인
   const onSiteLogin = () => {
     if (email === "" || pwd === "") {
-      window.alert("이메일과 비밀번호를 모두 입력해주세요!");
+      Swal.fire({
+        title: "이메일과 비밀번호를 모두 입력해주세요!",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
       return;
     }
     dispatch(userActions.loginAPI(email, pwd));
@@ -51,108 +56,110 @@ const Login = () => {
   return (
     <div>
       <React.Fragment>
-        <WrapLogin>
-          <TitleArea>
-            <Title>로그인</Title>
-          </TitleArea>
-          <LoginC>
-            <InputC>
-              <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} tabIndex="1" />
-              <Input2
-                type="password"
-                placeholder="비밀번호를 입력해주세요"
-                value={pwd}
-                onChange={onChangePwd}
-                tabIndex="2"
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    onSiteLogin();
-                  }
-                }}
-              />
-            </InputC>
-            <AutoLoginC>
-              {/* <Autologin>
+        <Container>
+          <WrapLogin>
+            <TitleArea>
+              <Title>로그인</Title>
+            </TitleArea>
+            <LoginC>
+              <InputC>
+                <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} tabIndex="1" />
+                <Input2
+                  type="password"
+                  placeholder="비밀번호를 입력해주세요"
+                  value={pwd}
+                  onChange={onChangePwd}
+                  tabIndex="2"
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      onSiteLogin();
+                    }
+                  }}
+                />
+              </InputC>
+              <AutoLoginC>
+                {/* <Autologin>
                 <input type="checkbox" />
                 <span>자동로그인</span>
               </Autologin> */}
-              <div
-                className="findPwd"
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
+                <div
+                  className="findPwd"
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      history.push("/findpwd");
+                    }
+                  }}
+                  onClick={() => {
                     history.push("/findpwd");
-                  }
-                }}
-                onClick={() => {
-                  history.push("/findpwd");
-                }}
-                tabIndex="3"
-              >
-                비밀번호를 잊으셨나요?
-              </div>
-            </AutoLoginC>
+                  }}
+                  tabIndex="3"
+                >
+                  비밀번호를 잊으셨나요?
+                </div>
+              </AutoLoginC>
 
-            <LoginBtn tabIndex="4" onClick={onSiteLogin}>
-              로그인
-            </LoginBtn>
-            <SignInArea>
-              <span>신규 사용자이신가요?</span>{" "}
-              <div
-                className="makeaccount"
-                onClick={() => {
-                  history.push("/signup");
-                }}
-                tabIndex="5"
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
+              <LoginBtn tabIndex="4" onClick={onSiteLogin}>
+                로그인
+              </LoginBtn>
+              <SignInArea>
+                <span>신규 사용자이신가요?</span>{" "}
+                <div
+                  className="makeaccount"
+                  onClick={() => {
                     history.push("/signup");
-                  }
-                }}
-              >
-                계정 만들기
-              </div>
-            </SignInArea>
-            <OrLine>
-              <div></div>
-              <span>또는</span>
-              <div></div>
-            </OrLine>
-            <SocialBtnArea>
-              <div tabIndex="6">
-                <KaKaoLogin
-                  token={"dbf3a7f227849392ad80f6426c8d9526"}
-                  onSuccess={kakaoLoginSuccess}
-                  onFailure={(result) => console.log(result)}
-                  buttonText="kakao"
-                  render={(props) => (
-                    <KakaoBtn onClick={props.onClick}>
-                      <img src={kakao} alt="카톡" />
-                      카카오톡으로 계속
-                    </KakaoBtn>
-                  )}
-                ></KaKaoLogin>
-              </div>
-              <div tabIndex="7">
-                <GoogleLogin
-                  clientId="797391183659-j67nu7drmq094hs3ghtfpjmsh25dah67.apps.googleusercontent.com"
-                  buttonText="Google"
-                  onSuccess={GoogleLoginSuccess}
-                  onFailure={responseGoogle}
-                  cookiePolicy={"single_host_origin"}
-                  render={(props) => (
-                    <GoogleBtn onClick={props.onClick} disabled={props.disabled}>
-                      <div>
-                        <img src={googleLogo} alt="구글로고" />
-                        Google로 계속
-                      </div>
-                    </GoogleBtn>
-                  )}
-                />
-              </div>
-            </SocialBtnArea>
-          </LoginC>
-        </WrapLogin>
+                  }}
+                  tabIndex="5"
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      history.push("/signup");
+                    }
+                  }}
+                >
+                  계정 만들기
+                </div>
+              </SignInArea>
+              <OrLine>
+                <div></div>
+                <span>또는</span>
+                <div></div>
+              </OrLine>
+              <SocialBtnArea>
+                <div tabIndex="6">
+                  <KaKaoLogin
+                    token={"dbf3a7f227849392ad80f6426c8d9526"}
+                    onSuccess={kakaoLoginSuccess}
+                    onFailure={(result) => console.log(result)}
+                    buttonText="kakao"
+                    render={(props) => (
+                      <KakaoBtn onClick={props.onClick}>
+                        <img src={kakao} alt="카톡" />
+                        카카오톡으로 계속
+                      </KakaoBtn>
+                    )}
+                  ></KaKaoLogin>
+                </div>
+                <div tabIndex="7">
+                  <GoogleLogin
+                    clientId="797391183659-j67nu7drmq094hs3ghtfpjmsh25dah67.apps.googleusercontent.com"
+                    buttonText="Google"
+                    onSuccess={GoogleLoginSuccess}
+                    onFailure={responseGoogle}
+                    cookiePolicy={"single_host_origin"}
+                    render={(props) => (
+                      <GoogleBtn onClick={props.onClick} disabled={props.disabled}>
+                        <div>
+                          <img src={googleLogo} alt="구글로고" />
+                          Google로 계속
+                        </div>
+                      </GoogleBtn>
+                    )}
+                  />
+                </div>
+              </SocialBtnArea>
+            </LoginC>
+          </WrapLogin>
+        </Container>
       </React.Fragment>
     </div>
   );
@@ -165,9 +172,9 @@ const WrapLogin = styled.div`
   margin-bottom: 180px;
   display: flex;
   flex-direction: column;
-  /* @media (max-width: 1000px){
-    heigth: 
-  } */
+  @media (max-width: 768px) {
+    width: 768px;
+  }
 `;
 
 const TitleArea = styled.div`

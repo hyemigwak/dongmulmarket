@@ -4,6 +4,8 @@ import { actionCreators as userActions } from "../redux/modules/user";
 import styled from "styled-components";
 import axios from "axios";
 import { config } from "../shared/config";
+import Swal from "sweetalert2";
+import { Container } from "../element";
 
 const Signup = (props) => {
   const dispatch = useDispatch();
@@ -48,7 +50,11 @@ const Signup = (props) => {
       })
       .then((res) => {
         if (res.data.statusCode === 201) {
-          window.alert("사용가능한 ID입니다");
+          Swal.fire({
+            title: "사용가능한 ID입니다",
+            confirmButtonColor: "#3fbe81",
+            confirmButtonText: "확인",
+          });
           setShow(true);
           SetEmailDoubleCheck("사용 가능한 이메일입니다");
           SetEmailDoubleFail("");
@@ -57,12 +63,20 @@ const Signup = (props) => {
           SetEmailDoubleCheck("");
         }
         if (email === "") {
-          window.alert("이메일을 입력해주세요!");
+          Swal.fire({
+            title: "이메일을 입력해주세요!",
+            confirmButtonColor: "#d6d6d6",
+            confirmButtonText: "확인",
+          });
           _email.current.focus();
           return;
         }
         if (!email_regExp.test(email)) {
-          window.alert("이메일 형식이 맞지 않습니다!");
+          Swal.fire({
+            title: "이메일 형식이 맞지 않습니다!",
+            confirmButtonColor: "#d6d6d6",
+            confirmButtonText: "확인",
+          });
           _email.current.focus();
           return;
         }
@@ -99,29 +113,49 @@ const Signup = (props) => {
   const onSiteSignup = () => {
     //하나라도 공란일경우
     if (email === "" || nickname === "" || pwd === "" || pwdCheck === "" || authnumber === "") {
-      window.alert("모두 입력해주세요");
+      Swal.fire({
+        title: "모두 입력해주세요",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
       return;
     }
     //비밀번호 서로 다를경우
     if (pwd !== pwdCheck) {
-      window.alert("비밀번호가 일치하지 않습니다.");
+      Swal.fire({
+        title: "비밀번호가 일치하지 않습니다.",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
       _pwdchk.current.focus();
       return;
     }
     //이메일 형식 틀릴경우
     if (!email_regExp.test(email)) {
-      window.alert("이메일 형식이 맞지 않습니다!");
+      Swal.fire({
+        title: "이메일 형식이 맞지 않습니다!",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
       _email.current.focus();
       return;
     }
     //비밀번호 형식 틀릴경우
     if (!password_regExp.test(pwd)) {
-      window.alert("비밀번호는 영문/숫자 혼합으로 8~14자리로 입력해주세요!");
+      Swal.fire({
+        title: "비밀번호는 영문/숫자 혼합으로 8~14자리로 입력해주세요!",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
       _pwd.current.focus();
       return;
     }
     if (!validate) {
-      window.alert("이메일 인증이 되지 않았습니다");
+      Swal.fire({
+        title: "이메일 인증이 되지 않았습니다",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
       return;
     }
     dispatch(userActions.signupAPI(email, nickname, pwd, address));
@@ -129,99 +163,101 @@ const Signup = (props) => {
 
   return (
     <React.Fragment>
-      <SignUpLogin>
-        <TitleArea>
-          <Title>회원가입</Title>
-          <div className="require">반드시 모든 내용을 입력하신 후 가입하기를 눌러주세요</div>
-        </TitleArea>
-        <SignUpC>
-          <InputC>
-            <EmailArea>
-              <InputInfo>이메일</InputInfo>
-              <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} ref={_email} />
-              <CertiBtn
-                onClick={() => {
-                  GetAuthNumAPI(email);
-                }}
-                tabIndex="0"
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
+      <Container>
+        <SignUpLogin>
+          <TitleArea>
+            <Title>회원가입</Title>
+            <div className="require">반드시 모든 내용을 입력하신 후 가입하기를 눌러주세요</div>
+          </TitleArea>
+          <SignUpC>
+            <InputC>
+              <EmailArea>
+                <InputInfo>이메일</InputInfo>
+                <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} ref={_email} />
+                <CertiBtn
+                  onClick={() => {
                     GetAuthNumAPI(email);
-                  }
-                }}
-              >
-                인증하기
-              </CertiBtn>
-            </EmailArea>
-            <p className="availableEmail">{emailDoubleCheck}</p>
-            <p className="availableFail">{emailDoubleFail}</p>
+                  }}
+                  tabIndex="0"
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      GetAuthNumAPI(email);
+                    }
+                  }}
+                >
+                  인증하기
+                </CertiBtn>
+              </EmailArea>
+              <p className="availableEmail">{emailDoubleCheck}</p>
+              <p className="availableFail">{emailDoubleFail}</p>
 
-            {show && (
-              <>
-                <EmailArea>
-                  <InputInfo>인증번호</InputInfo>
-                  <Input type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} ref={_authnum} />
-                  <VerifyNum
-                    onClick={() => {
-                      EmailValidationAPI(email, authnumber);
-                    }}
-                    tabIndex="0"
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
+              {show && (
+                <>
+                  <EmailArea>
+                    <InputInfo>인증번호</InputInfo>
+                    <Input type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} ref={_authnum} />
+                    <VerifyNum
+                      onClick={() => {
                         EmailValidationAPI(email, authnumber);
-                      }
-                    }}
-                  >
-                    인증번호 확인
-                  </VerifyNum>
-                </EmailArea>
-                <p className="availableEmail">{AuthCorrect}</p>
-                <p className="availableFail">{AuthFail}</p>
-              </>
-            )}
-            <InfoArea>
-              <InputInfo>닉네임</InputInfo>
-              <Input type="text" placeholder="닉네임을 입력해주세요" value={nickname} onChange={onChangeNickname} ref={_nickname} />
-            </InfoArea>
-            <InfoArea>
-              <InputInfo>비밀번호</InputInfo>
-              <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} ref={_pwd} onFocus={() => setPwdDetail(true)} />
-            </InfoArea>
-            <PasswordDetail Open={pwdDetail}>비밀번호는 8~14자리의 영문/숫자 혼합입니다.</PasswordDetail>
-            <InfoArea>
-              <InputInfo>비밀번호 확인</InputInfo>
-              <Input
-                type="password"
-                placeholder="비밀번호를 다시 입력해주세요"
-                value={pwdCheck}
-                onChange={onChangepwdCheck}
-                ref={_pwdchk}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    onSiteSignup();
-                  }
-                }}
-              />
-            </InfoArea>
-          </InputC>
-          <SignInBtn
-            mybtn
-            onClick={onSiteSignup}
-            tabIndex="0"
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                onSiteSignup();
-              }
-            }}
-          >
-            가입하기
-          </SignInBtn>
-        </SignUpC>
-      </SignUpLogin>
+                      }}
+                      tabIndex="0"
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          EmailValidationAPI(email, authnumber);
+                        }
+                      }}
+                    >
+                      인증번호 확인
+                    </VerifyNum>
+                  </EmailArea>
+                  <p className="availableEmail">{AuthCorrect}</p>
+                  <p className="availableFail">{AuthFail}</p>
+                </>
+              )}
+              <InfoArea>
+                <InputInfo>닉네임</InputInfo>
+                <Input type="text" placeholder="닉네임을 입력해주세요" value={nickname} onChange={onChangeNickname} ref={_nickname} />
+              </InfoArea>
+              <InfoArea>
+                <InputInfo>비밀번호</InputInfo>
+                <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} ref={_pwd} onFocus={() => setPwdDetail(true)} />
+              </InfoArea>
+              <PasswordDetail Open={pwdDetail}>비밀번호는 8~14자리의 영문/숫자 혼합입니다.</PasswordDetail>
+              <InfoArea>
+                <InputInfo>비밀번호 확인</InputInfo>
+                <Input
+                  type="password"
+                  placeholder="비밀번호를 다시 입력해주세요"
+                  value={pwdCheck}
+                  onChange={onChangepwdCheck}
+                  ref={_pwdchk}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      onSiteSignup();
+                    }
+                  }}
+                />
+              </InfoArea>
+            </InputC>
+            <SignInBtn
+              mybtn
+              onClick={onSiteSignup}
+              tabIndex="0"
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  onSiteSignup();
+                }
+              }}
+            >
+              가입하기
+            </SignInBtn>
+          </SignUpC>
+        </SignUpLogin>
+      </Container>
     </React.Fragment>
   );
 };
@@ -232,9 +268,6 @@ const SignUpLogin = styled.div`
   margin-bottom: 180px;
   display: flex;
   flex-direction: column;
-  /* @media (max-width: 1000px){
-    heigth: 
-  } */
 `;
 
 const TitleArea = styled.div`
@@ -249,13 +282,7 @@ const TitleArea = styled.div`
     height: 16px;
     flex-grow: 0;
     margin: 14px auto 0px;
-    font-family: Roboto;
     font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
     text-align: center;
     color: #5f5f5f;
   }
@@ -265,13 +292,8 @@ const Title = styled.div`
   width: 360px;
   height: 42px;
   flex-grow: 0;
-  font-family: Roboto;
   font-size: 36px;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
   text-align: center;
   color: #2f2f2f;
 `;
@@ -279,7 +301,7 @@ const Title = styled.div`
 const SignUpC = styled.div`
   width: 500px;
   height: 500px;
-  margin: auto;
+  margin: 0 auto;
   margin-top: 40px;
   display: flex;
   flex-direction: column;
@@ -291,21 +313,23 @@ const SignUpC = styled.div`
 const EmailArea = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  @media (max-width: 768px) {
+    margin: 26px 0px 0px -160px;
+  }
 `;
 
 const InputInfo = styled.div`
   width: 120px;
   margin: 0px 100px 0px 225px;
-  font-family: Roboto;
   font-size: 18px;
   font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.33;
-  letter-spacing: normal;
   text-align: left;
   color: #2f2f2f;
+
+  @media (max-width: 768px) {
+    margin: 0px 30px 0px 160px;
+  }
 `;
 
 const InputC = styled.div`
@@ -352,6 +376,9 @@ const Input = styled.input`
     border: solid 2px #6fcea1;
     outline: none;
   }
+  @media (max-width: 768px) {
+    margin: 0px 8px 0px 0px;
+  }
 `;
 
 const PasswordDetail = styled.div`
@@ -389,6 +416,10 @@ const CertiBtn = styled.div`
     background-color: #3fbe81;
     color: #ffffff;
   }
+
+  @media (max-width: 768px) {
+    margin: 0px 0px 0px 15px;
+  }
 `;
 
 const VerifyNum = styled.div`
@@ -412,6 +443,10 @@ const InfoArea = styled.div`
   align-items: center;
   justify-content: center;
   margin: 26px 0px 0px -420px;
+
+  @media (max-width: 768px) {
+    margin: 26px 0px 0px -280px;
+  }
 `;
 
 const SignInBtn = styled.div`
@@ -432,6 +467,10 @@ const SignInBtn = styled.div`
 
   :hover {
     background-color: #3fbe81;
+  }
+
+  @media (max-width: 768px) {
+    margin: 70px 130px 0px 122px;
   }
 `;
 

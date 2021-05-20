@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import trashcan from "../image/trashcan.png";
 import Post from "../components/Post";
+import Swal from "sweetalert2";
 
 const SalesDetails = (props) => {
   const dispatch = useDispatch();
@@ -11,22 +12,29 @@ const SalesDetails = (props) => {
   const { image, title, nickname, wantItem, address, itemId } = props;
 
   const postDelete = () => {
-    if (window.confirm("현재 판매중인 상품을 삭제하시겠습니까?")) {
-      dispatch(postActions.deletePostAPI(itemId));
-      window.alert("삭제 완료되었습니다");
-    } else {
-      return;
-    }
+    Swal.fire({
+      title: "현재 판매중인 상품을 삭제하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#3fbe81",
+      cancelButtonColor: "#d6d6d6",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(postActions.deletePostAPI(itemId));
+        Swal.fire({
+          text: "삭제되었습니다!",
+          confirmButtonColor: "#3fbe81",
+          confirmButtonText: "확인",
+        });
+      }
+    });
   };
 
   return (
     <React.Fragment>
       <SalesListC>
-        <Box
-        //   onClick={() => {
-        //   history.push(`/detail/${_itemId}`);
-        // }}
-        >
+        <Box onClick={postDelete}>
           <ImgBox>
             <Img src={image} alt="상품이미지" />
           </ImgBox>
@@ -38,7 +46,7 @@ const SalesDetails = (props) => {
             </Title>
           </TextBox>
           <DELETEBOX>
-            <TrashImg src={trashcan} onClick={postDelete}/>
+            <TrashImg src={trashcan} onClick={postDelete} />
           </DELETEBOX>
         </Box>
       </SalesListC>
@@ -51,16 +59,15 @@ const SalesListC = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
- 
 `;
 
 const Box = styled.div`
   width: 205px;
   height: 278px;
   flex-grow: 0;
-  
+
   margin: 40px 30px 50px 60px;
-  
+
   padding: 0 0 16px;
   border-radius: 8px;
   border: solid 1px #91be89;
@@ -197,9 +204,9 @@ const DELETEBOX = styled.div`
   margin: 25px 0px 0px 170px;
 `;
 
-const TrashImg=styled.img`
-width:30px;
-height:30px;
+const TrashImg = styled.img`
+  width: 30px;
+  height: 30px;
 `;
 
 export default SalesDetails;

@@ -2,16 +2,23 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import DaumPostcode from "react-daum-postcode";
+import { Container } from "../element";
+import Swal from "sweetalert2";
+
 const { daum } = window;
 
-const Testpost = (props) => {
+const AddressChange = (props) => {
   const dispatch = useDispatch();
   const { open, close } = props;
 
   const editMyAddress = () => {
     //디스패치하기(주소 수정해서 서버로 보내주기, 마이페이지 주소설정도 바뀌어야함)
     //new_address 서버에 보내주기
-    window.alert("주소를 수정했습니다!");
+    Swal.fire({
+      title: "주소를 수정했습니다!",
+      confirmButtonColor: "#3fbe81",
+      confirmButtonText: "확인",
+    });
     close();
   };
 
@@ -84,43 +91,45 @@ const Testpost = (props) => {
     <React.Fragment>
       {open ? (
         <Container>
-          {isPostOpen && <DaumPostcode />}
-          <AddressInputArea>
-            <TextInputC>
-              <SmallTitle>도로명 주소</SmallTitle>
-              <AInput type="text" id="sample4_roadAddress" placeholder="도로명주소를 입력하세요" />
-            </TextInputC>
+          <ContainerBox>
+            {isPostOpen && <DaumPostcode />}
+            <AddressInputArea>
+              <TextInputC>
+                <SmallTitle>도로명 주소</SmallTitle>
+                <AInput type="text" id="sample4_roadAddress" placeholder="도로명주소를 입력하세요" />
+              </TextInputC>
 
-            <TextInputC>
-              <SmallTitle>지번 주소</SmallTitle>
-              <AInput type="text" id="sample4_jibunAddress" placeholder="지번주소를 입력하세요" value={isAddress} />
-              <span id="guide" style={{ color: "#999", display: "none" }}></span>
-            </TextInputC>
+              <TextInputC>
+                <SmallTitle>지번 주소</SmallTitle>
+                <AInput type="text" id="sample4_jibunAddress" placeholder="지번주소를 입력하세요" value={isAddress} />
+                <span id="guide" style={{ color: "#999", display: "none" }}></span>
+              </TextInputC>
 
-            <TextInputC>
-              <SmallTitle>상세주소</SmallTitle>
-              <AInput type="text" id="sample4_detailAddress" placeholder="상세주소를 입력하세요" />
-            </TextInputC>
+              <TextInputC>
+                <SmallTitle>상세주소</SmallTitle>
+                <AInput type="text" id="sample4_detailAddress" placeholder="상세주소를 입력하세요" />
+              </TextInputC>
 
-            <TextInputC>
-              <SmallTitle>우편번호</SmallTitle>
-              <PInput type="text" id="sample4_postcode" placeholder="우편번호 입력" />
-              <SInput type="button" onClick={sample4_execDaumPostcode} value="우편번호 검색" />
-            </TextInputC>
+              <TextInputC>
+                <SmallTitle>우편번호</SmallTitle>
+                <PInput type="text" id="sample4_postcode" placeholder="우편번호 입력" />
+                <SInput type="button" onClick={sample4_execDaumPostcode} value="우편번호 검색" />
+              </TextInputC>
 
-            {/* <PInput type="text" id="sample4_extraAddress" placeholder="참고항목" /> */}
-          </AddressInputArea>
-          <BtnArea>
-            <Btn onClick={close}>뒤로가기</Btn>
-            <Btn onClick={editMyAddress}>수정하기</Btn>
-          </BtnArea>
+              {/* <PInput type="text" id="sample4_extraAddress" placeholder="참고항목" /> */}
+            </AddressInputArea>
+            <BtnArea>
+              <Btn onClick={close}>뒤로가기</Btn>
+              <Btn onClick={editMyAddress}>수정하기</Btn>
+            </BtnArea>
+          </ContainerBox>
         </Container>
       ) : null}
     </React.Fragment>
   );
 };
 
-const Container = styled.div`
+const ContainerBox = styled.div`
   width: 600px;
   height: 380px;
   z-index: 1000;
@@ -151,7 +160,7 @@ const SmallTitle = styled.div`
 const AInput = styled.input`
   width: 359px;
   height: 56px;
-  padding: 16px 97px 16px 16px;
+  padding: 14px 97px 14px 16px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
   border: 3px solid #d2d2d2;
   border-radius: 8px;
@@ -164,13 +173,17 @@ const AInput = styled.input`
   :hover {
     border: 3px solid #656565;
   }
+
+  @media (max-width: 768px) {
+    margin: 24px 68px 12px 60px;
+  }
 `;
 
 const PInput = styled.input`
   width: 199px;
   height: 57px;
   margin: 16px 16px 16px 97px;
-  padding: 16.6px 40px 15.6px 16px;
+  padding: 14px 40px 14px 16px;
   border-radius: 8px;
   border: 3px solid #c4c4c4;
   ::placeholder {
@@ -181,13 +194,16 @@ const PInput = styled.input`
   :hover {
     border: 3px solid #656565;
   }
+  @media (max-width: 768px) {
+    margin: 20px 16px 16px 60px;
+  }
 `;
 
 const SInput = styled.input`
   width: 144px;
   height: 55px;
   flex-grow: 0;
-  margin: 16px 68px 16px 16px;
+  margin: 14px 68px 14px 16px;
   padding: 12px 2px;
   border-radius: 8px;
   border: 3px solid #6fcea1;
@@ -200,6 +216,9 @@ const SInput = styled.input`
     color: #ffffff;
   }
   cursor: pointer;
+  @media (max-width: 768px) {
+    margin: 20px 68px 16px 14px;
+  }
 `;
 
 const Btn = styled.button`
@@ -220,15 +239,15 @@ const Btn = styled.button`
 
 const BtnArea = styled.div`
   position: absolute;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  left: 460px;
+  margin: 0 auto;
 `;
 
 const AddressInputArea = styled.div`
-  margin-top: 2rem;
   display: inline-block;
 `;
 
-export default Testpost;
+export default AddressChange;

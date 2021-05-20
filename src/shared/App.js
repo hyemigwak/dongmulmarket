@@ -8,7 +8,7 @@ import { history } from "../redux/configureStore";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { Container } from "../element";
 import { Login, Main, Mypage, Signup, Findpwd, AddProduct, Detail, PwdChange } from "../pages";
-import { Header, Footer, MyLocation, Testpost } from "../components";
+import { Header, Footer, MyLocation, AddressChange } from "../components";
 import { getCookie } from "./Cookie";
 function App() {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ function App() {
         <Route exact path="/addproduct" component={AddProduct} />
         <Route exact path="/mylocation" component={MyLocation} />
         <Route exact path="/detail/:id" component={Detail} />
-        <Route exact path="/testpost" component={Testpost} />
+        <Route exact path="/address" component={AddressChange} />
         <Route exact path="/pwdchange" component={PwdChange} />
         <Footer />
       </ConnectedRouter>
