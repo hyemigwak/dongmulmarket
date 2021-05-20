@@ -13,7 +13,7 @@ const SalesDetails = (props) => {
   const postDelete = () => {
     if (window.confirm("현재 판매중인 상품을 삭제하시겠습니까?")) {
       dispatch(postActions.deletePostAPI(itemId));
-      window.alert("삭제 완료되었습니다");
+      
     } else {
       return;
     }
@@ -38,7 +38,7 @@ const SalesDetails = (props) => {
             </Title>
           </TextBox>
           <DELETEBOX>
-            <TrashImg src={trashcan} onClick={postDelete}/>
+            <TrashImg src={trashcan} style={{cursor :"pointer"}} onClick={postDelete}/>
           </DELETEBOX>
         </Box>
       </SalesListC>
@@ -59,7 +59,8 @@ const Box = styled.div`
   height: 278px;
   flex-grow: 0;
   
-  margin: 40px 30px 50px 60px;
+  margin: 40px 40px 50px 0px;
+  // margin: 40px 0px 50px 0px;
   
   padding: 0 0 16px;
   border-radius: 8px;

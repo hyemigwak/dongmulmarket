@@ -23,7 +23,7 @@ const Footer = () => {
             <TeamLeaderBox>
               <TeamBox>
                 <BoldText>Team</BoldText>
-                <MiddleText>Hanghae99 동물의 왕국</MiddleText>
+                <MiddleText>Hanghae99<br/>동물의 왕국</MiddleText>
               </TeamBox>
               <LeaderBox>
                 <BoldText>Leader</BoldText>
