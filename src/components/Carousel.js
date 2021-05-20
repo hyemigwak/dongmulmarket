@@ -3,28 +3,32 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "../redux/configureStore";
 import SalesDetails from "../pages/SalesDetails";
+import { Previous, Next } from '../image/Arrow';
 
 const Carousel = (props) => {
    const dispatch = useDispatch();
    const salesList = useSelector((state) => state.post.post_list);
    const email = localStorage.getItem("email");
    const MyProductList = salesList.filter((s) => s.email === email);
-   console.log(MyProductList);
   
    const slide_content=MyProductList;
    const lastIndex=Math.ceil(MyProductList.length/4);
-   
+  
+   console.log(lastIndex);
    const slide_temp = new Array(lastIndex).fill(0);
    
    const slider_container = React.useRef();
    const prev = React.useRef();
    const next = React.useRef();
-   const [current_index, setCurrentIndex] = React.useState(0); // 현재 보여지는 슬라이더
+   const [current_index, setCurrentIndex] = React.useState(0); // 현                                                                  재 보여지는 슬라이더
 
    const ProductSlide = (index) => {
     let slider = slider_container.current;
     slider.style.left = (-100 * index) + '%'; // 좌측으로 이동
-    setCurrentIndex(index);
+    setCurrentIndex(index);           
+
+    //배너 넘겼을 때 설정
+
 
     // 버튼 활성화 설정
     if(index === lastIndex-1) {
@@ -39,6 +43,7 @@ const Carousel = (props) => {
     }
     };
 
+    console.log(slide_content.length);
     React.useEffect(() => {
         if(slide_content.length < 5) {
             next.current.style.display = 'none';
@@ -49,11 +54,12 @@ const Carousel = (props) => {
 
     return (
         <CarouselContainer>
+            
             <PrevContainer ref={prev} onClick={() => { ProductSlide(current_index - 1) }}>
-                {/* <Previous /> */}
+                <Previous style={{zindex: "1000", color: "#fff"}}/>
             </PrevContainer>
             <NextContainer ref={next} onClick={() => { ProductSlide(current_index + 1) }}>
-                {/* <Next /> */}
+                <Next />
             </NextContainer>
             <SliderContainer ref={slider_container}>
                 {slide_temp.map((val, index) => {
@@ -63,18 +69,19 @@ const Carousel = (props) => {
                         left: `${value}%`,
                     };
 
-                    let start = index * 5;
-                    let end = start + 5;
+                    let start = index * 4;
+                    let end = start + 4;
 
                     let temp_arr = slide_content.slice(start, end);
 
                     return(
                         <Slider key={index} style={slide_style}>
-                            <MovieWrapper>
-                            {MyProductList?.map((myProduct, idx) => (
+                            <ListWrapper>
+                            {temp_arr.map((myProduct, idx) => (
                                     <SalesDetails {...myProduct} key={idx} />
+                             
                                 ))}
-                            </MovieWrapper>
+                            </ListWrapper>
                         </Slider>
                     );
                 })}
@@ -83,12 +90,16 @@ const Carousel = (props) => {
     );
 };
 
+
 const CarouselContainer = styled.div`
     position: relative;
     width: 100%;
     height: 24.815rem;
     overflow: hidden;
     margin: 1rem 0;
+    background-size: cover;
+    
+    
 `;
 
 const SliderContainer = styled.div`
@@ -98,6 +109,9 @@ const SliderContainer = styled.div`
     height: 100%;
     margin: 0 auto;
     transition: left .5s ease-in;
+    
+
+   
 `;
 
 const Slider = styled.div`
@@ -107,14 +121,18 @@ const Slider = styled.div`
     top: 50%;
     transform: translateY(-50%);
     display: flex;
+   
 `;
 
-const MovieWrapper = styled.div`
+const ListWrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+ 
+    
 `;
 
+//이전버튼
 const PrevContainer = styled.div`
     z-index: 1;
     position: absolute;
@@ -126,7 +144,7 @@ const PrevContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #06afd6;
+    background-color:  #3fbe81;
     border-radius: 30px;
     opacity: 0;
     transition: opacity .3s;
@@ -138,6 +156,7 @@ const PrevContainer = styled.div`
     ${CarouselContainer}:hover & {
         opacity: 1;
     }
+   
 `;
 
 const NextContainer = styled.div`
@@ -151,7 +170,7 @@ const NextContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #06afd6;
+    background-color: #3fbe81;
     border-radius: 30px;
     opacity: 0;
     transition: opacity .3s;

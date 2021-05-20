@@ -46,7 +46,7 @@ const SalesDetails = (props) => {
             </Title>
           </TextBox>
           <DELETEBOX>
-            <TrashImg src={trashcan} onClick={postDelete} />
+            <TrashImg src={trashcan} style={{ cursor: "pointer" }} onClick={postDelete} />
           </DELETEBOX>
         </Box>
       </SalesListC>
@@ -65,9 +65,7 @@ const Box = styled.div`
   width: 205px;
   height: 278px;
   flex-grow: 0;
-
-  margin: 40px 30px 50px 60px;
-
+  margin: 40px 40px 50px 0px;
   padding: 0 0 16px;
   border-radius: 8px;
   border: solid 1px #91be89;
@@ -151,17 +149,6 @@ const Title = styled.div`
     color: #737373;
   }
 `;
-
-// const SubTitleArea = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   margin-left: 1rem;
-//   span {
-//     font-size: 16px;
-//     font-weight: 600;
-//   }
-// `;
 
 const TextBox = styled.div`
   position: relative;
