@@ -66,26 +66,40 @@ const Mypage = (props) => {
         <MyPageC>
          
         {isEmpty ? 
-          <Blank>
-              게시물을 등록해주세요!
-          </Blank>
+        <>
+        <SellTitle>나의 판매내역</SellTitle>
+        <SellContainer>
+          <BlankBox>
+            <BlankText style={{width: "443px", height: "60px"}}>아직 판매한 내역이 없어요 :( !</BlankText>
+          </BlankBox>
+          
+        </SellContainer>
+
+        <DoneTitle>교환완료 내역</DoneTitle>
+        <DoneContainer>
+            <BlankBox>
+              <BlankText2 style={{width: "510px", height: "49px"}}>교환완료된 내역이 아직 없어요 :( !</BlankText2>    
+            </BlankBox>
+        </DoneContainer>
+        </>
         : 
         <>
         <SellTitle>나의 판매내역</SellTitle>
         <SellContainer>
-          <LeftArrow src={LVector} />
+        <Carousel/>
+          {/* <LeftArrow src={LVector} />
           <SellBoxC>
             {MyProductList?.map((myProduct, idx) => (
                 <SalesDetails {...myProduct} key={idx} />
               ))}
           </SellBoxC>
-          <RightArrow src={RVector} />
+          <RightArrow src={RVector} /> */}
         </SellContainer>
 
 
         <DoneTitle>교환완료 내역</DoneTitle>
         <DoneContainer>
-        <Carousel/>
+        
           {/* <LeftArrow src={LVector} />
           <DoneBoxC>
             <ProductBox />
@@ -117,6 +131,41 @@ const Mypage = (props) => {
   );
 };
 
+const BlankBox=styled.div`
+height: 278px;
+width:1000px;
+margin: auto;
+//background:pink;
+justify-content:center;
+text-align:center;
+
+`;
+
+const BlankText=styled.div`
+
+margin-left: 280px;
+margin-top: 100px;
+font-size: 30px;
+font-weight: 600;
+line-height: 1.67;
+justify-content:center;
+margin-left: 250px;
+color:#d2d2d2;
+
+`;
+
+const BlankText2=styled.div`
+
+
+margin-top: 100px;
+font-size: 30px;
+font-weight: 600;
+line-height: 1.67;
+justify-content:center;
+margin-left: 250px;
+color:#d2d2d2;
+
+`;
 const WrapMypage = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
   width: 1200px;
@@ -124,14 +173,12 @@ const WrapMypage = styled.div`
   padding-top: 60px;
   display: flex;
   flex-direction: column;
-
   margin: auto;
-  background-color:pink;
+  
 `;
 
 const MpageHeader = styled.div`
   display: flex;
-  
 `;
 
 const Title = styled.div`
@@ -191,17 +238,6 @@ const MyPageC = styled.div`
   margin-top:70px;
   height: 100vh;
 `;
-
-const Blank =styled.div`
-width:1000px;
-margin:auto;
-background-color: #d0d0d0;
-text-align:center;
-font-size: 30px;
-font-weight: bold;
-color:#ffffff;
-`;
-
 
 const SellContainer = styled.div`
   display: flex;

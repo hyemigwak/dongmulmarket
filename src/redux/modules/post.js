@@ -37,9 +37,9 @@ const deletePostAPI = (itemId) => {
     axios({
       method: "DELETE",
       url: `${config.api}/mainPage/delete`,
-      headers: {
-        authorization: token,
-      },
+      // headers: {
+      //   //authorization: token,
+      // },
       data: {
         itemId: itemId,
       },
@@ -48,6 +48,7 @@ const deletePostAPI = (itemId) => {
         console.log(res.data);
         if (res.data.msg === "success") {
           dispatch(deletePost(itemId));
+          window.alert("삭제 완료되었습니다");
         }
       })
       .catch((err) => {

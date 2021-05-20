@@ -34,6 +34,10 @@ const Detail = memo((props) => {
                 <DetailText>{detail.category}</DetailText>
               </tr>
               <tr>
+                <TitleText>희망 교환템</TitleText>
+                <DetailText>{detail.wantItem}</DetailText>
+              </tr>
+              <tr>
                 <TitleText>글 올린 시간</TitleText>
                 <DetailText>{detail.createdDt}</DetailText>
               </tr>
