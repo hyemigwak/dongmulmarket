@@ -18,16 +18,13 @@ import { config } from "../shared/config";
 const Chat = memo((props) => {
   //detail 페이지에서 프롭스로 채팅방ID, 아이템ID 받아옴
   const { icrId, itemId } = props;
-  console.log("props:", props);
+
   // 채팅에 스크롤 넣어줌
   const scroll = useRef(null);
   const dispatch = useDispatch();
 
   const [socket, setSocket] = useState("");
-  const email = useMemo(() => localStorage.getItem("email"), []);
-
   const [modalOpen, setModalOpen] = useState(false);
-
   //채팅에 이미 참여되어있는 사람인지, 신규인지 확인하는 값
   const [ShowBtn, setShowBtn] = useState(true);
 
@@ -35,9 +32,7 @@ const Chat = memo((props) => {
   const chatList = useSelector((state) => state.chat.chat_list);
   const userList = useSelector((state) => state.chat.user_list);
 
-  const bottomView = () => {
-    scroll.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  };
+  const email = useMemo(() => localStorage.getItem("email"), []);
 
   if (!socket) {
     setSocket(
@@ -46,6 +41,14 @@ const Chat = memo((props) => {
       })
     );
   }
+
+  useEffect(() => {
+    isBossAPI(icrId);
+  });
+
+  const bottomView = useCallback(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, []);
 
   const openModal = useCallback(() => {
     setModalOpen(true);
@@ -92,19 +95,17 @@ const Chat = memo((props) => {
   }, [socket, dispatch]);
 
   useEffect(() => {
-    isBossAPI(icrId);
-  });
-
-  useEffect(() => {
     dispatch(chatActions.getAllChatList(socket));
     dispatch(chatActions.addChatList(socket));
-    dispatch(chatActions.addUserList(socket, { email, icrId }));
-  }, [dispatch, socket, email, icrId]);
+    if (ShowBtn === false) {
+      dispatch(chatActions.addUserList(socket, { email, icrId }));
+    }
+  }, [dispatch, email, icrId, socket]);
 
   //챗리스트 바뀔때마다 스크롤 내려주기
   useEffect(() => {
     bottomView();
-  }, [chatList]);
+  }, [bottomView, chatList]);
 
   if (ShowBtn) {
     return (

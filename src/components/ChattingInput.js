@@ -12,8 +12,6 @@ const ChattingInput = memo((props) => {
   const token = getCookie("user_login");
   const email = localStorage.getItem("email");
 
-  // const socket = io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${icrId}` });
-
   //채팅에 입력한 내 메세지를 state로 저장
   const [message, setMessage] = useState("");
   //채팅 input에 걸어놓은 onChange 함수
@@ -81,7 +79,6 @@ const SendInput = styled.input`
   }
 
   position: relative;
-
 `;
 
 export default ChattingInput;

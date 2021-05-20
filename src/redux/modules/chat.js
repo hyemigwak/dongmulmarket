@@ -1,7 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { getCookie } from "../../shared/Cookie";
-import io from "socket.io-client";
 
 //actions
 const ADD_CHAT = "ADD_CHAT";
@@ -38,8 +37,6 @@ const getIcrId = () => {
     console.log(getState().post.detail_list.icrId);
   };
 };
-
-// const socket = io.connect("http://15.165.76.76:3001/chatting", { query: `email=${email}&icrId=${getIcrId}` });
 
 //채팅창 보낼때 사용하려고 만들었으나 사용하고있지 않음(ChatInput에서 사용하고파)
 const sendChat = (socket, message, icrId) => {
@@ -127,11 +124,11 @@ const addUserList = (socket, { email, icrId }) => {
 };
 
 //채팅 유저 강퇴하기(나가게 하기)
-const removeUserList = (user) => {
-  return function (dispatch, getState, { history }) {
-    dispatch(removeUser(user));
-  };
-};
+// export const removeUserList = (user) => {
+//   return function (dispatch, getState, { history }) {
+//     dispatch(removeUser(user));
+//   };
+// };
 
 //reducer
 export default handleActions(
@@ -147,7 +144,9 @@ export default handleActions(
       }),
     [REMOVE_USER]: (state, action) =>
       produce(state, (draft) => {
-        draft.user_list.filter((c) => c !== action.payload.user);
+        draft.user_list = draft.user_list.filter(
+          (c) => c.email !== action.payload.user
+        );
       }),
     [GET_USERS]: (state, action) =>
       produce(state, (draft) => {
@@ -155,10 +154,7 @@ export default handleActions(
       }),
     [ADD_USER]: (state, action) =>
       produce(state, (draft) => {
-        console.log(action.payload.user);
-        // draft.chat_list = [];
         draft.user_list = action.payload.user;
-        // draft.chat_list = action.payload.
       }),
     [LOADING]: (state, action) =>
       produce(state, (draft) => {
@@ -182,7 +178,6 @@ const actionCreators = {
   getAllChatList,
   addChatList,
   addUserList,
-  removeUserList,
   getChat,
   addChat,
   loading,
@@ -190,6 +185,7 @@ const actionCreators = {
   sendChat,
   removeChat,
   clearOne,
+  removeUser,
 };
 
 export { actionCreators };

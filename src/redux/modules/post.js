@@ -1,8 +1,11 @@
 import { createAction, handleActions } from "redux-actions";
-import { produce, produceWithPatches } from "immer";
+import { produce } from "immer";
 import axios from "axios";
 import { getCookie } from "../../shared/Cookie";
 import { config } from "../../shared/config";
+import Swal from "sweetalert2";
+
+import { actionCreators as chatActions } from "./chat";
 
 //actions
 const GET_POST = "GET_POST";
@@ -119,14 +122,19 @@ const kickUserList = (socket, { itemId, email, icrId }) => {
       },
       (data) => {
         if (data["msg"] === "success") {
-          console.log("msg가 성공이라면 if문");
           socket.emit("kickUser", { email, itemId, icrId });
           //서버에서 내려준 참여자 목록을 저장해서 화면에 보여준다
           socket.on("kickUser", (data) => {
-            console.log("참여 유저 정보 받나요???");
-            console.log("kickUserData " + JSON.stringify(data));
-
-            //dispatch(addUser(addUser_data.userList));
+            dispatch(chatActions.removeUser(data.email));
+            dispatch(chatActions.addChat(data));
+            const storageEmail = localStorage.getItem("email");
+            if (data.email === storageEmail) {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "강퇴 당하셨습니다!",
+              });
+            }
           });
         }
       }
