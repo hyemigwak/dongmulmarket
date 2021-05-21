@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,19 +7,13 @@ import { getCookie } from "../shared/Cookie";
 import { Container } from "../element";
 import logo1 from "../image/logo1.png";
 import Swal from "sweetalert2";
+import { NavBar } from "./index";
 import { useMediaQuery } from "react-responsive";
+import MenuIcon from "@material-ui/icons/Menu";
 
 const Header = (props) => {
   const isMobile = useMediaQuery({
     query: "(max-width: 767px)",
-  });
-
-  const isTablet = useMediaQuery({
-    query: "(max-width: 768px) and (max-width: 1199px)",
-  });
-
-  const isPc = useMediaQuery({
-    query: "(min-width: 1200px)",
   });
 
   const dispatch = useDispatch();
@@ -39,7 +33,7 @@ const Header = (props) => {
         dispatch(userActions.LogOutMiddleware());
         history.replace("/");
         Swal.fire({
-          text: "로그아웃 되셨습니다.",
+          title: "로그아웃 되셨습니다.",
           confirmButtonColor: "#3fbe81",
           confirmButtonText: "확인",
         });
@@ -47,47 +41,85 @@ const Header = (props) => {
     });
   };
 
+  //모바일 헤더 열고 닫기
+  const [navOpen, setnavOpen] = useState(false);
+  const open = () => setnavOpen(true);
+  const close = () => setnavOpen(false);
+
+  const hamburger = useRef();
+
+  const handleClickOutside = ({ target }) => {
+    if (navOpen && !hamburger.current.contains(target)) setnavOpen(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   if (cookie && is_login) {
     return (
-      <React.Fragment>
-        <Container>
-          <HeaderC>
-            <LogoBox>
-              <Logo
-                src={logo1}
-                onClick={() => {
-                  history.push("/");
-                }}
-              ></Logo>
-              <Beta>베타서비스</Beta>
-            </LogoBox>
-            <BtnArea>
-              <HeaderCategory
-                onClick={() => {
-                  history.push("/");
-                }}
-              >
-                홈페이지
-              </HeaderCategory>
-              <HeaderCategory
-                onClick={() => {
-                  history.push("/addproduct");
-                }}
-              >
-                판매하기
-              </HeaderCategory>
-              <MypageBox
-                onClick={() => {
-                  history.push("/mypage");
-                }}
-              >
-                마이페이지
-              </MypageBox>
-              <LogoutBtn onClick={siteLogout}>로그아웃</LogoutBtn>
-            </BtnArea>
-          </HeaderC>
-        </Container>
-      </React.Fragment>
+      <>
+        {isMobile ? (
+          <React.Fragment>
+            <Hamburger>
+              <MenuIcon style={{ width: "40px", height: "40px", marginLeft: "20px", cursor: "pointer" }} onClick={open} />
+              <LogoBox>
+                <Logo
+                  src={logo1}
+                  onClick={() => {
+                    history.push("/");
+                  }}
+                ></Logo>
+                <Beta>베타서비스</Beta>
+              </LogoBox>
+            </Hamburger>
+            <NavBar open={navOpen} close={close} ref={hamburger} />
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Container>
+              <HeaderC>
+                <LogoBox>
+                  <Logo
+                    src={logo1}
+                    onClick={() => {
+                      history.push("/");
+                    }}
+                  ></Logo>
+                  <Beta>베타서비스</Beta>
+                </LogoBox>
+                <BtnArea>
+                  <HeaderCategory
+                    onClick={() => {
+                      history.push("/");
+                    }}
+                  >
+                    홈페이지
+                  </HeaderCategory>
+                  <HeaderCategory
+                    onClick={() => {
+                      history.push("/addproduct");
+                    }}
+                  >
+                    판매하기
+                  </HeaderCategory>
+                  <MypageBox
+                    onClick={() => {
+                      history.push("/mypage");
+                    }}
+                  >
+                    마이페이지
+                  </MypageBox>
+                  <LogoutBtn onClick={siteLogout}>로그아웃</LogoutBtn>
+                </BtnArea>
+              </HeaderC>
+            </Container>
+          </React.Fragment>
+        )}
+      </>
     );
   } else {
     return (
@@ -146,6 +178,22 @@ const HeaderC = styled.div`
     height: 104px;
     width: 100%;
   }
+`;
+
+const Hamburger = styled.div`
+  position: fixed;
+  background-color: #ffffff;
+  left: 0;
+  top: 0;
+  width: 100%;
+  margin: 0 auto;
+  border-bottom: 1px solid #dbdbdb;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 120px;
+  z-index: 2000;
 `;
 
 const LogoBox = styled.div`
@@ -315,6 +363,7 @@ const BtnArea2 = styled.div`
 
   @media (max-width: 767px) {
     margin-right: 6px;
+  }
 `;
 
 export default Header;

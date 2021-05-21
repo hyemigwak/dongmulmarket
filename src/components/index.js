@@ -10,5 +10,6 @@ import NoLogin from "./NoLogin";
 import LoginChat from "./LoginChat";
 import ChatUsers from "./ChatUsers";
 import ChattingInput from "./ChattingInput";
+import NavBar from "./NavBar";
 
-export { Footer, Header, MyLocation, EditAddress, Chat, AddressChange, OneChat, GroupChat, NoLogin, LoginChat, ChatUsers, ChattingInput };
+export { Footer, Header, MyLocation, EditAddress, Chat, AddressChange, OneChat, GroupChat, NoLogin, LoginChat, ChatUsers, ChattingInput, NavBar };

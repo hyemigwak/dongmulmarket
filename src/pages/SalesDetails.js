@@ -5,11 +5,12 @@ import { actionCreators as postActions } from "../redux/modules/post";
 import trashcan from "../image/trashcan.png";
 import Post from "../components/Post";
 import Swal from "sweetalert2";
+import { history } from "../redux/configureStore";
 
 const SalesDetails = (props) => {
   const dispatch = useDispatch();
 
-  const { image, title, nickname, wantItem, address, itemId } = props;
+  const { image, title, wantItem, itemId } = props;
 
   const postDelete = () => {
     Swal.fire({
@@ -22,11 +23,6 @@ const SalesDetails = (props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(postActions.deletePostAPI(itemId));
-        Swal.fire({
-          text: "삭제되었습니다!",
-          confirmButtonColor: "#3fbe81",
-          confirmButtonText: "확인",
-        });
       }
     });
   };
@@ -34,19 +30,26 @@ const SalesDetails = (props) => {
   return (
     <React.Fragment>
       <SalesListC>
-        <Box onClick={postDelete}>
-          <ImgBox>
+        <Box>
+          <ImgBox
+            onClick={() => {
+              history.push(`/detail/${itemId}`);
+            }}
+          >
             <Img src={image} alt="상품이미지" />
           </ImgBox>
-          <TextBox>
-            <Address style={{ marginRight: "100px" }}>{address}</Address>
+          <TextBox
+            onClick={() => {
+              history.push(`/detail/${itemId}`);
+            }}
+          >
             <ProductTitle>{title}</ProductTitle>
             <Title>
               <span>희망교환템:</span> {wantItem}
             </Title>
           </TextBox>
           <DELETEBOX>
-            <TrashImg src={trashcan} style={{ cursor: "pointer" }} onClick={postDelete} />
+            <TrashImg src={trashcan} onClick={postDelete} />
           </DELETEBOX>
         </Box>
       </SalesListC>
@@ -66,20 +69,17 @@ const Box = styled.div`
   height: 278px;
   flex-grow: 0;
   margin: 40px 40px 50px 0px;
-  padding: 0 0 16px;
+  padding: 0 0 8px;
   border-radius: 8px;
   border: solid 1px #91be89;
   position: relative;
-`;
+  cursor: pointer;
 
-const ProductBox = styled.div`
-  width: 205px;
-  height: 230px;
-  flex-grow: 0;
-  margin: 0 1px 0 0;
-  padding: 180px 32px 16px 16px;
-  border-radius: 8px;
-  border: solid 1px #91be89;
+  :hover {
+    transition: 0.2s;
+    transform: scale(1.04);
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.05);
+  }
 `;
 
 const ImgBox = styled.div`
@@ -88,44 +88,21 @@ const ImgBox = styled.div`
   border-radius: 8px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+  border-bottom: 1px solid #91be89;
+
   max-width: 100%;
   text-align: right;
   z-index: 1000;
-  img {
-    width: 202px;
-    height: 160px;
-    object-fit: cover;
-  }
 `;
 
 const Img = styled.img`
   border-radius: 8px;
   z-index: 2;
+  width: 202px;
+  height: 160px;
+  object-fit: cover;
 `;
 
-const Label = styled.div`
-  width: 72px;
-  height: 40px;
-  flex-grow: 0;
-  border-radius: 8px;
-  padding: 11px 12px 10px 11px;
-  background-color: #3fbe81;
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #ffffff;
-
-  display: block;
-  position: absolute;
-  top: 0px;
-  left: 130.8px;
-
-  z-index: 1;
-`;
 const ProductTitle = styled.div`
   flex-grow: 0;
   margin: 2px 0 4px;
@@ -158,37 +135,8 @@ const TextBox = styled.div`
   padding-left: 16px;
 `;
 
-const Address = styled.div`
-  flex-grow: 0;
-  margin: 0 69px 2px 0;
-  font-family: Roboto;
-  font-size: 10px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #737373;
-`;
-
-const Time = styled.div`
-  height: 16px;
-  flex-grow: 0;
-  margin: 9px 85px 0 0;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #0c6550;
-`;
-
 const DELETEBOX = styled.div`
-  margin: 25px 0px 0px 170px;
+  margin: 20px 0px 0px 170px;
 `;
 
 const TrashImg = styled.img`

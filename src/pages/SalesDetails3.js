@@ -5,6 +5,7 @@ import { actionCreators as postActions } from "../redux/modules/post";
 import trashcan from "../image/trashcan.png";
 import Post from "../components/Post";
 import Swal from "sweetalert2";
+import { history } from "../redux/configureStore";
 
 const SalesDetails3 = (props) => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const SalesDetails3 = (props) => {
           confirmButtonColor: "#3fbe81",
           confirmButtonText: "확인",
         });
+        history.replace("/mypage");
       }
     });
   };
@@ -34,19 +36,26 @@ const SalesDetails3 = (props) => {
   return (
     <React.Fragment>
       <SalesListC>
-        <Box onClick={postDelete}>
-          <ImgBox>
+        <Box>
+          <ImgBox
+            onClick={() => {
+              history.push(`/detail/${itemId}`);
+            }}
+          >
             <Img src={image} alt="상품이미지" />
           </ImgBox>
-          <TextBox>
-            <Address style={{ marginRight: "100px" }}>{address}</Address>
+          <TextBox
+            onClick={() => {
+              history.push(`/detail/${itemId}`);
+            }}
+          >
             <ProductTitle>{title}</ProductTitle>
             <Title>
               <span>희망교환템:</span> {wantItem}
             </Title>
           </TextBox>
           <DELETEBOX>
-            <TrashImg src={trashcan} style={{ cursor: "pointer" }} onClick={postDelete} />
+            <TrashImg src={trashcan} onClick={postDelete} />
           </DELETEBOX>
         </Box>
       </SalesListC>
@@ -70,16 +79,12 @@ const Box = styled.div`
   border-radius: 8px;
   border: solid 1px #91be89;
   position: relative;
-`;
-
-const ProductBox = styled.div`
-  width: 205px;
-  height: 230px;
-  flex-grow: 0;
-  margin: 0 1px 0 0;
-  padding: 180px 32px 16px 16px;
-  border-radius: 8px;
-  border: solid 1px #91be89;
+  cursor: pointer;
+  :hover {
+    transition: 0.2s;
+    transform: scale(1.04);
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.05);
+  }
 `;
 
 const ImgBox = styled.div`
@@ -103,29 +108,6 @@ const Img = styled.img`
   z-index: 2;
 `;
 
-const Label = styled.div`
-  width: 72px;
-  height: 40px;
-  flex-grow: 0;
-  border-radius: 8px;
-  padding: 11px 12px 10px 11px;
-  background-color: #3fbe81;
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #ffffff;
-
-  display: block;
-  position: absolute;
-  top: 0px;
-  left: 130.8px;
-
-  z-index: 1;
-`;
 const ProductTitle = styled.div`
   flex-grow: 0;
   margin: 2px 0 4px;
@@ -156,35 +138,6 @@ const TextBox = styled.div`
   text-align: left;
   padding: 2px 1px;
   padding-left: 16px;
-`;
-
-const Address = styled.div`
-  flex-grow: 0;
-  margin: 0 69px 2px 0;
-  font-family: Roboto;
-  font-size: 10px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #737373;
-`;
-
-const Time = styled.div`
-  height: 16px;
-  flex-grow: 0;
-  margin: 9px 85px 0 0;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #0c6550;
 `;
 
 const DELETEBOX = styled.div`

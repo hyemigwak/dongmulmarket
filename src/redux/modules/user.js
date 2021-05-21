@@ -185,7 +185,7 @@ const loginAPI = (email, pwd) => {
           };
 
           //디폴트로 헤더에 토큰 담아주기
-          axios.defaults.headers.common["Authorization"] = jwtToken;
+          // axios.defaults.headers.common["Authorization"] = jwtToken;
 
           dispatch(logIn(user_data, "normal"));
 
@@ -294,7 +294,7 @@ const FindPwdAPI = (email) => {
     })
       .then((res) => {
         console.log(res.data);
-        if (res.data.statusCode === 201) {
+        if (res.data.msg === "success") {
           dispatch(findPwd(email));
           localStorage.setItem("email", email);
           Swal.fire({
@@ -332,7 +332,7 @@ const ChangePwdAPI = (email, pwd, newPwd) => {
     })
       .then((res) => {
         console.log(res.data);
-        if (res.data.msg === "비밀번호 변경 성공!") {
+        if (res.data.msg === "success") {
           Swal.fire({
             title: "비밀번호가 변경되었습니다. 다시 로그인해주세요!",
             confirmButtonColor: "#3fbe81",
@@ -367,6 +367,7 @@ const LogOutMiddleware = () => {
 
     if (loginType === "normal") {
       deleteCookie("user_login");
+      deleteCookie("G_AUTHUSER_H");
       localStorage.clear();
       dispatch(logOut());
       return;
@@ -375,6 +376,7 @@ const LogOutMiddleware = () => {
     if (loginType === "kakao") {
       deleteCookie("user_login");
       deleteCookie("kakao_nickname");
+      deleteCookie("G_AUTHUSER_H");
       localStorage.clear();
       dispatch(logOut());
 

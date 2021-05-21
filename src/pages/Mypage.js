@@ -23,29 +23,8 @@ const Mypage = (props) => {
   //교환실패내역
   const FailList = myPageList?.filter((s) => s.status === "fail");
 
-  console.log(SalesList);
-  console.log(SuccessList);
-  console.log(FailList);
-
-  const [showResults, setShowResults] = useState(false);
-
-  const [isEmpty, setisEmpty] = useState(false);
-
-  const showFunction = (props) => {
-    setShowResults(true);
-  };
-
   useEffect(() => {
     dispatch(postActions.myPageAPI());
-    // dispatch(postActions.getPostAPI());
-  }, []);
-
-  useEffect(() => {
-    const len = SalesList.length;
-    if (len === 0) {
-      setisEmpty(true);
-    }
-    console.log(isEmpty);
   }, []);
 
   return (
@@ -64,46 +43,41 @@ const Mypage = (props) => {
         </MpageHeader>
 
         <MyPageC>
-          {isEmpty ? (
-            <>
-              <SellTitle>나의 판매내역</SellTitle>
-              <SellContainer>
+          <SellTitle>나의 판매내역</SellTitle>
+          <SellContainer>
+            {SalesList.length ? (
+              <Carousel SalesList={SalesList} />
+            ) : (
+              <>
                 <BlankBox>
                   <BlankText style={{ width: "443px", height: "60px" }}>아직 판매한 내역이 없어요 :( !</BlankText>
                 </BlankBox>
-              </SellContainer>
-
-              <DoneTitle>교환완료 내역</DoneTitle>
-              <DoneContainer>
-                <BlankBox>
-                  <BlankText2 style={{ width: "510px", height: "49px" }}>교환완료된 내역이 아직 없어요 :( !</BlankText2>
-                </BlankBox>
-              </DoneContainer>
-
-              <IngTitle>교환실패 내역</IngTitle>
-              <IngContainer>
-                <BlankBox>
-                  <BlankText2 style={{ width: "510px", height: "49px" }}>교환실패한 내역이 아직 없어요 :( !</BlankText2>
-                </BlankBox>
-              </IngContainer>
-            </>
+              </>
+            )}
+          </SellContainer>
+          <DoneTitle>교환완료 내역</DoneTitle>
+          {SuccessList.length ? (
+            <DoneContainer>
+              <Carousel2 SuccessList={SuccessList} />
+            </DoneContainer>
           ) : (
-            <>
-              <SellTitle>나의 판매내역</SellTitle>
-              <SellContainer>
-                <Carousel SalesList={SalesList} />
-              </SellContainer>
-
-              <DoneTitle>교환완료 내역</DoneTitle>
-              <DoneContainer>
-                <Carousel2 />
-              </DoneContainer>
-
-              <IngTitle>교환실패 내역</IngTitle>
-              <IngContainer>
-                <Carousel3 />
-              </IngContainer>
-            </>
+            <DoneContainer>
+              <BlankBox>
+                <BlankText2 style={{ width: "510px", height: "49px" }}>교환완료된 내역이 아직 없어요 :( !</BlankText2>
+              </BlankBox>
+            </DoneContainer>
+          )}
+          <IngTitle>교환실패 내역</IngTitle>
+          {FailList.length ? (
+            <IngContainer>
+              <Carousel3 FailList={FailList} />
+            </IngContainer>
+          ) : (
+            <IngContainer>
+              <BlankBox>
+                <BlankText2 style={{ width: "510px", height: "49px" }}>교환실패한 내역이 아직 없어요 :( !</BlankText2>
+              </BlankBox>
+            </IngContainer>
           )}
         </MyPageC>
       </WrapMypage>

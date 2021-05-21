@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
+import { actionCreators as postActions } from "../redux/modules/post";
 import DaumPostcode from "react-daum-postcode";
 import { Container } from "../element";
 import Swal from "sweetalert2";
@@ -11,14 +12,10 @@ const AddressChange = (props) => {
   const dispatch = useDispatch();
   const { open, close } = props;
 
+  const email = localStorage.getItem("email");
+
   const editMyAddress = () => {
-    //디스패치하기(주소 수정해서 서버로 보내주기, 마이페이지 주소설정도 바뀌어야함)
-    //new_address 서버에 보내주기
-    Swal.fire({
-      title: "주소를 수정했습니다!",
-      confirmButtonColor: "#3fbe81",
-      confirmButtonText: "확인",
-    });
+    dispatch(postActions.ChangeAddressAPI(email, new_address));
     close();
   };
 
@@ -30,6 +27,7 @@ const AddressChange = (props) => {
   console.log(isAddress);
   const str = isAddress.split(" ");
   const new_address = str[0] + " " + str[1] + " " + str[2];
+  console.log(new_address);
 
   // 우편번호 / 주소 찾기
   function sample4_execDaumPostcode() {

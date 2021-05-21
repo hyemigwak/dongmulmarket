@@ -14,6 +14,7 @@ const LOADING = "LOADING";
 const ISBOSS = "ISBOSS";
 const DELETE_POST = "DELETE_POST";
 const MY_PAGE = "MY_PAGE";
+const MY_ADDRESS = "MY_ADDRESS";
 
 //actionCreators
 const loading = createAction(LOADING, (loading) => ({ loading }));
@@ -24,6 +25,7 @@ const isBoss = createAction(ISBOSS, (button) => ({ button }));
 const deletePost = createAction(DELETE_POST, (itemId) => ({ itemId }));
 const clearOne = createAction(CLEAR_ONE, () => ({}));
 const myPage = createAction(MY_PAGE, (my_list) => ({ my_list }));
+const myAddress = createAction(MY_ADDRESS, (address) => ({ address }));
 
 //initialState
 const initialState = {
@@ -32,9 +34,44 @@ const initialState = {
   mypage_list: [],
   is_loading: false,
   boss: {},
+  new_address: "",
 };
 
 // axios.defaults.headers.common["authorization"] = token;
+
+//주소변경하기
+const ChangeAddressAPI = (email, new_address) => {
+  return function (dispatch, getState, { history }) {
+    let token = getCookie("user_login");
+    axios({
+      method: "POST",
+      url: `${config.api}/myPage/address`,
+      headers: {
+        authorization: token,
+      },
+      data: {
+        email: email,
+        new_address: new_address,
+      },
+    })
+      .then((res) => {
+        if (res.data.msg === "success") {
+          console.log(res.data);
+          dispatch(myAddress(new_address));
+          Swal.fire({
+            title: "주소를 수정했습니다!",
+            confirmButtonColor: "#3fbe81",
+            confirmButtonText: "확인",
+          });
+        } else {
+          console.log("res.data.msg === fail");
+        }
+      })
+      .catch((err) => {
+        console.log("myPageAPI 오류", err);
+      });
+  };
+};
 
 //마이페이지 판매/교환/구매내역 뿌려주기
 const myPageAPI = () => {
@@ -81,10 +118,11 @@ const deletePostAPI = (itemId) => {
         if (res.data.msg === "success") {
           dispatch(deletePost(itemId));
           Swal.fire({
-            title: "삭제 완료되었습니다.",
+            text: "삭제되었습니다!",
             confirmButtonColor: "#3fbe81",
             confirmButtonText: "확인",
           });
+          history.replace("/mypage");
         }
       })
       .catch((err) => {
@@ -222,6 +260,10 @@ export default handleActions(
       produce(state, (draft) => {
         draft.mypage_list = action.payload.my_list;
       }),
+    [MY_ADDRESS]: (state, action) =>
+      produce(state, (draft) => {
+        draft.address = action.payload.address;
+      }),
   },
   initialState
 );
@@ -236,6 +278,7 @@ const actionCreators = {
   deletePostAPI,
   clearOne,
   myPageAPI,
+  ChangeAddressAPI,
 };
 
 export { actionCreators };

@@ -10,12 +10,9 @@ const Carousel = (props) => {
 
   const SalesList = props.SalesList;
   console.log(SalesList);
-  const salesList = useSelector((state) => state.post.post_list);
-  const email = localStorage.getItem("email");
-  const MyProductList = salesList.filter((s) => s.email === email);
 
-  const slide_content = MyProductList;
-  const lastIndex = Math.ceil(MyProductList.length / 4);
+  const slide_content = SalesList;
+  const lastIndex = Math.ceil(SalesList?.length / 4);
   const slide_temp = new Array(lastIndex).fill(0);
 
   const slider_container = React.useRef();
