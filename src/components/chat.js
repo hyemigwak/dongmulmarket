@@ -1,47 +1,20 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-  memo,
-  useMemo,
-} from "react";
+import React, { useEffect, useState, useRef, useCallback, memo } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as chatActions } from "../redux/modules/chat";
-import { actionCreators as postActions } from "../redux/modules/post";
+import { useSelector } from "react-redux";
+
 import { GroupChat, LoginChat, ChatUsers, ChattingInput } from "./index";
-import io from "socket.io-client";
-import axios from "axios";
-import { config } from "../shared/config";
+import useJoinChat from "../hooks/useJoinChat";
+import useSocket from "../hooks/useSocket";
 
 const Chat = memo(({ icrId }) => {
-  //detail 페이지에서 프롭스로 채팅방ID, 아이템ID 받아옴
   const scroll = useRef(null);
-  const dispatch = useDispatch();
 
-  const [socket, setSocket] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [ShowBtn, setShowBtn] = useState(true);
-
-  //리덕스에 저장해놓은 채팅 리스트와, 참여 유저리스트를 가져온다
   const chatList = useSelector((state) => state.chat.chat_list);
-  const userList = useSelector((state) => state.chat.user_list);
   const { email } = useSelector((state) => state.user.user);
 
-  //const email = useMemo(() => localStorage.getItem("email"), []);
-
-  if (!socket) {
-    setSocket(
-      io.connect("http://15.165.76.76:3001/chatting", {
-        query: `email=${email}&icrId=${icrId}`,
-      })
-    );
-  }
-
-  useEffect(() => {
-    isBossAPI(icrId);
-  });
+  const { chatJoinYn, handler } = useJoinChat(icrId); //참여 유무를 통해 버튼 결정
+  const socket = useSocket("http://15.165.76.76:3001/chatting", email, icrId);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const bottomView = useCallback(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -54,62 +27,17 @@ const Chat = memo(({ icrId }) => {
     setModalOpen(false);
   }, []);
 
-  //채팅방 버튼 보여주기 유무 불러오기
-  const isBossAPI = useCallback((icrId) => {
-    axios({
-      method: "GET",
-      url: `${config.api}/postDetail/icrId/${icrId}`,
-    })
-      .then((res) => {
-        // false면 채팅방 버튼 없어져야 함
-        if (res.data.buttonYn["groupJoinButton"] === false) {
-          setShowBtn(false);
-        }
-      })
-      .catch((err) => {
-        console.log("isBossAPI에러", err);
-      });
-  }, []);
-
-  //참여 버튼 눌렀을 때, 화면 분기 & 데이터 받아오기
-  const ChatStart = useCallback(() => {
-    setShowBtn(false);
-    dispatch(chatActions.addUserList(socket, { email, icrId }));
-  }, [email, icrId, dispatch, socket]);
-
-  //렌더링될때 소켓을 연결해준다.
-  useEffect(() => {
-    if (socket.connected) {
-      console.log("연결완료");
-    }
-    //언마운트될때 소켓 연결 해제
-    return () => {
-      socket.disconnect();
-      dispatch(chatActions.clearOne());
-      dispatch(postActions.clearPost());
-      console.log("연결해제");
-    };
-  }, [socket, dispatch]);
-
-  useEffect(() => {
-    dispatch(chatActions.getAllChatList(socket));
-    dispatch(chatActions.addChatList(socket));
-    if (ShowBtn === false) {
-      dispatch(chatActions.addUserList(socket, { email, icrId }));
-    }
-  }, [socket]);
-
   //챗리스트 바뀔때마다 스크롤 내려주기
   useEffect(() => {
     bottomView();
   }, [bottomView, chatList]);
 
-  if (ShowBtn) {
+  if (chatJoinYn) {
     return (
       <>
         <BlankChatBox>
           <LoginChat />
-          <ChatJoinBtn onClick={ChatStart}>채팅 참여하기</ChatJoinBtn>
+          <ChatJoinBtn onClick={handler}>채팅 참여하기</ChatJoinBtn>
         </BlankChatBox>
       </>
     );

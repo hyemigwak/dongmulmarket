@@ -1,17 +1,15 @@
 import React, { useState, useCallback, memo } from "react";
 import styled from "styled-components";
-import { actionCreators as chatActions } from "../redux/modules/chat";
+
 import { getCookie } from "../shared/Cookie";
+import useInput from "../hooks/useInput";
 
 //프롭스가 안바뀌면 렌더링이 안됨(프롭스 메모)
 const ChattingInput = memo(({ icrId, socket, email }) => {
   //토큰과 이메일은 각 쿠키, 로컬스토리지에서 가져옴
   const token = getCookie("user_login");
 
-  //채팅에 입력한 내 메세지를 state로 저장
-  const [message, setMessage] = useState("");
-  //채팅 input에 걸어놓은 onChange 함수
-  const onChangeMessage = useCallback((e) => setMessage(e.target.value), []);
+  const [message, onChangeMessage, setMessage] = useInput("");
 
   //서버로 메세지 보낼때
   const submitMessage = useCallback(

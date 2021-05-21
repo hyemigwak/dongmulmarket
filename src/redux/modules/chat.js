@@ -29,9 +29,6 @@ const initialState = {
   is_loading: false,
 };
 
-//소켓설정 부분(email과 detail에서 icrId 가져오기)
-const email = localStorage.getItem("email");
-
 const getIcrId = () => {
   return function (dispatch, getState, { history }) {
     console.log(getState().post.detail_list.icrId);
@@ -39,28 +36,28 @@ const getIcrId = () => {
 };
 
 //채팅창 보낼때 사용하려고 만들었으나 사용하고있지 않음(ChatInput에서 사용하고파)
-const sendChat = (socket, message, icrId) => {
-  return function (dispatch, getState, { history }) {
-    let token = getCookie("user_login");
-    socket.emit(
-      "authenticate",
-      {
-        token: token,
-      },
-      (data) => {
-        if (data["msg"] === "success") {
-          console.log("msg가 성공이라면 if문");
-          let send_data = {
-            email: email,
-            icrId: icrId,
-            chatMsg: message,
-          };
-          socket.emit("sendMsg", send_data);
-        }
-      }
-    );
-  };
-};
+// const sendChat = (socket, message, icrId) => {
+//   return function (dispatch, getState, { history }) {
+//     let token = getCookie("user_login");
+//     socket.emit(
+//       "authenticate",
+//       {
+//         token: token,
+//       },
+//       (data) => {
+//         if (data["msg"] === "success") {
+//           console.log("msg가 성공이라면 if문");
+//           let send_data = {
+//             email: email,
+//             icrId: icrId,
+//             chatMsg: message,
+//           };
+//           socket.emit("sendMsg", send_data);
+//         }
+//       }
+//     );
+//   };
+// };
 
 //setRoom에서 받아온 채팅 목록 && 유저목록 추가
 const getAllChatList = (socket) => {
@@ -95,7 +92,6 @@ const addChatList = (socket) => {
 
 //채팅 유저 추가하기(참여버튼 누를때)
 const addUserList = (socket, { email, icrId }) => {
-  console.log(socket);
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login");
     socket.emit(
@@ -105,13 +101,8 @@ const addUserList = (socket, { email, icrId }) => {
       },
       (data) => {
         if (data["msg"] === "success") {
-          console.log("msg가 성공이라면 if문");
           socket.emit("joinRoom", { email, icrId });
-          //서버에서 내려준 참여자 목록을 저장해서 화면에 보여준다
           socket.on("addUser", (addUser_data) => {
-            console.log("참여 유저 정보 받나요???");
-            console.log("adduserData " + JSON.stringify(addUser_data.msgList));
-
             dispatch(addUser(addUser_data.userList));
             dispatch(addChat(addUser_data.msgList.data));
           });
@@ -180,7 +171,6 @@ const actionCreators = {
   addChat,
   loading,
   getIcrId,
-  sendChat,
   removeChat,
   clearOne,
   removeUser,
