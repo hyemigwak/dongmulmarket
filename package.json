@@ -21,6 +21,7 @@
     "react-google-login": "^5.2.2",
     "react-kakao-login": "^2.1.0",
     "react-redux": "^7.2.4",
+    "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-select": "^4.3.0",

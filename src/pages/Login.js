@@ -54,114 +54,108 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <React.Fragment>
-        <Container>
-          <WrapLogin>
-            <TitleArea>
-              <Title>로그인</Title>
-            </TitleArea>
-            <LoginC>
-              <InputC>
-                <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} tabIndex="1" />
-                <Input2
-                  type="password"
-                  placeholder="비밀번호를 입력해주세요"
-                  value={pwd}
-                  onChange={onChangePwd}
-                  tabIndex="2"
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      onSiteLogin();
-                    }
-                  }}
-                />
-              </InputC>
-              <AutoLoginC>
-                {/* <Autologin>
-                <input type="checkbox" />
-                <span>자동로그인</span>
-              </Autologin> */}
-                <div
-                  className="findPwd"
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      history.push("/findpwd");
-                    }
-                  }}
-                  onClick={() => {
+    <React.Fragment>
+      <Container>
+        <WrapLogin>
+          <TitleArea>
+            <Title>로그인</Title>
+          </TitleArea>
+          <LoginC>
+            <InputC>
+              <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} tabIndex="1" />
+              <Input2
+                type="password"
+                placeholder="비밀번호를 입력해주세요"
+                value={pwd}
+                onChange={onChangePwd}
+                tabIndex="2"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    onSiteLogin();
+                  }
+                }}
+              />
+            </InputC>
+            <AutoLoginC>
+              <div
+                className="findPwd"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
                     history.push("/findpwd");
-                  }}
-                  tabIndex="3"
-                >
-                  비밀번호를 잊으셨나요?
-                </div>
-              </AutoLoginC>
+                  }
+                }}
+                onClick={() => {
+                  history.push("/findpwd");
+                }}
+                tabIndex="3"
+              >
+                비밀번호를 잊으셨나요?
+              </div>
+            </AutoLoginC>
 
-              <LoginBtn tabIndex="4" onClick={onSiteLogin}>
-                로그인
-              </LoginBtn>
-              <SignInArea>
-                <span>신규 사용자이신가요?</span>{" "}
-                <div
-                  className="makeaccount"
-                  onClick={() => {
+            <LoginBtn tabIndex="4" onClick={onSiteLogin}>
+              로그인
+            </LoginBtn>
+            <SignInArea>
+              <span>신규 사용자이신가요?</span>{" "}
+              <div
+                className="makeaccount"
+                onClick={() => {
+                  history.push("/signup");
+                }}
+                tabIndex="5"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
                     history.push("/signup");
-                  }}
-                  tabIndex="5"
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      history.push("/signup");
-                    }
-                  }}
-                >
-                  계정 만들기
-                </div>
-              </SignInArea>
-              <OrLine>
-                <div></div>
-                <span>또는</span>
-                <div></div>
-              </OrLine>
-              <SocialBtnArea>
-                <div tabIndex="6">
-                  <KaKaoLogin
-                    token={"dbf3a7f227849392ad80f6426c8d9526"}
-                    onSuccess={kakaoLoginSuccess}
-                    onFailure={(result) => console.log(result)}
-                    buttonText="kakao"
-                    render={(props) => (
-                      <KakaoBtn onClick={props.onClick}>
-                        <img src={kakao} alt="카톡" />
-                        카카오톡으로 계속
-                      </KakaoBtn>
-                    )}
-                  ></KaKaoLogin>
-                </div>
-                <div tabIndex="7">
-                  <GoogleLogin
-                    clientId="797391183659-j67nu7drmq094hs3ghtfpjmsh25dah67.apps.googleusercontent.com"
-                    buttonText="Google"
-                    onSuccess={GoogleLoginSuccess}
-                    onFailure={responseGoogle}
-                    cookiePolicy={"single_host_origin"}
-                    render={(props) => (
-                      <GoogleBtn onClick={props.onClick} disabled={props.disabled}>
-                        <div>
-                          <img src={googleLogo} alt="구글로고" />
-                          Google로 계속
-                        </div>
-                      </GoogleBtn>
-                    )}
-                  />
-                </div>
-              </SocialBtnArea>
-            </LoginC>
-          </WrapLogin>
-        </Container>
-      </React.Fragment>
-    </div>
+                  }
+                }}
+              >
+                계정 만들기
+              </div>
+            </SignInArea>
+            <OrLine>
+              <div></div>
+              <span>또는</span>
+              <div></div>
+            </OrLine>
+            <SocialBtnArea>
+              <div tabIndex="6">
+                <KaKaoLogin
+                  token={"dbf3a7f227849392ad80f6426c8d9526"}
+                  onSuccess={kakaoLoginSuccess}
+                  onFailure={(result) => console.log(result)}
+                  buttonText="kakao"
+                  render={(props) => (
+                    <KakaoBtn onClick={props.onClick}>
+                      <img src={kakao} alt="카톡" />
+                      카카오톡으로 계속
+                    </KakaoBtn>
+                  )}
+                ></KaKaoLogin>
+              </div>
+              <div tabIndex="7">
+                <GoogleLogin
+                  clientId="797391183659-j67nu7drmq094hs3ghtfpjmsh25dah67.apps.googleusercontent.com"
+                  buttonText="Google"
+                  onSuccess={GoogleLoginSuccess}
+                  onFailure={responseGoogle}
+                  cookiePolicy={"single_host_origin"}
+                  render={(props) => (
+                    <GoogleBtn onClick={props.onClick} disabled={props.disabled}>
+                      <div>
+                        <img src={googleLogo} alt="구글로고" />
+                        Google로 계속
+                      </div>
+                    </GoogleBtn>
+                  )}
+                />
+              </div>
+            </SocialBtnArea>
+          </LoginC>
+        </WrapLogin>
+      </Container>
+    </React.Fragment>
   );
 };
 
@@ -172,8 +166,15 @@ const WrapLogin = styled.div`
   margin-bottom: 180px;
   display: flex;
   flex-direction: column;
-  @media (max-width: 768px) {
-    width: 768px;
+
+  @media (max-width: 767px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 90px;
+  }
+  @media (min-width: 768px) and (max-width: 1199px) {
+    margin-bottom: 0px;
   }
 `;
 
@@ -203,6 +204,12 @@ const LoginC = styled.div`
   align-items: center;
   padding: 30px 0px;
   border-radius: 30px;
+
+  @media (max-width: 767px) {
+    width: 310px;
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const InputC = styled.div`
@@ -210,6 +217,11 @@ const InputC = styled.div`
   margin-right: 100px;
   margin-bottom: 20px;
   align-items: center;
+  @media (max-width: 767px) {
+    width: 310px;
+    margin: 10px auto;
+    text-align: center;
+  }
 `;
 
 const Input = styled.input`
@@ -233,6 +245,12 @@ const Input = styled.input`
     text-align: left;
     color: #b5b5b5;
   }
+
+  @media (max-width: 767px) {
+    width: 280px;
+    padding: 17.6px 10px 11.6px 16px;
+    margin: 0px auto 16px;
+  }
 `;
 
 const Input2 = styled.input`
@@ -255,6 +273,11 @@ const Input2 = styled.input`
     letter-spacing: normal;
     text-align: left;
     color: #b5b5b5;
+  }
+  @media (max-width: 767px) {
+    width: 280px;
+    padding: 17.6px 10px 11.6px 16px;
+    margin: 0px auto 16px;
   }
 `;
 
@@ -289,27 +312,10 @@ const AutoLoginC = styled.div`
       color: #212121;
     }
   }
+  @media (max-width: 767px) {
+    width: 310px;
+  }
 `;
-
-// const Autologin = styled.div`
-//   display: flex;
-//   align-items: center;
-//   cursor: pointer;
-//   span {
-//     width: 70px;
-//     height: 16px;
-//     flex-grow: 0;
-//     margin: 4px 0 4px 8px;
-//     font-size: 14px;
-//     font-weight: normal;
-//     font-stretch: normal;
-//     font-style: normal;
-//     line-height: normal;
-//     letter-spacing: normal;
-//     text-align: left;
-//     color: #5f5f5f;
-//   }
-// `;
 
 const LoginBtn = styled.div`
   width: 359px;
@@ -331,6 +337,11 @@ const LoginBtn = styled.div`
 
   :hover {
     background-color: #3fbe81;
+  }
+
+  @media (max-width: 767px) {
+    width: 280px;
+    padding: 13px 115px;
   }
 `;
 
@@ -354,6 +365,9 @@ const SignInArea = styled.div`
       font-weight: bold;
     }
   }
+  @media (max-width: 767px) {
+    width: 310px;
+  }
 `;
 
 const OrLine = styled.div`
@@ -367,6 +381,9 @@ const OrLine = styled.div`
     flex-grow: 0;
     margin: 11.5px 0px 11.5px 0;
     background-color: #d2d2d2;
+    @media (max-width: 767px) {
+      width: 130px;
+    }
   }
   span {
     margin: 0 10px;
@@ -374,7 +391,7 @@ const OrLine = styled.div`
 `;
 
 const SocialBtnArea = styled.div`
-  width: 360px;
+  width: 300px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -407,6 +424,15 @@ const KakaoBtn = styled.div`
     height: 17.2px;
     margin: 3px 7px 3.8px 0;
     vertical-align: middle;
+    @media (max-width: 767px) {
+      margin: 3px 4px 3.8px 0;
+    }
+  }
+
+  @media (max-width: 767px) {
+    width: 140px;
+    font-size: 12px;
+    padding: 15px 12px;
   }
 `;
 
@@ -438,6 +464,11 @@ const GoogleBtn = styled.div`
     width: 18.7px;
     height: 17.2px;
     margin: 3px 7px 0px 0px;
+  }
+  @media (max-width: 767px) {
+    width: 140px;
+    font-size: 12px;
+    padding: 15px 12px;
   }
 `;
 

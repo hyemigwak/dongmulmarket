@@ -7,8 +7,21 @@ import { getCookie } from "../shared/Cookie";
 import { Container } from "../element";
 import logo1 from "../image/logo1.png";
 import Swal from "sweetalert2";
+import { useMediaQuery } from "react-responsive";
 
 const Header = (props) => {
+  const isMobile = useMediaQuery({
+    query: "(max-width: 767px)",
+  });
+
+  const isTablet = useMediaQuery({
+    query: "(max-width: 768px) and (max-width: 1199px)",
+  });
+
+  const isPc = useMediaQuery({
+    query: "(min-width: 1200px)",
+  });
+
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
   const cookie = getCookie("user_login") ? true : false;
@@ -46,10 +59,7 @@ const Header = (props) => {
                   history.push("/");
                 }}
               ></Logo>
-              <Beta>
-                베타서비스
-                <br /> 1.0v
-              </Beta>
+              <Beta>베타서비스</Beta>
             </LogoBox>
             <BtnArea>
               <HeaderCategory
@@ -91,6 +101,7 @@ const Header = (props) => {
                   history.push("/");
                 }}
               ></Logo>
+              <Beta>베타서비스</Beta>
             </LogoBox>
             <BtnArea2>
               <SignupBtn
@@ -131,9 +142,9 @@ const HeaderC = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     height: 104px;
-    width: 768px;
+    width: 100%;
   }
 `;
 
@@ -149,13 +160,23 @@ const LogoBox = styled.div`
     margin-left: 10px;
   }
 
-  @media (max-width: 768px) {
-    margin: 0 60px 0.1px 0;
+  @media (max-width: 767px) {
+    margin-right: 8px;
+    margin-left: 8px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    margin: 0px 200px 0px 20px;
   }
 `;
 
 const Logo = styled.img`
   margin-left: 20px;
+
+  @media (max-width: 767px) {
+    width: 60%;
+    margin-left: 5px;
+  }
 `;
 
 const Beta = styled.div`
@@ -163,6 +184,15 @@ const Beta = styled.div`
   color: #d2d2d2;
   margin-left: 10px;
   margin-top: 10px;
+
+  @media (max-width: 767px) {
+    font-size: 7px;
+    margin-left: 6px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    width: 80px;
+  }
 `;
 
 const HeaderCategory = styled.div`
@@ -176,8 +206,9 @@ const HeaderCategory = styled.div`
   :hover {
     color: #373737;
   }
-  @media (max-width: 768px) {
-    margin: 7px 24px 6px 0;
+  @media (max-width: 767px) {
+    margin: 7px 10px 6px 0;
+    font-size: 14px;
   }
 `;
 
@@ -186,6 +217,11 @@ const SignupBtn = styled(HeaderCategory)`
   text-align: center;
   display: table-cell;
   vertical-align: middle;
+
+  @media (max-width: 767px) {
+    margin: 7px 4px 6px 0;
+    font-size: 12px;
+  }
 `;
 
 const MypageBox = styled.div`
@@ -199,7 +235,7 @@ const MypageBox = styled.div`
   :hover {
     color: #373737;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     margin: 7px 24px 6px 0;
   }
 `;
@@ -225,8 +261,9 @@ const LogoutBtn = styled.div`
   :hover {
     background-color: #999999;
   }
-  @media (max-width: 768px) {
-    margin: 7px 24px 6px 0;
+  @media (max-width: 767px) {
+    margin: 7px 15px 6px 0;
+    font-size: 14px;
   }
 `;
 
@@ -251,12 +288,23 @@ const LogInBtn = styled.div`
   :hover {
     background-color: #269f65;
   }
+
+  @media (max-width: 767px) {
+    font-size: 12px;
+    height: 30px;
+    width: 58px;
+    padding: 5px 6px 5px;
+  }
 `;
 
 const BtnArea = styled.div`
   display: flex;
   align-items: center;
   margin-right: 28px;
+
+  @media (max-width: 767px) {
+    margin-right: 8px;
+  }
 `;
 
 const BtnArea2 = styled.div`
@@ -264,6 +312,9 @@ const BtnArea2 = styled.div`
   align-items: center;
   margin-right: 30px;
   text-align: center;
+
+  @media (max-width: 767px) {
+    margin-right: 6px;
 `;
 
 export default Header;

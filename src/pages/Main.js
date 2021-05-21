@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PostList from "./PostList";
 import Banners from "../components/Banners";
 import { Container } from "../element";
+
 const Main = (props) => {
   return (
     <React.Fragment>
@@ -34,8 +35,13 @@ const Title = styled.h2`
   text-align: left;
   color: #2f2f2f;
 
-  @media (max-width: 768px) {
-    margin: 60px 37px 0px 50px;
+  @media (min-width: 768px) and (max-width: 1199px) {
+    margin: 100px 30px 0px 50px;
+  }
+
+  @media (max-width: 767px) {
+    margin: 60px auto 0px;
+    font-size: 20px;
   }
 `;
 

@@ -6,8 +6,13 @@ import axios from "axios";
 import { config } from "../shared/config";
 import Swal from "sweetalert2";
 import { Container } from "../element";
+import { useMediaQuery } from "react-responsive";
 
 const Signup = (props) => {
+  const isMobile = useMediaQuery({
+    query: "(max-width: 767px)",
+  });
+
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
@@ -49,7 +54,7 @@ const Signup = (props) => {
         email: email,
       })
       .then((res) => {
-        if (res.data.statusCode === 201) {
+        if (res.data.msg === "success") {
           Swal.fire({
             title: "사용가능한 ID입니다",
             confirmButtonColor: "#3fbe81",
@@ -173,21 +178,42 @@ const Signup = (props) => {
             <InputC>
               <EmailArea>
                 <InputInfo>이메일</InputInfo>
-                <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} ref={_email} />
-                <CertiBtn
-                  onClick={() => {
-                    GetAuthNumAPI(email);
-                  }}
-                  tabIndex="0"
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      GetAuthNumAPI(email);
-                    }
-                  }}
-                >
-                  인증하기
-                </CertiBtn>
+                <InputA type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} ref={_email} />
+                {isMobile ? (
+                  <>
+                    <CertiBtn
+                      onClick={() => {
+                        GetAuthNumAPI(email);
+                      }}
+                      tabIndex="0"
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          GetAuthNumAPI(email);
+                        }
+                      }}
+                    >
+                      인증
+                    </CertiBtn>
+                  </>
+                ) : (
+                  <>
+                    <CertiBtn
+                      onClick={() => {
+                        GetAuthNumAPI(email);
+                      }}
+                      tabIndex="0"
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          GetAuthNumAPI(email);
+                        }
+                      }}
+                    >
+                      인증하기
+                    </CertiBtn>
+                  </>
+                )}
               </EmailArea>
               <p className="availableEmail">{emailDoubleCheck}</p>
               <p className="availableFail">{emailDoubleFail}</p>
@@ -196,7 +222,7 @@ const Signup = (props) => {
                 <>
                   <EmailArea>
                     <InputInfo>인증번호</InputInfo>
-                    <Input type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} ref={_authnum} />
+                    <InputA type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} ref={_authnum} />
                     <VerifyNum
                       onClick={() => {
                         EmailValidationAPI(email, authnumber);
@@ -226,7 +252,16 @@ const Signup = (props) => {
               </InfoArea>
               <PasswordDetail Open={pwdDetail}>비밀번호는 8~14자리의 영문/숫자 혼합입니다.</PasswordDetail>
               <InfoArea>
-                <InputInfo>비밀번호 확인</InputInfo>
+                {isMobile ? (
+                  <InputInfo>
+                    비밀번호
+                    <br />
+                    확인
+                  </InputInfo>
+                ) : (
+                  <InputInfo>비밀번호 확인</InputInfo>
+                )}
+
                 <Input
                   type="password"
                   placeholder="비밀번호를 다시 입력해주세요"
@@ -268,6 +303,15 @@ const SignUpLogin = styled.div`
   margin-bottom: 180px;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 767px) {
+    width: 310px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    width: 100%;
+  }
 `;
 
 const TitleArea = styled.div`
@@ -285,6 +329,15 @@ const TitleArea = styled.div`
     font-size: 14px;
     text-align: center;
     color: #5f5f5f;
+
+    @media (max-width: 767px) {
+      width: 310px;
+      font-size: 13px;
+    }
+  }
+  @media (max-width: 767px) {
+    width: 310px;
+    margin: 140px auto 0;
   }
 `;
 
@@ -296,6 +349,11 @@ const Title = styled.div`
   font-weight: bold;
   text-align: center;
   color: #2f2f2f;
+
+  @media (max-width: 767px) {
+    width: 310px;
+    font-size: 30px;
+  }
 `;
 
 const SignUpC = styled.div`
@@ -308,27 +366,33 @@ const SignUpC = styled.div`
   align-items: center;
   padding: 30px 0px;
   border-radius: 30px;
+
+  @media (max-width: 767px) {
+    width: 310px;
+    margin: 0 auto;
+  }
 `;
 
 const EmailArea = styled.div`
   display: flex;
   align-items: center;
-  @media (max-width: 768px) {
-    margin: 26px 0px 0px -160px;
+  @media (max-width: 767px) {
+    margin: 26px 0px 0px 0px;
   }
 `;
 
 const InputInfo = styled.div`
   width: 120px;
-  margin: 0px 100px 0px 225px;
+  margin: 0px 60px 0px 225px;
   font-size: 18px;
   font-weight: 500;
   line-height: 1.33;
   text-align: left;
   color: #2f2f2f;
 
-  @media (max-width: 768px) {
-    margin: 0px 30px 0px 160px;
+  @media (max-width: 767px) {
+    margin: 0px 3px 0px 5px;
+    font-size: 12px;
   }
 `;
 
@@ -341,6 +405,10 @@ const InputC = styled.div`
     font-size: 14px;
     text-align: left;
     color: #3fbe81;
+    @media (max-width: 767px) {
+      margin: 2px 0px 2px 90px;
+      font-size: 10px;
+    }
   }
   .availableFail {
     margin: 5px 100px 10px 455px;
@@ -348,6 +416,13 @@ const InputC = styled.div`
     font-size: 14px;
     text-align: left;
     color: red;
+    @media (max-width: 767px) {
+      margin: 2px 0px 2px 90px;
+      font-size: 10px;
+    }
+  }
+  @media (max-width: 767px) {
+    width: 310px;
   }
 `;
 
@@ -359,15 +434,13 @@ const Input = styled.input`
   border-radius: 8px;
   border: solid 2px #d2d2d2;
   ::placeholder {
-    font-family: Roboto;
     font-size: 18px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.33;
-    letter-spacing: normal;
     text-align: left;
     color: #b5b5b5;
+    @media (max-width: 767px) {
+      font-size: 13px;
+    }
   }
   .focus {
     border: solid 2px #e72a2a;
@@ -376,8 +449,20 @@ const Input = styled.input`
     border: solid 2px #6fcea1;
     outline: none;
   }
-  @media (max-width: 768px) {
-    margin: 0px 8px 0px 0px;
+  @media (max-width: 767px) {
+    width: 240px;
+    margin-left: 0rem;
+    padding: 5px 3px;
+    height: 44px;
+    font-size: 14px;
+  }
+`;
+
+const InputA = styled(Input)`
+  @media (max-width: 767px) {
+    width: 100%;
+    margin-left: 1.4rem;
+    margin-right: 0.5rem;
   }
 `;
 
@@ -389,7 +474,14 @@ const PasswordDetail = styled.div`
   padding-top: 0.4rem;
   width: 359px;
   position: relative;
-  left: 450px;
+  left: 400px;
+
+  @media (max-width: 767px) {
+    width: 200px;
+    font-size: 8px;
+    position: absolute;
+    left: 32%;
+  }
 `;
 
 const CertiBtn = styled.div`
@@ -399,7 +491,7 @@ const CertiBtn = styled.div`
   margin: 0px 285px 0px 31px;
   padding: 12px 16px;
   border-radius: 8px;
-  border: solid 2px #6fcea1;
+  border: 2px solid #6fcea1;
 
   font-size: 18px;
   font-weight: bold;
@@ -417,8 +509,12 @@ const CertiBtn = styled.div`
     color: #ffffff;
   }
 
-  @media (max-width: 768px) {
-    margin: 0px 0px 0px 15px;
+  @media (max-width: 767px) {
+    margin: 0px 0px 0px 2px;
+    font-size: 12px;
+    width: 70px;
+    height: 30px;
+    padding: 3px 8px;
   }
 `;
 
@@ -436,6 +532,12 @@ const VerifyNum = styled.div`
   color: #2f2f2f;
   text-decoration: underline;
   cursor: pointer;
+
+  @media (max-width: 767px) {
+    font-size: 12px;
+    margin: 0px;
+    text-align: center;
+  }
 `;
 
 const InfoArea = styled.div`
@@ -444,8 +546,9 @@ const InfoArea = styled.div`
   justify-content: center;
   margin: 26px 0px 0px -420px;
 
-  @media (max-width: 768px) {
-    margin: 26px 0px 0px -280px;
+  @media (max-width: 767px) {
+    margin: 26px 0px 0px 0px;
+    justify-content: start;
   }
 `;
 
@@ -469,8 +572,11 @@ const SignInBtn = styled.div`
     background-color: #3fbe81;
   }
 
-  @media (max-width: 768px) {
-    margin: 70px 130px 0px 122px;
+  @media (max-width: 767px) {
+    width: 130px;
+    margin: 50px auto 100px;
+    padding: 14px 38px;
+    font-size: 14px;
   }
 `;
 

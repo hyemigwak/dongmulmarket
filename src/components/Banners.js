@@ -70,13 +70,13 @@ const Banners = () => {
           <BannerGrid>
             <SmallGreen1>우리 동네에서 하는 물물교환 거래</SmallGreen1>
             <WelcomeWords2>동물마켓 이용 꿀팁!</WelcomeWords2>
-            <Describe1>
+            <Describe3>
               1. 마감 임박 상품을 노리세요
               <br />
               2. 채팅이 활발하지 않은 물건을 선점해보세요
               <br />
               3. 원하는게 없을 때는 내가 글을 등록해보세요
-            </Describe1>
+            </Describe3>
             <TradeBtn>거래하러 가기</TradeBtn>
           </BannerGrid>
         </BannerImg3>
@@ -90,12 +90,15 @@ const BannerBox = styled.div`
   height: 540px;
   box-sizing: border-box;
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
+    width: 100%;
     height: 450px;
   }
 
-  /* .dotsCustom {
-  } */
+  @media (min-width: 768px) and (max-width: 1199px) {
+    width: 100%;
+    height: 450px;
+  }
 
   .dotsCustom {
     position: absolute;
@@ -106,9 +109,13 @@ const BannerBox = styled.div`
     text-align: end;
     padding: 0;
 
-    @media (max-width: 768px) {
-      bottom: 15px;
-      right: 800px;
+    @media (max-width: 767px) {
+      position: absolute;
+      right: 38%;
+    }
+    @media (min-width: 768px) and (max-width: 1199px) {
+      position: absolute;
+      right: 50%;
     }
   }
 
@@ -157,15 +164,20 @@ const BannerBox = styled.div`
 
 const BannerGrid = styled.div`
   margin: 100px 50px 30px 144px;
-  @media (max-width: 768px) {
-    margin: 104px 35px 81px;
+
+  @media (max-width: 767px) {
+    margin: 80px 35px 81px;
   }
 `;
 
 const BannerGrid2 = styled.div`
   margin: 100px 127px 82px 710px;
-  @media (max-width: 768px) {
-    margin: 104px 35px 81px;
+
+  @media (max-width: 767px) {
+    margin: 80px 35px 81px;
+  }
+  @media (min-width: 768px) and (max-width: 1199px) {
+    margin-left: 40%;
   }
 `;
 
@@ -176,7 +188,7 @@ const BannerImg1 = styled.div`
   background-repeat: no-repeat;
   height: 460px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     height: 450px;
   }
 `;
@@ -187,6 +199,10 @@ const SmallGreen1 = styled.div`
   font-size: 14px;
   text-align: left;
   color: #3fbe81;
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 const SmallGreen2 = styled.div`
@@ -195,6 +211,9 @@ const SmallGreen2 = styled.div`
   text-align: left;
   color: #3fbe81;
   margin-bottom: 6px;
+  @media (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 const WelcomeWords1 = styled.div`
@@ -206,6 +225,12 @@ const WelcomeWords1 = styled.div`
   letter-spacing: 0.72px;
   text-align: left;
   color: #ffffff;
+  @media (max-width: 767px) {
+    width: 100%;
+    font-size: 25px;
+    margin: 6px 40px 10px 1px;
+    height: 100%;
+  }
 `;
 
 const WelcomeWords2 = styled.div`
@@ -215,6 +240,11 @@ const WelcomeWords2 = styled.div`
   letter-spacing: 0.72px;
   text-align: left;
   color: #ffffff;
+  @media (max-width: 767px) {
+    width: 100%;
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
 `;
 
 const Describe1 = styled.div`
@@ -224,6 +254,11 @@ const Describe1 = styled.div`
   line-height: 1.57;
   text-align: left;
   color: #d2d2d2;
+  @media (max-width: 767px) {
+    width: 100%;
+    font-size: 12px;
+    margin: 0px 58px 24px 3px;
+  }
 `;
 
 const Describe2 = styled.div`
@@ -232,6 +267,23 @@ const Describe2 = styled.div`
   line-height: 1.57;
   text-align: left;
   color: #d2d2d2;
+  @media (max-width: 767px) {
+    font-size: 12px;
+  }
+`;
+
+const Describe3 = styled.div`
+  height: 66px;
+  margin: 20px 58px 24px 3px;
+  font-size: 14px;
+  line-height: 1.57;
+  text-align: left;
+  color: #d2d2d2;
+  @media (max-width: 767px) {
+    width: 100%;
+    font-size: 14px;
+    margin: 50px 58px 24px 3px;
+  }
 `;
 
 const LoginBtn = styled.button`
@@ -241,7 +293,6 @@ const LoginBtn = styled.button`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 10px;
   margin: 24.5px 24px 46.5px 4px;
   padding: 7px 14px 6px;
   border-radius: 83px;
@@ -251,7 +302,10 @@ const LoginBtn = styled.button`
 
   font-size: 16px;
   color: #ffffff;
-  font-weight: 500;
+
+  @media (max-width: 767px) {
+    margin-top: 60px;
+  }
 `;
 
 const BannerImg2 = styled.div`
@@ -261,7 +315,7 @@ const BannerImg2 = styled.div`
   background-repeat: no-repeat;
   height: 460px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     height: 450px;
   }
 `;
@@ -284,6 +338,10 @@ const TradeBtn = styled.button`
   font-size: 16px;
   color: #ffffff;
   font-weight: 500;
+
+  @media (max-width: 767px) {
+    margin-top: 60px;
+  }
 `;
 
 const BannerImg3 = styled.div`
@@ -292,16 +350,6 @@ const BannerImg3 = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   height: 460px;
-`;
-
-const Img = styled.img`
-  position: relative;
-  width: 1030px;
-  height: 300px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  // z-index:1;
 `;
 
 export default Banners;

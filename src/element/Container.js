@@ -12,7 +12,11 @@ const ContainerBox = styled.div`
   /* padding: 0px 20px; */
 
   @media (max-width: 768px) {
-    width: 768px;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) and (max-width: 1190px) {
+    width: 100%;
   }
 `;
 

@@ -1,8 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import logo1 from "../image/logo1.png";
+import { useMediaQuery } from "react-responsive";
 
 const Footer = () => {
+  const isMobile = useMediaQuery({
+    query: "(max-width: 767px)",
+  });
+
   return (
     <React.Fragment>
       <FootC>
@@ -10,28 +15,35 @@ const Footer = () => {
           <LogoWrap>
             <LogoBox src={logo1} />
           </LogoWrap>
-          <Contents>
-            동물마켓은 사용자 위치를 기반으로 물물 교환을 통해
-            <br />
-            물품을 받는 사이트입니다. 친환경적인 방법으로 필요한
-            <br />
-            물건을 교환하는 스마트한 문화를 만들겠습니다.
-          </Contents>
-
-          <TeamLeaderBox>
-            <TeamBox>
-              <BoldText>Team</BoldText>
-              <MiddleText>
-                Hanghae99
+          {isMobile ? null : (
+            <>
+              <Contents>
+                동물마켓은 사용자 위치를 기반으로 물물 교환을 통해
                 <br />
-                동물의 왕국
-              </MiddleText>
-            </TeamBox>
-            <LeaderBox>
-              <BoldText>Leader</BoldText>
-              <MiddleText>원동균</MiddleText>
-            </LeaderBox>
-          </TeamLeaderBox>
+                물품을 받는 사이트입니다. 친환경적인 방법으로 필요한
+                <br />
+                물건을 교환하는 스마트한 문화를 만들겠습니다.
+              </Contents>
+            </>
+          )}
+          {isMobile ? null : (
+            <>
+              <TeamLeaderBox>
+                <TeamBox>
+                  <BoldText>Team</BoldText>
+                  <MiddleText>
+                    Hanghae99
+                    <br />
+                    동물의 왕국
+                  </MiddleText>
+                </TeamBox>
+                <LeaderBox>
+                  <BoldText>Leader</BoldText>
+                  <MiddleText>원동균</MiddleText>
+                </LeaderBox>
+              </TeamLeaderBox>
+            </>
+          )}
         </WrapMarketInfo>
 
         <FBD>
@@ -105,32 +117,70 @@ const FootC = styled.div`
   width: 100%;
   height: 360px;
   margin-top: 200px;
-  padding: 70px 110px 100px;
+  padding: 70px 110px;
   background: #f5f5f5;
   display: flex;
 
-  @media (max-width: 768px) {
-    height: 430px;
+  @media (max-width: 767px) {
+    width: 100%;
+    height: 590px;
+    padding: 50px 60px 60px;
+    display: block;
+    margin-top: 30px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    height: 530px;
     padding: 100px 30px 60px;
+    background: #f5f5f5;
   }
 `;
 
-const WrapMarketInfo = styled.div``;
+const WrapMarketInfo = styled.div`
+  @media (max-width: 767px) {
+    width: 100%;
+    padding: 0px 0px 30px;
+    display: flex;
+    margin-right: 0px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    padding: 10px 5px 60px;
+  }
+`;
 
 const Teammates = styled.div`
-  @media (max-width: 768px) {
-    display: flex;
+  @media (max-width: 767px) {
+    display: block;
+    font-size: 12px;
   }
 `;
 
-const Teammate1 = styled.div``;
+const Teammate1 = styled.div`
+  @media (max-width: 767px) {
+    font-size: 12px;
+  }
+`;
+
+const Member = styled.div`
+  margin-top: 24px;
+
+  @media (max-width: 767px) {
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+`;
 
 const LogoWrap = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const LogoBox = styled.img``;
+const LogoBox = styled.img`
+  @media (max-width: 767px) {
+    width: 90%;
+  }
+`;
 
 const Contents = styled.div`
   font-size: 12px;
@@ -141,6 +191,11 @@ const Contents = styled.div`
   height: 60px;
   position: relative;
   top: 20px;
+
+  @media (max-width: 767px) {
+    margin-left: 15px;
+    font-size: 8px;
+  }
 `;
 
 const TeamLeaderBox = styled.div`
@@ -170,9 +225,13 @@ const FBD = styled.div`
   position: relative;
   right: 121px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     display: block;
-    margin-left: 110px;
+    margin-left: 30px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    margin-left: 30px;
   }
 `;
 
@@ -187,10 +246,8 @@ const FrontEnd = styled.div`
   text-align: left;
   color: var(--head-text-1-2);
 
-  @media (max-width: 768px) {
-    margin: 0px 97px 30px 45px;
-    position: relative;
-    bottom: 40px;
+  @media (max-width: 767px) {
+    margin: 0px 60px 135px 110px;
   }
 `;
 
@@ -205,11 +262,8 @@ const BackEnd = styled.div`
   text-align: left;
   color: var(--head-text-1-2);
 
-  @media (max-width: 768px) {
-    margin-top: 0px;
-    margin-bottom: 20px;
-    position: relative;
-    top: 30px;
+  @media (max-width: 767px) {
+    margin: 0px 60px 135px 110px;
   }
 `;
 
@@ -227,10 +281,15 @@ const Design = styled.div`
   text-align: left;
   color: var(--head-text-1-2);
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     margin-top: 20px;
-    position: relative;
-    top: 110px;
+    margin-left: 110px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    position: absolute;
+    top: 220px;
+    left: 70px;
   }
 `;
 
@@ -262,16 +321,6 @@ const MiddleText = styled.div`
   color: var(--sub-text-title-2);
 `;
 
-const Member = styled.div`
-  margin-top: 24px;
-
-  @media (max-width: 768px) {
-    margin-top: 0px;
-    margin-left: 20px;
-    position: absolute;
-    left: 170px;
-  }
-`;
 const ID = styled.a`
   color: #7d7d7d;
   font-size: 10px;
