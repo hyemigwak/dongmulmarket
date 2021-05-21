@@ -8,6 +8,8 @@ import { actionCreators as postActions } from "../redux/modules/post";
 import SalesDetails from "./SalesDetails";
 
 import Carousel from '../components/Carousel';
+import Carousel2 from '../components/Carousel2';
+import Carousel3 from '../components/Carousel3';
 
 const Mypage = (props) => {
   const dispatch = useDispatch();
@@ -97,12 +99,12 @@ const Mypage = (props) => {
 
         <DoneTitle>교환완료 내역</DoneTitle>
         <DoneContainer>
-          <Carousel/>
+          <Carousel2/>
         </DoneContainer>
 
         <IngTitle>교환실패 내역</IngTitle>
         <IngContainer>
-          <Carousel/>
+          <Carousel3/>
         </IngContainer>
         </>
         }
