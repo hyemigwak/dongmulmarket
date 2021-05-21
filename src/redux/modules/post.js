@@ -116,19 +116,20 @@ const kickUserList = (socket, { itemId, email, icrId }) => {
       },
       (data) => {
         if (data["msg"] === "success") {
+          console.log("data수" + data);
           socket.emit("kickUser", { email, itemId, icrId });
           //서버에서 내려준 참여자 목록을 저장해서 화면에 보여준다
           socket.on("kickUser", (data) => {
             dispatch(chatActions.removeUser(data.email));
             dispatch(chatActions.addChat(data));
             const storageEmail = localStorage.getItem("email");
-            if (data.email === storageEmail) {
-              Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "강퇴 당하셨습니다!",
-              });
-            }
+            // if (data.email === storageEmail) {
+            //   Swal.fire({
+            //     icon: "error",
+            //     title: "Oops...",
+            //     text: "강퇴 당하셨습니다!",
+            //   });
+            // }
           });
         }
       }

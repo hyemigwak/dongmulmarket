@@ -14,6 +14,7 @@ const ChatUserButton = memo(({ itemId, socket, icrId, userEmail }) => {
   //유저 강퇴하는 기능
   const kickUser = useCallback(
     (email) => {
+      console.log("hi");
       dispatch(postActions.kickUserList(socket, { itemId, email, icrId }));
     },
     [dispatch, itemId, icrId, socket]

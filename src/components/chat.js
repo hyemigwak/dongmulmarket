@@ -13,7 +13,12 @@ const Chat = memo(({ icrId }) => {
   const { email } = useSelector((state) => state.user.user);
 
   const { chatJoinYn, handler } = useJoinChat(icrId); //참여 유무를 통해 버튼 결정
-  const socket = useSocket("http://15.165.76.76:3001/chatting", email, icrId);
+  const socket = useSocket(
+    "http://15.165.76.76:3001/chatting",
+    email,
+    icrId,
+    chatJoinYn
+  );
   const [modalOpen, setModalOpen] = useState(false);
 
   const bottomView = useCallback(() => {

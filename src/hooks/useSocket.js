@@ -4,18 +4,16 @@ import { useDispatch } from "react-redux";
 
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { actionCreators as postActions } from "../redux/modules/post";
-import useJoinChat from "../hooks/useJoinChat";
 
-const useSocket = (serverUrl, email, icrId) => {
+const useSocket = (serverUrl, email, icrId, chatJoinYn) => {
   const dispatch = useDispatch();
   const socketRef = useRef();
-  const { chatJoinYn } = useJoinChat(icrId);
 
   useEffect(() => {
     socketRef.current = io.connect(serverUrl, {
       query: `email=${email}&icrId=${icrId}`,
     });
-    //dispatch(chatActions.getAllChatList(socketRef.current));
+    dispatch(chatActions.getAllChatList(socketRef.current));
 
     return () => {
       socketRef.current.disconnect();
