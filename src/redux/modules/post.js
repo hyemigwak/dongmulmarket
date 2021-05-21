@@ -122,6 +122,7 @@ const kickUserList = (socket, { itemId, email, icrId }) => {
           socket.on("kickUser", (data) => {
             dispatch(chatActions.removeUser(data.email));
             dispatch(chatActions.addChat(data));
+            socket.off("kickUser");
             const storageEmail = localStorage.getItem("email");
             // if (data.email === storageEmail) {
             //   Swal.fire({

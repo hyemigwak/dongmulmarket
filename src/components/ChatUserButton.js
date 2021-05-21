@@ -5,6 +5,7 @@ import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 import { actionCreators as postActions } from "../redux/modules/post";
+import { actionCreators as chatActions } from "../redux/modules/chat";
 
 const ChatUserButton = memo(({ itemId, socket, icrId, userEmail }) => {
   const dispatch = useDispatch();
@@ -12,13 +13,9 @@ const ChatUserButton = memo(({ itemId, socket, icrId, userEmail }) => {
   //유저 물품 교환하는 기능
   const exChangeUser = useCallback(() => {}, []);
   //유저 강퇴하는 기능
-  const kickUser = useCallback(
-    (email) => {
-      console.log("hi");
-      dispatch(postActions.kickUserList(socket, { itemId, email, icrId }));
-    },
-    [dispatch, itemId, icrId, socket]
-  );
+  const kickUser = useCallback((email) => {
+    dispatch(postActions.kickUserList(socket, { itemId, email, icrId }));
+  }, []);
 
   return (
     <>
