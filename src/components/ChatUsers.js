@@ -95,6 +95,15 @@ const LiveChatBtn = styled.div`
   cursor: pointer;
   position:absolute;
   top:225px;
+
+  @media (max-width: 767px) {
+ display:none;
+  }
+
+  @media (min-width: 768px) and (max-width: 1190px) {
+   
+    display:none;
+  }
 `;
 
 const LiveChatBox = styled.div`
@@ -106,6 +115,20 @@ const LiveChatBox = styled.div`
   /* background-color: #d9d9d9; */
   display: block;
   position:relative;
+  
+  @media (max-width: 767px) {
+    position: absolute;
+    left:545px;
+    top:680px;
+    
+     }
+  @media (min-width: 768px) and (max-width: 1190px) {
+   
+    position: absolute;
+    left:545px;
+    top:400px;
+    
+  }
 `;
 
 const OneChatUser = styled.div`

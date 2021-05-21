@@ -13,8 +13,6 @@ const Carousel = (props) => {
   
    const slide_content=MyProductList;
    const lastIndex=Math.ceil(MyProductList.length/4);
-  
-   console.log(lastIndex);
    const slide_temp = new Array(lastIndex).fill(0);
    
    const slider_container = React.useRef();
@@ -22,28 +20,29 @@ const Carousel = (props) => {
    const next = React.useRef();
    const [current_index, setCurrentIndex] = React.useState(0); // 현                                                                  재 보여지는 슬라이더
 
+   const ipadView = window.matchMedia("(min-width: 768px) and (max-width: 1190px)");
+   
+
+
    const ProductSlide = (index) => {
     let slider = slider_container.current;
     slider.style.left = (-100 * index) + '%'; // 좌측으로 이동
     setCurrentIndex(index);           
 
-    //배너 넘겼을 때 설정
-
 
     // 버튼 활성화 설정
     if(index === lastIndex-1) {
-        next.current.style.display = 'none';
+        next.current.style.display = 'flex'; //none
         prev.current.style.display = 'flex';
     } else if (index === 0) {
         next.current.style.display = 'flex';
-        prev.current.style.display = 'none';
+        prev.current.style.display = 'flex'; //none
     } else {
         next.current.style.display = 'flex';
         prev.current.style.display = 'flex';
     }
     };
 
-    console.log(slide_content.length);
     React.useEffect(() => {
         if(slide_content.length < 5) {
             next.current.style.display = 'none';
@@ -62,8 +61,9 @@ const Carousel = (props) => {
                 <Next />
             </NextContainer>
             <SliderContainer ref={slider_container}>
-                {slide_temp.map((val, index) => {
 
+                {slide_temp.map((val, index) => {
+                   
                     let value = index * 100;
                     const slide_style = {
                         left: `${value}%`,
@@ -98,7 +98,7 @@ const CarouselContainer = styled.div`
     overflow: hidden;
     margin: 1rem 0;
     background-size: cover;
-    
+
     
 `;
 
@@ -110,6 +110,7 @@ const SliderContainer = styled.div`
     margin: 0 auto;
     transition: left .5s ease-in;
     
+
 
    
 `;
@@ -129,6 +130,7 @@ const ListWrapper = styled.div`
     display: flex;
     justify-content: center;
  
+  
     
 `;
 
