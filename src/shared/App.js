@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import styled from "styled-components";
 import "./App.css";
 import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";

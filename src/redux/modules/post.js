@@ -48,7 +48,6 @@ const deletePostAPI = (itemId) => {
       },
     })
       .then((res) => {
-        console.log(res.data);
         if (res.data.msg === "success") {
           dispatch(deletePost(itemId));
         }
@@ -67,8 +66,6 @@ const getPostAPI = () => {
       url: `${config.api}/mainPage/noLogin`,
     })
       .then((res) => {
-        console.log(res.data);
-
         if (res.data.msg === "success") {
           const post_list = res.data.data;
           //종료일 기준으로 내림차순 정렬
@@ -92,13 +89,11 @@ const getPostAPI = () => {
 
 //디테일 하나만 불러오기
 const getOnePostAPI = (itemId) => {
-  console.log("itemId", itemId);
   return async function (dispatch, getState, { history }) {
     await axios
       .get(`${config.api}/postDetail/${itemId}`)
       .then((res) => {
         if (res.data.msg === "success") {
-          console.log(res);
           dispatch(onePost(res.data.data));
         } else {
           console.log("한개 데이터 불러오기 fail");
@@ -112,7 +107,6 @@ const getOnePostAPI = (itemId) => {
 
 //채팅 유저 추가하기(참여버튼 누를때)
 const kickUserList = (socket, { itemId, email, icrId }) => {
-  console.log(email, itemId, icrId);
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login");
     socket.emit(
@@ -152,9 +146,6 @@ const addPostAPI = (
   expireDate
 ) => {
   return function (dispatch, getState, { history }) {
-    //이미지 전달, formdata 사용
-    let token = getCookie("user_login");
-    console.log(token);
     let formdata = new FormData();
     formdata.append("file", imgfile);
     formdata.append("category", category);
@@ -173,7 +164,6 @@ const addPostAPI = (
     })
       .then((res) => {
         if (res.data.msg === "success") {
-          console.log(res.data);
           dispatch(
             addPost(imgfile, category, myItem, wantItem, content, expireDate)
           );

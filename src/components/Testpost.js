@@ -20,7 +20,6 @@ const Testpost = (props) => {
 
   // 지번주소만 서버에 보내주면 됨
   const [isAddress, setIsAddress] = useState("");
-  console.log(isAddress);
   const str = isAddress.split(" ");
   const new_address = str[0] + " " + str[1] + " " + str[2];
 
@@ -42,7 +41,8 @@ const Testpost = (props) => {
         }
         // 건물명이 있고, 공동주택일 경우 추가한다.
         if (data.buildingName !== "" && data.apartment === "Y") {
-          extraRoadAddr += extraRoadAddr !== "" ? ", " + data.buildingName : data.buildingName;
+          extraRoadAddr +=
+            extraRoadAddr !== "" ? ", " + data.buildingName : data.buildingName;
         }
         // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
         if (extraRoadAddr !== "") {
@@ -52,7 +52,8 @@ const Testpost = (props) => {
         // 우편번호와 주소 정보를 해당 필드에 넣는다.
         document.getElementById("sample4_postcode").value = data.zonecode;
         document.getElementById("sample4_roadAddress").value = roadAddr;
-        document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+        document.getElementById("sample4_jibunAddress").value =
+          data.jibunAddress;
         setIsAddress(data.jibunAddress);
 
         // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
@@ -88,24 +89,48 @@ const Testpost = (props) => {
           <AddressInputArea>
             <TextInputC>
               <SmallTitle>도로명 주소</SmallTitle>
-              <AInput type="text" id="sample4_roadAddress" placeholder="도로명주소를 입력하세요" />
+              <AInput
+                type="text"
+                id="sample4_roadAddress"
+                placeholder="도로명주소를 입력하세요"
+              />
             </TextInputC>
 
             <TextInputC>
               <SmallTitle>지번 주소</SmallTitle>
-              <AInput type="text" id="sample4_jibunAddress" placeholder="지번주소를 입력하세요" value={isAddress} />
-              <span id="guide" style={{ color: "#999", display: "none" }}></span>
+              <AInput
+                type="text"
+                id="sample4_jibunAddress"
+                placeholder="지번주소를 입력하세요"
+                value={isAddress}
+              />
+              <span
+                id="guide"
+                style={{ color: "#999", display: "none" }}
+              ></span>
             </TextInputC>
 
             <TextInputC>
               <SmallTitle>상세주소</SmallTitle>
-              <AInput type="text" id="sample4_detailAddress" placeholder="상세주소를 입력하세요" />
+              <AInput
+                type="text"
+                id="sample4_detailAddress"
+                placeholder="상세주소를 입력하세요"
+              />
             </TextInputC>
 
             <TextInputC>
               <SmallTitle>우편번호</SmallTitle>
-              <PInput type="text" id="sample4_postcode" placeholder="우편번호 입력" />
-              <SInput type="button" onClick={sample4_execDaumPostcode} value="우편번호 검색" />
+              <PInput
+                type="text"
+                id="sample4_postcode"
+                placeholder="우편번호 입력"
+              />
+              <SInput
+                type="button"
+                onClick={sample4_execDaumPostcode}
+                value="우편번호 검색"
+              />
             </TextInputC>
 
             {/* <PInput type="text" id="sample4_extraAddress" placeholder="참고항목" /> */}

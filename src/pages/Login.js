@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { history } from "../redux/configureStore";
 import styled from "styled-components";
@@ -7,7 +7,6 @@ import KaKaoLogin from "react-kakao-login";
 import GoogleLogin from "react-google-login";
 import kakao from "../image/kakao.png";
 import googleLogo from "../image/google_logo.png";
-import { ClickAwayListener } from "@material-ui/core";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -28,10 +27,6 @@ const Login = () => {
 
   //카카오로그인
   const kakaoLoginSuccess = (res) => {
-    console.log(res);
-    console.log(res.profile.properties.nickname);
-    console.log(res.profile.kakao_account.email);
-
     dispatch(userActions.kakaoLoginAPI(res));
   };
 
@@ -42,9 +37,6 @@ const Login = () => {
 
   //구글로그인 성공
   const GoogleLoginSuccess = (response) => {
-    console.log(response);
-    console.log(response.profileObj.name);
-    console.log(response.profileObj.givenName);
     dispatch(userActions.GoogleLoginAPI(response));
   };
 

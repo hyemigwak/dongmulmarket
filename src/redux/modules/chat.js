@@ -66,8 +66,7 @@ const sendChat = (socket, message, icrId) => {
 const getAllChatList = (socket) => {
   return function (dispatch, getState, { history }) {
     socket.on("setRoom", (data) => {
-      console.log("셋룸데이터", data);
-      console.log(data.msgList);
+      console.log("setRoom", data);
       dispatch(getChat(data.msgList));
       dispatch(getUsers(data.userList));
     });
@@ -86,7 +85,6 @@ const addChatList = (socket) => {
       (data) => {
         if (data["msg"] === "success") {
           socket.on("getMsg", (get_data) => {
-            console.log("겟데이터", get_data);
             dispatch(addChat(get_data));
           });
         }

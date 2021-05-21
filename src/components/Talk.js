@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const Talk = (props) => {
-  console.log(props);
   const { msg, nickname } = props;
 
   if (nickname === "곽혜미") {

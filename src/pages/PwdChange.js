@@ -8,7 +8,6 @@ import lock from "../image/lock.png";
 const PwdChange = (props) => {
   const dispatch = useDispatch();
   const email = localStorage.getItem("email");
-  console.log(email);
 
   const [pwd, setPwd] = useState("");
   const [newPwd, setNewPwd] = useState("");

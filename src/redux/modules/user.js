@@ -1,9 +1,9 @@
 import { createAction, handleActions } from "redux-actions";
-import { produce, produceWithPatches } from "immer";
+import { produce } from "immer";
 import axios from "axios";
-import { setCookie, deleteCookie, getCookie } from "../../shared/Cookie";
+import { setCookie, deleteCookie } from "../../shared/Cookie";
 import { config } from "../../shared/config";
-import GoogleLogin from "react-google-login";
+//import GoogleLogin from "react-google-login";
 
 //actions
 const LOG_IN = "LOG_IN"; //로그인
@@ -13,16 +13,19 @@ const GET_USER = "GET_USER"; //유저email 있는지 여부 받아오기
 const GET_AUTHNUM = "GET_AUTHNUM"; // 인증번호 받아오기
 const VALIDATE_EMAIL = "VALIDATE_EMAIL"; //이메일 인증 확인
 const FIND_PWD = "FIND_PWD"; //비밀번호 찾기
-const CHANGE_PWD = "CHANGE_PWD"; //비밀번호 변경
+//const CHANGE_PWD = "CHANGE_PWD"; //비밀번호 변경
 
 //actionCreators
-const logIn = createAction(LOG_IN, (user, login_type) => ({ user, login_type }));
+const logIn = createAction(LOG_IN, (user, login_type) => ({
+  user,
+  login_type,
+}));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const loginCheck = createAction(LOGIN_CHECK, (cookie) => ({ cookie }));
-const getUser = createAction(GET_USER, (user) => ({ user })); // 이메일 중복체크
+//const getUser = createAction(GET_USER, (user) => ({ user })); // 이메일 중복체크
 const validateEmail = createAction(VALIDATE_EMAIL, (user) => ({ user })); //이메일 인증
 const findPwd = createAction(FIND_PWD, (email) => ({ email }));
-const changePwd = createAction(CHANGE_PWD, (user_info) => ({ user_info }));
+//const changePwd = createAction(CHANGE_PWD, (user_info) => ({ user_info }));
 
 //initialState
 const initialState = {
@@ -42,21 +45,18 @@ const GoogleLoginAPI = (response) => {
       method: "POST",
       url: `${config.api}/account/googleAuth`,
       data: {
-        // accessToken: response.accessToken,
-        // type:response.profileObj.type,
         email: response.profileObj.email,
         firstName: response.profileObj.name,
-        lastName: response.profileObj.familyName ? response.profileObj.familyName : "",
+        lastName: response.profileObj.familyName
+          ? response.profileObj.familyName
+          : "",
       },
       // headers: {
       //   "Content-Type": "application/json",
       // },
     })
       .then((res) => {
-        console.log(res.data, "googleLogin"); // response 확인
         if (res.data.msg === "success") {
-          console.log(res.data);
-
           //토큰 받아오기
           const jwtToken = res.data.token;
           const nickname = res.data.nickname;
@@ -73,9 +73,6 @@ const GoogleLoginAPI = (response) => {
             nickname: res.data.nickname,
             token: res.data.token,
           };
-
-          //디폴트로 헤더에 토큰 담아주기
-          // axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
           dispatch(logIn(user_data, "google"));
 
           window.alert("정상적으로 로그인 되었습니다!");
@@ -103,8 +100,6 @@ const kakaoLoginAPI = (response) => {
     })
       .then((res) => {
         if (res.data.msg === "success") {
-          console.log(res.data); // response 확인
-
           //토큰 받아오기
           const jwtToken = res.data.token;
           const nickname = res.data.nickname;
@@ -125,11 +120,6 @@ const kakaoLoginAPI = (response) => {
           //로그인 액션 디스패치 해주기
           //로그인타입 넣어주기
           dispatch(logIn(user_data, "kakao"));
-
-          //디폴트로 헤더에 토큰 담아주기
-          // axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
-          // dispatch(logIn(res.data));
-
           window.alert("정상적으로 로그인 되었습니다!");
           history.push("/");
         } else {
@@ -217,7 +207,6 @@ const signupAPI = (email, nickname, pwd, address) => {
       },
     })
       .then((res) => {
-        console.log(res);
         window.alert("축하합니다. 동물마켓의 회원이 되어주셔서 감사합니다.");
         history.push("/login");
       })
@@ -239,7 +228,6 @@ const EmailValidationAPI = (email, authnumber) => {
       },
     })
       .then((res) => {
-        console.log("이메일 인증번호 클릭 데이터", res.data);
         if (res.data.msg === "success") {
           dispatch(validateEmail(true));
         } else {
@@ -263,11 +251,12 @@ const FindPwdAPI = (email) => {
       },
     })
       .then((res) => {
-        console.log(res.data);
         if (res.data.statusCode === 201) {
           dispatch(findPwd(email));
           localStorage.setItem("email", email);
-          window.alert("가입하신 이메일로 비밀번호 재설정 메일을 보내드렸습니다");
+          window.alert(
+            "가입하신 이메일로 비밀번호 재설정 메일을 보내드렸습니다"
+          );
           history.push("/pwdchange");
         } else {
           window.alert("메일이 존재하지 않습니다!");
@@ -282,7 +271,6 @@ const FindPwdAPI = (email) => {
 //비밀번호 변경
 const ChangePwdAPI = (email, pwd, newPwd) => {
   return function (dispatch, getState, { history }) {
-    console.log("api이메일", email);
     axios({
       method: "POST",
       url: `${config.api}/account/changepassword`,
@@ -293,7 +281,6 @@ const ChangePwdAPI = (email, pwd, newPwd) => {
       },
     })
       .then((res) => {
-        console.log(res.data);
         if (res.data.msg === "비밀번호 변경 성공!") {
           window.alert("비밀번호가 변경되었습니다. 다시 로그인해주세요!");
           localStorage.removeItem("email");
@@ -317,7 +304,6 @@ const ChangePwdAPI = (email, pwd, newPwd) => {
 const LogOutMiddleware = () => {
   return function (dispatch, getState, { history }) {
     const loginType = getState().user.login_type;
-    console.log(loginType);
 
     if (loginType === "normal") {
       deleteCookie("user_login");
@@ -372,7 +358,6 @@ export default handleActions(
       }),
     [GET_AUTHNUM]: (state, action) =>
       produce(state, (draft) => {
-        console.log(action.payload.authnumber);
         draft.AuthNumber = action.payload.authnumber;
       }),
     [VALIDATE_EMAIL]: (state, action) =>

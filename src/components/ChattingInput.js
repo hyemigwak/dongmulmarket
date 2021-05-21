@@ -4,13 +4,9 @@ import { actionCreators as chatActions } from "../redux/modules/chat";
 import { getCookie } from "../shared/Cookie";
 
 //프롭스가 안바뀌면 렌더링이 안됨(프롭스 메모)
-const ChattingInput = memo((props) => {
-  const icrId = props.icrId;
-  const socket = props.socket;
-
+const ChattingInput = memo(({ icrId, socket, email }) => {
   //토큰과 이메일은 각 쿠키, 로컬스토리지에서 가져옴
   const token = getCookie("user_login");
-  const email = localStorage.getItem("email");
 
   //채팅에 입력한 내 메세지를 state로 저장
   const [message, setMessage] = useState("");
@@ -20,7 +16,6 @@ const ChattingInput = memo((props) => {
   //서버로 메세지 보낼때
   const submitMessage = useCallback(
     (message) => {
-      console.log("함수실행 여부 확인");
       if (!message) {
         window.alert("메세지를 입력해주세요!");
         return;
@@ -32,7 +27,6 @@ const ChattingInput = memo((props) => {
           },
           (data) => {
             if (data["msg"] === "success") {
-              console.log("msg가 성공이라면 if문");
               let send_data = {
                 email: email,
                 icrId: icrId,

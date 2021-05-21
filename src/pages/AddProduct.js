@@ -1,13 +1,11 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import { MiniCalendar } from "../components";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import moment from "moment";
 import { DatePicker, Space } from "antd";
 import { history } from "../redux/configureStore";
 import "antd/dist/antd.css";
-import { getCookie } from "../shared/Cookie";
 import { Container } from "../element";
 import camera from "../image/camera.svg";
 import preview_img from "../image/preview_img.JPG";
@@ -17,8 +15,8 @@ const AddProduct = (props) => {
   const dispatch = useDispatch();
 
   //로그인 여부로 분기하기
-  const cookie = getCookie("user_login") ? true : false;
-  const is_login = useSelector((state) => state.user.is_login);
+  // const cookie = getCookie("user_login") ? true : false;
+  // const is_login = useSelector((state) => state.user.is_login);
 
   //input받아서 서버에 보내줄 값들
   const [preview, setPreview] = useState(preview_img);
@@ -28,7 +26,7 @@ const AddProduct = (props) => {
   const [wantItem, setWantItem] = useState("");
   const [content, setContent] = useState("");
   const [expireDate, setExpireDate] = useState("");
-  const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
+  // const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
 
   const onChangeCategory = useCallback((e) => setCategory(e.target.value), []);
   const onChangeMyItem = useCallback((e) => setMyItem(e.target.value), []);
@@ -50,11 +48,7 @@ const AddProduct = (props) => {
   };
   //datepicker 달력 함수
   function onChange(value, dateString) {
-    console.log("Selected Time: ", value);
-    console.log("Formatted Selected Time: ", dateString);
     setExpireDate(dateString);
-    console.log(typeof dateString);
-    console.log();
   }
   function onOk(value) {
     console.log("onOk: ", value);
@@ -84,11 +78,27 @@ const AddProduct = (props) => {
   //물품 등록하기 버튼 누르면 디스패치
   const onSiteAddProduct = () => {
     //하나라도 공란일 경우 되돌리기
-    if (imgfile === "" || category === "" || myItem === "" || wantItem === "" || content === "" || expireDate === "") {
+    if (
+      imgfile === "" ||
+      category === "" ||
+      myItem === "" ||
+      wantItem === "" ||
+      content === "" ||
+      expireDate === ""
+    ) {
       window.alert("모두 입력해주세요!");
       return;
     }
-    dispatch(postActions.addPostAPI(imgfile, category, myItem, wantItem, content, expireDate));
+    dispatch(
+      postActions.addPostAPI(
+        imgfile,
+        category,
+        myItem,
+        wantItem,
+        content,
+        expireDate
+      )
+    );
     //라우터에서 detail 게시물로 가서 확인하게 하기
     history.replace("/");
   };
@@ -103,16 +113,32 @@ const AddProduct = (props) => {
               <label htmlFor="inputFile">
                 <img src={camera} alt="카메라" className="cameraIcon" />
               </label>
-              <input id="inputFile" className="uploadImg" type="file" onChange={selectFile} />
+              <input
+                id="inputFile"
+                className="uploadImg"
+                type="file"
+                onChange={selectFile}
+              />
             </Camerabox>
             <SubText>물품 사진 등록하기</SubText>
             <img className="productImg" src={preview} alt="이미지" />
             <InputArea>
               <SubText>교환상품 설정</SubText>
-              <Input type="text" placeholder="물물교환 할 상품을 입력해주세요!" value={myItem} onChange={onChangeMyItem} maxLength="31" />
+              <Input
+                type="text"
+                placeholder="물물교환 할 상품을 입력해주세요!"
+                value={myItem}
+                onChange={onChangeMyItem}
+                maxLength="31"
+              />
               {/* <ArrowDropDownIcon style={{ position: "relative", top: "67px", left: "220px", width: "35px", height: "35px" }} /> */}
               <CateArea>
-                <select required size="1" value={category} onChange={onChangeCategory}>
+                <select
+                  required
+                  size="1"
+                  value={category}
+                  onChange={onChangeCategory}
+                >
                   <option className="placehd" hidden>
                     카테고리를 설정해주세요
                   </option>
@@ -133,9 +159,21 @@ const AddProduct = (props) => {
                   <option value="기타 중고물품">기타 중고물품</option>
                 </select>
               </CateArea>
-              <Input type="text" placeholder="희망 교환 물품을 입력해주세요" value={wantItem} onChange={onChangeWantItem} maxLength="31" />
+              <Input
+                type="text"
+                placeholder="희망 교환 물품을 입력해주세요"
+                value={wantItem}
+                onChange={onChangeWantItem}
+                maxLength="31"
+              />
               <div>
-                <Textarea type="text" placeholder="물품을 설명해주세요" rows="5" value={content} onChange={onChangeContent} />
+                <Textarea
+                  type="text"
+                  placeholder="물품을 설명해주세요"
+                  rows="5"
+                  value={content}
+                  onChange={onChangeContent}
+                />
               </div>
               <SubText>교환종료일</SubText>
               <CalendarArea>

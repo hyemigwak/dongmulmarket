@@ -15,24 +15,21 @@ import io from "socket.io-client";
 import axios from "axios";
 import { config } from "../shared/config";
 
-const Chat = memo((props) => {
+const Chat = memo(({ icrId }) => {
   //detail 페이지에서 프롭스로 채팅방ID, 아이템ID 받아옴
-  const { icrId, itemId } = props;
-
-  // 채팅에 스크롤 넣어줌
   const scroll = useRef(null);
   const dispatch = useDispatch();
 
   const [socket, setSocket] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  //채팅에 이미 참여되어있는 사람인지, 신규인지 확인하는 값
   const [ShowBtn, setShowBtn] = useState(true);
 
   //리덕스에 저장해놓은 채팅 리스트와, 참여 유저리스트를 가져온다
   const chatList = useSelector((state) => state.chat.chat_list);
   const userList = useSelector((state) => state.chat.user_list);
+  const { email } = useSelector((state) => state.user.user);
 
-  const email = useMemo(() => localStorage.getItem("email"), []);
+  //const email = useMemo(() => localStorage.getItem("email"), []);
 
   if (!socket) {
     setSocket(
@@ -100,7 +97,7 @@ const Chat = memo((props) => {
     if (ShowBtn === false) {
       dispatch(chatActions.addUserList(socket, { email, icrId }));
     }
-  }, [dispatch, email, icrId, socket]);
+  }, [socket]);
 
   //챗리스트 바뀔때마다 스크롤 내려주기
   useEffect(() => {
@@ -125,11 +122,13 @@ const Chat = memo((props) => {
           </BtnArea>
           <ChatView>
             {chatList?.map((data, idx) => {
-              return <GroupChat {...data} key={idx} chatList={chatList} />;
+              return (
+                <GroupChat {...data} key={idx} chatList={chatList} me={email} />
+              );
             })}
             <div ref={scroll}></div>
           </ChatView>
-          <ChattingInput icrId={icrId} socket={socket} />
+          <ChattingInput icrId={icrId} socket={socket} email={email} />
           <WrapButtons>
             <TradeCancelBtn>
               <BtnText>교환취소</BtnText>

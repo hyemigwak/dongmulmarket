@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import styled from "styled-components";
 import axios from "axios";
@@ -22,7 +22,10 @@ const Signup = (props) => {
   const [address, setAddress] = useState("");
 
   const onChangeEmail = useCallback((e) => setEmail(e.target.value), []);
-  const onChangeAuthnumber = useCallback((e) => setAuthNumber(e.target.value), []);
+  const onChangeAuthnumber = useCallback(
+    (e) => setAuthNumber(e.target.value),
+    []
+  );
   const onChangeNickname = useCallback((e) => setNickname(e.target.value), []);
   const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
   const onChangepwdCheck = useCallback((e) => setPwdCheck(e.target.value), []);
@@ -37,7 +40,8 @@ const Signup = (props) => {
   const _pwdchk = useRef();
 
   //이메일, 비밀번호 정규표현식
-  const email_regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+  const email_regExp =
+    /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   const password_regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,14}$/;
 
   const GetAuthNumAPI = (email) => {
@@ -98,7 +102,13 @@ const Signup = (props) => {
 
   const onSiteSignup = () => {
     //하나라도 공란일경우
-    if (email === "" || nickname === "" || pwd === "" || pwdCheck === "" || authnumber === "") {
+    if (
+      email === "" ||
+      nickname === "" ||
+      pwd === "" ||
+      pwdCheck === "" ||
+      authnumber === ""
+    ) {
       window.alert("모두 입력해주세요");
       return;
     }
@@ -132,13 +142,21 @@ const Signup = (props) => {
       <SignUpLogin>
         <TitleArea>
           <Title>회원가입</Title>
-          <div className="require">반드시 모든 내용을 입력하신 후 가입하기를 눌러주세요</div>
+          <div className="require">
+            반드시 모든 내용을 입력하신 후 가입하기를 눌러주세요
+          </div>
         </TitleArea>
         <SignUpC>
           <InputC>
             <EmailArea>
               <InputInfo>이메일</InputInfo>
-              <Input type="text" placeholder="이메일을 입력해주세요" value={email} onChange={onChangeEmail} ref={_email} />
+              <Input
+                type="text"
+                placeholder="이메일을 입력해주세요"
+                value={email}
+                onChange={onChangeEmail}
+                ref={_email}
+              />
               <CertiBtn
                 onClick={() => {
                   GetAuthNumAPI(email);
@@ -161,7 +179,13 @@ const Signup = (props) => {
               <>
                 <EmailArea>
                   <InputInfo>인증번호</InputInfo>
-                  <Input type="text" placeholder="인증번호를 입력해주세요" value={authnumber} onChange={onChangeAuthnumber} ref={_authnum} />
+                  <Input
+                    type="text"
+                    placeholder="인증번호를 입력해주세요"
+                    value={authnumber}
+                    onChange={onChangeAuthnumber}
+                    ref={_authnum}
+                  />
                   <VerifyNum
                     onClick={() => {
                       EmailValidationAPI(email, authnumber);
@@ -183,13 +207,28 @@ const Signup = (props) => {
             )}
             <InfoArea>
               <InputInfo>닉네임</InputInfo>
-              <Input type="text" placeholder="닉네임을 입력해주세요" value={nickname} onChange={onChangeNickname} ref={_nickname} />
+              <Input
+                type="text"
+                placeholder="닉네임을 입력해주세요"
+                value={nickname}
+                onChange={onChangeNickname}
+                ref={_nickname}
+              />
             </InfoArea>
             <InfoArea>
               <InputInfo>비밀번호</InputInfo>
-              <Input type="password" placeholder="비밀번호를 입력해주세요" value={pwd} onChange={onChangePwd} ref={_pwd} onFocus={() => setPwdDetail(true)} />
+              <Input
+                type="password"
+                placeholder="비밀번호를 입력해주세요"
+                value={pwd}
+                onChange={onChangePwd}
+                ref={_pwd}
+                onFocus={() => setPwdDetail(true)}
+              />
             </InfoArea>
-            <PasswordDetail Open={pwdDetail}>비밀번호는 8~14자리의 영문/숫자 혼합입니다.</PasswordDetail>
+            <PasswordDetail Open={pwdDetail}>
+              비밀번호는 8~14자리의 영문/숫자 혼합입니다.
+            </PasswordDetail>
             <InfoArea>
               <InputInfo>비밀번호 확인</InputInfo>
               <Input

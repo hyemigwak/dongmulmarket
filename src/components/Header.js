@@ -17,8 +17,6 @@ const Header = memo((props) => {
       //dispatch(userActions.logOut());
       dispatch(userActions.LogOutMiddleware());
       history.replace("/");
-    } else {
-      console.log("로그인 유지");
     }
   };
 
