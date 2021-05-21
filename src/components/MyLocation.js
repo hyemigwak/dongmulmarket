@@ -153,7 +153,7 @@ const MyLocation = (props) => {
                   }
                 }}
               >
-                네 맞습니다
+                맞아요!
               </YBtn>
             </WrapBtn>
             {/* <EditAddress open={modalOpen} close={closeModal} /> */}
@@ -173,6 +173,7 @@ const WrapLoca = styled.div`
   align-items: center;
 
   @media (max-width: 768px) {
+    width: 310px;
     margin: 120px auto 100px;
   }
 `;
@@ -215,6 +216,10 @@ const NormalText = styled.div`
   font-size: 14px;
   text-align: center;
   color: #2f2f2f;
+
+  @media (max-width: 767px) {
+    margin-top: 6px;
+  }
 `;
 
 const ContainerBox = styled.div`
@@ -222,7 +227,7 @@ const ContainerBox = styled.div`
   width: 29rem;
   height: 20rem;
   background: #ffffff;
-  border: solid 1px #3fbe81;
+  border: 1px solid #3fbe81;
   border-radius: 8px;
   text-align: center;
   display: flex;
@@ -230,6 +235,7 @@ const ContainerBox = styled.div`
   position: relative;
 
   @media (max-width: 768px) {
+    width: 300px;
     margin: 70px auto;
   }
 
@@ -247,6 +253,11 @@ const WrapBtn = styled.div`
   display: flex;
   margin: 50px;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    width: 300px;
+    margin: 30px auto;
+  }
 `;
 const NoBtn = styled.button`
   width: 135px;
@@ -264,6 +275,13 @@ const NoBtn = styled.button`
   color: #ffffff;
   margin-right: 20px;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 40px;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
 `;
 
 const YBtn = styled.button`
@@ -281,6 +299,13 @@ const YBtn = styled.button`
   font-size: 20px;
   color: #ffffff;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 40px;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
 `;
 
 export default MyLocation;

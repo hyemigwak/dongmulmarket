@@ -391,7 +391,7 @@ const OrLine = styled.div`
 `;
 
 const SocialBtnArea = styled.div`
-  width: 300px;
+  width: 360px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -406,6 +406,7 @@ const KakaoBtn = styled.div`
   border-radius: 8px;
   background-color: #f6e24b;
   margin-top: 14px;
+  /* margin-right: 10px; */
 
   font-size: 14px;
   font-weight: bold;

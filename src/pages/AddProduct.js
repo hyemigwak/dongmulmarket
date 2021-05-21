@@ -11,18 +11,24 @@ import { getCookie } from "../shared/Cookie";
 import { Container } from "../element";
 import camera from "../image/camera.svg";
 import preview_img from "../image/preview_img.JPG";
+import nemogray from "../image/nemogray.png";
 import downarrow from "../image/downarrow.png";
 import Swal from "sweetalert2";
+import { useMediaQuery } from "react-responsive";
 
 const AddProduct = (props) => {
   const dispatch = useDispatch();
+
+  const isMobile = useMediaQuery({
+    query: "(max-width: 767px)",
+  });
 
   //로그인 여부로 분기하기
   const cookie = getCookie("user_login") ? true : false;
   const is_login = useSelector((state) => state.user.is_login);
 
   //input받아서 서버에 보내줄 값들
-  const [preview, setPreview] = useState(preview_img);
+  const [preview, setPreview] = useState(isMobile ? nemogray : preview_img);
   const [imgfile, setImgFile] = useState(null);
   const [category, setCategory] = useState("카테고리를 선택해주세요!");
   const [myItem, setMyItem] = useState("");
@@ -136,25 +142,51 @@ const AddProduct = (props) => {
             <CalendarArea>
               <Calend>
                 <Space direction="vertical" size={14}>
-                  <DatePicker
-                    className="datepicker"
-                    showTime={{ format: "HH:MM" }}
-                    disabledDate={disabledDate}
-                    format="YYYY-MM-DD HH:MM"
-                    onChange={onChange}
-                    onOk={onOk}
-                    placeholder="달력에서 날짜를 선택해주세요"
-                    suffixIcon={null}
-                    showNow={false}
-                    style={{
-                      width: "536px",
-                      height: "56px",
-                      padding: "17.6px 14px 14px 23.9px",
-                      borderRadius: "8px",
-                      border: "solid 2px #d6d6d6",
-                      cursor: "pointer",
-                    }}
-                  />
+                  {isMobile ? (
+                    <>
+                      <DatePicker
+                        className="datepicker"
+                        showTime={{ format: "HH:MM" }}
+                        disabledDate={disabledDate}
+                        format="YYYY-MM-DD HH:MM"
+                        onChange={onChange}
+                        onOk={onOk}
+                        placeholder="달력에서 날짜를 선택해주세요"
+                        suffixIcon={null}
+                        showNow={false}
+                        style={{
+                          width: "280px",
+                          height: "47px",
+                          padding: "10px 12px",
+                          borderRadius: "8px",
+                          border: "solid 2px #d6d6d6",
+                          cursor: "pointer",
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <DatePicker
+                        className="datepicker"
+                        showTime={{ format: "HH:MM" }}
+                        disabledDate={disabledDate}
+                        format="YYYY-MM-DD HH:MM"
+                        onChange={onChange}
+                        onOk={onOk}
+                        placeholder="달력에서 날짜를 선택해주세요"
+                        suffixIcon={null}
+                        showNow={false}
+                        style={{
+                          width: "536px",
+                          height: "56px",
+                          padding: "17.6px 14px 14px 23.9px",
+                          borderRadius: "8px",
+                          border: "solid 2px #d6d6d6",
+                          cursor: "pointer",
+                        }}
+                      />
+                    </>
+                  )}
                 </Space>
               </Calend>
             </CalendarArea>
@@ -185,13 +217,21 @@ const ProductArea = styled.div`
   margin: 0px auto;
 
   @media (max-width: 768px) {
-    width: 552px;
+    width: 310px;
+    margin: 0px auto;
+    text-align: center;
   }
 
   .productImg {
     width: 536px;
     height: 400px;
     margin: 18px auto;
+
+    @media (max-width: 768px) {
+      width: 280px;
+      height: 200px;
+      margin: 10px auto 15px;
+    }
   }
 `;
 
@@ -201,7 +241,9 @@ const Title = styled.div`
   font-weight: 600;
   /* text-align: center; */
   @media (max-width: 768px) {
-    margin: 137.1px 37px 10px 47px;
+    width: 310px;
+    margin: 137.1px auto 17px;
+    text-align: center;
   }
 `;
 
@@ -212,8 +254,14 @@ const Camerabox = styled.div`
   background-color: #6fcea1;
   position: relative;
   top: 410px;
-  left: 420px;
+  left: 400px;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    position: relative;
+    left: 120px;
+    top: 180px;
+  }
 
   label {
     position: relative;
@@ -231,8 +279,12 @@ const Camerabox = styled.div`
     z-index: 1000;
     position: relative;
     top: 19px;
+    left: 15px;
+
     @media (max-width: 768px) {
-      left: 16px;
+      position: relative;
+      top: 19px;
+      left: 0px;
     }
   }
 `;
@@ -240,6 +292,10 @@ const Camerabox = styled.div`
 const InputArea = styled.div`
   width: 536px;
   margin: 0px auto;
+
+  @media (max-width: 767px) {
+    width: 280px;
+  }
 `;
 
 const SubText = styled.div`
@@ -248,6 +304,12 @@ const SubText = styled.div`
   line-height: 1.33;
   text-align: left;
   color: #1c1c1c;
+
+  @media (max-width: 767px) {
+    width: 280px;
+    font-size: 16px;
+    margin: 5px 0px;
+  }
 `;
 
 const Input = styled.input`
@@ -257,11 +319,23 @@ const Input = styled.input`
   padding: 17.6px 23px 14.4px 23.9px;
   border-radius: 8px;
   border: solid 2px #d6d6d6;
+
+  @media (max-width: 767px) {
+    width: 280px;
+    height: 47px;
+    padding: 16px 10px 14.4px 10px;
+    margin: 10px auto;
+  }
+
   ::placeholder {
     font-size: 18px;
     line-height: 1.33;
     text-align: left;
     color: #7d7d7d;
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
   }
   :hover {
     border: 2px solid #6fcea1;
@@ -285,6 +359,10 @@ const Textarea = styled.textarea`
     line-height: 1.33;
     text-align: left;
     color: #7d7d7d;
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
   }
   :hover {
     border: solid 2px #6fcea1;
@@ -293,9 +371,19 @@ const Textarea = styled.textarea`
     border: solid 2px #6fcea1;
     outline: none;
   }
+
+  @media (max-width: 767px) {
+    width: 280px;
+    height: 100px;
+    padding: 16px 10px 14.4px 10px;
+    margin: 10px auto;
+  }
 `;
 
 const CateArea = styled.div`
+  @media (max-width: 767px) {
+    width: 280px;
+  }
   select {
     width: 536px;
     height: 56px;
@@ -311,6 +399,15 @@ const CateArea = styled.div`
     appearance: none;
     background: url(${downarrow}) no-repeat 95% 57%;
 
+    @media (max-width: 767px) {
+      width: 280px;
+      height: 47px;
+      padding: 6px 14.4px;
+      margin: 10px auto;
+      font-size: 14px;
+      background: url(${downarrow}) no-repeat 95% 80%;
+    }
+
     :hover {
       border: 2px solid #6fcea1;
     }
@@ -324,6 +421,10 @@ const CateArea = styled.div`
     text-align: left;
     color: #7d7d7d;
     line-height: 1.33;
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
   }
 `;
 
@@ -336,6 +437,10 @@ const Calend = styled.div`
     color: #7d7d7d;
     line-height: 1.33;
     cursor: pointer;
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
   }
   :hover {
     border: 2px solid #6fcea1;
@@ -346,10 +451,10 @@ const CalendarArea = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  span {
-    margin-right: 1rem;
-    position: relative;
-    left: -30px;
+
+  @media (max-width: 767px) {
+    width: 280px;
+    justify-content: start;
   }
 `;
 
@@ -360,7 +465,9 @@ const BtnArea = styled.div`
   padding-bottom: 100px;
 
   @media (max-width: 768px) {
+    width: 280px;
     padding-bottom: 0px;
+    margin-bottom: 60px;
   }
 `;
 
@@ -383,6 +490,12 @@ const Btn = styled.div`
   cursor: pointer;
   :hover {
     background-color: #6fcea1;
+  }
+  @media (max-width: 768px) {
+    width: 140px;
+    height: 46px;
+    padding: 10px 20px;
+    font-size: 20px;
   }
 `;
 

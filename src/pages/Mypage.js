@@ -1,50 +1,50 @@
 import React, { Component, useState, useEffect } from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
-import { getCookie } from "../shared/Cookie";
 import { useDispatch, useSelector } from "react-redux";
 import bellimg from "../image/bell.png";
 import { actionCreators as postActions } from "../redux/modules/post";
 import SalesDetails from "./SalesDetails";
-
-import Carousel from '../components/Carousel';
+import Carousel from "../components/Carousel";
 
 const Mypage = (props) => {
   const dispatch = useDispatch();
-  const salesList = useSelector((state) => state.post.post_list);
-  console.log(salesList);
-  const email = localStorage.getItem("email");
 
-  const cookie = getCookie("user_login") ? true : false;
-  const is_login = useSelector((state) => state.user.is_login);
+  //마이페이지 리스트를 가져옴(판매+교환성공+실패)
+  const myPageList = useSelector((state) => state.post.mypage_list);
+  console.log(myPageList);
 
-  //내 게시글인것만 가져와서 리스트로 만든다.
-  const MyProductList = salesList.filter((s) => s.email === email);
+  //나의 판매내역
+  const SalesList = myPageList?.filter((s) => s.status === "auction");
+  //교환완료내역
+  const SuccessList = myPageList?.filter((s) => s.status === "success");
+  //교환실패내역
+  const FailList = myPageList?.filter((s) => s.status === "fail");
 
+  console.log(SalesList);
+  console.log(SuccessList);
+  console.log(FailList);
 
   const [showResults, setShowResults] = useState(false);
-  
-  const [isEmpty, setisEmpty]=useState(false);
+
+  const [isEmpty, setisEmpty] = useState(false);
 
   const showFunction = (props) => {
     setShowResults(true);
   };
 
-
   useEffect(() => {
-    dispatch(postActions.getPostAPI());
+    dispatch(postActions.myPageAPI());
+    // dispatch(postActions.getPostAPI());
   }, []);
 
-  useEffect(()=>{
-    const len=MyProductList.length;
-    console.log(len);
-    if(len==0)
-    {
-      setisEmpty(true);     
+  useEffect(() => {
+    const len = SalesList.length;
+    if (len === 0) {
+      setisEmpty(true);
     }
     console.log(isEmpty);
-  },[]);
-
+  }, []);
 
   return (
     <React.Fragment>
@@ -62,58 +62,52 @@ const Mypage = (props) => {
         </MpageHeader>
 
         <MyPageC>
-         
-        {isEmpty ? 
-        <>
-        <SellTitle>나의 판매내역</SellTitle>
-        <SellContainer>
-          <BlankBox>
-            <BlankText style={{width: "443px", height: "60px"}}>아직 판매한 내역이 없어요 :( !</BlankText>
-          </BlankBox>
-          
-        </SellContainer>
+          {isEmpty ? (
+            <>
+              <SellTitle>나의 판매내역</SellTitle>
+              <SellContainer>
+                <BlankBox>
+                  <BlankText style={{ width: "443px", height: "60px" }}>아직 판매한 내역이 없어요 :( !</BlankText>
+                </BlankBox>
+              </SellContainer>
 
-        <DoneTitle>교환완료 내역</DoneTitle>
-        <DoneContainer>
-            <BlankBox>
-              <BlankText2 style={{width: "510px", height: "49px"}}>교환완료된 내역이 아직 없어요 :( !</BlankText2>    
-            </BlankBox>
-        </DoneContainer>
+              <DoneTitle>교환완료 내역</DoneTitle>
+              <DoneContainer>
+                <BlankBox>
+                  <BlankText2 style={{ width: "510px", height: "49px" }}>교환완료된 내역이 아직 없어요 :( !</BlankText2>
+                </BlankBox>
+              </DoneContainer>
 
-        <IngTitle>교환실패 내역</IngTitle>
-        <IngContainer>
-            <BlankBox>
-              <BlankText2 style={{width: "510px", height: "49px"}}>교환실패한 내역이 아직 없어요 :( !</BlankText2>    
-            </BlankBox>
-        </IngContainer>
-        </>
-        : 
-        <>
-        <SellTitle>나의 판매내역</SellTitle>
-        <SellContainer>
-          <Carousel/>
-        </SellContainer>
+              <IngTitle>교환실패 내역</IngTitle>
+              <IngContainer>
+                <BlankBox>
+                  <BlankText2 style={{ width: "510px", height: "49px" }}>교환실패한 내역이 아직 없어요 :( !</BlankText2>
+                </BlankBox>
+              </IngContainer>
+            </>
+          ) : (
+            <>
+              <SellTitle>나의 판매내역</SellTitle>
+              <SellContainer>
+                <Carousel SalesList={SalesList} />
+              </SellContainer>
 
+              <DoneTitle>교환완료 내역</DoneTitle>
+              <DoneContainer>
+                <Carousel />
+              </DoneContainer>
 
-        <DoneTitle>교환완료 내역</DoneTitle>
-        <DoneContainer>
-          <Carousel/>
-        </DoneContainer>
-
-        <IngTitle>교환실패 내역</IngTitle>
-        <IngContainer>
-          <Carousel/>
-        </IngContainer>
-        </>
-        }
-          
-          
-      </MyPageC>
+              <IngTitle>교환실패 내역</IngTitle>
+              <IngContainer>
+                <Carousel />
+              </IngContainer>
+            </>
+          )}
+        </MyPageC>
       </WrapMypage>
     </React.Fragment>
   );
 };
-
 
 const WrapMypage = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
@@ -123,7 +117,6 @@ const WrapMypage = styled.div`
   display: flex;
   flex-direction: column;
   margin: auto;
-  
 `;
 
 const MpageHeader = styled.div`
@@ -134,10 +127,9 @@ const Title = styled.div`
   margin: 90px 0px 0px 50px;
   font-size: 36px;
   font-weight: bold;
-  min-width:180px;
+  min-width: 180px;
   display: table;
   color: #1c1c1c;
-
 `;
 
 const AlarmIcon = styled.img`
@@ -161,8 +153,8 @@ const AlarmIcon = styled.img`
 `;
 
 const LocationBtn = styled.button`
-  min-width: 11.500em; 
-  height: 2.125em; 
+  min-width: 11.5em;
+  height: 2.125em;
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
@@ -173,26 +165,29 @@ const LocationBtn = styled.button`
   margin-bottom: 0px;
   padding: 7px 14px 6px;
   border-radius: 83px;
-  border: solid 2px #3fbe81;
+  border: 2px solid #3fbe81;
   cursor: pointer;
-  
-  text-align:center;
+  text-align: center;
+
+  :hover {
+    background-color: #3fbe81;
+    color: #ffffff;
+    font-weight: 600;
+  }
 
   @media (max-width: 767px) {
     position: absolute;
-    left:800px;
-    top:120px;
-     }
+    left: 800px;
+    top: 120px;
+  }
   @media (min-width: 768px) and (max-width: 1190px) {
-   
     position: absolute;
-    left:800px;
-    top:120px;
-    
+    left: 800px;
+    top: 120px;
   }
 `;
 
-const BlankBox=styled.div`
+const BlankBox = styled.div`
 height: 278px;
 width:1000px;
 margin: auto;
@@ -207,69 +202,58 @@ flex-direction: row;
 
 `;
 
-const BlankText=styled.div`
+const BlankText = styled.div`
+  margin-left: 280px;
+  margin-top: 100px;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.67;
+  justify-content: center;
+  margin-left: 250px;
+  color: #d2d2d2;
 
-margin-left: 280px;
-margin-top: 100px;
-font-size: 30px;
-font-weight: 600;
-line-height: 1.67;
-justify-content:center;
-margin-left: 250px;
-color:#d2d2d2;
-
-@media (max-width: 767px) {
-  margin-left: 210px;
-
-}
-@media (min-width: 768px) and (max-width: 1190px) {
-  margin-left: 210px;
-}
-
+  @media (max-width: 767px) {
+    margin-left: 210px;
+  }
+  @media (min-width: 768px) and (max-width: 1190px) {
+    margin-left: 210px;
+  }
 `;
 
-const BlankText2=styled.div`
+const BlankText2 = styled.div`
+  margin-top: 100px;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.67;
+  justify-content: center;
+  margin-left: 250px;
+  color: #d2d2d2;
 
-
-margin-top: 100px;
-font-size: 30px;
-font-weight: 600;
-line-height: 1.67;
-justify-content:center;
-margin-left: 250px;
-color:#d2d2d2;
-
-@media (max-width: 767px) {
-  margin-left: 210px;
-
-}
-@media (min-width: 768px) and (max-width: 1190px) {
-  margin-left: 210px;
-}
-
-
+  @media (max-width: 767px) {
+    margin-left: 210px;
+  }
+  @media (min-width: 768px) and (max-width: 1190px) {
+    margin-left: 210px;
+  }
 `;
 
 const MyPageC = styled.div`
   margin: auto;
   width: 1200px;
-  margin-top:70px;
+  margin-top: 70px;
   height: 100vh;
 `;
 
 const SellContainer = styled.div`
   display: flex;
-
 `;
 
 const DoneContainer = styled.div`
   display: flex;
-  
 `;
 
 const IngContainer = styled.div`
   display: flex;
-
 `;
 
 const SellTitle = styled.div`
@@ -282,9 +266,7 @@ const SellTitle = styled.div`
   display: flex;
   color: #2f2f2f;
   margin-bottom: 24px;
-
 `;
-
 
 const DoneTitle = styled.div`
   flex-grow: 0;
@@ -298,8 +280,6 @@ const DoneTitle = styled.div`
   color: #2f2f2f;
   margin-bottom: 24px;
 `;
-
-
 
 const IngTitle = styled.div`
   flex-grow: 0;

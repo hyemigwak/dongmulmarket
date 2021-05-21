@@ -185,7 +185,7 @@ const loginAPI = (email, pwd) => {
           };
 
           //디폴트로 헤더에 토큰 담아주기
-          axios.defaults.headers.common["Authorization"] = getCookie("user_login");
+          axios.defaults.headers.common["Authorization"] = jwtToken;
 
           dispatch(logIn(user_data, "normal"));
 

@@ -13,6 +13,7 @@ const ADD_POST = "ADD_POST";
 const LOADING = "LOADING";
 const ISBOSS = "ISBOSS";
 const DELETE_POST = "DELETE_POST";
+const MY_PAGE = "MY_PAGE";
 
 //actionCreators
 const loading = createAction(LOADING, (loading) => ({ loading }));
@@ -22,13 +23,43 @@ const onePost = createAction(ONE_POST, (post) => ({ post }));
 const isBoss = createAction(ISBOSS, (button) => ({ button }));
 const deletePost = createAction(DELETE_POST, (itemId) => ({ itemId }));
 const clearOne = createAction(CLEAR_ONE, () => ({}));
+const myPage = createAction(MY_PAGE, (my_list) => ({ my_list }));
 
 //initialState
 const initialState = {
   post_list: [],
   detail_list: [],
+  mypage_list: [],
   is_loading: false,
   boss: {},
+};
+
+// axios.defaults.headers.common["authorization"] = token;
+
+//마이페이지 판매/교환/구매내역 뿌려주기
+const myPageAPI = () => {
+  let token = getCookie("user_login");
+  console.log(token);
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "GET",
+      url: `${config.api}/myPage`,
+      headers: {
+        authorization: token,
+      },
+    })
+      .then((res) => {
+        if (res.data.msg === "success") {
+          console.log(res.data);
+          dispatch(myPage(res.data.postInfo));
+        } else {
+          console.log("res.data.msg === fail");
+        }
+      })
+      .catch((err) => {
+        console.log("myPageAPI 오류", err);
+      });
+  };
 };
 
 //물품 삭제하기
@@ -70,8 +101,6 @@ const getPostAPI = () => {
       url: `${config.api}/mainPage/noLogin`,
     })
       .then((res) => {
-        console.log(res.data);
-
         if (res.data.msg === "success") {
           const post_list = res.data.data;
           //종료일 기준으로 내림차순 정렬
@@ -189,6 +218,10 @@ export default handleActions(
         draft.chat_list = [];
         draft.user_list = [];
       }),
+    [MY_PAGE]: (state, action) =>
+      produce(state, (draft) => {
+        draft.mypage_list = action.payload.my_list;
+      }),
   },
   initialState
 );
@@ -202,6 +235,7 @@ const actionCreators = {
   getOnePostAPI,
   deletePostAPI,
   clearOne,
+  myPageAPI,
 };
 
 export { actionCreators };

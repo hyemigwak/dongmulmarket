@@ -104,6 +104,13 @@ const Box = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  cursor: pointer;
+
+  :hover {
+    transition: 0.2s;
+    transform: scale(1.08);
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.08);
+  }
 
   @media (max-width: 768px) {
     margin: 40px 12.5px 48px 25px;

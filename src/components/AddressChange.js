@@ -141,11 +141,19 @@ const ContainerBox = styled.div`
   top: -1%;
   transform: translateX(-50%);
   border: solid 1px #ffffff;
+
+  @media (max-width: 767px) {
+    width: 310px;
+  }
 `;
 
 const TextInputC = styled.div`
   display: flex;
   align-items: center;
+
+  @media (max-width: 767px) {
+    width: 300px;
+  }
 `;
 
 const SmallTitle = styled.div`
@@ -155,6 +163,11 @@ const SmallTitle = styled.div`
   line-height: 1.33;
   text-align: left;
   color: #2f2f2f;
+
+  @media (max-width: 767px) {
+    width: 100%;
+    font-size: 12px;
+  }
 `;
 
 const AInput = styled.input`
@@ -169,13 +182,21 @@ const AInput = styled.input`
     font-size: 18px;
     line-height: 1.33;
     color: #b5b5b5;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+      padding: 12px 0px;
+    }
   }
   :hover {
     border: 3px solid #656565;
   }
 
   @media (max-width: 768px) {
-    margin: 24px 68px 12px 60px;
+    margin: 12px auto 12px;
+    padding: 12px 15px;
+    width: 230px;
+    height: 48px;
   }
 `;
 
@@ -190,12 +211,20 @@ const PInput = styled.input`
     color: #b5b5b5;
     font-size: 18px;
     line-height: 1.33;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+      padding: 14px 10px;
+    }
   }
   :hover {
     border: 3px solid #656565;
   }
   @media (max-width: 768px) {
-    margin: 20px 16px 16px 60px;
+    width: 130px;
+    margin: 20px 5px;
+    height: 48px;
+    padding: 14px 10px;
   }
 `;
 
@@ -211,13 +240,18 @@ const SInput = styled.input`
   font-size: 18px;
   color: #6fcea1;
   line-height: 1.33;
+
   :hover {
     background-color: #3fbe81;
     color: #ffffff;
   }
   cursor: pointer;
+
   @media (max-width: 768px) {
-    margin: 20px 68px 16px 14px;
+    width: 85px;
+    margin: 20px 7px;
+    height: 48px;
+    font-size: 12px;
   }
 `;
 
@@ -235,19 +269,36 @@ const Btn = styled.button`
   :hover {
     background-color: #3fbe81;
   }
+
+  @media (max-width: 767px) {
+    width: 90px;
+    height: 44px;
+    font-size: 15px;
+    margin: 20px 10px;
+  }
 `;
 
 const BtnArea = styled.div`
-  position: absolute;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+
+  @media (max-width: 767px) {
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+  }
 `;
 
 const AddressInputArea = styled.div`
   display: inline-block;
+  @media (max-width: 767px) {
+    width: 300px;
+  }
 `;
 
 export default AddressChange;
