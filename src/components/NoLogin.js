@@ -33,6 +33,22 @@ const ChatView = styled.div`
   div {
     height: 1.5;
   }
+
+  @media (max-width: 767px) {
+    position: absolute;
+    left:-17px;
+    
+    top:900px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1190px) {
+   
+    position: absolute;
+    left:-17px;
+    right: 50px;
+    top:650px;
+    
+  }
 `;
 
 const Text = styled.div`

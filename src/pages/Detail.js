@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { NoLogin, Chat } from "../components";
 import { Container } from "../element";
+import { useMediaQuery } from "react-responsive";
+
 
 const Detail = memo((props) => {
   const dispatch = useDispatch();
@@ -16,6 +18,19 @@ const Detail = memo((props) => {
   useEffect(() => {
     dispatch(postActions.getOnePostAPI(id));
   }, [dispatch, id]);
+  
+  const isMobile = useMediaQuery({
+    query: "(max-width: 767px)",
+  });
+
+  const isTablet = useMediaQuery({
+    query: "(max-width: 768px) and (max-width: 1199px)",
+  });
+
+  const isPc = useMediaQuery({
+    query: "(min-width: 1200px)",
+  });
+
 
   return (
     <React.Fragment>
@@ -86,9 +101,13 @@ const Title = styled.div`
   text-align: left;
   color: #1c1c1c;
 
+  @media (max-width: 767px) {
+    margin: 63px 167px 0px 10px;
+  }
+  
   @media (min-width: 768px) and (max-width: 1190px) {
   
-    margin: 63px 167px 0px 20px;
+    margin: 63px 167px 0px 10px;
   }
 `;
 
@@ -109,7 +128,7 @@ const InfoTitle = styled.div`
 
   @media (min-width: 768px) and (max-width: 1190px) {
   
-    margin: 30px 167px 0px 20px;
+    margin: 30px 167px 0px 10px;
   }
 `;
 
@@ -140,7 +159,7 @@ const Img = styled.img`
   @media (min-width: 768px) and (max-width: 1190px) {
     position: absolute;
     top:270px;
-    left:20px;
+    left:10px;
   }
 
 `;
@@ -159,7 +178,7 @@ const TableBox = styled.table`
   
     position: absolute;
     top:300px;
-    left:390px;
+    left:380px;
   }
 `;
 
