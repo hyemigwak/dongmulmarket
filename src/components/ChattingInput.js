@@ -77,7 +77,7 @@ const SendInput = styled.input`
   width: 565px;
   height: 65px;
   flex-grow: 0;
-
+  border-radius:10px;
   border: solid 2px #6fcea1;
   background-color: #ffffff;
   ::placeholder {

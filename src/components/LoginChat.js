@@ -16,7 +16,9 @@ const LoginChat = (props) => {
 };
 
 const ChatView = styled.div`
-  background: #d0d0d0;
+background:#3fbe81;
+border-radius:20px;
+box-shadow: 3px 3px 3px 3px gray;
   width: 723px;
   height: 522px;
   text-align: center;
