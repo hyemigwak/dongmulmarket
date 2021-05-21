@@ -11,9 +11,11 @@ const ContainerBox = styled.div`
   margin: 0px auto;
   /* padding: 0px 20px; */
 
-  @media (max-width: 768px) {
-    width: 768px;
-  }
+  // @media (max-width: 768px) {
+  //   width: 768px;
+  // }
+
+  
 `;
 
 export default Container;

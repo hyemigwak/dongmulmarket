@@ -144,6 +144,15 @@ const Chat = memo((props) => {
 
 const ChatContainer = styled.div`
   display: flex;
+
+  @media (max-width: 767px) {
+    position: relative;
+  }
+
+  @media (min-width: 768px) and (max-width: 1190px) {
+    position: relative;
+  }
+
 `;
 
 const BlankChatBox = styled.div`
@@ -151,6 +160,22 @@ const BlankChatBox = styled.div`
   height: 522px;
   width: 723px;
   position: relative;
+ 
+  @media (max-width: 767px) {
+    position: absolute;
+    left:0px;
+    
+    top:900px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1190px) {
+   
+    position: absolute;
+    left:-10px;
+    right: 50px;
+    top:650px;
+    
+  }
 `;
 
 const ChatJoinBtn = styled.button`
@@ -176,6 +201,22 @@ const ChatJoinBtn = styled.button`
 const LiveChatBox = styled.div`
   margin-left: 30px;
   width: 565px;
+ 
+  @media (max-width: 767px) {
+    position: absolute;
+    left:0px;
+    top:680px;
+    left:-50px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1190px) {
+   
+    position: absolute;
+    left:0px;
+    top:400px;
+    left:-50px;
+  }
+
 `;
 
 const BtnArea = styled.div`

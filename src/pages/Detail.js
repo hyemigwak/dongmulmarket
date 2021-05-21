@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { NoLogin, Chat } from "../components";
+import { Container } from "../element";
 
 const Detail = memo((props) => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const Detail = memo((props) => {
 
   return (
     <React.Fragment>
+      {/* <Container> */}
       <WrapDetail>
         <Title>물품 교환하기</Title>
         <InfoTitle>상품 정보</InfoTitle>
@@ -54,6 +56,8 @@ const Detail = memo((props) => {
           {detail?.icrId && is_login ? <Chat {...detail} /> : <NoLogin />}
         </WrapBox>
       </WrapDetail>
+      {/* </Container> */}
+    
     </React.Fragment>
   );
 });
@@ -61,8 +65,16 @@ const Detail = memo((props) => {
 const WrapDetail = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
   width: 1200px;
-  height: 100vh;
+ // height: 100vh;
   margin: 160px auto;
+
+  @media (max-width: 767px) {
+    height:1400px;
+  }
+  @media (min-width: 768px) and (max-width: 1190px) {
+    
+    height: 100vh;
+  }
 `;
 
 const Title = styled.div`
@@ -73,6 +85,11 @@ const Title = styled.div`
   line-height: 1.11;
   text-align: left;
   color: #1c1c1c;
+
+  @media (min-width: 768px) and (max-width: 1190px) {
+  
+    margin: 63px 167px 0px 20px;
+  }
 `;
 
 const InfoTitle = styled.div`
@@ -85,6 +102,15 @@ const InfoTitle = styled.div`
   text-align: left;
   color: #1c1c1c;
   margin-left: 50px;
+ 
+  @media (max-width: 767px) {
+    margin: 30px 167px 0px 220px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1190px) {
+  
+    margin: 30px 167px 0px 20px;
+  }
 `;
 
 const WrapBox = styled.div`
@@ -92,7 +118,10 @@ const WrapBox = styled.div`
   margin-left: 50px;
 `;
 
-const ProductsBox = styled.div``;
+const ProductsBox = styled.div`
+
+
+`;
 
 const Img = styled.img`
   width: 347px;
@@ -102,11 +131,36 @@ const Img = styled.img`
   border: solid 2px #6fcea1;
   position: relative;
   top: 10px;
+
+  @media (max-width: 767px) {
+    position: absolute;
+    top:270px;
+    left:220px;
+  }
+  @media (min-width: 768px) and (max-width: 1190px) {
+    position: absolute;
+    top:270px;
+    left:20px;
+  }
+
 `;
 
 const TableBox = styled.table`
   width: 353.1px;
   height: 240px;
+
+  @media (max-width: 767px) {
+   position: absolute;
+    top:600px;
+    left:220px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1190px) {
+  
+    position: absolute;
+    top:300px;
+    left:390px;
+  }
 `;
 
 const TitleText = styled.td`
