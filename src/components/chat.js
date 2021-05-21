@@ -163,7 +163,7 @@ const BlankChatBox = styled.div`
  
   @media (max-width: 767px) {
     position: absolute;
-    left:0px;
+    left:-17px;
     
     top:900px;
   }
@@ -171,7 +171,7 @@ const BlankChatBox = styled.div`
   @media (min-width: 768px) and (max-width: 1190px) {
    
     position: absolute;
-    left:-10px;
+    left:-17px;
     right: 50px;
     top:650px;
     
