@@ -160,6 +160,7 @@ const BlankChatBox = styled.div`
   height: 522px;
   width: 723px;
   position: relative;
+  // background:#3fbe81;
  
   @media (max-width: 767px) {
     position: absolute;
@@ -184,7 +185,7 @@ const ChatJoinBtn = styled.button`
   height: 60px;
   padding: 10px;
   border: none;
-  background-color: #3fbe81;
+  background-color: #234635;
   border-radius: 83px;
   cursor: pointer;
   margin: 80px 30px 0px 90px;
@@ -241,11 +242,13 @@ const ChatLabel = styled.button`
 const ChatView = styled.div`
   width: 565px;
   height: 522px;
-  background-color: #efefef;
+  background-color: #ffffff;
+  border-radius:10px;
   margin-top: 0px;
   position: relative;
   overflow-y: scroll;
   box-sizing: border-box;
+  border: 5px solid #3fbe81;
 `;
 
 const ChatInput = styled.input`
