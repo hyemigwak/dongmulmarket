@@ -16,12 +16,14 @@ const NoLogin = (props) => {
 };
 
 const ChatView = styled.div`
-  background: #d0d0d0;
+  background:#3fbe81;
+  border-radius:20px;
+ 
   width: 723px;
   height: 522px;
   text-align: center;
   line-height: 1.5;
-
+  
   margin-left: 30px;
   display: table-cell;
   vertical-align: middle;
@@ -70,6 +72,9 @@ const ChatInput = styled.input`
   border: solid 2px #6fcea1;
   background-color: #ffffff;
   padding-bottom: 19px;
+   border-radius:20px;
+  // border-top-left-radius:20px;
+  // border-bottom-right-radius: 20px;
   ::placeholder {
     padding: 0px 20px;
    

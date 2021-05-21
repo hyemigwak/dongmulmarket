@@ -132,13 +132,14 @@ const LiveChatBox = styled.div`
 `;
 
 const OneChatUser = styled.div`
-  width: 175px;
+  width: 150px;
   height: 47.5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #b4b4b4;
-  background-color: #efefef;
+  border-bottom:2px solid  #ffffff;;
+  border-radius:20px;
+  background-color: #52c41a;
 `;
 
 const LiveUser = styled.div`
@@ -146,7 +147,7 @@ const LiveUser = styled.div`
   margin: 0px 20px 0px 6px;
   font-size: 16px;
   line-height: 1.71;
-  color: #373737;
+  color: #ffffff;
 `;
 
 
