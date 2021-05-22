@@ -52,9 +52,9 @@ const Post = (props) => {
     }
   }
 
-  //마감 1시간 전 상품에 곧마감 뱃지 붙이기
+  //마감 6시간 전 상품에 곧마감 뱃지 붙이기
   const TimeBadge = () => {
-    if (TimeGap / (1000 * 60) < 60) {
+    if (TimeGap / (1000 * 60) < 60 * 6) {
       setBadge(true);
     }
   };
@@ -69,7 +69,14 @@ const Post = (props) => {
       <Box onClick={TimeLimit}>
         <ImgBox>
           <Img src={image} alt="상품이미지" />
-          {badge ? <Label>곧 마감</Label> : null}
+          {badge ? (
+            <>
+              <Label>
+                곧 마감
+                <div className="soonend">{timeForToday(newDate)} 뒤 마감!</div>
+              </Label>
+            </>
+          ) : null}
         </ImgBox>
         <TextBox>
           <Address style={{ marginRight: "100px" }}>{address}</Address>
@@ -158,7 +165,32 @@ const Label = styled.div`
   left: 133px;
 
   z-index: 1;
+
+  .soonend {
+    position: absolute;
+    bottom: 3px;
+    right: 76px;
+    z-index: 2;
+    font-size: 11px;
+    font-weight: 600;
+    color: #2f2f2f;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.65);
+    color: #ffffff;
+    border-radius: 16px;
+    padding: 6px 10px;
+    width: 84px;
+    height: 30px;
+  }
+
+  :hover {
+    background-color: #e72a2a;
+    .soonend {
+      opacity: 1;
+    }
+  }
 `;
+
 const ProductTitle = styled.div`
   width: 157px;
   height: 24px;

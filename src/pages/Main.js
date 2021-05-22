@@ -2,33 +2,31 @@ import React from "react";
 import styled from "styled-components";
 import PostList from "./PostList";
 import Banners from "../components/Banners";
-import { Container } from "../element";
 
 const Main = (props) => {
   return (
     <React.Fragment>
-      <Container>
-        <WrapMain>
-          <Banners />
-          <Title>교환을 기다리고 있어요!</Title>
-          <PostList />
-        </WrapMain>
-      </Container>
+      <WrapMain>
+        <Banners />
+        <Title>교환을 기다리고 있어요!</Title>
+        <PostList />
+      </WrapMain>
     </React.Fragment>
   );
 };
 
 const WrapMain = styled.div`
-  margin-top: 120px;
+  margin: 120px auto 0;
   display: flex;
   width: 100%;
   flex-direction: column;
 `;
 
 const Title = styled.h2`
+  width: 100%;
   height: 24px;
   flex-grow: 0;
-  margin: 0px 150px 20px 0px;
+  margin: 0px 0 20px 210px;
   font-size: 25px;
   font-weight: bold;
   line-height: 0.96;

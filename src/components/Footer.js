@@ -18,11 +18,8 @@ const Footer = () => {
           {isMobile ? null : (
             <>
               <Contents>
-                동물마켓은 사용자 위치를 기반으로 물물 교환을 통해
-                <br />
-                물품을 받는 사이트입니다. 친환경적인 방법으로 필요한
-                <br />
-                물건을 교환하는 스마트한 문화를 만들겠습니다.
+                동물마켓은 사용자 위치를 기반으로 물물 교환을 하는 사이트입니다. <br />
+                친환경적인 방법으로 필요한 물건을 교환하는 스마트한 문화를 만들겠습니다.
               </Contents>
             </>
           )}
@@ -114,10 +111,10 @@ const Footer = () => {
 };
 
 const FootC = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 360px;
   margin-top: 200px;
-  padding: 70px 110px;
+  padding: 85px 190px;
   background: #f5f5f5;
   display: flex;
 

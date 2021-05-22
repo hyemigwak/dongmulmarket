@@ -159,7 +159,7 @@ const AddProduct = (props) => {
                           height: "47px",
                           padding: "10px 12px",
                           borderRadius: "8px",
-                          border: "solid 2px #d6d6d6",
+                          border: "2px solid #d6d6d6",
                           cursor: "pointer",
                         }}
                       />
@@ -279,7 +279,7 @@ const Camerabox = styled.div`
     z-index: 1000;
     position: relative;
     top: 19px;
-    left: 15px;
+    left: 16px;
 
     @media (max-width: 768px) {
       position: relative;
@@ -359,6 +359,7 @@ const Textarea = styled.textarea`
     line-height: 1.33;
     text-align: left;
     color: #7d7d7d;
+    padding: 20px 0px;
 
     @media (max-width: 767px) {
       font-size: 14px;

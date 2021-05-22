@@ -102,13 +102,13 @@ const myPageAPI = () => {
 //물품 삭제하기
 const deletePostAPI = (itemId) => {
   return function (dispatch, getState, { history }) {
-    // let token = getCookie("user_login");
+    let token = getCookie("user_login");
     axios({
       method: "DELETE",
       url: `${config.api}/mainPage/delete`,
-      // headers: {
-      //   authorization: token,
-      // },
+      headers: {
+        authorization: token,
+      },
       data: {
         itemId: itemId,
       },
@@ -122,7 +122,6 @@ const deletePostAPI = (itemId) => {
             confirmButtonColor: "#3fbe81",
             confirmButtonText: "확인",
           });
-          history.replace("/mypage");
         }
       })
       .catch((err) => {
@@ -134,6 +133,7 @@ const deletePostAPI = (itemId) => {
 //물품 불러오기(메인)
 const getPostAPI = () => {
   return function (dispatch, getState, { history }) {
+    dispatch(loading(true));
     axios({
       method: "GET",
       url: `${config.api}/mainPage/noLogin`,
@@ -146,6 +146,7 @@ const getPostAPI = () => {
             return a.deadLine < b.deadLine ? -1 : a.deadLine > b.deadLine ? 1 : 0;
           });
           dispatch(getPost(post_list));
+          dispatch(loading(false));
         } else {
           console.log("데이터 fail");
         }
@@ -160,12 +161,14 @@ const getPostAPI = () => {
 const getOnePostAPI = (itemId) => {
   console.log("itemId", itemId);
   return async function (dispatch, getState, { history }) {
+    dispatch(loading(true));
     await axios
       .get(`${config.api}/postDetail/${itemId}`)
       .then((res) => {
         if (res.data.msg === "success") {
           console.log(res);
           dispatch(onePost(res.data.data));
+          dispatch(loading(false));
         } else {
           console.log("한개 데이터 불러오기 fail");
         }
@@ -195,7 +198,7 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
       url: `${config.api}/mainPage/write`,
       data: formdata,
       headers: {
-        // authorization: token,
+        Authorization: token,
         "Content-Type": "multipart/form-data",
       },
     })
@@ -227,12 +230,14 @@ export default handleActions(
   {
     [GET_POST]: (state, action) =>
       produce(state, (draft) => {
+        draft.is_loading = action.payload.loading;
         draft.post_list = action.payload.post_list;
       }),
     [ONE_POST]: (state, action) =>
       produce(state, (draft) => {
         // draft.detail_list = [];
         console.log("액션포스트", action.payload.post);
+        draft.is_loading = action.payload.loading;
         draft.detail_list = action.payload.post;
       }),
     [ADD_POST]: (state, action) =>
@@ -248,7 +253,8 @@ export default handleActions(
       }),
     [DELETE_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.post_list = draft.post_list.filter((p) => p.itemId !== action.payload.itemId);
+        let idx = draft.mypage_list.findIndex((p) => p.itemId === action.payload.itemId);
+        draft.mypage_list.splice(idx, 1);
       }),
     [CLEAR_ONE]: (state, action) =>
       produce(state, (draft) => {
@@ -263,6 +269,10 @@ export default handleActions(
     [MY_ADDRESS]: (state, action) =>
       produce(state, (draft) => {
         draft.address = action.payload.address;
+      }),
+    [LOADING]: (state, action) =>
+      produce(state, (draft) => {
+        draft.is_loading = action.payload.loading;
       }),
   },
   initialState

@@ -43,18 +43,13 @@ const GoogleLoginAPI = (response) => {
       method: "POST",
       url: `${config.api}/account/googleAuth`,
       data: {
-        // accessToken: response.accessToken,
-        // type:response.profileObj.type,
         email: response.profileObj.email,
         firstName: response.profileObj.name,
         lastName: response.profileObj.familyName ? response.profileObj.familyName : "",
       },
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
     })
       .then((res) => {
-        console.log(res.data, "googleLogin"); // response 확인
+        console.log(res.data, "googleLogin");
         if (res.data.msg === "success") {
           console.log(res.data);
 
@@ -75,8 +70,6 @@ const GoogleLoginAPI = (response) => {
             token: res.data.token,
           };
 
-          //디폴트로 헤더에 토큰 담아주기
-          // axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
           dispatch(logIn(user_data, "google"));
           Swal.fire({
             title: "로그인 성공",
@@ -131,10 +124,6 @@ const kakaoLoginAPI = (response) => {
           //로그인타입 넣어주기
           dispatch(logIn(user_data, "kakao"));
 
-          //디폴트로 헤더에 토큰 담아주기
-          // axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
-          // dispatch(logIn(res.data));
-
           Swal.fire({
             title: "로그인 성공",
             text: "정상적으로 로그인 되었습니다!",
@@ -183,9 +172,6 @@ const loginAPI = (email, pwd) => {
             nickname: res.data.nickname,
             token: res.data.token,
           };
-
-          //디폴트로 헤더에 토큰 담아주기
-          // axios.defaults.headers.common["Authorization"] = jwtToken;
 
           dispatch(logIn(user_data, "normal"));
 

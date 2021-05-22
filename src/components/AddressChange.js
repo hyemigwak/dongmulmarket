@@ -27,7 +27,6 @@ const AddressChange = (props) => {
   console.log(isAddress);
   const str = isAddress.split(" ");
   const new_address = str[0] + " " + str[1] + " " + str[2];
-  console.log(new_address);
 
   // 우편번호 / 주소 찾기
   function sample4_execDaumPostcode() {

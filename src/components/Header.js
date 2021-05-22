@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { NavBar } from "./index";
 import { useMediaQuery } from "react-responsive";
 import MenuIcon from "@material-ui/icons/Menu";
+import xbtn from "../image/xbtn.png";
 
 const Header = (props) => {
   const isMobile = useMediaQuery({
@@ -46,16 +47,16 @@ const Header = (props) => {
   const open = () => setnavOpen(true);
   const close = () => setnavOpen(false);
 
-  const hamburger = useRef();
+  const modal = useRef();
 
   const handleClickOutside = ({ target }) => {
-    if (navOpen && !hamburger.current.contains(target)) setnavOpen(false);
+    if (navOpen && !modal.current.contains(target)) setnavOpen(false);
   };
 
   useEffect(() => {
-    window.addEventListener("click", handleClickOutside);
+    window.addEventListener("mousedown", handleClickOutside);
     return () => {
-      window.removeEventListener("click", handleClickOutside);
+      window.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -70,13 +71,55 @@ const Header = (props) => {
                 <Logo
                   src={logo1}
                   onClick={() => {
-                    history.push("/");
+                    history.replace("/");
                   }}
                 ></Logo>
                 <Beta>베타서비스</Beta>
               </LogoBox>
             </Hamburger>
-            <NavBar open={navOpen} close={close} ref={hamburger} />
+            <NavBar1 open={navOpen} close={close} ref={modal} toggle={navOpen}>
+              <HamburgerModal>
+                <Graybar />
+                <HeaderArea>
+                  <ImgArea>
+                    <img src={xbtn} alt="x버튼" onClick={close} />
+                  </ImgArea>
+                  <TextArea>
+                    <Hi>안녕하세요</Hi>
+                    <Dongmul>
+                      <span>동물마켓</span>입니다 :)
+                    </Dongmul>
+                  </TextArea>
+                  <CateArea>
+                    <MoveTo
+                      onClick={() => {
+                        history.push("/");
+                        close();
+                      }}
+                    >
+                      홈페이지
+                    </MoveTo>
+                    <MoveTo
+                      onClick={() => {
+                        history.push("/addproduct");
+                        close();
+                      }}
+                    >
+                      판매하기
+                    </MoveTo>
+                    <MoveTo
+                      onClick={() => {
+                        history.push("/mypage");
+                        close();
+                      }}
+                    >
+                      마이페이지
+                    </MoveTo>
+                    <MoveTo onClick={siteLogout}>로그아웃</MoveTo>
+                  </CateArea>
+                </HeaderArea>
+              </HamburgerModal>
+            </NavBar1>
           </React.Fragment>
         ) : (
           <React.Fragment>
@@ -363,6 +406,77 @@ const BtnArea2 = styled.div`
 
   @media (max-width: 767px) {
     margin-right: 6px;
+  }
+`;
+
+const NavBar1 = styled.div`
+  display: ${(props) => (props.toggle ? "flex" : "none")};
+`;
+
+const HamburgerModal = styled.div`
+  width: 320px;
+  z-index: 2000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+`;
+
+const Graybar = styled.div`
+  width: 53px;
+  height: 740px;
+  background-color: rgba(0, 0, 0, 0.65);
+`;
+
+const HeaderArea = styled.div`
+  width: 267px;
+  background-color: #ffffff;
+`;
+const TextArea = styled.div`
+  margin: 40px 22px 50px 24px;
+`;
+
+const Hi = styled.div`
+  font-size: 24px;
+  line-height: 1.33;
+  text-align: left;
+  color: #4c4c4c;
+`;
+
+const Dongmul = styled.div`
+  font-size: 24px;
+  line-height: 1.33;
+  text-align: left;
+  color: #4c4c4c;
+
+  span {
+    color: #3fbe81;
+    font-weight: 600;
+  }
+`;
+
+const ImgArea = styled.div`
+  img {
+    cursor: pointer;
+    position: relative;
+    left: 225px;
+    top: 60px;
+  }
+`;
+
+const CateArea = styled.div`
+  margin: 0px 115px 0 0;
+`;
+
+const MoveTo = styled.div`
+  margin: 32px 16px 32px 24px;
+  font-size: 18px;
+  text-align: left;
+  color: #7d7d7d;
+  cursor: pointer;
+  :hover {
+    font-weight: 600;
+    font-size: 19px;
   }
 `;
 

@@ -3,7 +3,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import Slick from "react-slick";
-import { Container } from "../element";
 import { history } from "../redux/configureStore";
 import mainbanner1 from "../image/mainbanner1.png";
 import mainbanner2 from "../image/mainbanner2.png";
@@ -50,7 +49,7 @@ const Banners = () => {
         </BannerImg1>
         <BannerImg2>
           <BannerGrid2>
-            <SmallGreen2>친절한 냥이가 설명해주는</SmallGreen2>
+            <SmallGreen1>우리 동네에서 하는 물물교환 거래</SmallGreen1>
             <WelcomeWords1>
               동물마켓 이용
               <br />
@@ -63,7 +62,13 @@ const Banners = () => {
               <br />
               채팅을 통해 구매자와 매칭이 되면 1:1 채팅을 할 수 있습니다!
             </Describe2>
-            <TradeBtn>거래하러 가기</TradeBtn>
+            <TradeBtn
+              onClick={() => {
+                history.push("/signup");
+              }}
+            >
+              거래하러 가기
+            </TradeBtn>
           </BannerGrid2>
         </BannerImg2>
         <BannerImg3>
@@ -77,7 +82,13 @@ const Banners = () => {
               <br />
               3. 원하는게 없을 때는 내가 글을 등록해보세요
             </Describe3>
-            <TradeBtn>거래하러 가기</TradeBtn>
+            <TradeBtn2
+              onClick={() => {
+                history.push("/signup");
+              }}
+            >
+              거래하러 가기
+            </TradeBtn2>
           </BannerGrid>
         </BannerImg3>
       </Slick>
@@ -103,7 +114,7 @@ const BannerBox = styled.div`
   .dotsCustom {
     position: absolute;
     bottom: 15px;
-    right: 550px;
+    right: 45%;
     width: 100%;
     list-style: none;
     text-align: end;
@@ -171,7 +182,10 @@ const BannerGrid = styled.div`
 `;
 
 const BannerGrid2 = styled.div`
-  margin: 100px 127px 82px 710px;
+  margin-top: 100px;
+  margin-right: 127px;
+  margin-bottom: 82px;
+  margin-left: 60%;
 
   @media (max-width: 767px) {
     margin: 80px 35px 81px;
@@ -196,21 +210,12 @@ const BannerImg1 = styled.div`
 const SmallGreen1 = styled.div`
   height: 16px;
   margin: 33px 265px 6px 0;
-  font-size: 14px;
+  font-size: 20px;
+  margin-bottom: 10px;
+  font-weight: 600;
   text-align: left;
   color: #3fbe81;
 
-  @media (max-width: 767px) {
-    width: 100%;
-  }
-`;
-
-const SmallGreen2 = styled.div`
-  font-size: 14px;
-  height: 16px;
-  text-align: left;
-  color: #3fbe81;
-  margin-bottom: 6px;
   @media (max-width: 767px) {
     width: 100%;
   }
@@ -218,7 +223,7 @@ const SmallGreen2 = styled.div`
 
 const WelcomeWords1 = styled.div`
   height: 110px;
-  margin: 6px 117px 20px 1px;
+  margin: 6px 117px 15px 1px;
   font-size: 36px;
   font-weight: bold;
   line-height: 1.53;
@@ -249,8 +254,8 @@ const WelcomeWords2 = styled.div`
 
 const Describe1 = styled.div`
   height: 66px;
-  margin: 20px 58px 24px 3px;
-  font-size: 14px;
+  margin: 13px 58px 40px 3px;
+  font-size: 16px;
   line-height: 1.57;
   text-align: left;
   color: #d2d2d2;
@@ -263,7 +268,7 @@ const Describe1 = styled.div`
 
 const Describe2 = styled.div`
   height: 66px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.57;
   text-align: left;
   color: #d2d2d2;
@@ -274,9 +279,9 @@ const Describe2 = styled.div`
 
 const Describe3 = styled.div`
   height: 66px;
-  margin: 20px 58px 24px 3px;
-  font-size: 14px;
-  line-height: 1.57;
+  margin: 20px 58px 50px 3px;
+  font-size: 18px;
+  line-height: 1.6;
   text-align: left;
   color: #d2d2d2;
   @media (max-width: 767px) {
@@ -293,7 +298,7 @@ const LoginBtn = styled.button`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 24.5px 24px 46.5px 4px;
+  margin: 30px 24px 46.5px 4px;
   padding: 7px 14px 6px;
   border-radius: 83px;
   background: #3fbe81;
@@ -302,6 +307,11 @@ const LoginBtn = styled.button`
 
   font-size: 16px;
   color: #ffffff;
+  transition: width 0.6s;
+
+  :hover {
+    width: 130px;
+  }
 
   @media (max-width: 767px) {
     margin-top: 60px;
@@ -328,7 +338,7 @@ const TradeBtn = styled.button`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin: 24px 335px 46.5px 0px;
+  margin: 30px 335px 46.5px 0px;
   padding: 7px 14px 6px;
   border-radius: 83px;
   background: #3fbe81;
@@ -339,9 +349,21 @@ const TradeBtn = styled.button`
   color: #ffffff;
   font-weight: 500;
 
+  transition: width 0.6s;
+
+  :hover {
+    width: 150px;
+  }
+
   @media (max-width: 767px) {
     margin-top: 60px;
   }
+
+  cursor: pointer;
+`;
+
+const TradeBtn2 = styled(TradeBtn)`
+  margin: 40px 335px 46.5px 0px;
 `;
 
 const BannerImg3 = styled.div`

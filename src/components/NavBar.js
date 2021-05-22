@@ -115,7 +115,7 @@ const HamburgerModal = styled.div`
 const Graybar = styled.div`
   width: 53px;
   height: 740px;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.65);
 `;
 
 const HeaderArea = styled.div`
@@ -164,6 +164,10 @@ const MoveTo = styled.div`
   text-align: left;
   color: #7d7d7d;
   cursor: pointer;
+  :hover {
+    font-weight: 600;
+    font-size: 19px;
+  }
 `;
 
 export default NavBar;

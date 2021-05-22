@@ -25,7 +25,7 @@ const Mypage = (props) => {
 
   useEffect(() => {
     dispatch(postActions.myPageAPI());
-  }, []);
+  }, [myPageList.length]);
 
   return (
     <React.Fragment>
