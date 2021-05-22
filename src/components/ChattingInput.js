@@ -86,6 +86,14 @@ const SendInput = styled.input`
   }
 
   position: relative;
+
+  @media (max-width: 767px) {
+    position: absolute;
+    
+    width:280px;
+    top:470px;
+    left:-15px;
+  }
 `;
 
 export default ChattingInput;

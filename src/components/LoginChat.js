@@ -35,6 +35,19 @@ box-shadow: 3px 3px 3px 3px gray;
   div {
     height: 1.5;
   }
+
+  @media (max-width: 767px) {
+      position: relative;
+      top:590px;
+      width: 285px;
+      height: 830px;
+      text-align: center;
+       line-height: 1.5;
+      right:70px;
+   
+      }
+
+  
 `;
 
 const Text=styled.div`
@@ -50,6 +63,12 @@ line-height: 1.42;
 letter-spacing: normal;
 text-align: center;
 color: #ffffff;
+
+
+@media (max-width: 767px) {
+  font-size: 20px;
+
+  }
 `;
 
 export default LoginChat;
