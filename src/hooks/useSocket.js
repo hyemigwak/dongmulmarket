@@ -1,36 +1,28 @@
-import { useEffect, useRef } from "react";
+import { useCallback } from "react";
 import io from "socket.io-client";
-import { useDispatch } from "react-redux";
 
-import { actionCreators as chatActions } from "../redux/modules/chat";
-import { actionCreators as postActions } from "../redux/modules/post";
+const sockets = {};
 
-const useSocket = (serverUrl, email, icrId, chatJoinYn) => {
-  const dispatch = useDispatch();
-  const socketRef = useRef();
+const useSocket = (serverUrl, email, icrId) => {
+  const disconnect = useCallback(() => {
+    if (icrId && sockets[icrId]) {
+      sockets[icrId].disconnect();
+      delete sockets[icrId];
+    }
+  }, [icrId]);
 
-  useEffect(() => {
-    socketRef.current = io.connect(serverUrl, {
+  if (!icrId) {
+    return [undefined, disconnect];
+  }
+
+  if (!sockets[icrId]) {
+    sockets[icrId] = io.connect(serverUrl, {
       query: `email=${email}&icrId=${icrId}`,
     });
-    dispatch(chatActions.getAllChatList(socketRef.current));
+    console.info("create socket", icrId, sockets[icrId]);
+  }
 
-    return () => {
-      socketRef.current.disconnect();
-      dispatch(chatActions.clearOne());
-      dispatch(postActions.clearPost());
-      console.log("연결해제");
-    };
-  }, [serverUrl, email, icrId]);
-
-  useEffect(() => {
-    if (!chatJoinYn) {
-      dispatch(chatActions.addChatList(socketRef.current));
-      dispatch(chatActions.addUserList(socketRef.current, { email, icrId }));
-    }
-  }, [chatJoinYn]);
-
-  return socketRef.current;
+  return [sockets[icrId], disconnect];
 };
 
 export default useSocket;

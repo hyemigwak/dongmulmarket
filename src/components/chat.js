@@ -1,24 +1,63 @@
 import React, { useEffect, useState, useRef, useCallback, memo } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 
 import { GroupChat, LoginChat, ChatUsers, ChattingInput } from "./index";
 import useJoinChat from "../hooks/useJoinChat";
 import useSocket from "../hooks/useSocket";
+import { actionCreators as chatActions } from "../redux/modules/chat";
 
-const Chat = memo(({ icrId }) => {
+const Chat = memo(({ icrId, history }) => {
+  const dispatch = useDispatch();
   const scroll = useRef(null);
 
   const chatList = useSelector((state) => state.chat.chat_list);
   const { email } = useSelector((state) => state.user.user);
 
   const { chatJoinYn, handler } = useJoinChat(icrId); //참여 유무를 통해 버튼 결정
-  const socket = useSocket(
+
+  const [socket, disconnectSocket] = useSocket(
     "http://15.165.76.76:3001/chatting",
     email,
-    icrId,
-    chatJoinYn
+    icrId
   );
+
+  useEffect(() => {
+    return () => {
+      console.info("disconnect socket", icrId);
+      disconnectSocket();
+    };
+  }, [disconnectSocket, icrId]);
+
+  useEffect(() => {
+    dispatch(chatActions.getAllChatList(socket));
+  }, [socket]);
+
+  useEffect(() => {
+    if (!chatJoinYn) {
+      dispatch(chatActions.addChatList(socket));
+      dispatch(chatActions.addUserList(socket, { email, icrId }));
+    }
+  }, [chatJoinYn]);
+
+  useEffect(() => {
+    socket.on("kickUser", (data) => {
+      dispatch(chatActions.removeUser(data.email));
+      dispatch(chatActions.addChat(data));
+      //socket.off("kickUser");
+      if (data.email === email) {
+        history.push("/");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "강퇴 당하셨습니다!",
+        });
+      }
+    });
+  }, []);
+
   const [modalOpen, setModalOpen] = useState(false);
 
   const bottomView = useCallback(() => {

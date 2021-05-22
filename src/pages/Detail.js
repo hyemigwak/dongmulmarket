@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { NoLogin, Chat } from "../components";
 
-const Detail = () => {
+const Detail = ({ history }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
   const detail = useSelector((state) => state.post.detail_list);
   const is_login = useSelector((state) => state.user.is_login);
+  console.log(history);
 
   useEffect(() => {
     dispatch(postActions.getOnePostAPI(id));
@@ -47,7 +48,11 @@ const Detail = () => {
               </tr>
             </TableBox>
           </ProductsBox>
-          {detail?.icrId && is_login ? <Chat {...detail} /> : <NoLogin />}
+          {detail?.icrId && is_login ? (
+            <Chat {...detail} history={history} />
+          ) : (
+            <NoLogin />
+          )}
         </WrapBox>
       </WrapDetail>
     </>
