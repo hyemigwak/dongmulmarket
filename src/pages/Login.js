@@ -168,6 +168,7 @@ const WrapLogin = styled.div`
   flex-direction: column;
 
   @media (max-width: 767px) {
+    
     width: 100%;
     display: flex;
     justify-content: center;

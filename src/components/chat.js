@@ -9,6 +9,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import { config } from "../shared/config";
 
+
 const Chat = memo((props) => {
   //detail 페이지에서 프롭스로 채팅방ID, 아이템ID 받아옴
   const { icrId, itemId } = props;
@@ -160,14 +161,7 @@ const BlankChatBox = styled.div`
   height: 522px;
   width: 723px;
   position: relative;
-  // background:#3fbe81;
- 
-  @media (max-width: 767px) {
-    position: absolute;
-    left:-17px;
-    
-    top:900px;
-  }
+
 
   @media (min-width: 768px) and (max-width: 1190px) {
    
@@ -177,6 +171,7 @@ const BlankChatBox = styled.div`
     top:650px;
     
   }
+
 `;
 
 const ChatJoinBtn = styled.button`
@@ -197,6 +192,20 @@ const ChatJoinBtn = styled.button`
   left: 270px;
   right: auto;
   transform: translate(-50%, -50%);
+  
+  @media (max-width: 767px) {
+    position: absolute;
+    top: 970px;
+    left: -15px;
+    z-index:2000;
+    
+    transform: translate(-50%, -50%);
+
+    width: 150px;
+    height: 40px;
+    font-size: 15px;
+    }
+  
 `;
 
 const LiveChatBox = styled.div`
@@ -214,7 +223,7 @@ const LiveChatBox = styled.div`
    
     position: absolute;
     left:0px;
-    top:400px;
+    top:370px;
     left:-50px;
   }
 
@@ -249,27 +258,28 @@ const ChatView = styled.div`
   overflow-y: scroll;
   box-sizing: border-box;
   border: 5px solid #3fbe81;
-`;
 
-const ChatInput = styled.input`
-  width: 724px;
-  height: 74px;
-  flex-grow: 0;
-
-  border: solid 2px #6fcea1;
-  background-color: #ffffff;
-  ::placeholder {
-    padding: 0px 20px;
-    font-size: 18px;
+  @media (max-width: 767px) {
+    position: absolute;
+    top:-100px;
+    width:280px;
+    height:570px;
+    left:-15px;
   }
-
-  position: relative;
-  top: 520px;
+  
 `;
+
 
 const WrapButtons = styled.div`
   display: flex;
   margin-left: 250px;
+  @media (max-width: 767px) {
+    position: relative;
+    right:340px;
+    top:420px;
+   
+  
+  }
 `;
 
 const BtnText = styled.div`
@@ -278,6 +288,10 @@ const BtnText = styled.div`
   font-weight: 500;
   color: #3fbe81;
   cursor: pointer;
+
+  @media (max-width: 767px) {
+    font-size: 15px;
+  }
 `;
 
 const TradeCancelBtn = styled.button`
@@ -289,12 +303,22 @@ const TradeCancelBtn = styled.button`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin: 40px 20px 0 0;
+  margin: 30px 20px 0 0;
   padding: 10px 30px;
   border-radius: 8px;
   border: solid 2px #3fbe81;
   background-color: #ffffff;
   font-size: 16px;
+
+  @media (max-width: 767px) {
+    position: relative;
+    left:100px;
+    top:100px;
+   
+    min-width: 100px;
+    min-height: 39px;
+    padding: 0px 0px;
+  }
 `;
 
 const TradeSuccessBtn = styled.button`
@@ -306,12 +330,22 @@ const TradeSuccessBtn = styled.button`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin: 40px 218px 0 0;
+  margin: 30px 218px 0 0;
   padding: 10px 30px;
   border-radius: 8px;
   border: solid 2px #3fbe81;
   background-color: #ffffff;
   font-size: 16px;
+
+  @media (max-width: 767px) {
+    position: relative;
+    left:100px;
+    top:100px;
+   
+    min-width: 100px;
+    min-height: 39px;
+    padding: 0px 0px;
+  }
 `;
 
 export default Chat;

@@ -1,19 +1,33 @@
 import React from "react";
 import styled from "styled-components";
+import { Container } from "../element";
+import { useMediaQuery } from "react-responsive";
 
 const NoLogin = (props) => {
+  const isMobile = useMediaQuery({
+    query: "(max-width: 767px)",
+  });
+
   return (
     <React.Fragment>
-      <ChatView>
-        <Text>
-          로그인하셔야
-          <br /> 채팅 참여가 가능합니다.
-        </Text>
-        <ChatInput placeholder="채팅에 참여하실 수 없습니다" disabled />
-      </ChatView>
+    
+       
+          <ChatView>
+                <Text>
+                  로그인하셔야
+                  <br /> 채팅 참여가 가능합니다.
+                </Text>
+                {isMobile? null: (
+                    <ChatInput placeholder="채팅에 참여하실 수 없습니다" disabled />
+                )}
+                
+            </ChatView> 
+       
     </React.Fragment>
   );
 };
+
+
 
 const ChatView = styled.div`
   background:#3fbe81;
@@ -38,10 +52,17 @@ const ChatView = styled.div`
 
   @media (max-width: 767px) {
     position: absolute;
-    left:-17px;
-    
-    top:900px;
-  }
+    top:840px;
+    width: 285px;
+    height: 830px;
+    text-align: center;
+     line-height: 1.5;
+     margin-left:-40px;
+     
+   
+ 
+    }
+  
 
   @media (min-width: 768px) and (max-width: 1190px) {
    
@@ -62,6 +83,13 @@ const Text = styled.div`
   letter-spacing: normal;
   text-align: center;
   color: #ffffff;
+
+  @media (max-width: 767px) {
+    font-size: 26px;
+    margin-top:300px;
+   
+  }
+
 `;
 
 const ChatInput = styled.input`

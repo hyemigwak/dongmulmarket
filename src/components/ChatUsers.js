@@ -1,13 +1,20 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { useEffect, useState, memo,useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { getCookie } from "../shared/Cookie";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import user from "../image/user.png";
+import { useMediaQuery } from "react-responsive";
 
 
 const ChatUsers = memo((props) => {
+
+  const isMobile = useMediaQuery({
+    query: "(max-width: 767px)",
+  });
+
   const dispatch = useDispatch();
   const token = getCookie("user_login");
   const userList = useSelector((state) => state.chat.user_list);
@@ -60,21 +67,49 @@ const ChatUsers = memo((props) => {
 
   //유저 강퇴하는 기능
   const kickUser = () => {};
+  
+    //모바일 유저창 열고 닫기
+    const [userOpen, setuserOpen] = useState(false);
+    const open = () => setuserOpen(true);
+    const close = () => setuserOpen(false);
+    
+    const userListsBox = useRef();
+
+    const handleClickOutside = ({ target }) => {
+      if (userOpen) setuserOpen(false);
+    };
+    
+    useEffect(() => {
+      window.addEventListener("click", handleClickOutside);
+      return () => {
+        window.removeEventListener("click", handleClickOutside);
+      };
+    }, []);
+
 
   return (
     <Wrapping>
-      <LiveChatBtn>실시간 대화 참여</LiveChatBtn>     
+     {isMobile? 
+      <ImgBox onClick={open} src={user}></ImgBox>
+     :null}
+    
+     {isMobile ?
+      null: 
+     
+     (
       <LiveChatBox isBoss>     
-        {userList?.map((user, idx) => {
-          return (
-            <OneChatUser key={idx}>
-              <LiveUser>{user.nickname}</LiveUser>
-              <CheckCircleOutlineIcon onClick={kickUser} style={{ color: "green", marginRight: "10px", width: "20px", cursor: "pointer" }}/>
-              <HighlightOffIcon onClick={kickUser} style={{ color: "gray", width: "20px", cursor: "pointer" }} />
-            </OneChatUser>
-          );
-        })}
-      </LiveChatBox> 
+      {userList?.map((user, idx) => {
+        return (
+          <OneChatUser open={userOpen} close={close} ref={userListsBox}  key={idx}>
+            <LiveUser>{user.nickname}</LiveUser>
+            <CheckCircleOutlineIcon onClick={kickUser} style={{ color: "green", marginRight: "10px", width: "20px", cursor: "pointer" }}/>
+            <HighlightOffIcon onClick={kickUser} style={{ color: "gray", width: "20px", cursor: "pointer" }} />
+          </OneChatUser>
+        );
+      })}
+    </LiveChatBox> 
+     )}
+      
     </Wrapping>
   );
 });
@@ -83,27 +118,12 @@ const Wrapping=styled.div`
 
 `;
 
-const LiveChatBtn = styled.div`
-  width: 158px;
-  height: 24px;
-  flex-grow: 0;
-  margin-left: 25px;
-  font-size: 18px;
-  line-height: 1.33;
-  text-align: left;
-  color: #7d7d7d;
-  cursor: pointer;
-  position:absolute;
-  top:225px;
+const ImgBox=styled.img`
+position:absolute;
+cursor:pointer;
+top:550px;
+left:220px;
 
-  @media (max-width: 767px) {
- display:none;
-  }
-
-  @media (min-width: 768px) and (max-width: 1190px) {
-   
-    display:none;
-  }
 `;
 
 const LiveChatBox = styled.div`
@@ -119,14 +139,16 @@ const LiveChatBox = styled.div`
   @media (max-width: 767px) {
     position: absolute;
     left:545px;
-    top:680px;
+    top:370px;
+
+   
     
      }
   @media (min-width: 768px) and (max-width: 1190px) {
    
     position: absolute;
     left:545px;
-    top:400px;
+    top:370px;
     
   }
 `;

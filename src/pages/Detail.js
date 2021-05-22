@@ -34,12 +34,15 @@ const Detail = memo((props) => {
 
   return (
     <React.Fragment>
-      {/* <Container> */}
+      <Container>
       <WrapDetail>
         <Title>물품 교환하기</Title>
         <InfoTitle>상품 정보</InfoTitle>
+         
+        
         <WrapBox>
-          <ProductsBox>
+          
+            <ProductsBox>
             <Img src={detail.image} />
             <TableBox>
               <tr>
@@ -68,10 +71,12 @@ const Detail = memo((props) => {
               </tr>
             </TableBox>
           </ProductsBox>
+         
+         
           {detail?.icrId && is_login ? <Chat {...detail} /> : <NoLogin />}
         </WrapBox>
       </WrapDetail>
-      {/* </Container> */}
+      </Container>
     
     </React.Fragment>
   );
@@ -82,9 +87,10 @@ const WrapDetail = styled.div`
   width: 1200px;
  // height: 100vh;
   margin: 160px auto;
-
+ 
   @media (max-width: 767px) {
     height:1400px;
+    //height: 100vh;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
     
@@ -100,7 +106,6 @@ const Title = styled.div`
   line-height: 1.11;
   text-align: left;
   color: #1c1c1c;
-
   @media (max-width: 767px) {
     margin: 63px 167px 0px 10px;
   }
@@ -123,9 +128,8 @@ const InfoTitle = styled.div`
   margin-left: 50px;
  
   @media (max-width: 767px) {
-    margin: 30px 167px 0px 220px;
+    margin: 30px 167px 0px 10px;
   }
-
   @media (min-width: 768px) and (max-width: 1190px) {
   
     margin: 30px 167px 0px 10px;
@@ -135,11 +139,28 @@ const InfoTitle = styled.div`
 const WrapBox = styled.div`
   display: flex;
   margin-left: 50px;
+  //height:100vh;
+
+  @media (max-width: 767px) {
+   display:block;
+  }
+  
+ 
 `;
 
 const ProductsBox = styled.div`
 
+ 
+@media (max-width: 767px) {
+  position: relative;
+ 
+  bottom:230px;
+  right:260px;
+  width: 285px;
+  background:pink;
+}
 
+}
 `;
 
 const Img = styled.img`
@@ -150,30 +171,30 @@ const Img = styled.img`
   border: solid 2px #6fcea1;
   position: relative;
   top: 10px;
-
   @media (max-width: 767px) {
     position: absolute;
-    top:270px;
-    left:220px;
+    top:250px;
+    left:238px;
+    
+    width: 250px;
+    height:250px;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
     position: absolute;
     top:270px;
     left:10px;
   }
-
 `;
 
 const TableBox = styled.table`
   width: 353.1px;
   height: 240px;
-
+ 
   @media (max-width: 767px) {
    position: absolute;
-    top:600px;
-    left:220px;
+    top:520px;
+    left:230px;
   }
-
   @media (min-width: 768px) and (max-width: 1190px) {
   
     position: absolute;
@@ -189,6 +210,12 @@ const TitleText = styled.td`
   text-align: left;
   color: #7d7d7d;
   width: 125px;
+
+  @media (max-width: 767px) {
+    font-size: 14px;
+    width: 100px;
+    
+   }
 `;
 
 const DetailText = styled.td`
@@ -196,9 +223,12 @@ const DetailText = styled.td`
   font-size: 18px;
   line-height: 1.67;
   text-align: left;
-
   color: #1c1c1c;
   font-weight: bold;
+
+  @media (max-width: 767px) {
+    font-size: 14px;
+   }
 `;
 
 export default Detail;
