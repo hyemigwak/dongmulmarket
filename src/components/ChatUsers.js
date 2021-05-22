@@ -70,48 +70,58 @@ const ChatUsers = memo((props) => {
   
     //모바일 유저창 열고 닫기
     const [userOpen, setuserOpen] = useState(false);
-    const open = () => setuserOpen(true);
+    const open = () => {
+      if(userOpen){
+        setuserOpen(false);
+      }else{
+        setuserOpen(true);
+      }
+      
+    }
     const close = () => setuserOpen(false);
-    
+    console.log(userOpen);
     const userListsBox = useRef();
 
     const handleClickOutside = ({ target }) => {
       if (userOpen) setuserOpen(false);
     };
     
-    useEffect(() => {
-      window.addEventListener("click", handleClickOutside);
-      return () => {
-        window.removeEventListener("click", handleClickOutside);
-      };
-    }, []);
+    // useEffect(() => {
+    //   window.addEventListener("click", handleClickOutside);
+    //   return () => {
+    //     window.removeEventListener("click", handleClickOutside);
+    //   };
+    // }, []);
 
 
   return (
     <Wrapping>
-     {isMobile? 
-      <ImgBox onClick={open} src={user}></ImgBox>
-     :null}
     
-     {isMobile ?
-      null: 
+      <ImgBox onClick={open} src={user}></ImgBox>
      
-     (
-      <LiveChatBox isBoss>     
-      {userList?.map((user, idx) => {
-        return (
-          <OneChatUser open={userOpen} close={close} ref={userListsBox}  key={idx}>
-            <LiveUser>{user.nickname}</LiveUser>
-            <CheckCircleOutlineIcon onClick={kickUser} style={{ color: "green", marginRight: "10px", width: "20px", cursor: "pointer" }}/>
-            <HighlightOffIcon onClick={kickUser} style={{ color: "gray", width: "20px", cursor: "pointer" }} />
-          </OneChatUser>
-        );
-      })}
-    </LiveChatBox> 
-     )}
-      
+     
+      {userOpen ?  
+          <>
+          <LiveChatBox isBoss>     
+          {userList?.map((user, idx) => {
+            return (
+              <OneChatUser open={userOpen} close={close} ref={userListsBox}  key={idx}>
+                <LiveUser>{user.nickname}</LiveUser>
+                <CheckCircleOutlineIcon onClick={kickUser} style={{ color: "green", marginRight: "10px", width: "20px", cursor: "pointer" }}/>
+                <HighlightOffIcon onClick={kickUser} style={{ color: "gray", width: "20px", cursor: "pointer" }} />
+              </OneChatUser>
+            );
+          })}
+        </LiveChatBox> 
+        </>
+        : 
+       null
+       }
+   
+
     </Wrapping>
   );
+
 });
 
 const Wrapping=styled.div`
@@ -119,10 +129,24 @@ const Wrapping=styled.div`
 `;
 
 const ImgBox=styled.img`
+
+position:relative;
+bottom:30px;
+right:30px;
+@media (max-width: 767px) {
 position:absolute;
 cursor:pointer;
 top:550px;
-left:220px;
+left:220px;  
+}
+
+@media (min-width: 768px) and (max-width: 1190px) {
+   
+  position: relative;
+  left:515px;
+  top:340px;
+  
+}
 
 `;
 
@@ -132,14 +156,14 @@ const LiveChatBox = styled.div`
   flex-grow: 0;
   margin-top: 0px;
   ${(props) => (props.isBoss ? "background-color:#3fbe81" : "background-color: #d9d9d9")}
-  /* background-color: #d9d9d9; */
+  
   display: block;
   position:relative;
-  
+  bottom:20px;
   @media (max-width: 767px) {
     position: absolute;
-    left:545px;
-    top:370px;
+    left:95px;
+    top:580px;
 
    
     

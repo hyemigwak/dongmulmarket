@@ -192,11 +192,14 @@ const ChatJoinBtn = styled.button`
   left: 270px;
   right: auto;
   transform: translate(-50%, -50%);
+
+ 
+
   
   @media (max-width: 767px) {
     position: absolute;
     top: 970px;
-    left: -15px;
+    left: -20px;
     z-index:2000;
     
     transform: translate(-50%, -50%);
