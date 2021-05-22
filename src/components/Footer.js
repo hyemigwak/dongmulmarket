@@ -114,21 +114,21 @@ const FootC = styled.div`
   width: 100vw;
   height: 360px;
   margin-top: 200px;
-  padding: 85px 190px;
+  padding: 4% 24%;
   background: #f5f5f5;
   display: flex;
 
   @media (max-width: 767px) {
     width: 100%;
     height: 590px;
-    padding: 50px 60px 60px;
+    padding: 7% 34%;
     display: block;
     margin-top: 30px;
   }
 
   @media (min-width: 768px) and (max-width: 1199px) {
     height: 530px;
-    padding: 100px 30px 60px;
+    padding: 7% 15%;
     background: #f5f5f5;
   }
 `;

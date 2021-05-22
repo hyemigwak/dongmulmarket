@@ -19,7 +19,7 @@ const Post = (props) => {
         confirmButtonColor: "#d6d6d6",
         confirmButtonText: "확인",
       });
-      history.replace("/");
+      window.location.reload();
     } else {
       history.push(`/detail/${itemId}`);
     }
@@ -35,12 +35,10 @@ const Post = (props) => {
 
     //ms 초 단위로 계산되기때문에 1000으로 나누고 다시 분(60)으로 나눈다. 1분전일때는 -> 방금 전 표기
     const betweenTime = Math.floor((timeValue.getTime() - today.getTime()) / 1000 / 60);
+    if (betweenTime < 0) return "종료되었습니다";
     if (betweenTime < 1) return "방금 전";
     if (betweenTime < 60) {
       return `${betweenTime}분`;
-    }
-    if (betweenTime < 0) {
-      return "종료되었습니다";
     }
     const betweenTimeHour = Math.floor(betweenTime / 60);
     if (betweenTimeHour < 24) {

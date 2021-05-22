@@ -1,15 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import PostList from "./PostList";
-import Banners from "../components/Banners";
+import { Container } from "../element";
+import { FloatBtn, Banners } from "../components";
 
 const Main = (props) => {
   return (
     <React.Fragment>
       <WrapMain>
         <Banners />
-        <Title>교환을 기다리고 있어요!</Title>
-        <PostList />
+        <Container>
+          <Title>교환을 기다리고 있어요!</Title>
+          <PostList />
+          <FloatBtn />
+        </Container>
       </WrapMain>
     </React.Fragment>
   );
@@ -26,7 +30,7 @@ const Title = styled.h2`
   width: 100%;
   height: 24px;
   flex-grow: 0;
-  margin: 0px 0 20px 210px;
+  margin: 0px 0 20px 100px;
   font-size: 25px;
   font-weight: bold;
   line-height: 0.96;

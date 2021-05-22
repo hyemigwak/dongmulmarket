@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { Container } from "../element";
-import Post from "../components/Post";
+import { FloatBtn, Post } from "../components";
 import Spinner from "../shared/Spinner";
 
 const PostList = (props) => {
@@ -34,6 +34,7 @@ const PostList = (props) => {
             return <Post {...post} key={idx} />;
           })}
         </PostListC>
+        <FloatBtn />
       </Container>
     </React.Fragment>
   );

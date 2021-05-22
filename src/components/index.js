@@ -11,5 +11,8 @@ import LoginChat from "./LoginChat";
 import ChatUsers from "./ChatUsers";
 import ChattingInput from "./ChattingInput";
 import NavBar from "./NavBar";
+import FloatBtn from "./FloatBtn";
+import Banners from "./Banners";
+import Post from "./Post";
 
-export { Footer, Header, MyLocation, EditAddress, Chat, AddressChange, OneChat, GroupChat, NoLogin, LoginChat, ChatUsers, ChattingInput, NavBar };
+export { Footer, Header, MyLocation, EditAddress, Chat, AddressChange, OneChat, GroupChat, NoLogin, LoginChat, ChatUsers, ChattingInput, NavBar, FloatBtn, Banners, Post };
