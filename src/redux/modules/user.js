@@ -15,7 +15,10 @@ const FIND_PWD = "FIND_PWD"; //비밀번호 찾기
 const USER_INFO = "USER_INFO"; //유저정보 계속 유지하기
 
 //actionCreators
-const logIn = createAction(LOG_IN, (user, login_type) => ({ user, login_type }));
+const logIn = createAction(LOG_IN, (user, login_type) => ({
+  user,
+  login_type,
+}));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const loginCheck = createAction(LOGIN_CHECK, (cookie) => ({ cookie }));
 const validateEmail = createAction(VALIDATE_EMAIL, (user) => ({ user })); //이메일 인증
@@ -42,7 +45,9 @@ const GoogleLoginAPI = (response) => {
       data: {
         email: response.profileObj.email,
         firstName: response.profileObj.name,
-        lastName: response.profileObj.familyName ? response.profileObj.familyName : "",
+        lastName: response.profileObj.familyName
+          ? response.profileObj.familyName
+          : "",
       },
     })
       .then((res) => {
@@ -131,13 +136,14 @@ const kakaoLoginAPI = (response) => {
 //로그인 유지
 const UserInfoChkAPI = () => {
   return function (dispatch, getState, { history }) {
+    console.log("UserInfoChkAPI");
     let token = getCookie("user_login");
     axios({
       method: "POST",
       url: `${config.api}/account/reset`,
-      headers: {
-        authorization: token,
-      },
+      // headers: {
+      //   authorization: token,
+      // },
     })
       .then((res) => {
         if (res.data.msg === "success") {
@@ -187,9 +193,6 @@ const loginAPI = (email, pwd) => {
             nickname: res.data.nickname,
             token: res.data.token,
           };
-
-          //디폴트로 헤더에 토큰 담아주기
-          axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
 
           dispatch(logIn(user_data, "normal"));
 

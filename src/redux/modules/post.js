@@ -80,9 +80,9 @@ const myPageAPI = () => {
     axios({
       method: "GET",
       url: `${config.api}/myPage`,
-      headers: {
-        authorization: token,
-      },
+      // headers: {
+      //   authorization: token,
+      // },
     })
       .then((res) => {
         if (res.data.msg === "success") {
@@ -237,7 +237,12 @@ const exchangeUserList = (socket, { loginEmail, itemId, email, icrId }) => {
       (data) => {
         console.log(data);
         if (data["msg"] === "success") {
-          socket.emit("exchange", { hostEmail: loginEmail, consumerEmail: email, itemId, icrId });
+          socket.emit("exchange", {
+            hostEmail: loginEmail,
+            consumerEmail: email,
+            itemId,
+            icrId,
+          });
         }
       }
     );
