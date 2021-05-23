@@ -17,6 +17,7 @@ const FloatBtn = () => {
 
 const BtnArea = styled.div`
   position: fixed;
+  z-index: 5000;
   bottom: 34%;
   right: 12%;
   cursor: pointer;
@@ -34,7 +35,7 @@ const BtnArea = styled.div`
   }
 
   .survey {
-    z-index: 3500;
+    z-index: 5000;
     opacity: 0;
     position: absolute;
     bottom: 100%;

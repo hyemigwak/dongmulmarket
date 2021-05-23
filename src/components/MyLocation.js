@@ -11,7 +11,6 @@ const { kakao } = window;
 
 const MyLocation = (props) => {
   const dispatch = useDispatch();
-  const nickname = localStorage.getItem("nickname");
 
   //모달 영역
   const [modalOpen, setModalOpen] = useState(false);
@@ -34,7 +33,7 @@ const MyLocation = (props) => {
   const locationCheck = () => {
     if (address.includes("관악구")) {
       Swal.fire({
-        title: `안녕하세요! ${nickname} 님 동물마켓에 오신걸 환영해요`,
+        title: `안녕하세요! 동물마켓에 오신걸 환영해요`,
         confirmButtonColor: "#3fbe81",
         confirmButtonText: "확인",
       });

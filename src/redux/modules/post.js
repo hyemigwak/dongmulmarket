@@ -32,6 +32,7 @@ const initialState = {
   post_list: [],
   detail_list: [],
   mypage_list: [],
+  login_post_list: [],
   is_loading: false,
   boss: {},
   new_address: "",
@@ -46,9 +47,6 @@ const ChangeAddressAPI = (email, new_address) => {
     axios({
       method: "POST",
       url: `${config.api}/myPage/address`,
-      headers: {
-        authorization: token,
-      },
       data: {
         email: email,
         new_address: new_address,
@@ -152,6 +150,34 @@ const getPostAPI = () => {
       })
       .catch((e) => {
         console.log("getPostAPI 오류", e);
+      });
+  };
+};
+
+//로그인 한 사용자들한테만 보여주기
+const LogingetPostAPI = () => {
+  return function (dispatch, getState, { history }) {
+    dispatch(loading(true));
+    axios({
+      method: "GET",
+      url: `${config.api}/mainPage`,
+    })
+      .then((res) => {
+        if (res.data.msg === "success") {
+          console.log("포스트리스트", res.data);
+          const post_list = res.data.data;
+          //종료일 기준으로 내림차순 정렬
+          post_list.sort(function (a, b) {
+            return a.deadLine < b.deadLine ? -1 : a.deadLine > b.deadLine ? 1 : 0;
+          });
+          dispatch(getPost(post_list));
+          dispatch(loading(false));
+        } else {
+          console.log("메인 로그인 데이터 fail");
+        }
+      })
+      .catch((e) => {
+        console.log("LogingetPostAPI 오류", e);
       });
   };
 };
@@ -308,6 +334,7 @@ const actionCreators = {
   getPost,
   addPost,
   getPostAPI,
+  LogingetPostAPI,
   addPostAPI,
   getOnePostAPI,
   deletePostAPI,

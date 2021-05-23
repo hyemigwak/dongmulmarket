@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import DaumPostcode from "react-daum-postcode";
 import { Container } from "../element";
@@ -12,9 +12,10 @@ const AddressChange = (props) => {
   const dispatch = useDispatch();
   const { open, close } = props;
 
-  const email = localStorage.getItem("email");
+  const { email } = useSelector((state) => state.user.user);
 
   const editMyAddress = () => {
+    console.log(email);
     dispatch(postActions.ChangeAddressAPI(email, new_address));
     close();
   };

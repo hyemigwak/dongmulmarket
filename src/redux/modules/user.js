@@ -52,8 +52,6 @@ const GoogleLoginAPI = (response) => {
 
           //토큰 저장하기
           setCookie("user_login", jwtToken);
-          localStorage.setItem("email", email);
-          localStorage.setItem("nickname", nickname);
 
           //딕셔너리
           const user_data = {
@@ -100,8 +98,6 @@ const kakaoLoginAPI = (response) => {
 
           //토큰 저장하기
           setCookie("user_login", jwtToken);
-          localStorage.setItem("email", email);
-          localStorage.setItem("nickname", nickname);
 
           //딕셔너리
           const user_data = {
@@ -152,8 +148,6 @@ const loginAPI = (email, pwd) => {
 
           //토큰은 setCookie에 저장하고 nickname이랑 email은 로컬 스토리지에 저장
           setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
-          localStorage.setItem("nickname", nickname); //유저 닉네임 저장
-          localStorage.setItem("email", email); //유저 이메일 저장
 
           //딕셔너리
           const user_data = {
@@ -340,7 +334,6 @@ const LogOutMiddleware = () => {
     if (loginType === "normal") {
       deleteCookie("user_login");
       deleteCookie("G_AUTHUSER_H");
-      localStorage.clear();
       dispatch(logOut());
       return;
     }
@@ -349,7 +342,6 @@ const LogOutMiddleware = () => {
       deleteCookie("user_login");
       deleteCookie("kakao_nickname");
       deleteCookie("G_AUTHUSER_H");
-      localStorage.clear();
       dispatch(logOut());
 
       return;
@@ -359,7 +351,6 @@ const LogOutMiddleware = () => {
       //딜리트쿠키에
       deleteCookie("user_login");
       deleteCookie("G_AUTHUSER_H");
-      localStorage.clear();
       dispatch(logOut());
 
       return;
