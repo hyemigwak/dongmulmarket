@@ -81,8 +81,6 @@ const AddProduct = (props) => {
       return;
     }
     dispatch(postActions.addPostAPI(imgfile, category, myItem, wantItem, content, expireDate));
-    //라우터에서 detail 게시물로 가서 확인하게 하기
-    history.replace("/");
   };
 
   return (

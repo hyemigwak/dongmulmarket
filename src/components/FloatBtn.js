@@ -94,6 +94,14 @@ const BtnArea = styled.div`
       left: -30%;
       opacity: 1;
       width: 120px;
+
+      @media (max-width: 767px) {
+        display: none;
+      }
+
+      @media (min-width: 768px) and (max-width: 1199px) {
+        display: none;
+      }
     }
   }
 `;

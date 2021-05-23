@@ -45,7 +45,6 @@ const MyLocation = (props) => {
         confirmButtonColor: "#3fbe81",
         confirmButtonText: "확인",
       });
-      history.push("/");
     } else {
       const str = address.split(" ");
       const new_address = str[0] + " " + str[1];
@@ -55,7 +54,6 @@ const MyLocation = (props) => {
         confirmButtonColor: "#3fbe81",
         confirmButtonText: "확인",
       });
-      history.push("/");
     }
   };
 

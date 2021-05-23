@@ -61,6 +61,7 @@ const ChangeAddressAPI = (email, new_address) => {
             confirmButtonColor: "#3fbe81",
             confirmButtonText: "확인",
           });
+          history.push("/");
         } else {
           console.log("res.data.msg === fail");
         }
@@ -79,6 +80,9 @@ const myPageAPI = () => {
     axios({
       method: "GET",
       url: `${config.api}/myPage`,
+      headers: {
+        authorization: token,
+      },
     })
       .then((res) => {
         if (res.data.msg === "success") {
@@ -155,9 +159,13 @@ const getPostAPI = () => {
 const LogingetPostAPI = () => {
   return function (dispatch, getState, { history }) {
     dispatch(loading(true));
+    let token = getCookie("user_login");
     axios({
       method: "GET",
       url: `${config.api}/mainPage`,
+      headers: {
+        authorization: token,
+      },
     })
       .then((res) => {
         if (res.data.msg === "success") {
@@ -263,6 +271,7 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
             confirmButtonColor: "#3fbe81",
             confirmButtonText: "확인",
           });
+          history.push("/");
         } else {
           Swal.fire({
             title: "글 작성에 실패했습니다.",
