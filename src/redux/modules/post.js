@@ -79,9 +79,6 @@ const myPageAPI = () => {
     axios({
       method: "GET",
       url: `${config.api}/myPage`,
-      // headers: {
-      //   authorization: token,
-      // },
     })
       .then((res) => {
         if (res.data.msg === "success") {

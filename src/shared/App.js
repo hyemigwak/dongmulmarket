@@ -10,6 +10,7 @@ import { Header, Footer, MyLocation, AddressChange } from "../components";
 import NotFound from "./NotFound";
 import Spinner from "./Spinner";
 import { getCookie } from "./Cookie";
+import { createDispatchHook } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,8 +19,9 @@ function App() {
   useEffect(() => {
     if (cookie) {
       dispatch(userActions.loginCheck(cookie));
+      dispatch(userActions.UserInfoChkAPI());
     }
-  });
+  }, [cookie]);
 
   return (
     <ConnectedRouter history={history}>

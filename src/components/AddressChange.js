@@ -26,7 +26,7 @@ const AddressChange = (props) => {
   // 지번주소만 서버에 보내주면 됨
   const [isAddress, setIsAddress] = useState("");
   const str = isAddress.split(" ");
-  const new_address = str[0] + " " + str[1] + " " + str[2];
+  const new_address = str[0] + " " + str[1];
 
   // 우편번호 / 주소 찾기
   function sample4_execDaumPostcode() {

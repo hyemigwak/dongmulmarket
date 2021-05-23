@@ -26,7 +26,6 @@ const Signup = (props) => {
   const [AuthFail, SetAuthFail] = useState(""); // 인증번호 불일치
   const [show, setShow] = useState(false); //이메일 중복 아닐 때, 인증번호 창 보이게 하기
   const [validate, setValidate] = useState(false);
-  const [address, setAddress] = useState("");
 
   const onChangeEmail = useCallback((e) => setEmail(e.target.value), []);
   const onChangeAuthnumber = useCallback((e) => setAuthNumber(e.target.value), []);
@@ -163,7 +162,7 @@ const Signup = (props) => {
       });
       return;
     }
-    dispatch(userActions.signupAPI(email, nickname, pwd, address));
+    dispatch(userActions.signupAPI(email, nickname, pwd));
   };
 
   return (
