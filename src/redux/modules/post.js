@@ -79,6 +79,9 @@ const myPageAPI = () => {
     axios({
       method: "GET",
       url: `${config.api}/myPage`,
+      // headers: {
+      //   authorization: token,
+      // },
     })
       .then((res) => {
         if (res.data.msg === "success") {
@@ -137,7 +140,11 @@ const getPostAPI = () => {
           const post_list = res.data.data;
           //종료일 기준으로 내림차순 정렬
           post_list.sort(function (a, b) {
-            return a.deadLine < b.deadLine ? -1 : a.deadLine > b.deadLine ? 1 : 0;
+            return a.deadLine < b.deadLine
+              ? -1
+              : a.deadLine > b.deadLine
+              ? 1
+              : 0;
           });
           dispatch(getPost(post_list));
           dispatch(loading(false));
@@ -165,7 +172,11 @@ const LogingetPostAPI = () => {
           const post_list = res.data.data;
           //종료일 기준으로 내림차순 정렬
           post_list.sort(function (a, b) {
-            return a.deadLine < b.deadLine ? -1 : a.deadLine > b.deadLine ? 1 : 0;
+            return a.deadLine < b.deadLine
+              ? -1
+              : a.deadLine > b.deadLine
+              ? 1
+              : 0;
           });
           dispatch(getPost(post_list));
           dispatch(loading(false));
@@ -229,7 +240,12 @@ const exchangeUserList = (socket, { loginEmail, itemId, email, icrId }) => {
       (data) => {
         console.log(data);
         if (data["msg"] === "success") {
-          socket.emit("exchange", { hostEmail: loginEmail, consumerEmail: email, itemId, icrId });
+          socket.emit("exchange", {
+            hostEmail: loginEmail,
+            consumerEmail: email,
+            itemId,
+            icrId,
+          });
         }
       }
     );
@@ -237,7 +253,14 @@ const exchangeUserList = (socket, { loginEmail, itemId, email, icrId }) => {
 };
 
 //물품 등록하기
-const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) => {
+const addPostAPI = (
+  imgfile,
+  category,
+  myItem,
+  wantItem,
+  content,
+  expireDate
+) => {
   return function (dispatch, getState, { history }) {
     let formdata = new FormData();
     formdata.append("file", imgfile);
@@ -257,7 +280,9 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
     })
       .then((res) => {
         if (res.data.msg === "success") {
-          dispatch(addPost(imgfile, category, myItem, wantItem, content, expireDate));
+          dispatch(
+            addPost(imgfile, category, myItem, wantItem, content, expireDate)
+          );
           Swal.fire({
             title: "등록 완료입니다!",
             confirmButtonColor: "#3fbe81",
@@ -303,7 +328,9 @@ export default handleActions(
       }),
     [DELETE_POST]: (state, action) =>
       produce(state, (draft) => {
-        let idx = draft.mypage_list.findIndex((p) => p.itemId === action.payload.itemId);
+        let idx = draft.mypage_list.findIndex(
+          (p) => p.itemId === action.payload.itemId
+        );
         draft.mypage_list.splice(idx, 1);
       }),
     [CLEAR_POST]: (state, action) =>
