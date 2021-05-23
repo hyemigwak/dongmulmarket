@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import logo1 from "../image/logo1.png";
 import { useMediaQuery } from "react-responsive";
 
-const Footer = () => {
+const Footer = memo(() => {
   const isMobile = useMediaQuery({
     query: "(max-width: 767px)",
   });
@@ -108,7 +108,7 @@ const Footer = () => {
       </FootC>
     </React.Fragment>
   );
-};
+});
 
 const FootC = styled.div`
   width: 100vw;
@@ -128,7 +128,7 @@ const FootC = styled.div`
 
   @media (min-width: 768px) and (max-width: 1199px) {
     height: 530px;
-    padding: 7% 15%;
+    padding: 10% 8%;
     background: #f5f5f5;
   }
 `;

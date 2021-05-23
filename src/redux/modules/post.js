@@ -1,5 +1,5 @@
 import { createAction, handleActions } from "redux-actions";
-import { produce, produceWithPatches } from "immer";
+import { produce } from "immer";
 import axios from "axios";
 import { getCookie } from "../../shared/Cookie";
 import { config } from "../../shared/config";
@@ -8,11 +8,11 @@ import Swal from "sweetalert2";
 //actions
 const GET_POST = "GET_POST";
 const ONE_POST = "ONE_POST";
-const CLEAR_ONE = "CLEAR_ONE";
 const ADD_POST = "ADD_POST";
 const LOADING = "LOADING";
 const ISBOSS = "ISBOSS";
 const DELETE_POST = "DELETE_POST";
+const CLEAR_POST = "CLEAR_POST";
 const MY_PAGE = "MY_PAGE";
 const MY_ADDRESS = "MY_ADDRESS";
 
@@ -23,7 +23,7 @@ const addPost = createAction(ADD_POST, (post) => ({ post }));
 const onePost = createAction(ONE_POST, (post) => ({ post }));
 const isBoss = createAction(ISBOSS, (button) => ({ button }));
 const deletePost = createAction(DELETE_POST, (itemId) => ({ itemId }));
-const clearOne = createAction(CLEAR_ONE, () => ({}));
+const clearPost = createAction(CLEAR_POST);
 const myPage = createAction(MY_PAGE, (my_list) => ({ my_list }));
 const myAddress = createAction(MY_ADDRESS, (address) => ({ address }));
 
@@ -81,9 +81,9 @@ const myPageAPI = () => {
     axios({
       method: "GET",
       url: `${config.api}/myPage`,
-      headers: {
-        authorization: token,
-      },
+      // headers: {
+      //   authorization: token,
+      // },
     })
       .then((res) => {
         if (res.data.msg === "success") {
@@ -106,15 +106,14 @@ const deletePostAPI = (itemId) => {
     axios({
       method: "DELETE",
       url: `${config.api}/mainPage/delete`,
-      headers: {
-        authorization: token,
-      },
+      // headers: {
+      //   authorization: token,
+      // },
       data: {
         itemId: itemId,
       },
     })
       .then((res) => {
-        console.log(res.data);
         if (res.data.msg === "success") {
           dispatch(deletePost(itemId));
           Swal.fire({
@@ -159,14 +158,12 @@ const getPostAPI = () => {
 
 //디테일 하나만 불러오기
 const getOnePostAPI = (itemId) => {
-  console.log("itemId", itemId);
   return async function (dispatch, getState, { history }) {
     dispatch(loading(true));
     await axios
       .get(`${config.api}/postDetail/${itemId}`)
       .then((res) => {
         if (res.data.msg === "success") {
-          console.log(res);
           dispatch(onePost(res.data.data));
           dispatch(loading(false));
         } else {
@@ -179,12 +176,46 @@ const getOnePostAPI = (itemId) => {
   };
 };
 
+//채팅 유저 강퇴
+const kickUserList = (socket, { itemId, email, icrId }) => {
+  return function (dispatch, getState, { history }) {
+    let token = getCookie("user_login");
+    socket.emit(
+      "authenticate",
+      {
+        token: token,
+      },
+      (data) => {
+        if (data["msg"] === "success") {
+          socket.emit("kickUser", { email, itemId, icrId });
+        }
+      }
+    );
+  };
+};
+
+//채팅 유저 교환 확정
+const exchangeUserList = (socket, { loginEmail, itemId, email, icrId }) => {
+  return function (dispatch, getState, { history }) {
+    let token = getCookie("user_login");
+    socket.emit(
+      "authenticate",
+      {
+        token: token,
+      },
+      (data) => {
+        console.log(data);
+        if (data["msg"] === "success") {
+          socket.emit("exchange", { hostEmail: loginEmail, consumerEmail: email, itemId, icrId });
+        }
+      }
+    );
+  };
+};
+
 //물품 등록하기
 const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) => {
   return function (dispatch, getState, { history }) {
-    //이미지 전달, formdata 사용
-    let token = getCookie("user_login");
-    console.log(token);
     let formdata = new FormData();
     formdata.append("file", imgfile);
     formdata.append("category", category);
@@ -198,13 +229,11 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
       url: `${config.api}/mainPage/write`,
       data: formdata,
       headers: {
-        Authorization: token,
         "Content-Type": "multipart/form-data",
       },
     })
       .then((res) => {
         if (res.data.msg === "success") {
-          console.log(res.data);
           dispatch(addPost(imgfile, category, myItem, wantItem, content, expireDate));
           Swal.fire({
             title: "등록 완료입니다!",
@@ -235,8 +264,6 @@ export default handleActions(
       }),
     [ONE_POST]: (state, action) =>
       produce(state, (draft) => {
-        // draft.detail_list = [];
-        console.log("액션포스트", action.payload.post);
         draft.is_loading = action.payload.loading;
         draft.detail_list = action.payload.post;
       }),
@@ -256,11 +283,9 @@ export default handleActions(
         let idx = draft.mypage_list.findIndex((p) => p.itemId === action.payload.itemId);
         draft.mypage_list.splice(idx, 1);
       }),
-    [CLEAR_ONE]: (state, action) =>
+    [CLEAR_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.detail_list = [];
-        draft.chat_list = [];
-        draft.user_list = [];
       }),
     [MY_PAGE]: (state, action) =>
       produce(state, (draft) => {
@@ -286,7 +311,9 @@ const actionCreators = {
   addPostAPI,
   getOnePostAPI,
   deletePostAPI,
-  clearOne,
+  clearPost,
+  kickUserList,
+  exchangeUserList,
   myPageAPI,
   ChangeAddressAPI,
 };

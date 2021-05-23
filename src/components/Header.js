@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, memo } from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import { useMediaQuery } from "react-responsive";
 import MenuIcon from "@material-ui/icons/Menu";
 import xbtn from "../image/xbtn.png";
 
-const Header = (props) => {
+const Header = memo((props) => {
   const isMobile = useMediaQuery({
     query: "(max-width: 767px)",
   });
@@ -22,6 +22,9 @@ const Header = (props) => {
   const cookie = getCookie("user_login") ? true : false;
 
   const siteLogout = () => {
+    if (navOpen) {
+      close();
+    }
     Swal.fire({
       title: "로그아웃 하시겠습니까?",
       showCancelButton: true,
@@ -199,7 +202,7 @@ const Header = (props) => {
       </React.Fragment>
     );
   }
-};
+});
 
 const HeaderC = styled.div`
   position: fixed;

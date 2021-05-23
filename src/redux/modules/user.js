@@ -1,29 +1,24 @@
 import { createAction, handleActions } from "redux-actions";
-import { produce, produceWithPatches } from "immer";
+import { produce } from "immer";
 import axios from "axios";
-import { setCookie, deleteCookie, getCookie } from "../../shared/Cookie";
+import { setCookie, deleteCookie } from "../../shared/Cookie";
 import { config } from "../../shared/config";
-import GoogleLogin from "react-google-login";
 import Swal from "sweetalert2";
 
 //actions
 const LOG_IN = "LOG_IN"; //로그인
 const LOG_OUT = "LOG_OUT"; //로그아웃
 const LOGIN_CHECK = "LOGIN_CHECK"; //로그인 유지
-const GET_USER = "GET_USER"; //유저email 있는지 여부 받아오기
 const GET_AUTHNUM = "GET_AUTHNUM"; // 인증번호 받아오기
 const VALIDATE_EMAIL = "VALIDATE_EMAIL"; //이메일 인증 확인
 const FIND_PWD = "FIND_PWD"; //비밀번호 찾기
-const CHANGE_PWD = "CHANGE_PWD"; //비밀번호 변경
 
 //actionCreators
 const logIn = createAction(LOG_IN, (user, login_type) => ({ user, login_type }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const loginCheck = createAction(LOGIN_CHECK, (cookie) => ({ cookie }));
-const getUser = createAction(GET_USER, (user) => ({ user })); // 이메일 중복체크
 const validateEmail = createAction(VALIDATE_EMAIL, (user) => ({ user })); //이메일 인증
 const findPwd = createAction(FIND_PWD, (email) => ({ email }));
-const changePwd = createAction(CHANGE_PWD, (user_info) => ({ user_info }));
 
 //initialState
 const initialState = {
@@ -49,10 +44,7 @@ const GoogleLoginAPI = (response) => {
       },
     })
       .then((res) => {
-        console.log(res.data, "googleLogin");
         if (res.data.msg === "success") {
-          console.log(res.data);
-
           //토큰 받아오기
           const jwtToken = res.data.token;
           const nickname = res.data.nickname;
@@ -101,8 +93,6 @@ const kakaoLoginAPI = (response) => {
     })
       .then((res) => {
         if (res.data.msg === "success") {
-          console.log(res.data); // response 확인
-
           //토큰 받아오기
           const jwtToken = res.data.token;
           const nickname = res.data.nickname;
@@ -161,10 +151,9 @@ const loginAPI = (email, pwd) => {
           const email = res.data.email;
 
           //토큰은 setCookie에 저장하고 nickname이랑 email은 로컬 스토리지에 저장
-
           setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
           localStorage.setItem("nickname", nickname); //유저 닉네임 저장
-          localStorage.setItem("email", email); //유저 이메일 저장 -> 나만 보이는 버튼에서 true/false 여부로 쓸 예정
+          localStorage.setItem("email", email); //유저 이메일 저장
 
           //딕셔너리
           const user_data = {
@@ -172,6 +161,9 @@ const loginAPI = (email, pwd) => {
             nickname: res.data.nickname,
             token: res.data.token,
           };
+
+          //디폴트로 헤더에 토큰 담아주기
+          axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
 
           dispatch(logIn(user_data, "normal"));
 
@@ -226,7 +218,6 @@ const signupAPI = (email, nickname, pwd, address) => {
       },
     })
       .then((res) => {
-        console.log(res);
         Swal.fire({
           title: "회원가입 성공",
           text: "축하합니다. 동물마켓의 회원이 되어주셔서 감사합니다.",
@@ -252,7 +243,6 @@ const EmailValidationAPI = (email, authnumber) => {
       },
     })
       .then((res) => {
-        console.log("이메일 인증번호 클릭 데이터", res.data);
         if (res.data.msg === "success") {
           dispatch(validateEmail(true));
         } else {
@@ -279,7 +269,6 @@ const FindPwdAPI = (email) => {
       },
     })
       .then((res) => {
-        console.log(res.data);
         if (res.data.msg === "success") {
           dispatch(findPwd(email));
           localStorage.setItem("email", email);
@@ -306,7 +295,6 @@ const FindPwdAPI = (email) => {
 //비밀번호 변경
 const ChangePwdAPI = (email, pwd, newPwd) => {
   return function (dispatch, getState, { history }) {
-    console.log("api이메일", email);
     axios({
       method: "POST",
       url: `${config.api}/account/changepassword`,
@@ -317,7 +305,6 @@ const ChangePwdAPI = (email, pwd, newPwd) => {
       },
     })
       .then((res) => {
-        console.log(res.data);
         if (res.data.msg === "success") {
           Swal.fire({
             title: "비밀번호가 변경되었습니다. 다시 로그인해주세요!",
@@ -349,7 +336,6 @@ const ChangePwdAPI = (email, pwd, newPwd) => {
 const LogOutMiddleware = () => {
   return function (dispatch, getState, { history }) {
     const loginType = getState().user.login_type;
-    console.log(loginType);
 
     if (loginType === "normal") {
       deleteCookie("user_login");
@@ -400,13 +386,8 @@ export default handleActions(
       produce(state, (draft) => {
         draft.is_login = action.payload.cookie;
       }),
-    [GET_USER]: (state, action) =>
-      produce(state, (draft) => {
-        draft.is_exist = action.payload.user; //true / false
-      }),
     [GET_AUTHNUM]: (state, action) =>
       produce(state, (draft) => {
-        console.log(action.payload.authnumber);
         draft.AuthNumber = action.payload.authnumber;
       }),
     [VALIDATE_EMAIL]: (state, action) =>

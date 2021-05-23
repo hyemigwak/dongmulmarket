@@ -1,14 +1,13 @@
-import React, { useEffect, memo } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
-import { NoLogin, Chat } from "../components";
+import { NoLogin, Chatting } from "../components";
 import { Container } from "../element";
 import { useMediaQuery } from "react-responsive";
 
-
-const Detail = memo((props) => {
+const Detail = ({ history }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -18,7 +17,7 @@ const Detail = memo((props) => {
   useEffect(() => {
     dispatch(postActions.getOnePostAPI(id));
   }, [dispatch, id]);
-  
+
   const isMobile = useMediaQuery({
     query: "(max-width: 767px)",
   });
@@ -31,69 +30,63 @@ const Detail = memo((props) => {
     query: "(min-width: 1200px)",
   });
 
-
   return (
     <React.Fragment>
       <Container>
-      <WrapDetail>
-        <Title>물품 교환하기</Title>
-        <InfoTitle>상품 정보</InfoTitle>
-         
-        
-        <WrapBox>
-          
+        <WrapDetail>
+          <Title>물품 교환하기</Title>
+          <InfoTitle>상품 정보</InfoTitle>
+
+          <WrapBox>
             <ProductsBox>
-            <Img src={detail.image} />
-            <TableBox>
-              <tr>
-                <TitleText>품목명</TitleText>
-                <DetailText>{detail.title}</DetailText>
-              </tr>
-              <tr>
-                <TitleText>카테고리</TitleText>
-                <DetailText>{detail.category}</DetailText>
-              </tr>
-              <tr>
-                <TitleText>희망 교환템</TitleText>
-                <DetailText>{detail.wantItem}</DetailText>
-              </tr>
-              <tr>
-                <TitleText>글 올린 시간</TitleText>
-                <DetailText>{detail.createdDt}</DetailText>
-              </tr>
-              <tr>
-                <TitleText>교환 종료 시간</TitleText>
-                <DetailText>{detail.deadLine}</DetailText>
-              </tr>
-              <tr>
-                <TitleText>코멘트</TitleText>
-                <DetailText>{detail.comment}</DetailText>
-              </tr>
-            </TableBox>
-          </ProductsBox>
-         
-         
-          {detail?.icrId && is_login ? <Chat {...detail} /> : <NoLogin />}
-        </WrapBox>
-      </WrapDetail>
+              <Img src={detail.image} />
+              <TableBox>
+                <tr>
+                  <TitleText>품목명</TitleText>
+                  <DetailText>{detail.title}</DetailText>
+                </tr>
+                <tr>
+                  <TitleText>카테고리</TitleText>
+                  <DetailText>{detail.category}</DetailText>
+                </tr>
+                <tr>
+                  <TitleText>희망 교환템</TitleText>
+                  <DetailText>{detail.wantItem}</DetailText>
+                </tr>
+                <tr>
+                  <TitleText>글 올린 시간</TitleText>
+                  <DetailText>{detail.createdDt}</DetailText>
+                </tr>
+                <tr>
+                  <TitleText>교환 종료 시간</TitleText>
+                  <DetailText>{detail.deadLine}</DetailText>
+                </tr>
+                <tr>
+                  <TitleText>코멘트</TitleText>
+                  <DetailText>{detail.comment}</DetailText>
+                </tr>
+              </TableBox>
+            </ProductsBox>
+
+            {detail?.icrId && is_login ? <Chatting {...detail} history={history} /> : <NoLogin />}
+          </WrapBox>
+        </WrapDetail>
       </Container>
-    
     </React.Fragment>
   );
-});
+};
 
 const WrapDetail = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
   width: 1200px;
- // height: 100vh;
+  // height: 100vh;
   margin: 160px auto;
- 
+
   @media (max-width: 767px) {
-    height:1400px;
+    height: 1400px;
     //height: 100vh;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
-    
     height: 100vh;
   }
 `;
@@ -109,9 +102,8 @@ const Title = styled.div`
   @media (max-width: 767px) {
     margin: 63px 167px 0px 10px;
   }
-  
+
   @media (min-width: 768px) and (max-width: 1190px) {
-  
     margin: 63px 167px 0px 10px;
   }
 `;
@@ -126,12 +118,11 @@ const InfoTitle = styled.div`
   text-align: left;
   color: #1c1c1c;
   margin-left: 50px;
- 
+
   @media (max-width: 767px) {
     margin: 30px 167px 0px 10px;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
-  
     margin: 30px 167px 0px 10px;
   }
 `;
@@ -142,10 +133,8 @@ const WrapBox = styled.div`
   //height:100vh;
 
   @media (max-width: 767px) {
-   display:block;
+    display: block;
   }
-  
- 
 `;
 
 const ProductsBox = styled.div`
@@ -173,33 +162,32 @@ const Img = styled.img`
   top: 10px;
   @media (max-width: 767px) {
     position: absolute;
-    top:250px;
-    left:238px;
-    
+    top: 250px;
+    left: 238px;
+
     width: 250px;
-    height:250px;
+    height: 250px;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
     position: absolute;
-    top:270px;
-    left:10px;
+    top: 270px;
+    left: 10px;
   }
 `;
 
 const TableBox = styled.table`
   width: 353.1px;
   height: 240px;
- 
+
   @media (max-width: 767px) {
-   position: absolute;
-    top:520px;
-    left:230px;
+    position: absolute;
+    top: 520px;
+    left: 230px;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
-  
     position: absolute;
-    top:300px;
-    left:380px;
+    top: 300px;
+    left: 380px;
   }
 `;
 
@@ -214,8 +202,7 @@ const TitleText = styled.td`
   @media (max-width: 767px) {
     font-size: 14px;
     width: 100px;
-    
-   }
+  }
 `;
 
 const DetailText = styled.td`
@@ -228,7 +215,7 @@ const DetailText = styled.td`
 
   @media (max-width: 767px) {
     font-size: 14px;
-   }
+  }
 `;
 
 export default Detail;

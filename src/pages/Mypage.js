@@ -2,9 +2,9 @@ import React, { Component, useState, useEffect } from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
-import bellimg from "../image/bell.png";
 import { actionCreators as postActions } from "../redux/modules/post";
 
+import bellimg from "../image/bell.png";
 import Carousel from "../components/Carousel";
 import Carousel2 from "../components/Carousel2";
 import Carousel3 from "../components/Carousel3";

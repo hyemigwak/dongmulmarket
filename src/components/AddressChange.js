@@ -24,7 +24,6 @@ const AddressChange = (props) => {
 
   // 지번주소만 서버에 보내주면 됨
   const [isAddress, setIsAddress] = useState("");
-  console.log(isAddress);
   const str = isAddress.split(" ");
   const new_address = str[0] + " " + str[1] + " " + str[2];
 

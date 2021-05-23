@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { history } from "../redux/configureStore";
 import styled from "styled-components";
@@ -19,7 +19,7 @@ const Login = () => {
   const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
 
   //일반 로그인
-  const onSiteLogin = () => {
+  const onSiteLogin = useCallback(() => {
     if (email === "" || pwd === "") {
       Swal.fire({
         title: "이메일과 비밀번호를 모두 입력해주세요!",
@@ -29,14 +29,10 @@ const Login = () => {
       return;
     }
     dispatch(userActions.loginAPI(email, pwd));
-  };
+  }, [dispatch, pwd, email]);
 
   //카카오로그인
   const kakaoLoginSuccess = (res) => {
-    console.log(res);
-    console.log(res.profile.properties.nickname);
-    console.log(res.profile.kakao_account.email);
-
     dispatch(userActions.kakaoLoginAPI(res));
   };
 
@@ -168,7 +164,6 @@ const WrapLogin = styled.div`
   flex-direction: column;
 
   @media (max-width: 767px) {
-    
     width: 100%;
     display: flex;
     justify-content: center;

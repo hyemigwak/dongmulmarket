@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PostList from "./PostList";
 import { Container } from "../element";
-import { FloatBtn, Banners } from "../components";
+import { Banners } from "../components";
 
 const Main = (props) => {
   return (
@@ -12,7 +12,6 @@ const Main = (props) => {
         <Container>
           <Title>교환을 기다리고 있어요!</Title>
           <PostList />
-          <FloatBtn />
         </Container>
       </WrapMain>
     </React.Fragment>

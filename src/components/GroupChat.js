@@ -1,10 +1,8 @@
-import React, { useState, memo, useSelector } from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
-const GroupChat = memo((props) => {
-  const email = localStorage.getItem("email");
-  const is_me = email === props.email ? true : false;
-  // const chatList = useSelector((state) => state.chat.chat_list);
+const GroupChat = memo(({ me, ...props }) => {
+  const is_me = me === props.email ? true : false;
 
   if (is_me) {
     return (
@@ -73,7 +71,7 @@ const EntranceMsg = styled.div`
 
 const MySpeech = styled.div`
   align-items: right;
-  margin-left: 350px;
+  margin-left: 280px;
 `;
 
 const OtherSpeech = styled.div``;
@@ -83,7 +81,6 @@ const MyNameTag = styled.div`
   flex-grow: 0;
   width: 90px;
   margin: 0 0px 6px 187px;
-  font-family: NotoSans;
   font-size: 14px;
   font-weight: 500;
   font-stretch: normal;
@@ -108,7 +105,7 @@ const OtherNameTag = styled.div`
 `;
 
 const MyBubble = styled.div`
-  width: 300px;
+  width: 240px;
   height: 49px;
   flex-grow: 0;
   display: flex;
@@ -123,7 +120,7 @@ const MyBubble = styled.div`
 `;
 
 const OtherBubble = styled.div`
-  width: 300px;
+  width: 240px;
   height: 49px;
   flex-grow: 0;
   display: flex;

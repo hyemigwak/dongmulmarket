@@ -1,13 +1,11 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import { MiniCalendar } from "../components";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import moment from "moment";
 import { DatePicker, Space } from "antd";
 import { history } from "../redux/configureStore";
 import "antd/dist/antd.css";
-import { getCookie } from "../shared/Cookie";
 import { Container } from "../element";
 import camera from "../image/camera.svg";
 import preview_img from "../image/preview_img.JPG";
@@ -23,10 +21,6 @@ const AddProduct = (props) => {
     query: "(max-width: 767px)",
   });
 
-  //로그인 여부로 분기하기
-  const cookie = getCookie("user_login") ? true : false;
-  const is_login = useSelector((state) => state.user.is_login);
-
   //input받아서 서버에 보내줄 값들
   const [preview, setPreview] = useState(isMobile ? nemogray : preview_img);
   const [imgfile, setImgFile] = useState(null);
@@ -36,8 +30,6 @@ const AddProduct = (props) => {
   const [content, setContent] = useState("");
   const [expireDate, setExpireDate] = useState("");
   const [deadLine, setDeadLine] = useState("");
-  console.log(expireDate);
-  const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
 
   const onChangeCategory = useCallback((e) => setCategory(e.target.value), []);
   const onChangeMyItem = useCallback((e) => setMyItem(e.target.value), []);
@@ -61,8 +53,6 @@ const AddProduct = (props) => {
   };
   //datepicker 달력 함수
   function onChange(value, dateString) {
-    console.log("Selected Time: ", value);
-    console.log("Formatted Selected Time: ", dateString);
     setDeadLine(value);
     setExpireDate(dateString);
   }

@@ -18,14 +18,19 @@ const FloatBtn = () => {
 const BtnArea = styled.div`
   position: fixed;
   bottom: 34%;
-  right: 5%;
+  right: 12%;
   cursor: pointer;
 
-  @media (max-width: 767px) {
-    transform: scale(0.6);
-  }
+  img {
+    @media (max-width: 767px) {
+      width: 80px;
+      right: 15%;
+    }
 
-  @media (min-width: 768px) and (max-width: 1199px) {
+    @media (min-width: 768px) and (max-width: 1199px) {
+      width: 90px;
+      right: 15%;
+    }
   }
 
   .survey {
@@ -38,10 +43,27 @@ const BtnArea = styled.div`
     font-weight: 600;
     color: #212121;
     width: 100%;
+
+    @media (max-width: 767px) {
+      font-size: 0px;
+    }
+
+    @media (min-width: 768px) and (max-width: 1199px) {
+      font-size: 0px;
+    }
   }
 
   :hover {
-    transform: scale(1.2);
+    width: 150px;
+
+    @media (max-width: 767px) {
+      width: 60px;
+    }
+
+    @media (min-width: 768px) and (max-width: 1199px) {
+      width: 80px;
+    }
+
     .survey {
       opacity: 1;
     }

@@ -1,5 +1,5 @@
-import React, { useCallback, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import styled from "styled-components";
 import Swal from "sweetalert2";
@@ -8,7 +8,6 @@ import lock from "../image/lock.png";
 const PwdChange = (props) => {
   const dispatch = useDispatch();
   const email = localStorage.getItem("email");
-  console.log(email);
 
   const [pwd, setPwd] = useState("");
   const [newPwd, setNewPwd] = useState("");
