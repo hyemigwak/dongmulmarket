@@ -12,7 +12,7 @@ import Chat from "./modules/chat";
 import { getCookie } from "../shared/Cookie";
 
 //디폴트로 헤더에 토큰 담아주기
-axios.defaults.headers.common["Authorization"] = getCookie("user_login");
+//axios.defaults.headers.common["Authorization"] = getCookie("user_login");
 
 //axios.defaults.baseURL = config.api;
 export const history = createBrowserHistory();
