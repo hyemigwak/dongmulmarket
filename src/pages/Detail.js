@@ -159,7 +159,7 @@ const Img = styled.img`
   height: 310px;
   margin: 0px 6px 34px 0.1px;
   border-radius: 8px;
-  border: solid 2px #6fcea1;
+  border: solid 3px #6fcea1;
   position: relative;
   top: 10px;
   @media (max-width: 767px) {
@@ -180,6 +180,7 @@ const Img = styled.img`
 const TableBox = styled.table`
   width: 353.1px;
   height: 240px;
+
 
   @media (max-width: 767px) {
     position: absolute;
@@ -214,6 +215,8 @@ const DetailText = styled.td`
   text-align: left;
   color: #1c1c1c;
   font-weight: bold;
+
+ 
 
   @media (max-width: 767px) {
     font-size: 14px;

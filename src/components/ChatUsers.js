@@ -2,8 +2,11 @@ import React, { memo, useState, useRef } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import ChatUserButton from "./ChatUserButton";
-import user from "../image/user.png";
 import { useMediaQuery } from "react-responsive";
+
+import user from "../image/user.png";
+import down from "../image/down.png";
+
 
 const ChatUsers = memo(({ socket }) => {
   const isMobile = useMediaQuery({
@@ -17,15 +20,19 @@ const ChatUsers = memo(({ socket }) => {
   //모바일 유저창 열고 닫기
   const [userOpen, setuserOpen] = useState(false);
   const open = () => {
+
     if (userOpen) {
       setuserOpen(false);
+    
+      
     } else {
       setuserOpen(true);
     }
   };
   const close = () => setuserOpen(false);
-  console.log(userOpen);
+ 
   const userListsBox = useRef();
+  const userListBtn=useRef();
 
   const handleClickOutside = ({ target }) => {
     if (userOpen) setuserOpen(false);
@@ -33,7 +40,13 @@ const ChatUsers = memo(({ socket }) => {
 
   return (
     <Wrapping>
-      <ImgBox onClick={open} src={user}></ImgBox>
+      {isMobile? <ImgBox onClick={open} src={user}></ImgBox> :
+      <WrapBtns>
+        <LiveTitleText>실시간 대화참여</LiveTitleText>
+        <ArrowBox onClick={open} src={down} ref={userListBtn} />
+      </WrapBtns>
+      }
+      
 
       {userOpen ? (
         <>
@@ -73,11 +86,42 @@ const ImgBox = styled.img`
   }
 `;
 
+const WrapBtns=styled.div`
+display:flex;
+
+position:relative;
+bottom:28px;
+left:15px;
+
+@media (min-width: 768px) and (max-width: 1190px) {
+  position: relative;
+  left: 568px;
+  top: 335px;
+}
+`;
+
+
+const LiveTitleText=styled.div`
+width: 120px;
+height: 24px;
+font-size: 16px;
+line-height: 1.33;
+text-align: left;
+color: #7d7d7d;
+`;
+
+const ArrowBox=styled.img`
+width:24px;
+height:24px;
+`;
+
 const LiveChatBox = styled.div`
+
   width: 175px;
   height: 522px;
   flex-grow: 0;
-  margin-top: 0px;
+
+  margin-left:10px;
   ${(props) => (props.isBoss ? "background-color:#3fbe81" : "background-color: #d9d9d9")}
 
   display: block;
@@ -85,8 +129,9 @@ const LiveChatBox = styled.div`
   bottom: 20px;
   @media (max-width: 767px) {
     position: absolute;
-    left: 95px;
+    left: 105px;
     top: 580px;
+   
   }
   @media (min-width: 768px) and (max-width: 1190px) {
     position: absolute;
@@ -101,17 +146,29 @@ const OneChatUser = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid  #3fbe81;
-  border-radius: 20px;
+  border: 2px solid  #52d094;
+  border-radius: 10px;
   background-color: #ffffff;
+  margin-bottom:5px;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  @media (max-width: 767px) {
+    width: 130px;
+    height: 40px;
+  }
+
 `;
 
 const LiveUser = styled.div`
   flex-grow: 0;
-  margin: 0px 20px 0px 6px;
+  margin: 0px 15px 0px 13px;
   font-size: 16px;
   line-height: 1.71;
-  color:  #3fbe81;
+  color:  #373737;
+  
 `;
 
 export default ChatUsers;
