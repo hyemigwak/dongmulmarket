@@ -38,12 +38,9 @@ const initialState = {
   new_address: "",
 };
 
-// axios.defaults.headers.common["authorization"] = token;
-
 //주소변경하기
 const ChangeAddressAPI = (email, new_address) => {
   return function (dispatch, getState, { history }) {
-    let token = getCookie("user_login");
     axios({
       method: "POST",
       url: `${config.api}/myPage/address`,
@@ -55,19 +52,24 @@ const ChangeAddressAPI = (email, new_address) => {
       .then((res) => {
         if (res.data.msg === "success") {
           console.log(res.data);
+          history.push("/");
           dispatch(myAddress(new_address));
           Swal.fire({
-            title: "주소를 수정했습니다!",
+            title: "주소를 설정했습니다!",
             confirmButtonColor: "#3fbe81",
             confirmButtonText: "확인",
           });
-          history.push("/");
         } else {
           console.log("res.data.msg === fail");
+          Swal.fire({
+            title: `주소 설정에 실패했어요!`,
+            confirmButtonColor: "#3fbe81",
+            confirmButtonText: "확인",
+          });
         }
       })
       .catch((err) => {
-        console.log("myPageAPI 오류", err);
+        console.log("ChangeAddressAPI 오류", err);
       });
   };
 };
@@ -80,9 +82,6 @@ const myPageAPI = () => {
     axios({
       method: "GET",
       url: `${config.api}/myPage`,
-      // headers: {
-      //   authorization: token,
-      // },
     })
       .then((res) => {
         if (res.data.msg === "success") {
@@ -105,9 +104,6 @@ const deletePostAPI = (itemId) => {
     axios({
       method: "DELETE",
       url: `${config.api}/mainPage/delete`,
-      // headers: {
-      //   authorization: token,
-      // },
       data: {
         itemId: itemId,
       },
@@ -159,13 +155,9 @@ const getPostAPI = () => {
 const LogingetPostAPI = () => {
   return function (dispatch, getState, { history }) {
     dispatch(loading(true));
-    let token = getCookie("user_login");
     axios({
       method: "GET",
       url: `${config.api}/mainPage`,
-      headers: {
-        authorization: token,
-      },
     })
       .then((res) => {
         if (res.data.msg === "success") {

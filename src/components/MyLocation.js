@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as mapActions } from "../redux/modules/map";
 import { actionCreators as postActions } from "../redux/modules/post";
+import { getCookie } from "../shared/Cookie";
 import { history } from "../redux/configureStore";
 import AddressChange from "./AddressChange";
 import { Container } from "../element";
@@ -13,7 +14,6 @@ const { kakao } = window;
 
 const MyLocation = (props) => {
   const dispatch = useDispatch();
-  const { email } = useSelector((state) => state.user.user);
 
   //모달 영역
   const [modalOpen, setModalOpen] = useState(false);
@@ -31,8 +31,14 @@ const MyLocation = (props) => {
   const [lati, setLati] = useState(0); //위도
   const [longi, setLong] = useState(0); //경도
   const [address, setAddress] = useState("");
+  console.log(address);
 
-  //위치가 관악구일때만 로그인 창으로 가게하기
+  const { email } = useSelector((state) => state.user.user);
+  const is_login = useSelector((state) => state.user.is_login);
+
+  const cookie = getCookie("user_login") ? true : false;
+
+  //위치에 정보 보내주기
   const locationCheck = () => {
     if (address.includes("서울특별시")) {
       const newAddress = address.replace("서울특별시", "서울");
@@ -40,20 +46,10 @@ const MyLocation = (props) => {
       const myAddress = str[0] + " " + str[1];
       console.log(myAddress);
       dispatch(postActions.ChangeAddressAPI(email, myAddress));
-      Swal.fire({
-        title: `안녕하세요! 동물마켓에 오신걸 환영해요`,
-        confirmButtonColor: "#3fbe81",
-        confirmButtonText: "확인",
-      });
     } else {
       const str = address.split(" ");
       const new_address = str[0] + " " + str[1];
       dispatch(postActions.ChangeAddressAPI(email, new_address));
-      Swal.fire({
-        title: `안녕하세요! 동물마켓에 오신걸 환영해요`,
-        confirmButtonColor: "#3fbe81",
-        confirmButtonText: "확인",
-      });
     }
   };
 

@@ -1,7 +1,8 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from "axios";
-import { setCookie, deleteCookie, getCookie } from "../../shared/Cookie";
+import { setCookie, deleteCookie } from "../../shared/Cookie";
+import { actionCreators as postActions } from "./post";
 import { config } from "../../shared/config";
 import Swal from "sweetalert2";
 
@@ -45,9 +46,7 @@ const GoogleLoginAPI = (response) => {
       data: {
         email: response.profileObj.email,
         firstName: response.profileObj.name,
-        lastName: response.profileObj.familyName
-          ? response.profileObj.familyName
-          : "",
+        lastName: response.profileObj.familyName ? response.profileObj.familyName : "",
       },
     })
       .then((res) => {
@@ -136,26 +135,20 @@ const kakaoLoginAPI = (response) => {
 //로그인 유지
 const UserInfoChkAPI = () => {
   return function (dispatch, getState, { history }) {
-    console.log("UserInfoChkAPI");
-    let token = getCookie("user_login");
     axios({
       method: "POST",
       url: `${config.api}/account/reset`,
-      // headers: {
-      //   authorization: token,
-      // },
     })
       .then((res) => {
         if (res.data.msg === "success") {
-          console.log(res.data);
           dispatch(UserInfo(res.data));
         } else {
+          history.push("/login");
           Swal.fire({
             title: "로그인이 만료되었습니다!",
             confirmButtonColor: "#d6d6d6",
             confirmButtonText: "확인",
           });
-          history.push("/login");
         }
       })
       .catch((err) => {
@@ -196,17 +189,21 @@ const loginAPI = (email, pwd) => {
 
           dispatch(logIn(user_data, "normal"));
 
-          Swal.fire({
-            title: "로그인 성공",
-            text: "동물마켓에 접속해주셔서 감사해요!",
-            confirmButtonColor: "#3fbe81",
-            confirmButtonText: "확인",
-          });
-
           if (res.data.address !== null) {
             history.push("/");
+            Swal.fire({
+              title: "로그인 성공",
+              text: "동물마켓에 접속해주셔서 감사해요!",
+              confirmButtonColor: "#3fbe81",
+              confirmButtonText: "확인",
+            });
           } else {
             history.push("/mylocation");
+            Swal.fire({
+              title: "현 위치를 먼저 설정해주세요!",
+              confirmButtonColor: "#3fbe81",
+              confirmButtonText: "확인",
+            });
           }
           //자동로그아웃 -> 로그인 하자마자 1시간(토큰 만료) 되면 알럿창과 함께 로그아웃 함수 실행
           setTimeout(function () {

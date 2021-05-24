@@ -14,7 +14,6 @@ const Mypage = (props) => {
 
   //마이페이지 리스트를 가져옴(판매+교환성공+실패)
   const myPageList = useSelector((state) => state.post.mypage_list);
-  console.log("hi");
 
   //나의 판매내역
   const SalesList = myPageList?.filter((s) => s.status === "auction");
@@ -50,9 +49,7 @@ const Mypage = (props) => {
             ) : (
               <>
                 <BlankBox>
-                  <BlankText style={{ width: "443px", height: "60px" }}>
-                    아직 판매한 내역이 없어요 :( !
-                  </BlankText>
+                  <BlankText style={{ width: "443px", height: "60px" }}>아직 판매한 내역이 없어요 :( !</BlankText>
                 </BlankBox>
               </>
             )}
@@ -65,9 +62,7 @@ const Mypage = (props) => {
           ) : (
             <DoneContainer>
               <BlankBox>
-                <BlankText2 style={{ width: "510px", height: "49px" }}>
-                  교환완료된 내역이 아직 없어요 :( !
-                </BlankText2>
+                <BlankText2 style={{ width: "510px", height: "49px" }}>교환완료된 내역이 아직 없어요 :( !</BlankText2>
               </BlankBox>
             </DoneContainer>
           )}
@@ -79,9 +74,7 @@ const Mypage = (props) => {
           ) : (
             <IngContainer>
               <BlankBox>
-                <BlankText2 style={{ width: "510px", height: "49px" }}>
-                  교환실패한 내역이 아직 없어요 :( !
-                </BlankText2>
+                <BlankText2 style={{ width: "510px", height: "49px" }}>교환실패한 내역이 아직 없어요 :( !</BlankText2>
               </BlankBox>
             </IngContainer>
           )}

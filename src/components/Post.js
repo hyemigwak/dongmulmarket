@@ -4,7 +4,7 @@ import { history } from "../redux/configureStore";
 import Swal from "sweetalert2";
 
 const Post = (props) => {
-  const { image, title, wantItem, address, deadLine, itemId } = props;
+  const { image, title, wantItem, address, deadLine, itemId, kickYn } = props;
 
   const Today = new Date();
   const NewDeadLine = new Date(deadLine);
@@ -20,9 +20,17 @@ const Post = (props) => {
         confirmButtonText: "확인",
       });
       window.location.reload();
-    } else {
-      history.push(`/detail/${itemId}`);
+      return;
     }
+    if (kickYn && kickYn === "true") {
+      Swal.fire({
+        title: "강퇴로 인해 참여가 더 이상 불가능합니다.",
+        confirmButtonColor: "#d6d6d6",
+        confirmButtonText: "확인",
+      });
+      return;
+    }
+    history.push(`/detail/${itemId}`);
   };
 
   //마감전 상품 곧 마감 뱃지 붙일 준비
