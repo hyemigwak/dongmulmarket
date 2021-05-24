@@ -31,23 +31,18 @@ const moveToTop = keyframes`
 `;
 
 const BtnArea = styled.div`
+  
+  // bottom: 34%;
+  // right: 12%;
+ 
   position: fixed;
-  z-index: 5000;
-  bottom: 34%;
-  right: 5%;
-  cursor: pointer;
-
-  img {
-    width: 80px;
-
-    @media (max-width: 767px) {
-      width: 60px;
       right: 15%;
+    
     }
 
     @media (min-width: 768px) and (max-width: 1199px) {
-      width: 70px;
       right: 15%;
+    
     }
   }
 
