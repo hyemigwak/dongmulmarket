@@ -160,8 +160,7 @@ const Img = styled.img`
   z-index: 2;
   width: 240px;
   height:  180px;
-  //border: solid 1px #91be89;
-  //border-bottom: solid 2px #91be89;
+ 
 `;
 
 const Label = styled.div`
