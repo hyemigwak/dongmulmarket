@@ -11,6 +11,7 @@ import { NavBar } from "./index";
 import { useMediaQuery } from "react-responsive";
 import MenuIcon from "@material-ui/icons/Menu";
 import xbtn from "../image/xbtn.png";
+import dmLogo from "../image/dmLogo.png";
 
 const Header = memo((props) => {
   const isMobile = useMediaQuery({
@@ -80,6 +81,12 @@ const Header = memo((props) => {
             <Container>
               <HeaderC>
                 <LogoBox>
+                  <ImgLogo
+                    src={dmLogo}
+                    onClick={() => {
+                      history.push("/");
+                    }}
+                  />
                   <Logo
                     src={logo1}
                     onClick={() => {
@@ -124,6 +131,12 @@ const Header = memo((props) => {
         <Container>
           <HeaderC>
             <LogoBox>
+              <ImgLogo
+                src={dmLogo}
+                onClick={() => {
+                  history.push("/");
+                }}
+              />
               <Logo
                 src={logo1}
                 onClick={() => {
@@ -196,7 +209,6 @@ const Hamburger = styled.div`
 const LogoBox = styled.div`
   display: flex;
   align-items: center;
-
   cursor: pointer;
   span {
     font-weight: 600;
@@ -214,8 +226,17 @@ const LogoBox = styled.div`
   }
 `;
 
+const ImgLogo = styled.img`
+  width: 42px;
+  height: 42px;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+`;
+
 const Logo = styled.img`
-  margin-left: 20px;
+  margin-left: 12px;
 
   @media (max-width: 767px) {
     width: 60%;
@@ -359,77 +380,6 @@ const BtnArea2 = styled.div`
 
   @media (max-width: 767px) {
     margin-right: 6px;
-  }
-`;
-
-const NavBar1 = styled.div`
-  display: ${(props) => (props.toggle ? "flex" : "none")};
-`;
-
-const HamburgerModal = styled.div`
-  width: 320px;
-  z-index: 2000;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-`;
-
-const Graybar = styled.div`
-  width: 53px;
-  height: 740px;
-  background-color: rgba(0, 0, 0, 0.65);
-`;
-
-const HeaderArea = styled.div`
-  width: 267px;
-  background-color: #ffffff;
-`;
-const TextArea = styled.div`
-  margin: 40px 22px 50px 24px;
-`;
-
-const Hi = styled.div`
-  font-size: 24px;
-  line-height: 1.33;
-  text-align: left;
-  color: #4c4c4c;
-`;
-
-const Dongmul = styled.div`
-  font-size: 24px;
-  line-height: 1.33;
-  text-align: left;
-  color: #4c4c4c;
-
-  span {
-    color: #3fbe81;
-    font-weight: 600;
-  }
-`;
-
-const ImgArea = styled.div`
-  img {
-    cursor: pointer;
-    position: relative;
-    left: 225px;
-    top: 60px;
-  }
-`;
-
-const CateArea = styled.div`
-  margin: 0px 115px 0 0;
-`;
-
-const MoveTo = styled.div`
-  margin: 32px 16px 32px 24px;
-  font-size: 18px;
-  text-align: left;
-  color: #7d7d7d;
-  cursor: pointer;
-  :hover {
-    font-weight: 600;
-    font-size: 19px;
   }
 `;
 

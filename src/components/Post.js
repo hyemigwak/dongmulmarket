@@ -107,22 +107,31 @@ Post.defaultProps = {
 };
 
 const Box = styled.div`
-  width: 205px;
-  height: 278px;
+  // width: 205px;
+  // height: 278px;
+  width: 240px;
+  height: 300px;
   flex-grow: 0;
   margin: 40px 30px 50px 30px;
   padding: 0 0 16px;
   border-radius: 8px;
-  border: solid 1px #91be89;
+ 
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: #f8f8f8;
+ 
+ border: solid 2px #91be89;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   cursor: pointer;
 
+
   :hover {
     transition: 0.2s;
     transform: scale(1.08);
-    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.09);
   }
 
   @media (max-width: 768px) {
@@ -139,8 +148,8 @@ const ImgBox = styled.div`
   top: -2px;
   left: -1px;
   img {
-    width: 205px;
-    height: 160px;
+    width: 240px;
+    height: 180px;
     object-fit: cover;
   }
 `;
@@ -149,33 +158,38 @@ const Img = styled.img`
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   z-index: 2;
-  width: 205px;
-  height: 165px;
-  border: solid 1px #91be89;
+  width: 240px;
+  height:  180px;
+  //border: solid 1px #91be89;
+  //border-bottom: solid 2px #91be89;
 `;
 
 const Label = styled.div`
   display: ${(props) => (props.deadLineSoon ? "block" : "none")};
-  width: 72px;
-  height: 40px;
+  width: 78px;
+  height: 46px;
   flex-grow: 0;
-  border-top-right-radius: 8px;
+  border-top-right-radius: 2px;
+  border-bottom-left-radius: 8px;
   padding: 8px 12px 10px 11px;
   background-color: #3fbe81;
-  font-size: 16px;
+ 
+ 
+  font-size: 17px;
   color: #ffffff;
 
   display: block;
   position: absolute;
-  top: 0px;
-  left: 133px;
+  top: 2px;
+  
+  left: 166px;
 
   z-index: 1;
-
+  
   .soonend {
     position: absolute;
-    bottom: 3px;
-    right: 76px;
+    bottom: 7px;
+    right: 84px;
     z-index: 2;
     font-size: 11px;
     font-weight: 600;
@@ -229,7 +243,7 @@ const Title = styled.div`
 
 const TextBox = styled.div`
   position: relative;
-  top: 14px;
+  top: 12px;
   text-align: left;
   padding: 2px 1px;
   padding-left: 16px;
@@ -253,7 +267,7 @@ const Time = styled.div`
   height: 16px;
   flex-grow: 0;
   margin: 9px 85px 0 0;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   text-align: left;
   color: #0c6550;
