@@ -101,9 +101,9 @@ const OneChatUser = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 2px solid #ffffff;
+  border: 2px solid  #3fbe81;
   border-radius: 20px;
-  background-color: #52c41a;
+  background-color: #ffffff;
 `;
 
 const LiveUser = styled.div`
@@ -111,7 +111,7 @@ const LiveUser = styled.div`
   margin: 0px 20px 0px 6px;
   font-size: 16px;
   line-height: 1.71;
-  color: #ffffff;
+  color:  #3fbe81;
 `;
 
 export default ChatUsers;
