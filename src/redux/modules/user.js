@@ -1,7 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from "axios";
-import { setCookie, deleteCookie } from "../../shared/Cookie";
+import { setCookie, deleteCookie, getCookie } from "../../shared/Cookie";
 import { actionCreators as postActions } from "./post";
 import { config } from "../../shared/config";
 import Swal from "sweetalert2";
@@ -179,6 +179,7 @@ const loginAPI = (email, pwd) => {
 
           //토큰은 setCookie에 저장하고 nickname이랑 email은 로컬 스토리지에 저장
           setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
+          console.log(getCookie("user_login"));
 
           //딕셔너리
           const user_data = {

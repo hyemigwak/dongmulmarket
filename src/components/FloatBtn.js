@@ -6,7 +6,7 @@ const FloatBtn = () => {
   return (
     <React.Fragment>
       <BtnArea>
-        <a target="_blank" href="https://github.com/hyemigwak" rel="noreferrer">
+        <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdS8daBSTBOcffTNGzCV47PQnMsAMD4hvbr3ZK2Wfk6ph2KZQ/viewform?usp=sf_link" rel="noreferrer">
           <img src={Fatcat} alt="고양이" />
         </a>
         <div className="survey">설문조사 부탁드려용🧡</div>
@@ -18,31 +18,36 @@ const FloatBtn = () => {
 const moveToTop = keyframes`
   from { 
     position: fixed;
-    bottom: 34%;
-    right: 5%;
+    bottom: 50px;
+    right: 50px;
     opacity: 0.4;
   }
   to {
     position: fixed;
-    bottom: 36%;
-    right: 5%;
+    bottom: 55px;
+    right: 50px;
     opacity: 1;
     }
 `;
 
 const BtnArea = styled.div`
-  
-  // bottom: 34%;
-  // right: 12%;
- 
   position: fixed;
-      right: 15%;
-    
+  bottom: 50px;
+  right: 50px;
+  cursor: pointer;
+  z-index: 5000;
+  background-position: center;
+  background-size: 120%;
+
+  img {
+    width: 100px;
+
+    @media (max-width: 767px) {
+      width: 80px;
     }
 
     @media (min-width: 768px) and (max-width: 1199px) {
       right: 15%;
-    
     }
   }
 
@@ -50,8 +55,10 @@ const BtnArea = styled.div`
     z-index: 5000;
     opacity: 0;
     position: absolute;
+    z-index: 5000;
     bottom: 100%;
-    right: 5%;
+    left: 20%;
+    cursor: pointer;
     font-size: 10px;
     font-weight: 600;
     color: #212121;
@@ -74,7 +81,7 @@ const BtnArea = styled.div`
   }
 
   :hover {
-    animation: ${moveToTop} 700ms;
+    animation: ${moveToTop} 800ms;
 
     @media (max-width: 767px) {
       width: 60px;

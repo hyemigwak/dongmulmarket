@@ -38,6 +38,7 @@ const PostList = (props) => {
 
   console.log(postList);
   console.log(postList[0]);
+
   // console.log(postList[0]?.address);
 
   // if (postList && postList[0].address) {
@@ -56,6 +57,7 @@ const PostList = (props) => {
         ) : (
           <Title>교환을 기다리고 있어요!</Title>
         )}
+        <Beta>베타서비스 클릭</Beta>
         <PostListC>
           {postList?.map((post, idx) => {
             return <Post {...post} key={idx} />;
@@ -104,6 +106,17 @@ const Title = styled.h2`
     margin: 60px auto 0px;
     font-size: 20px;
   }
+`;
+
+const Beta = styled.div`
+  width: 100%;
+  font-size: 16px;
+  line-height: 0.96;
+  text-align: left;
+  color: #a8a8a8;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
 `;
 
 export default PostList;

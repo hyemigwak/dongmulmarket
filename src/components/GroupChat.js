@@ -3,6 +3,9 @@ import styled from "styled-components";
 
 const GroupChat = memo(({ me, ...props }) => {
   const is_me = me === props.email ? true : false;
+  console.log(props);
+  const ChatTime = props.createdDt;
+  const ChatTimeP = ChatTime.split("T")[1].substring(0, 5);
 
   if (is_me) {
     return (
@@ -18,9 +21,13 @@ const GroupChat = memo(({ me, ...props }) => {
               <>
                 <MySpeech>
                   <MyNameTag>{props.nickname}</MyNameTag>
-                  <MyBubble>
-                    <ChatText>{props.chatMsg}</ChatText>
-                  </MyBubble>
+                  <FlexGroup>
+                    <ChattingTime>{ChatTimeP}</ChattingTime>
+                    <MyBubble>
+                      <ChatText>{props.chatMsg}</ChatText>
+                    </MyBubble>
+                    <MyBubbleTri></MyBubbleTri>
+                  </FlexGroup>
                 </MySpeech>
               </>
             )}
@@ -41,9 +48,13 @@ const GroupChat = memo(({ me, ...props }) => {
             ) : (
               <OtherSpeech>
                 <OtherNameTag>{props.nickname}</OtherNameTag>
-                <OtherBubble>
-                  <ChatText>{props.chatMsg}</ChatText>
-                </OtherBubble>
+                <FlexGroup1>
+                  <BubbleTri></BubbleTri>
+                  <OtherBubble>
+                    <ChatText>{props.chatMsg}</ChatText>
+                  </OtherBubble>
+                  <ChattingTimeP>{ChatTimeP}</ChattingTimeP>
+                </FlexGroup1>
               </OtherSpeech>
             )}
           </>
@@ -58,7 +69,6 @@ const EntranceMsg = styled.div`
   height: 24px;
   flex-grow: 0;
   margin: 12px auto 4px auto;
-  font-family: NotoSans;
   font-size: 18px;
   font-weight: 500;
   font-stretch: normal;
@@ -70,8 +80,8 @@ const EntranceMsg = styled.div`
 `;
 
 const MySpeech = styled.div`
-  align-items: right;
   margin-left: 280px;
+  margin-bottom: 20px;
 `;
 
 const OtherSpeech = styled.div``;
@@ -90,59 +100,91 @@ const MyNameTag = styled.div`
   text-align: left;
 `;
 
+const FlexGroup = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+  align-items: center;
+`;
+
+const FlexGroup1 = styled.div`
+  display: flex;
+  margin-left: 10px;
+  align-items: center;
+`;
+
+const ChattingTime = styled.div`
+  font-size: 12px;
+  color: #7d7d7d;
+  height: 100%;
+  margin-right: 10px;
+`;
+
+const ChattingTimeP = styled.div`
+  font-size: 12px;
+  color: #7d7d7d;
+  margin-left: 10px;
+  height: 100%;
+`;
+
 const OtherNameTag = styled.div`
   color: #4c4c4c;
   flex-grow: 0;
-  margin: 0 396px 6px 12px;
-  font-family: NotoSans;
+  margin: 0 366px 6px 28px;
   font-size: 14px;
   font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
   text-align: left;
 `;
 
 const MyBubble = styled.div`
-  width: 240px;
-  height: 49px;
+  height: 100%;
+  max-width: 300px;
   flex-grow: 0;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
-
-  padding: 12px 16px;
+  padding: 4px 18px;
+  box-sizing: border-box;
   border-radius: 10px;
   background-color: #a8a8a8;
 `;
 
+const BubbleTri = styled.div`
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-right: 9px solid #3fbe81;
+  border-bottom: 7px solid transparent;
+`;
+
+const MyBubbleTri = styled.div`
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-left: 9px solid #a8a8a8;
+  border-bottom: 7px solid transparent;
+`;
+
 const OtherBubble = styled.div`
-  width: 240px;
-  height: 49px;
+  height: 100%;
+  max-width: 300px;
   flex-grow: 0;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
-  margin: 0 0 0 12px;
-  padding: 12px 16px;
+  box-sizing: border-box;
+  padding: 4px 18px;
   border-radius: 10px;
   background-color: #3fbe81;
 `;
 
 const ChatText = styled.div`
-  margin: 9px 35px 10px 0;
-  font-family: NotoSans;
+  margin: 6px auto;
   font-size: 16px;
   font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.33;
-  letter-spacing: normal;
+  line-height: 1.6;
   text-align: left;
   color: #ffffff;
 `;

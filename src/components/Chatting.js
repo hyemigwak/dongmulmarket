@@ -19,11 +19,7 @@ const Chatting = memo(({ icrId, history }) => {
 
   const { chatJoinYn, handler } = useJoinChat(icrId); //참여 유무를 통해 버튼 결정
 
-  const [socket, disconnectSocket] = useSocket(
-    "http://15.165.76.76:3001/chatting",
-    email,
-    icrId
-  );
+  const [socket, disconnectSocket] = useSocket("http://15.165.76.76:3001/chatting", email, icrId);
 
   useEffect(() => {
     return () => {
@@ -111,11 +107,9 @@ const Chatting = memo(({ icrId, history }) => {
           </BtnArea>
           <ChatView>
             {chatList?.map((data, idx) => {
-              return (
-                <GroupChat {...data} key={idx} chatList={chatList} me={email} />
-              );
+              return <GroupChat {...data} key={idx} chatList={chatList} me={email} />;
             })}
-            <div ref={scroll}></div>
+            <div className="scrollbar" ref={scroll}></div>
           </ChatView>
           <ChattingInput icrId={icrId} socket={socket} email={email} />
           <WrapButtons>
@@ -241,9 +235,25 @@ const ChatView = styled.div`
   border-radius: 10px;
   margin-top: 0px;
   position: relative;
+  overflow-x: hidden;
   overflow-y: scroll;
   box-sizing: border-box;
   border: 5px solid #3fbe81;
+
+  ::-webkit-scrollbar {
+    background-color: #ffffff;
+    width: 14px;
+    padding: 0 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    width: 14px;
+    height: 110px;
+    background-color: #c4c4c4;
+    border-radius: 20px;
+    background-clip: padding-box;
+    border: 3.5px solid transparent;
+  }
 
   @media (max-width: 767px) {
     position: absolute;
