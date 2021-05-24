@@ -1,7 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from "axios";
-import { setCookie, deleteCookie } from "../../shared/Cookie";
+import { setCookie, deleteCookie, getCookie } from "../../shared/Cookie";
 import { config } from "../../shared/config";
 import Swal from "sweetalert2";
 
@@ -12,13 +12,18 @@ const LOGIN_CHECK = "LOGIN_CHECK"; //로그인 유지
 const GET_AUTHNUM = "GET_AUTHNUM"; // 인증번호 받아오기
 const VALIDATE_EMAIL = "VALIDATE_EMAIL"; //이메일 인증 확인
 const FIND_PWD = "FIND_PWD"; //비밀번호 찾기
+const USER_INFO = "USER_INFO"; //유저정보 계속 유지하기
 
 //actionCreators
-const logIn = createAction(LOG_IN, (user, login_type) => ({ user, login_type }));
+const logIn = createAction(LOG_IN, (user, login_type) => ({
+  user,
+  login_type,
+}));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const loginCheck = createAction(LOGIN_CHECK, (cookie) => ({ cookie }));
 const validateEmail = createAction(VALIDATE_EMAIL, (user) => ({ user })); //이메일 인증
 const findPwd = createAction(FIND_PWD, (email) => ({ email }));
+const UserInfo = createAction(USER_INFO, (user) => ({ user }));
 
 //initialState
 const initialState = {
@@ -40,7 +45,9 @@ const GoogleLoginAPI = (response) => {
       data: {
         email: response.profileObj.email,
         firstName: response.profileObj.name,
-        lastName: response.profileObj.familyName ? response.profileObj.familyName : "",
+        lastName: response.profileObj.familyName
+          ? response.profileObj.familyName
+          : "",
       },
     })
       .then((res) => {
@@ -52,8 +59,6 @@ const GoogleLoginAPI = (response) => {
 
           //토큰 저장하기
           setCookie("user_login", jwtToken);
-          localStorage.setItem("email", email);
-          localStorage.setItem("nickname", nickname);
 
           //딕셔너리
           const user_data = {
@@ -100,8 +105,6 @@ const kakaoLoginAPI = (response) => {
 
           //토큰 저장하기
           setCookie("user_login", jwtToken);
-          localStorage.setItem("email", email);
-          localStorage.setItem("nickname", nickname);
 
           //딕셔너리
           const user_data = {
@@ -130,6 +133,37 @@ const kakaoLoginAPI = (response) => {
   };
 };
 
+//로그인 유지
+const UserInfoChkAPI = () => {
+  return function (dispatch, getState, { history }) {
+    console.log("UserInfoChkAPI");
+    let token = getCookie("user_login");
+    axios({
+      method: "POST",
+      url: `${config.api}/account/reset`,
+      // headers: {
+      //   authorization: token,
+      // },
+    })
+      .then((res) => {
+        if (res.data.msg === "success") {
+          console.log(res.data);
+          dispatch(UserInfo(res.data));
+        } else {
+          Swal.fire({
+            title: "로그인이 만료되었습니다!",
+            confirmButtonColor: "#d6d6d6",
+            confirmButtonText: "확인",
+          });
+          history.push("/login");
+        }
+      })
+      .catch((err) => {
+        console.log("UserInfoChkAPI에서 오류 발생", err);
+      });
+  };
+};
+
 //일반 로그인
 const loginAPI = (email, pwd) => {
   return function (dispatch, getState, { history }) {
@@ -152,8 +186,6 @@ const loginAPI = (email, pwd) => {
 
           //토큰은 setCookie에 저장하고 nickname이랑 email은 로컬 스토리지에 저장
           setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
-          localStorage.setItem("nickname", nickname); //유저 닉네임 저장
-          localStorage.setItem("email", email); //유저 이메일 저장
 
           //딕셔너리
           const user_data = {
@@ -162,19 +194,20 @@ const loginAPI = (email, pwd) => {
             token: res.data.token,
           };
 
-          //디폴트로 헤더에 토큰 담아주기
-          axios.defaults.headers.common["Authorization"] = `${jwtToken}`;
-
           dispatch(logIn(user_data, "normal"));
 
           Swal.fire({
             title: "로그인 성공",
-            text: "정상적으로 로그인 되었습니다!",
+            text: "동물마켓에 접속해주셔서 감사해요!",
             confirmButtonColor: "#3fbe81",
             confirmButtonText: "확인",
           });
 
-          history.push("/");
+          if (res.data.address !== null) {
+            history.push("/");
+          } else {
+            history.push("/mylocation");
+          }
           //자동로그아웃 -> 로그인 하자마자 1시간(토큰 만료) 되면 알럿창과 함께 로그아웃 함수 실행
           setTimeout(function () {
             Swal.fire({
@@ -200,7 +233,7 @@ const loginAPI = (email, pwd) => {
 };
 
 //회원가입
-const signupAPI = (email, nickname, pwd, address) => {
+const signupAPI = (email, nickname, pwd) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
@@ -214,7 +247,6 @@ const signupAPI = (email, nickname, pwd, address) => {
         email: email,
         nickname: nickname,
         password: pwd,
-        address: address,
       },
     })
       .then((res) => {
@@ -340,7 +372,6 @@ const LogOutMiddleware = () => {
     if (loginType === "normal") {
       deleteCookie("user_login");
       deleteCookie("G_AUTHUSER_H");
-      localStorage.clear();
       dispatch(logOut());
       return;
     }
@@ -349,7 +380,6 @@ const LogOutMiddleware = () => {
       deleteCookie("user_login");
       deleteCookie("kakao_nickname");
       deleteCookie("G_AUTHUSER_H");
-      localStorage.clear();
       dispatch(logOut());
 
       return;
@@ -359,7 +389,6 @@ const LogOutMiddleware = () => {
       //딜리트쿠키에
       deleteCookie("user_login");
       deleteCookie("G_AUTHUSER_H");
-      localStorage.clear();
       dispatch(logOut());
 
       return;
@@ -398,6 +427,10 @@ export default handleActions(
       produce(state, (draft) => {
         draft.email = action.payload.email;
       }),
+    [USER_INFO]: (state, action) =>
+      produce(state, (draft) => {
+        draft.user = action.payload.user;
+      }),
   },
   initialState
 );
@@ -410,6 +443,7 @@ const actionCreators = {
   logOut,
   kakaoLoginAPI,
   GoogleLoginAPI,
+  UserInfoChkAPI,
   EmailValidationAPI,
   FindPwdAPI,
   ChangePwdAPI,

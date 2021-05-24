@@ -1,6 +1,6 @@
 import React from "react";
 import Fatcat from "../image/Fatcat.svg";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const FloatBtn = () => {
   return (
@@ -9,11 +9,26 @@ const FloatBtn = () => {
         <a target="_blank" href="https://github.com/hyemigwak" rel="noreferrer">
           <img src={Fatcat} alt="고양이" />
         </a>
-        <div className="survey">설문하고 선물받자옹~🧡</div>
+        <div className="survey">설문조사 부탁드려용🧡</div>
       </BtnArea>
     </React.Fragment>
   );
 };
+
+const moveToTop = keyframes`
+  from { 
+    position: fixed;
+    bottom: 34%;
+    right: 5%;
+    opacity: 0.4;
+  }
+  to {
+    position: fixed;
+    bottom: 36%;
+    right: 5%;
+    opacity: 1;
+    }
+`;
 
 const BtnArea = styled.div`
   
@@ -21,40 +36,33 @@ const BtnArea = styled.div`
   // right: 12%;
  
   position: fixed;
-  bottom: 50px;
-  right: 50px;
-  cursor: pointer;  
-  z-index:5000;
-  background-position: center;
-  background-size: 120%;
-
-  img {
-    
-    @media (max-width: 767px) {
-   
-      width: 80px;
       right: 15%;
     
     }
 
     @media (min-width: 768px) and (max-width: 1199px) {
-   
-      width: 90px;
       right: 15%;
     
     }
   }
 
   .survey {
-    z-index: 3500;
+    z-index: 5000;
     opacity: 0;
     position: absolute;
     bottom: 100%;
-    right: 3%;
+    right: 5%;
     font-size: 10px;
     font-weight: 600;
     color: #212121;
-    width: 100%;
+    width: 40px;
+    height: 24px;
+    text-align: center;
+    margin: 0 auto;
+    padding: 4px;
+    background-color: #212121;
+    border-radius: 12px;
+    color: #ffffff;
 
     @media (max-width: 767px) {
       font-size: 0px;
@@ -66,7 +74,7 @@ const BtnArea = styled.div`
   }
 
   :hover {
-    width: 150px;
+    animation: ${moveToTop} 700ms;
 
     @media (max-width: 767px) {
       width: 60px;
@@ -77,7 +85,10 @@ const BtnArea = styled.div`
     }
 
     .survey {
+      position: absolute;
+      left: -30%;
       opacity: 1;
+      width: 120px;
     }
   }
 `;

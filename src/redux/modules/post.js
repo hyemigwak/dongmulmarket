@@ -32,6 +32,7 @@ const initialState = {
   post_list: [],
   detail_list: [],
   mypage_list: [],
+  login_post_list: [],
   is_loading: false,
   boss: {},
   new_address: "",
@@ -46,9 +47,6 @@ const ChangeAddressAPI = (email, new_address) => {
     axios({
       method: "POST",
       url: `${config.api}/myPage/address`,
-      headers: {
-        authorization: token,
-      },
       data: {
         email: email,
         new_address: new_address,
@@ -142,7 +140,11 @@ const getPostAPI = () => {
           const post_list = res.data.data;
           //종료일 기준으로 내림차순 정렬
           post_list.sort(function (a, b) {
-            return a.deadLine < b.deadLine ? -1 : a.deadLine > b.deadLine ? 1 : 0;
+            return a.deadLine < b.deadLine
+              ? -1
+              : a.deadLine > b.deadLine
+              ? 1
+              : 0;
           });
           dispatch(getPost(post_list));
           dispatch(loading(false));
@@ -152,6 +154,38 @@ const getPostAPI = () => {
       })
       .catch((e) => {
         console.log("getPostAPI 오류", e);
+      });
+  };
+};
+
+//로그인 한 사용자들한테만 보여주기
+const LogingetPostAPI = () => {
+  return function (dispatch, getState, { history }) {
+    dispatch(loading(true));
+    axios({
+      method: "GET",
+      url: `${config.api}/mainPage`,
+    })
+      .then((res) => {
+        if (res.data.msg === "success") {
+          console.log("포스트리스트", res.data);
+          const post_list = res.data.data;
+          //종료일 기준으로 내림차순 정렬
+          post_list.sort(function (a, b) {
+            return a.deadLine < b.deadLine
+              ? -1
+              : a.deadLine > b.deadLine
+              ? 1
+              : 0;
+          });
+          dispatch(getPost(post_list));
+          dispatch(loading(false));
+        } else {
+          console.log("메인 로그인 데이터 fail");
+        }
+      })
+      .catch((e) => {
+        console.log("LogingetPostAPI 오류", e);
       });
   };
 };
@@ -206,7 +240,12 @@ const exchangeUserList = (socket, { loginEmail, itemId, email, icrId }) => {
       (data) => {
         console.log(data);
         if (data["msg"] === "success") {
-          socket.emit("exchange", { hostEmail: loginEmail, consumerEmail: email, itemId, icrId });
+          socket.emit("exchange", {
+            hostEmail: loginEmail,
+            consumerEmail: email,
+            itemId,
+            icrId,
+          });
         }
       }
     );
@@ -214,7 +253,14 @@ const exchangeUserList = (socket, { loginEmail, itemId, email, icrId }) => {
 };
 
 //물품 등록하기
-const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) => {
+const addPostAPI = (
+  imgfile,
+  category,
+  myItem,
+  wantItem,
+  content,
+  expireDate
+) => {
   return function (dispatch, getState, { history }) {
     let formdata = new FormData();
     formdata.append("file", imgfile);
@@ -234,7 +280,9 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
     })
       .then((res) => {
         if (res.data.msg === "success") {
-          dispatch(addPost(imgfile, category, myItem, wantItem, content, expireDate));
+          dispatch(
+            addPost(imgfile, category, myItem, wantItem, content, expireDate)
+          );
           Swal.fire({
             title: "등록 완료입니다!",
             confirmButtonColor: "#3fbe81",
@@ -280,7 +328,9 @@ export default handleActions(
       }),
     [DELETE_POST]: (state, action) =>
       produce(state, (draft) => {
-        let idx = draft.mypage_list.findIndex((p) => p.itemId === action.payload.itemId);
+        let idx = draft.mypage_list.findIndex(
+          (p) => p.itemId === action.payload.itemId
+        );
         draft.mypage_list.splice(idx, 1);
       }),
     [CLEAR_POST]: (state, action) =>
@@ -308,6 +358,7 @@ const actionCreators = {
   getPost,
   addPost,
   getPostAPI,
+  LogingetPostAPI,
   addPostAPI,
   getOnePostAPI,
   deletePostAPI,

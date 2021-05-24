@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as mapActions } from "../redux/modules/map";
+import { actionCreators as postActions } from "../redux/modules/post";
 import { history } from "../redux/configureStore";
 import AddressChange from "./AddressChange";
 import { Container } from "../element";
 import Swal from "sweetalert2";
+import { HistoryOutlined } from "@material-ui/icons";
 
 const { kakao } = window;
 
 const MyLocation = (props) => {
   const dispatch = useDispatch();
-  const nickname = localStorage.getItem("nickname");
+  const { email } = useSelector((state) => state.user.user);
 
   //모달 영역
   const [modalOpen, setModalOpen] = useState(false);
@@ -32,21 +34,28 @@ const MyLocation = (props) => {
 
   //위치가 관악구일때만 로그인 창으로 가게하기
   const locationCheck = () => {
-    if (address.includes("관악구")) {
+    if (address.includes("서울특별시")) {
+      const newAddress = address.replace("서울특별시", "서울");
+      const str = newAddress.split(" ");
+      const myAddress = str[0] + " " + str[1];
+      console.log(myAddress);
+      dispatch(postActions.ChangeAddressAPI(email, myAddress));
       Swal.fire({
-        title: `안녕하세요! ${nickname} 님 동물마켓에 오신걸 환영해요`,
+        title: `안녕하세요! 동물마켓에 오신걸 환영해요`,
         confirmButtonColor: "#3fbe81",
         confirmButtonText: "확인",
       });
-      history.push("/login");
+      history.push("/");
     } else {
+      const str = address.split(" ");
+      const new_address = str[0] + " " + str[1];
+      dispatch(postActions.ChangeAddressAPI(email, new_address));
       Swal.fire({
-        title: "동물마켓은 관악구 주민만 이용 가능합니다😢",
-        confirmButtonColor: "#d6d6d6",
+        title: `안녕하세요! 동물마켓에 오신걸 환영해요`,
+        confirmButtonColor: "#3fbe81",
         confirmButtonText: "확인",
       });
-      history.replace("/");
-      return;
+      history.push("/");
     }
   };
 
@@ -177,6 +186,7 @@ const MyLocation = (props) => {
           <div id="map" style={{ display: "none" }}></div>
           <div className="hAddr">
             <BoldText>나의 현재 위치는</BoldText>
+            <AddressShowing>{address}</AddressShowing>
             <span id="centerAddr"></span>
             <NormalText>맞나요?</NormalText>
             <WrapBtn>
@@ -293,7 +303,13 @@ const ContainerBox = styled.div`
   #centerAddr {
     font-size: 20px;
     font-weight: bold;
+    display: none;
   }
+`;
+
+const AddressShowing = styled.div`
+  font-size: 20px;
+  font-weight: bold;
 `;
 
 const WrapBtn = styled.div`
