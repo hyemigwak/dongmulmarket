@@ -23,19 +23,37 @@ const SpinnerArea = styled.div`
 `;
 
 const LoadMsg = styled.div`
-  margin: 269px 344px 24px;
+  margin: 269px auto 24px;
+  width: 100%;
   font-size: 40px;
   font-weight: bold;
   line-height: 1.5;
   text-align: center;
   color: #676767;
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    font-size: 28px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 15px;
+  }
 `;
 
 const WaitMsg = styled.div`
-  margin: 24px 453px 34px;
+  margin: 24px auto 34px;
+  width: 100%;
   color: #676767;
   font-size: 24px;
   line-height: 0.83;
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 12px;
+  }
 `;
 
 const rotatespin = keyframes`
@@ -52,7 +70,21 @@ const rotatespin = keyframes`
 `;
 
 const Spin = styled.div`
+  width: 100%;
+  margin: auto;
   animation: ${rotatespin} 800ms infinite linear;
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    img {
+      width: 90px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    img {
+      width: 70px;
+    }
+  }
 `;
 
 export default Spinner;
