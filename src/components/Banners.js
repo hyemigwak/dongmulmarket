@@ -11,7 +11,6 @@ import WebBanner from "../image/WebBanner.png";
 import TabletBanner from "../image/TabletBanner.png";
 import MobileBanner from "../image/MobileBanner.png";
 
-
 const Banners = () => {
   const settings = {
     dots: true,
@@ -27,9 +26,7 @@ const Banners = () => {
   return (
     <BannerBox>
       <Slick {...settings} dotsClass="dotsCustom">
-        <BannerImg0>
- 
-        </BannerImg0>
+        <BannerImg0></BannerImg0>
 
         <BannerImg1>
           <BannerGrid>
@@ -75,7 +72,7 @@ const Banners = () => {
                 history.push("/signup");
               }}
             >
-              거래하러 가기
+              가입하러 가기
             </TradeBtn>
           </BannerGrid2>
         </BannerImg2>
@@ -95,7 +92,7 @@ const Banners = () => {
                 history.push("/signup");
               }}
             >
-              거래하러 가기
+              가입하러 가기
             </TradeBtn2>
           </BannerGrid>
         </BannerImg3>
@@ -104,10 +101,9 @@ const Banners = () => {
   );
 };
 
-
 const BannerBox = styled.div`
   width: 1200px;
-  margin:auto;
+  margin: auto;
   height: 540px;
   box-sizing: border-box;
 
@@ -210,7 +206,7 @@ const BannerImg0 = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   height: 460px;
- 
+
   @media (max-width: 767px) {
     background-image: url("${MobileBanner}");
     height: 450px;
@@ -220,7 +216,6 @@ const BannerImg0 = styled.div`
     background-image: url("${TabletBanner}");
   }
 `;
-
 
 const BannerImg1 = styled.div`
   background-image: url("${mainbanner1}");
@@ -242,12 +237,11 @@ const SmallGreen1 = styled.div`
   font-weight: 600;
   text-align: left;
   color: #3fbe81;
-  width:353px;
+  width: 353px;
 
   @media (max-width: 767px) {
     width: 100%;
-    font-size:16px;
-
+    font-size: 16px;
   }
 `;
 
@@ -268,7 +262,7 @@ const WelcomeWords1 = styled.div`
   }
 
   @media (min-width: 768px) and (max-width: 1199px) {
-    width:570px;
+    width: 570px;
     margin: 13px 0px 20px 3px;
   }
 `;
@@ -294,7 +288,7 @@ const Describe1 = styled.div`
   line-height: 1.57;
   text-align: left;
   color: #d2d2d2;
-  
+
   @media (max-width: 767px) {
     width: 100%;
     font-size: 12px;
@@ -302,7 +296,7 @@ const Describe1 = styled.div`
   }
 
   @media (min-width: 768px) and (max-width: 1199px) {
-    width:570px;
+    width: 570px;
     margin: 13px 0px 40px 3px;
   }
 `;
@@ -313,7 +307,7 @@ const Describe2 = styled.div`
   line-height: 1.57;
   text-align: left;
   color: #d2d2d2;
-  width:430px;
+  width: 430px;
   @media (max-width: 767px) {
     font-size: 12px;
     width: 235px;
@@ -335,8 +329,8 @@ const Describe3 = styled.div`
 `;
 
 const LoginBtn = styled.button`
-  width: 111px;
-  height: 34px;
+  width: 125px;
+  height: 38px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -353,7 +347,7 @@ const LoginBtn = styled.button`
   transition: width 0.6s;
 
   :hover {
-    width: 130px;
+    width: 135px;
   }
 
   @media (max-width: 767px) {
@@ -374,8 +368,8 @@ const BannerImg2 = styled.div`
 `;
 
 const TradeBtn = styled.button`
-  width: 132px;
-  height: 34px;
+  width: 150px;
+  height: 38px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -395,7 +389,7 @@ const TradeBtn = styled.button`
   transition: width 0.6s;
 
   :hover {
-    width: 150px;
+    width: 160px;
   }
 
   @media (max-width: 767px) {
@@ -407,8 +401,8 @@ const TradeBtn = styled.button`
 
 const TradeBtn2 = styled(TradeBtn)`
   margin: 40px 335px 46.5px 0px;
-  position:relative;
-  top:40px;
+  position: relative;
+  top: 40px;
 `;
 
 const BannerImg3 = styled.div`

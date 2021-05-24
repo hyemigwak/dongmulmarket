@@ -229,6 +229,7 @@ const LogoBox = styled.div`
 const ImgLogo = styled.img`
   width: 42px;
   height: 42px;
+  margin-left: 10px;
 
   @media (max-width: 767px) {
     display: none;

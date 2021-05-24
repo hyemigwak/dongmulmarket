@@ -5,7 +5,6 @@ import EditAddress from "./EditAddress";
 import AddressChange from "./AddressChange";
 import Chatting from "./Chatting";
 import GroupChat from "./GroupChat";
-import OneChat from "./OneChat";
 import NoLogin from "./NoLogin";
 import LoginChat from "./LoginChat";
 import ChatUsers from "./ChatUsers";
@@ -16,4 +15,4 @@ import Banners from "./Banners";
 import Post from "./Post";
 import ChatUserButton from "./ChatUserButton";
 
-export { Footer, Header, MyLocation, EditAddress, Chatting, AddressChange, OneChat, GroupChat, NoLogin, LoginChat, ChatUsers, ChattingInput, NavBar, FloatBtn, Banners, Post, ChatUserButton };
+export { Footer, Header, MyLocation, EditAddress, Chatting, AddressChange, GroupChat, NoLogin, LoginChat, ChatUsers, ChattingInput, NavBar, FloatBtn, Banners, Post, ChatUserButton };

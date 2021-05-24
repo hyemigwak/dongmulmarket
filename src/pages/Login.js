@@ -115,7 +115,7 @@ const Login = () => {
             <SocialBtnArea>
               <div tabIndex="6">
                 <KaKaoLogin
-                  token={"dbf3a7f227849392ad80f6426c8d9526"}
+                  token={process.env.REACT_APP_KAKAO_APP_KEY}
                   onSuccess={kakaoLoginSuccess}
                   onFailure={(result) => console.log(result)}
                   buttonText="kakao"
@@ -129,7 +129,7 @@ const Login = () => {
               </div>
               <div tabIndex="7">
                 <GoogleLogin
-                  clientId="797391183659-j67nu7drmq094hs3ghtfpjmsh25dah67.apps.googleusercontent.com"
+                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                   buttonText="Google"
                   onSuccess={GoogleLoginSuccess}
                   onFailure={responseGoogle}

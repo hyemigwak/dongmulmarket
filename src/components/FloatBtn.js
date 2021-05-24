@@ -60,14 +60,14 @@ const BtnArea = styled.div`
     z-index: 5000;
     bottom: 100%;
     cursor: pointer;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 600;
     color: #212121;
-    width: 40px;
+    width: 80px;
     height: 24px;
     text-align: center;
     margin: 0 auto;
-    padding: 4px;
+    padding: 4px 5px;
     background-color: #212121;
     border-radius: 12px;
     color: #ffffff;
@@ -94,9 +94,10 @@ const BtnArea = styled.div`
 
     .survey {
       position: absolute;
-      right: 7px;
+      right: -3px;
       opacity: 1;
-      width: 120px;
+      width: 140px;
+      padding: 4px 10px;
 
       @media (max-width: 767px) {
         display: none;

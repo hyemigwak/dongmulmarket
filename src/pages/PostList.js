@@ -5,6 +5,7 @@ import { actionCreators as postActions } from "../redux/modules/post";
 import { Container } from "../element";
 import { FloatBtn, Post } from "../components";
 import Spinner from "../shared/Spinner";
+import { useMediaQuery } from "react-responsive";
 
 const PostList = (props) => {
   const dispatch = useDispatch();
@@ -22,7 +23,9 @@ const PostList = (props) => {
     setToast(true);
   };
 
-  //게시글이 없을 때는 아직 게시글이 없다고 보여주기
+  const isMobile = useMediaQuery({
+    query: "(max-width: 767px)",
+  });
 
   //길이를 확인해서, 길이 변화가 있다면 재렌더링 => 새로 등록했을때 리렌더
   const postLength = postList?.length;
@@ -76,7 +79,7 @@ const PostList = (props) => {
           <Title>교환을 기다리고 있어요!</Title>
         )}
         <BetaMsg>
-          <Beta onClick={ClickToast}>읽어주세요!</Beta>
+          <Beta onClick={ClickToast}>베타서비스 안내</Beta>
           <ToastMessage open={toast}>현재 베타서비스 기간으로 비 로그인 시 전체 지역 거래가 보입니다.</ToastMessage>
         </BetaMsg>
         <PostListC>
@@ -126,6 +129,15 @@ const Title = styled.h2`
   span {
     color: #3fbe81;
     font-size: 28px;
+    margin-right: 4px;
+
+    @media (max-width: 767px) {
+      font-size: 22px;
+    }
+
+    @media (min-width: 768px) and (max-width: 1199px) {
+      margin-bottom: 8px;
+    }
   }
 
   @media (min-width: 768px) and (max-width: 1199px) {
@@ -138,7 +150,15 @@ const Title = styled.h2`
   }
 `;
 
-const BetaMsg = styled.div``;
+const BetaMsg = styled.div`
+  @media (max-width: 767px) {
+    margin-top: 15px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    margin-top: 20px;
+  }
+`;
 
 const Beta = styled.div`
   width: 100%;
@@ -161,11 +181,6 @@ const fadein = keyframes`
   to { top: -30px; opacity: 1; }
 `;
 
-const fadeout = keyframes`
-  from { top: -30px; opacity: 1; } 
-  to { top: 0px; opacity: 0; }
-`;
-
 const ToastMessage = styled.div`
   display: ${(props) => (props.open ? "block" : "none")};
   position: relative;
@@ -186,6 +201,14 @@ const ToastMessage = styled.div`
           ${fadein} 0.5s;
         `
       : ""};
+
+  @media (max-width: 767px) {
+    width: 300px;
+    font-size: 16px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+  }
 `;
 
 export default PostList;

@@ -1,5 +1,5 @@
 const config = {
-  api: "http://15.165.76.76",
+  api: process.env.REACT_APP_API_URL,
 };
 
 export { config };
