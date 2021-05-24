@@ -1,8 +1,9 @@
 import React, { useEffect, useCallback, memo } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+
+import userX from "../image/userX.png";
+import userCheck from "../image/userCheck.png";
 
 import { actionCreators as postActions } from "../redux/modules/post";
 import { actionCreators as chatActions } from "../redux/modules/chat";
@@ -23,18 +24,25 @@ const ChatUserButton = memo(({ itemId, socket, icrId, userEmail, loginEmail }) =
 
   return (
     <>
-      <CheckCircleOutlineIcon
+      <OkBox
         onClick={() => exchangeUser(userEmail)}
+        src={userCheck}
         style={{
-          color: "green",
           marginRight: "10px",
           width: "20px",
           cursor: "pointer",
         }}
       />
-      <HighlightOffIcon onClick={() => kickUser(userEmail)} style={{ color: "gray", width: "20px", cursor: "pointer" }} />
+      <KickBox onClick={() => kickUser(userEmail)} src={userX} style={{  width: "20px", cursor: "pointer" }} />
     </>
   );
 });
 
+const OkBox=styled.img`
+
+`;
+
+const KickBox=styled.img`
+
+`;
 export default ChatUserButton;

@@ -59,6 +59,7 @@ const ChattingInput = memo(({ icrId, socket, email }) => {
           }
         }}
       ></SendInput>
+      <SendBtn>전송</SendBtn>
     </div>
   );
 });
@@ -68,7 +69,9 @@ const SendInput = styled.input`
   height: 65px;
   flex-grow: 0;
   border-radius: 10px;
-  border: solid 2px #6fcea1;
+  border: solid 5px #3fbe81;
+  border-top: solid 1px #3fbe81;
+  border-radius: 0px 0px 30px 30px; 
   background-color: #ffffff;
   ::placeholder {
     padding: 0px 20px;
@@ -83,7 +86,50 @@ const SendInput = styled.input`
     width: 280px;
     top: 470px;
     left: -15px;
+
+    ::placeholder {
+      padding: 0px 20px;
+      font-size: 16px;
+    }
   }
+`;
+
+const SendBtn=styled.button`
+width: 100px;
+height: 38px;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 21px;
+margin: 0 0 0 128px;
+padding: 7px 14px 6px;
+border-radius: 4px;
+border: solid 1px #c4c4c4;
+background-color: #c4c4c4;
+color: #ffffff;
+font-size: 16px;
+font-weight: 500;
+cursor:pointer;
+
+position:relative;
+bottom: 53px;
+left:318px;
+
+:hover{
+  background:#6fcea1;
+}
+
+@media (max-width: 767px) {
+  position:relative;
+  top: 488px;
+  left:45px;
+  width: 70px;
+  height: 28px;
+
+  font-size: 14px;
+
+}
 `;
 
 export default ChattingInput;

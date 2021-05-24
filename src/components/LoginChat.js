@@ -16,7 +16,6 @@ const LoginChat = (props) => {
         채팅에 참여해서 판매자와
         <br /> 대화하여 물품을 교환해보세요.
         </Text>
-
       </ChatView>
     </React.Fragment>
   );
