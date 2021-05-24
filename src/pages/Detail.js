@@ -79,15 +79,17 @@ const Detail = ({ history }) => {
 const WrapDetail = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
   width: 1200px;
-  // height: 100vh;
+  //height: 100vh;
+ 
   margin: 160px auto;
-
   @media (max-width: 767px) {
     height: 1400px;
     //height: 100vh;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
-    height: 100vh;
+    height: 1200px;
+    
+
   }
 `;
 

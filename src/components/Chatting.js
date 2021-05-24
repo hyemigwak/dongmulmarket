@@ -151,11 +151,11 @@ const BlankChatBox = styled.div`
 
 const ChatJoinBtn = styled.button`
   display: inline-block;
-  width: 250px;
-  height: 60px;
+  width: 180px;
+  height: 50px;
   padding: 10px;
   border: none;
-  background-color: #234635;
+  background-color: #3fbe81;
   border-radius: 83px;
   cursor: pointer;
   margin: 80px 30px 0px 90px;
@@ -163,14 +163,19 @@ const ChatJoinBtn = styled.button`
   font-size: 20px;
 
   position: absolute;
-  top: 270px;
-  left: 270px;
+  top: 330px;
+  left: 275px;
   right: auto;
   transform: translate(-50%, -50%);
+ 
+
+  :hover {
+    background-color: #269f65;
+  }
 
   @media (max-width: 767px) {
     position: absolute;
-    top: 970px;
+    top: 1070px;
     left: -20px;
     z-index: 2000;
 
@@ -198,6 +203,7 @@ const LiveChatBox = styled.div`
     left: 0px;
     top: 370px;
     left: -50px;
+    
   }
 `;
 
@@ -205,6 +211,7 @@ const BtnArea = styled.div`
   display: flex;
   position: absolute;
   top: 217px;
+ 
 `;
 
 const ChatLabel = styled.button`
@@ -243,6 +250,7 @@ const ChatView = styled.div`
 const WrapButtons = styled.div`
   display: flex;
   margin-left: 250px;
+  
   @media (max-width: 767px) {
     position: relative;
     right: 340px;
@@ -256,7 +264,11 @@ const BtnText = styled.div`
   font-weight: 500;
   color: #3fbe81;
   cursor: pointer;
+  
+  :hover {
 
+    color:#ffffff;
+  }
   @media (max-width: 767px) {
     font-size: 15px;
   }
@@ -277,6 +289,11 @@ const TradeCancelBtn = styled.button`
   border: solid 2px #3fbe81;
   background-color: #ffffff;
   font-size: 16px;
+
+  :hover {
+    background-color: #6fcea1;
+    
+  }
 
   @media (max-width: 767px) {
     position: relative;
@@ -304,6 +321,11 @@ const TradeSuccessBtn = styled.button`
   border: solid 2px #3fbe81;
   background-color: #ffffff;
   font-size: 16px;
+
+  :hover {
+    background-color: #6fcea1;
+    
+  }
 
   @media (max-width: 767px) {
     position: relative;

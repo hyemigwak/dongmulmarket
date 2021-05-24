@@ -16,20 +16,32 @@ const FloatBtn = () => {
 };
 
 const BtnArea = styled.div`
+  
+  // bottom: 34%;
+  // right: 12%;
+ 
   position: fixed;
-  bottom: 34%;
-  right: 12%;
-  cursor: pointer;
+  bottom: 50px;
+  right: 50px;
+  cursor: pointer;  
+  z-index:5000;
+  background-position: center;
+  background-size: 120%;
 
   img {
+    
     @media (max-width: 767px) {
+   
       width: 80px;
       right: 15%;
+    
     }
 
     @media (min-width: 768px) and (max-width: 1199px) {
+   
       width: 90px;
       right: 15%;
+    
     }
   }
 

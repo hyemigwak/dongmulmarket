@@ -14,6 +14,7 @@
     "history": "4.10.1",
     "http": "^0.0.1-security",
     "immer": "^9.0.2",
+    "keyframes": "^2.3.0",
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-daum-postcode": "^2.0.6",
