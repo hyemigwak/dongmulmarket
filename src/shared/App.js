@@ -4,7 +4,16 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
-import { Login, Main, Mypage, Signup, Findpwd, AddProduct, Detail, PwdChange } from "../pages";
+import {
+  Login,
+  Main,
+  Mypage,
+  Signup,
+  Findpwd,
+  AddProduct,
+  Detail,
+  PwdChange,
+} from "../pages";
 import { Header, Footer, MyLocation, AddressChange } from "../components";
 import NotFound from "./NotFound";
 import Spinner from "./Spinner";
@@ -15,8 +24,8 @@ function App() {
     <ConnectedRouter history={history}>
       <Header />
       <Switch>
-        <Route exact path="/login" component={auth(Login)} />
-        <Route exact path="/signup" component={auth(Signup)} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
         <Route exact path="/findpwd" component={auth(Findpwd)} />
         <Route exact path="/mypage" component={auth(Mypage)} />
         <Route exact path="/" component={auth(Main)} />
@@ -25,7 +34,7 @@ function App() {
         <Route exact path="/detail/:id" component={auth(Detail)} />
         <Route exact path="/address" component={auth(AddressChange)} />
         <Route exact path="/pwdchange" component={auth(PwdChange)} />
-        <Route exact path="/loading" component={auth(Spinner)} />
+        <Route exact path="/loading" component={Spinner} />
         <Route component={NotFound} />
       </Switch>
       <Footer />

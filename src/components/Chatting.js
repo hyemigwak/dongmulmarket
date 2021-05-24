@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef, useCallback, memo } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+
 import { actionCreators as chatActions } from "../redux/modules/chat";
+import { actionCreators as postActions } from "../redux/modules/post";
 import { GroupChat, LoginChat, ChatUsers, ChattingInput } from "./index";
 import useJoinChat from "../hooks/useJoinChat";
 import useSocket from "../hooks/useSocket";
@@ -17,11 +19,17 @@ const Chatting = memo(({ icrId, history }) => {
 
   const { chatJoinYn, handler } = useJoinChat(icrId); //참여 유무를 통해 버튼 결정
 
-  const [socket, disconnectSocket] = useSocket("http://15.165.76.76:3001/chatting", email, icrId);
+  const [socket, disconnectSocket] = useSocket(
+    "http://15.165.76.76:3001/chatting",
+    email,
+    icrId
+  );
 
   useEffect(() => {
     return () => {
       console.info("disconnect socket", icrId);
+      dispatch(chatActions.clearOne());
+      dispatch(postActions.clearPost());
       disconnectSocket();
     };
   }, [disconnectSocket, icrId]);
@@ -103,7 +111,9 @@ const Chatting = memo(({ icrId, history }) => {
           </BtnArea>
           <ChatView>
             {chatList?.map((data, idx) => {
-              return <GroupChat {...data} key={idx} chatList={chatList} me={email} />;
+              return (
+                <GroupChat {...data} key={idx} chatList={chatList} me={email} />
+              );
             })}
             <div ref={scroll}></div>
           </ChatView>
@@ -167,7 +177,6 @@ const ChatJoinBtn = styled.button`
   left: 275px;
   right: auto;
   transform: translate(-50%, -50%);
- 
 
   :hover {
     background-color: #269f65;
@@ -203,7 +212,6 @@ const LiveChatBox = styled.div`
     left: 0px;
     top: 370px;
     left: -50px;
-    
   }
 `;
 
@@ -211,7 +219,6 @@ const BtnArea = styled.div`
   display: flex;
   position: absolute;
   top: 217px;
- 
 `;
 
 const ChatLabel = styled.button`
@@ -250,7 +257,7 @@ const ChatView = styled.div`
 const WrapButtons = styled.div`
   display: flex;
   margin-left: 250px;
-  
+
   @media (max-width: 767px) {
     position: relative;
     right: 340px;
@@ -264,10 +271,9 @@ const BtnText = styled.div`
   font-weight: 500;
   color: #3fbe81;
   cursor: pointer;
-  
-  :hover {
 
-    color:#ffffff;
+  :hover {
+    color: #ffffff;
   }
   @media (max-width: 767px) {
     font-size: 15px;
@@ -292,7 +298,6 @@ const TradeCancelBtn = styled.button`
 
   :hover {
     background-color: #6fcea1;
-    
   }
 
   @media (max-width: 767px) {
@@ -324,7 +329,6 @@ const TradeSuccessBtn = styled.button`
 
   :hover {
     background-color: #6fcea1;
-    
   }
 
   @media (max-width: 767px) {
