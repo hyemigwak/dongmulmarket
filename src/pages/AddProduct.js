@@ -57,7 +57,7 @@ const AddProduct = (props) => {
     setExpireDate(dateString);
   }
   function onOk(value) {
-    console.log("onOk: ", value);
+    // console.log("onOk: ", value);
   }
 
   //오늘 이전 날짜는 선택 못하게 함

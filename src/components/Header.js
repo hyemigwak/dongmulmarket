@@ -17,6 +17,10 @@ const Header = memo((props) => {
     query: "(max-width: 767px)",
   });
 
+  const isDesktop = useMediaQuery({
+    query: "(min-width: 1024px)",
+  });
+
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
   const cookie = getCookie("user_login") ? true : false;
@@ -35,7 +39,7 @@ const Header = memo((props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(userActions.LogOutMiddleware());
-        history.replace("/");
+        window.location.reload();
         Swal.fire({
           title: "로그아웃 되셨습니다.",
           confirmButtonColor: "#3fbe81",
@@ -52,21 +56,10 @@ const Header = memo((props) => {
 
   const modal = useRef();
 
-  const handleClickOutside = ({ target }) => {
-    if (navOpen && !modal.current.contains(target)) setnavOpen(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      window.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   if (cookie && is_login) {
     return (
       <>
-        {isMobile ? (
+        {!isDesktop ? (
           <React.Fragment>
             <Hamburger>
               <MenuIcon style={{ width: "40px", height: "40px", marginLeft: "20px", cursor: "pointer" }} onClick={open} />
@@ -80,49 +73,7 @@ const Header = memo((props) => {
                 <Beta>베타서비스</Beta>
               </LogoBox>
             </Hamburger>
-            <NavBar1 open={navOpen} close={close} ref={modal} toggle={navOpen}>
-              <HamburgerModal>
-                <Graybar />
-                <HeaderArea>
-                  <ImgArea>
-                    <img src={xbtn} alt="x버튼" onClick={close} />
-                  </ImgArea>
-                  <TextArea>
-                    <Hi>안녕하세요</Hi>
-                    <Dongmul>
-                      <span>동물마켓</span>입니다 :)
-                    </Dongmul>
-                  </TextArea>
-                  <CateArea>
-                    <MoveTo
-                      onClick={() => {
-                        history.push("/");
-                        close();
-                      }}
-                    >
-                      홈페이지
-                    </MoveTo>
-                    <MoveTo
-                      onClick={() => {
-                        history.push("/addproduct");
-                        close();
-                      }}
-                    >
-                      판매하기
-                    </MoveTo>
-                    <MoveTo
-                      onClick={() => {
-                        history.push("/mypage");
-                        close();
-                      }}
-                    >
-                      마이페이지
-                    </MoveTo>
-                    <MoveTo onClick={siteLogout}>로그아웃</MoveTo>
-                  </CateArea>
-                </HeaderArea>
-              </HamburgerModal>
-            </NavBar1>
+            <NavBar open={navOpen} close={close} ref={modal} toggle={navOpen} />
           </React.Fragment>
         ) : (
           <React.Fragment>
@@ -245,7 +196,6 @@ const Hamburger = styled.div`
 const LogoBox = styled.div`
   display: flex;
   align-items: center;
-  margin: 0px 389px 0px 20px;
 
   cursor: pointer;
   span {
@@ -260,7 +210,7 @@ const LogoBox = styled.div`
   }
 
   @media (min-width: 768px) and (max-width: 1199px) {
-    margin: 0px 200px 0px 20px;
+    margin-right: 5%;
   }
 `;
 

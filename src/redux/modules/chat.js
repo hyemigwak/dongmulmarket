@@ -39,8 +39,6 @@ const getIcrId = () => {
 const getAllChatList = (socket) => {
   return function (dispatch, getState, { history }) {
     socket.on("setRoom", (data) => {
-      console.log("setRoom", data);
-
       dispatch(getChat(data.msgList));
       dispatch(getUsers(data.userList));
     });
@@ -94,7 +92,6 @@ export default handleActions(
   {
     [GET_CHAT]: (state, action) =>
       produce(state, (draft) => {
-        console.log("챗리스트 확인", draft.chat_list);
         if (action.payload.messages) draft.chat_list = action.payload.messages;
       }),
     [ADD_CHAT]: (state, action) =>

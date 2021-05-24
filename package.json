@@ -11,6 +11,7 @@
     "antd": "^4.15.3",
     "axios": "^0.21.1",
     "connected-react-router": "6.8.0",
+    "dotenv": "^10.0.0",
     "history": "4.10.1",
     "http": "^0.0.1-security",
     "immer": "^9.0.2",

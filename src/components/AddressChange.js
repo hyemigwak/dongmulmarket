@@ -15,7 +15,6 @@ const AddressChange = (props) => {
   const { email } = useSelector((state) => state.user.user);
 
   const editMyAddress = () => {
-    console.log(email);
     dispatch(postActions.ChangeAddressAPI(email, new_address));
     close();
   };

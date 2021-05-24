@@ -13,7 +13,6 @@ const auth = (Component) => () => {
   const cookie = getCookie("user_login") ? true : false;
 
   if (cookie) {
-    console.log(getCookie("user_login"));
     SetAuthToken(getCookie("user_login")); //axios default header setting.
 
     dispatch(userActions.loginCheck(cookie));

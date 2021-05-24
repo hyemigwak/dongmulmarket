@@ -135,7 +135,6 @@ const BannerBox = styled.div`
     display: inline-block;
     width: 20px;
     height: 20px;
-    /*margin: 1px;*/
     padding: 0;
     cursor: pointer;
   }

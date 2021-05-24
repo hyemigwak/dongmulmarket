@@ -43,9 +43,6 @@ const Login = () => {
 
   //구글로그인 성공
   const GoogleLoginSuccess = (response) => {
-    console.log(response);
-    console.log(response.profileObj.name);
-    console.log(response.profileObj.givenName);
     dispatch(userActions.GoogleLoginAPI(response));
   };
 

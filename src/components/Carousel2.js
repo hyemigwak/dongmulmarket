@@ -9,7 +9,6 @@ const Carousel2 = (props) => {
   const dispatch = useDispatch();
 
   const SuccessList = props.SuccessList;
-  console.log(SuccessList);
 
   const slide_content = SuccessList;
   const lastIndex = Math.ceil(SuccessList.length / 4);

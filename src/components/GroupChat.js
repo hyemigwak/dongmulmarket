@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const GroupChat = memo(({ me, ...props }) => {
   const is_me = me === props.email ? true : false;
-  console.log(props);
   const ChatTime = props.createdDt;
   const ChatTimeP = ChatTime.split("T")[1].substring(0, 5);
 

@@ -51,7 +51,6 @@ const ChangeAddressAPI = (email, new_address) => {
     })
       .then((res) => {
         if (res.data.msg === "success") {
-          console.log(res.data);
           history.push("/");
           dispatch(myAddress(new_address));
           Swal.fire({
@@ -77,7 +76,6 @@ const ChangeAddressAPI = (email, new_address) => {
 //마이페이지 판매/교환/구매내역 뿌려주기
 const myPageAPI = () => {
   let token = getCookie("user_login");
-  console.log(token);
   return function (dispatch, getState, { history }) {
     axios({
       method: "GET",
@@ -85,7 +83,6 @@ const myPageAPI = () => {
     })
       .then((res) => {
         if (res.data.msg === "success") {
-          console.log(res.data);
           dispatch(myPage(res.data.postInfo));
         } else {
           console.log("res.data.msg === fail");
@@ -100,7 +97,6 @@ const myPageAPI = () => {
 //물품 삭제하기
 const deletePostAPI = (itemId) => {
   return function (dispatch, getState, { history }) {
-    let token = getCookie("user_login");
     axios({
       method: "DELETE",
       url: `${config.api}/mainPage/delete`,
@@ -161,7 +157,6 @@ const LogingetPostAPI = () => {
     })
       .then((res) => {
         if (res.data.msg === "success") {
-          console.log("포스트리스트", res.data);
           const post_list = res.data.data;
           //종료일 기준으로 내림차순 정렬
           post_list.sort(function (a, b) {
@@ -227,7 +222,6 @@ const exchangeUserList = (socket, { loginEmail, itemId, email, icrId }) => {
         token: token,
       },
       (data) => {
-        console.log(data);
         if (data["msg"] === "success") {
           socket.emit("exchange", {
             hostEmail: loginEmail,

@@ -19,7 +19,7 @@ const useSocket = (serverUrl, email, icrId) => {
     sockets[icrId] = io.connect(serverUrl, {
       query: `email=${email}&icrId=${icrId}`,
     });
-    console.info("create socket", icrId, sockets[icrId]);
+    // console.info("create socket", icrId, sockets[icrId]);
   }
 
   return [sockets[icrId], disconnect];

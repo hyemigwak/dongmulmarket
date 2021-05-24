@@ -1,5 +1,6 @@
 import React from "react";
 import Fatcat from "../image/Fatcat.svg";
+import dongmum3 from "../image/dongmum3.png";
 import styled, { keyframes } from "styled-components";
 
 const FloatBtn = () => {
@@ -7,7 +8,7 @@ const FloatBtn = () => {
     <React.Fragment>
       <BtnArea>
         <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdS8daBSTBOcffTNGzCV47PQnMsAMD4hvbr3ZK2Wfk6ph2KZQ/viewform?usp=sf_link" rel="noreferrer">
-          <img src={Fatcat} alt="고양이" />
+          <img src={dongmum3} alt="동멈이" />
         </a>
         <div className="survey">설문조사 부탁드려용🧡</div>
       </BtnArea>
@@ -19,13 +20,13 @@ const moveToTop = keyframes`
   from { 
     position: fixed;
     bottom: 50px;
-    right: 50px;
+    right: 70px;
     opacity: 0.4;
   }
   to {
     position: fixed;
     bottom: 55px;
-    right: 50px;
+    right: 70px;
     opacity: 1;
     }
 `;
@@ -33,14 +34,15 @@ const moveToTop = keyframes`
 const BtnArea = styled.div`
   position: fixed;
   bottom: 50px;
-  right: 50px;
+  right: 70px;
   cursor: pointer;
   z-index: 5000;
   background-position: center;
   background-size: 120%;
 
   img {
-    width: 100px;
+    width: 120px;
+    border-radius: 50%;
 
     @media (max-width: 767px) {
       width: 80px;
@@ -57,7 +59,6 @@ const BtnArea = styled.div`
     position: absolute;
     z-index: 5000;
     bottom: 100%;
-    left: 20%;
     cursor: pointer;
     font-size: 10px;
     font-weight: 600;
@@ -93,7 +94,7 @@ const BtnArea = styled.div`
 
     .survey {
       position: absolute;
-      left: -30%;
+      right: 7px;
       opacity: 1;
       width: 120px;
 

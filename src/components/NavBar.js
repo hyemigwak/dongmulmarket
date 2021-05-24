@@ -22,7 +22,7 @@ const NavBar = (props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(userActions.LogOutMiddleware());
-        history.replace("/");
+        window.location.reload();
         Swal.fire({
           text: "로그아웃 되셨습니다.",
           confirmButtonColor: "#3fbe81",

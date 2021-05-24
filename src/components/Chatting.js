@@ -8,6 +8,7 @@ import { GroupChat, LoginChat, ChatUsers, ChattingInput } from "./index";
 import useJoinChat from "../hooks/useJoinChat";
 import useSocket from "../hooks/useSocket";
 import Swal from "sweetalert2";
+import { config } from "../shared/config";
 
 const Chatting = memo(({ icrId, history }) => {
   // 채팅에 스크롤 넣어줌
@@ -19,11 +20,11 @@ const Chatting = memo(({ icrId, history }) => {
 
   const { chatJoinYn, handler } = useJoinChat(icrId); //참여 유무를 통해 버튼 결정
 
-  const [socket, disconnectSocket] = useSocket("http://15.165.76.76:3001/chatting", email, icrId);
+  const [socket, disconnectSocket] = useSocket(`${config.api}:3001/chatting`, email, icrId);
 
   useEffect(() => {
     return () => {
-      console.info("disconnect socket", icrId);
+      // console.info("disconnect socket", icrId);
       dispatch(chatActions.clearOne());
       dispatch(postActions.clearPost());
       disconnectSocket();
@@ -59,7 +60,6 @@ const Chatting = memo(({ icrId, history }) => {
 
   useEffect(() => {
     socket.on("exchange", (data) => {
-      console.log(data);
       if (data["msg"] === "success") {
         Swal.fire({
           title: "교환이 성립되어 거래가 종료되었습니다!",

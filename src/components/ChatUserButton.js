@@ -18,7 +18,6 @@ const ChatUserButton = memo(({ itemId, socket, icrId, userEmail, loginEmail }) =
 
   //유저 강퇴하는 기능
   const kickUser = useCallback((email) => {
-    console.log(email);
     dispatch(postActions.kickUserList(socket, { itemId, email, icrId }));
   }, []);
 
@@ -33,16 +32,12 @@ const ChatUserButton = memo(({ itemId, socket, icrId, userEmail, loginEmail }) =
           cursor: "pointer",
         }}
       />
-      <KickBox onClick={() => kickUser(userEmail)} src={userX} style={{  width: "20px", cursor: "pointer" }} />
+      <KickBox onClick={() => kickUser(userEmail)} src={userX} style={{ width: "20px", cursor: "pointer" }} />
     </>
   );
 });
 
-const OkBox=styled.img`
+const OkBox = styled.img``;
 
-`;
-
-const KickBox=styled.img`
-
-`;
+const KickBox = styled.img``;
 export default ChatUserButton;

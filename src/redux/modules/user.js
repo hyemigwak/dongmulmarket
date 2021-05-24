@@ -2,7 +2,6 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from "axios";
 import { setCookie, deleteCookie, getCookie } from "../../shared/Cookie";
-import { actionCreators as postActions } from "./post";
 import { config } from "../../shared/config";
 import Swal from "sweetalert2";
 
@@ -53,8 +52,6 @@ const GoogleLoginAPI = (response) => {
         if (res.data.msg === "success") {
           //토큰 받아오기
           const jwtToken = res.data.token;
-          const nickname = res.data.nickname;
-          const email = res.data.email;
 
           //토큰 저장하기
           setCookie("user_login", jwtToken);
@@ -67,13 +64,23 @@ const GoogleLoginAPI = (response) => {
           };
 
           dispatch(logIn(user_data, "google"));
-          Swal.fire({
-            title: "로그인 성공",
-            text: "정상적으로 로그인 되었습니다!",
-            confirmButtonColor: "#3fbe81",
-            confirmButtonText: "확인",
-          });
-          history.push("/");
+
+          if (res.data.address !== null) {
+            history.push("/");
+            Swal.fire({
+              title: "로그인 성공",
+              text: "동물마켓에 접속해주셔서 감사해요!",
+              confirmButtonColor: "#3fbe81",
+              confirmButtonText: "확인",
+            });
+          } else {
+            history.push("/mylocation");
+            Swal.fire({
+              title: "현 위치를 먼저 설정해주세요!",
+              confirmButtonColor: "#3fbe81",
+              confirmButtonText: "확인",
+            });
+          }
         } else {
           console.log("구글로그인 msg === fail");
         }
@@ -99,8 +106,6 @@ const kakaoLoginAPI = (response) => {
         if (res.data.msg === "success") {
           //토큰 받아오기
           const jwtToken = res.data.token;
-          const nickname = res.data.nickname;
-          const email = res.data.email;
 
           //토큰 저장하기
           setCookie("user_login", jwtToken);
@@ -116,14 +121,24 @@ const kakaoLoginAPI = (response) => {
           //로그인타입 넣어주기
           dispatch(logIn(user_data, "kakao"));
 
-          Swal.fire({
-            title: "로그인 성공",
-            text: "정상적으로 로그인 되었습니다!",
-            confirmButtonColor: "#3fbe81",
-          });
-          history.push("/");
+          if (res.data.address !== null) {
+            history.push("/");
+            Swal.fire({
+              title: "로그인 성공",
+              text: "동물마켓에 접속해주셔서 감사해요!",
+              confirmButtonColor: "#3fbe81",
+              confirmButtonText: "확인",
+            });
+          } else {
+            history.push("/mylocation");
+            Swal.fire({
+              title: "현 위치를 먼저 설정해주세요!",
+              confirmButtonColor: "#3fbe81",
+              confirmButtonText: "확인",
+            });
+          }
         } else {
-          console.log("카카오 res.data.msg fail");
+          console.log("카카오 로그인 오류");
         }
       })
       .catch((err) => {
@@ -170,17 +185,10 @@ const loginAPI = (email, pwd) => {
     })
       .then((res) => {
         if (res.data.msg === "success") {
-          console.log(res.data); // response 확인
-
           //받아온 것들을 이런 변수에  저장
           const jwtToken = res.data.token;
-          const nickname = res.data.nickname;
-          const email = res.data.email;
-
-          //토큰은 setCookie에 저장하고 nickname이랑 email은 로컬 스토리지에 저장
+          //토큰은 setCookie에 저장
           setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
-          console.log(getCookie("user_login"));
-
           //딕셔너리
           const user_data = {
             email: res.data.email,
@@ -383,8 +391,6 @@ const LogOutMiddleware = () => {
       return;
     }
     if (loginType === "google") {
-      //구글닉넴따로 해야댐
-      //딜리트쿠키에
       deleteCookie("user_login");
       deleteCookie("G_AUTHUSER_H");
       dispatch(logOut());

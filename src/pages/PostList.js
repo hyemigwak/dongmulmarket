@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { Container } from "../element";
 import { FloatBtn, Post } from "../components";
 import Spinner from "../shared/Spinner";
-import { getCookie } from "../shared/Cookie";
 
 const PostList = (props) => {
   const dispatch = useDispatch();
@@ -13,8 +12,17 @@ const PostList = (props) => {
   const is_loading = useSelector((state) => state.post.is_loading);
   const is_login = useSelector((state) => state.user.is_login);
 
+  //어느 지역의 게시글들인지 보여주기
   const [town, setTown] = useState("");
-  console.log(postList);
+
+  //토스트 메세지 사용
+  const [toast, setToast] = useState(false);
+
+  const ClickToast = () => {
+    setToast(true);
+  };
+
+  //게시글이 없을 때는 아직 게시글이 없다고 보여주기
 
   //길이를 확인해서, 길이 변화가 있다면 재렌더링 => 새로 등록했을때 리렌더
   const postLength = postList?.length;
@@ -28,6 +36,20 @@ const PostList = (props) => {
     }
   }, [dispatch, postLength]);
 
+  useEffect(() => {
+    if (is_login && postList?.[0]) {
+      setTown(postList[0]["address"]);
+    }
+  }, [postList]);
+
+  useEffect(() => {
+    if (toast === true) {
+      setTimeout(() => {
+        setToast(false);
+      }, 2000);
+    }
+  }, [toast]);
+
   if (is_loading) {
     return (
       <>
@@ -36,17 +58,13 @@ const PostList = (props) => {
     );
   }
 
-  console.log(postList);
-  console.log(postList[0]);
-
-  // console.log(postList[0]?.address);
-
-  // if (postList && postList[0].address) {
-  //   setTown(postList[0].address);
-  // } else {
-  //   return null;
-  // }
-
+  if (postList.length === 0) {
+    return (
+      <React.Fragment>
+        <NoPost>아직 이 동네에 등록된 거래가 없어요!</NoPost>
+      </React.Fragment>
+    );
+  }
   return (
     <React.Fragment>
       <Container>
@@ -57,7 +75,10 @@ const PostList = (props) => {
         ) : (
           <Title>교환을 기다리고 있어요!</Title>
         )}
-        <Beta>베타서비스 클릭</Beta>
+        <BetaMsg>
+          <Beta onClick={ClickToast}>읽어주세요!</Beta>
+          <ToastMessage open={toast}>현재 베타서비스 기간으로 비 로그인 시 전체 지역 거래가 보입니다.</ToastMessage>
+        </BetaMsg>
         <PostListC>
           {postList?.map((post, idx) => {
             return <Post {...post} key={idx} />;
@@ -68,6 +89,15 @@ const PostList = (props) => {
     </React.Fragment>
   );
 };
+
+const NoPost = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.67;
+  color: #d2d2d2;
+`;
 
 const PostListC = styled.div`
   display: flex;
@@ -108,6 +138,8 @@ const Title = styled.h2`
   }
 `;
 
+const BetaMsg = styled.div``;
+
 const Beta = styled.div`
   width: 100%;
   font-size: 16px;
@@ -117,6 +149,43 @@ const Beta = styled.div`
   cursor: pointer;
   display: flex;
   justify-content: center;
+
+  :hover {
+    font-weight: 600;
+    font-size: 18px;
+  }
+`;
+
+const fadein = keyframes`
+  from { top: 0px; opacity: 0; } 
+  to { top: -30px; opacity: 1; }
+`;
+
+const fadeout = keyframes`
+  from { top: -30px; opacity: 1; } 
+  to { top: 0px; opacity: 0; }
+`;
+
+const ToastMessage = styled.div`
+  display: ${(props) => (props.open ? "block" : "none")};
+  position: relative;
+  font-size: 16px;
+  bottom: 20px;
+  /* right: 50px; */
+  background-color: #3fbe81;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 10px 10px;
+  width: 550px;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 18px;
+  animation: ${(props) =>
+    props.open
+      ? css`
+          ${fadein} 0.5s;
+        `
+      : ""};
 `;
 
 export default PostList;

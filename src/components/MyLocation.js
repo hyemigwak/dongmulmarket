@@ -31,7 +31,6 @@ const MyLocation = (props) => {
   const [lati, setLati] = useState(0); //위도
   const [longi, setLong] = useState(0); //경도
   const [address, setAddress] = useState("");
-  console.log(address);
 
   const { email } = useSelector((state) => state.user.user);
   const is_login = useSelector((state) => state.user.is_login);
@@ -44,7 +43,6 @@ const MyLocation = (props) => {
       const newAddress = address.replace("서울특별시", "서울");
       const str = newAddress.split(" ");
       const myAddress = str[0] + " " + str[1];
-      console.log(myAddress);
       dispatch(postActions.ChangeAddressAPI(email, myAddress));
     } else {
       const str = address.split(" ");
@@ -109,7 +107,6 @@ const MyLocation = (props) => {
       function displayCenterInfo(result, status) {
         if (status === kakao.maps.services.Status.OK) {
           var infoDiv = document.getElementById("centerAddr");
-          console.log(result);
 
           for (var i = 0; i < result.length; i++) {
             // 행정동의 region_type 값은 'H' 이므로
