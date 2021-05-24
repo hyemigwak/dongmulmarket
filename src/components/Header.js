@@ -11,6 +11,7 @@ import { NavBar } from "./index";
 import { useMediaQuery } from "react-responsive";
 import MenuIcon from "@material-ui/icons/Menu";
 import xbtn from "../image/xbtn.png";
+import dmLogo from "../image/dmLogo.png";
 
 const Header = memo((props) => {
   const isMobile = useMediaQuery({
@@ -129,6 +130,9 @@ const Header = memo((props) => {
             <Container>
               <HeaderC>
                 <LogoBox>
+                  <ImgLogo src={dmLogo}  onClick={() => {
+                  history.push("/");
+                }}/>
                   <Logo
                     src={logo1}
                     onClick={() => {
@@ -173,6 +177,9 @@ const Header = memo((props) => {
         <Container>
           <HeaderC>
             <LogoBox>
+            <ImgLogo src={dmLogo}  onClick={() => {
+                  history.push("/");
+                }}/>
               <Logo
                 src={logo1}
                 onClick={() => {
@@ -245,7 +252,7 @@ const Hamburger = styled.div`
 const LogoBox = styled.div`
   display: flex;
   align-items: center;
-  margin: 0px 389px 0px 20px;
+  margin: 0px 389px 0px 40px;
 
   cursor: pointer;
   span {
@@ -260,12 +267,21 @@ const LogoBox = styled.div`
   }
 
   @media (min-width: 768px) and (max-width: 1199px) {
-    margin: 0px 200px 0px 20px;
+    margin: 0px 200px 0px 40px;
   }
 `;
 
+const ImgLogo=styled.img`
+width:42px;
+height:42px;
+
+@media (max-width: 767px) {
+  display:none;
+}
+`;
+
 const Logo = styled.img`
-  margin-left: 20px;
+  margin-left: 12px;
 
   @media (max-width: 767px) {
     width: 60%;

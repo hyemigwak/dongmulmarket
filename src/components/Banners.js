@@ -7,6 +7,10 @@ import { history } from "../redux/configureStore";
 import mainbanner1 from "../image/mainbanner1.png";
 import mainbanner2 from "../image/mainbanner2.png";
 import mainbanner3 from "../image/mainbanner3.png";
+import WebBanner from "../image/WebBanner.png";
+import TabletBanner from "../image/TabletBanner.png";
+import MobileBanner from "../image/MobileBanner.png";
+
 
 const Banners = () => {
   const settings = {
@@ -23,6 +27,10 @@ const Banners = () => {
   return (
     <BannerBox>
       <Slick {...settings} dotsClass="dotsCustom">
+        <BannerImg0>
+ 
+        </BannerImg0>
+
         <BannerImg1>
           <BannerGrid>
             <SmallGreen1>우리 동네에서 하는 물물교환 거래</SmallGreen1>
@@ -96,8 +104,10 @@ const Banners = () => {
   );
 };
 
+
 const BannerBox = styled.div`
-  width: 100%;
+  width: 1200px;
+  margin:auto;
   height: 540px;
   box-sizing: border-box;
 
@@ -195,6 +205,24 @@ const BannerGrid2 = styled.div`
   }
 `;
 
+const BannerImg0 = styled.div`
+  background-image: url("${WebBanner}");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 460px;
+ 
+  @media (max-width: 767px) {
+    background-image: url("${MobileBanner}");
+    height: 450px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1190px) {
+    background-image: url("${TabletBanner}");
+  }
+`;
+
+
 const BannerImg1 = styled.div`
   background-image: url("${mainbanner1}");
   background-position: center;
@@ -215,9 +243,12 @@ const SmallGreen1 = styled.div`
   font-weight: 600;
   text-align: left;
   color: #3fbe81;
+  width:353px;
 
   @media (max-width: 767px) {
     width: 100%;
+    font-size:16px;
+
   }
 `;
 
@@ -235,6 +266,11 @@ const WelcomeWords1 = styled.div`
     font-size: 25px;
     margin: 6px 40px 10px 1px;
     height: 100%;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    width:570px;
+    margin: 13px 0px 20px 3px;
   }
 `;
 
@@ -259,10 +295,16 @@ const Describe1 = styled.div`
   line-height: 1.57;
   text-align: left;
   color: #d2d2d2;
+  
   @media (max-width: 767px) {
     width: 100%;
     font-size: 12px;
     margin: 0px 58px 24px 3px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    width:570px;
+    margin: 13px 0px 40px 3px;
   }
 `;
 
@@ -272,8 +314,10 @@ const Describe2 = styled.div`
   line-height: 1.57;
   text-align: left;
   color: #d2d2d2;
+  width:430px;
   @media (max-width: 767px) {
     font-size: 12px;
+    width: 235px;
   }
 `;
 
@@ -287,7 +331,7 @@ const Describe3 = styled.div`
   @media (max-width: 767px) {
     width: 100%;
     font-size: 14px;
-    margin: 50px 58px 24px 3px;
+    margin: 30px 58px 24px 3px;
   }
 `;
 
@@ -364,6 +408,8 @@ const TradeBtn = styled.button`
 
 const TradeBtn2 = styled(TradeBtn)`
   margin: 40px 335px 46.5px 0px;
+  position:relative;
+  top:40px;
 `;
 
 const BannerImg3 = styled.div`
