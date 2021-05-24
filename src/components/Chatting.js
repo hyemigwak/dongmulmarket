@@ -109,7 +109,7 @@ const Chatting = memo(({ icrId, history }) => {
           <BtnArea>
             <ChatLabel onClick={closeModal}>실시간채팅</ChatLabel>
           </BtnArea>
-          <ChatView>
+          <ChatView className="scrollBar">
             {chatList?.map((data, idx) => {
               return (
                 <GroupChat {...data} key={idx} chatList={chatList} me={email} />
@@ -118,14 +118,6 @@ const Chatting = memo(({ icrId, history }) => {
             <div ref={scroll}></div>
           </ChatView>
           <ChattingInput icrId={icrId} socket={socket} email={email} />
-          <WrapButtons>
-            <TradeCancelBtn>
-              <BtnText>교환취소</BtnText>
-            </TradeCancelBtn>
-            <TradeSuccessBtn>
-              <BtnText>교환성사</BtnText>
-            </TradeSuccessBtn>
-          </WrapButtons>
         </LiveChatBox>
         <ChatUsers socket={socket} />
       </ChatContainer>
@@ -231,20 +223,21 @@ const ChatLabel = styled.button`
   padding: 10px 36px;
   width: 156px;
   height: 44px;
-  border-radius: 8px;
+  border-radius: 5px 5px 0px 0px; 
 `;
 
 const ChatView = styled.div`
   width: 565px;
   height: 522px;
   background-color: #ffffff;
-  border-radius: 10px;
-  margin-top: 0px;
+  
+
   position: relative;
   overflow-y: scroll;
   box-sizing: border-box;
   border: 5px solid #3fbe81;
-
+  border-radius: 0px 30px 0px 0px; 
+ 
   @media (max-width: 767px) {
     position: absolute;
     top: -100px;
@@ -254,92 +247,6 @@ const ChatView = styled.div`
   }
 `;
 
-const WrapButtons = styled.div`
-  display: flex;
-  margin-left: 250px;
 
-  @media (max-width: 767px) {
-    position: relative;
-    right: 340px;
-    top: 420px;
-  }
-`;
-
-const BtnText = styled.div`
-  flex-grow: 0;
-  font-size: 20px;
-  font-weight: 500;
-  color: #3fbe81;
-  cursor: pointer;
-
-  :hover {
-    color: #ffffff;
-  }
-  @media (max-width: 767px) {
-    font-size: 15px;
-  }
-`;
-
-const TradeCancelBtn = styled.button`
-  min-width: 145px;
-  min-height: 49px;
-  flex-grow: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin: 30px 20px 0 0;
-  padding: 10px 30px;
-  border-radius: 8px;
-  border: solid 2px #3fbe81;
-  background-color: #ffffff;
-  font-size: 16px;
-
-  :hover {
-    background-color: #6fcea1;
-  }
-
-  @media (max-width: 767px) {
-    position: relative;
-    left: 100px;
-    top: 100px;
-
-    min-width: 100px;
-    min-height: 39px;
-    padding: 0px 0px;
-  }
-`;
-
-const TradeSuccessBtn = styled.button`
-  min-width: 145px;
-  min-height: 49px;
-  flex-grow: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin: 30px 218px 0 0;
-  padding: 10px 30px;
-  border-radius: 8px;
-  border: solid 2px #3fbe81;
-  background-color: #ffffff;
-  font-size: 16px;
-
-  :hover {
-    background-color: #6fcea1;
-  }
-
-  @media (max-width: 767px) {
-    position: relative;
-    left: 100px;
-    top: 100px;
-
-    min-width: 100px;
-    min-height: 39px;
-    padding: 0px 0px;
-  }
-`;
 
 export default Chatting;
