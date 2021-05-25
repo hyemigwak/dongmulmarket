@@ -171,7 +171,11 @@ const Signup = (props) => {
         <SignUpLogin>
           <TitleArea>
             <Title>회원가입</Title>
-            <div className="require">반드시 모든 내용을 입력하신 후 가입하기를 눌러주세요</div>
+            {isMobile?
+             <div className="require">반드시 모든 내용을 입력하신 후<br/>가입하기를 눌러주세요</div> : 
+             <div className="require">반드시 모든 내용을 입력하신 후 가입하기를 눌러주세요</div>
+            }
+           
           </TitleArea>
           <SignUpC>
             <InputC>
@@ -381,7 +385,7 @@ const EmailArea = styled.div`
 `;
 
 const InputInfo = styled.div`
-  width: 120px;
+  width: 100px;
   margin: 0px 60px 0px 225px;
   font-size: 18px;
   font-weight: 500;
@@ -390,8 +394,10 @@ const InputInfo = styled.div`
   color: #2f2f2f;
 
   @media (max-width: 767px) {
-    margin: 0px 3px 0px 5px;
-    font-size: 12px;
+    margin: 0px 3px 0px 3px;
+    font-size: 13px;
+    width: 70px;
+
   }
 `;
 
@@ -449,11 +455,13 @@ const Input = styled.input`
     outline: none;
   }
   @media (max-width: 767px) {
-    width: 240px;
+    width: 188px;
     margin-left: 0rem;
     padding: 5px 3px;
     height: 44px;
     font-size: 14px;
+    position:relative;
+    right:10px;
   }
 `;
 
@@ -462,6 +470,8 @@ const InputA = styled(Input)`
     width: 100%;
     margin-left: 1.4rem;
     margin-right: 0.5rem;
+    position:relative;
+    left:0px;
   }
 `;
 
@@ -491,14 +501,14 @@ const CertiBtn = styled.div`
   padding: 12px 16px;
   border-radius: 8px;
   border: 2px solid #6fcea1;
-
+  
   font-size: 18px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.33;
-  letter-spacing: normal;
-  text-align: left;
+ 
+  text-align: center;
   color: #6fcea1;
 
   cursor: pointer;
@@ -509,11 +519,16 @@ const CertiBtn = styled.div`
   }
 
   @media (max-width: 767px) {
+    
     margin: 0px 0px 0px 2px;
     font-size: 12px;
     width: 70px;
     height: 30px;
-    padding: 3px 8px;
+    padding: 5px 8px;
+
+   
+
+    
   }
 `;
 
@@ -574,8 +589,9 @@ const SignInBtn = styled.div`
   @media (max-width: 767px) {
     width: 130px;
     margin: 50px auto 100px;
-    padding: 14px 38px;
+    padding: 14px 0px;
     font-size: 14px;
+    text-align: center;
   }
 `;
 
