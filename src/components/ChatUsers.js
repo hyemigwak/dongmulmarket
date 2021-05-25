@@ -81,9 +81,8 @@ const ImgBox = styled.img`
 
 const WrapBtns = styled.div`
   display: flex;
-
   position: relative;
-  bottom: 28px;
+  bottom: -15px;
   left: 15px;
 
   @media (min-width: 768px) and (max-width: 1190px) {
@@ -118,6 +117,7 @@ const LiveChatBox = styled.div`
   display: block;
   position: relative;
   bottom: 20px;
+
   @media (max-width: 767px) {
     position: absolute;
     left: 105px;
