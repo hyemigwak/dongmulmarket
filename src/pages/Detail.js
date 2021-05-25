@@ -80,6 +80,12 @@ const WrapDetail = styled.div`
 
   @media (max-width: 767px) {
     height: 1400px;
+    // width:100%;
+
+    width: 280px;
+
+    margin: 10px auto 15px;
+
     /* margin: 160px auto; */
   }
   @media (min-width: 768px) and (max-width: 1190px) {
