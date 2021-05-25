@@ -220,7 +220,7 @@ const MyPageC = styled.div`
   width: 1200px;
   margin-top: 70px;
   height: 100vh;
-  flex-grow: 0;
+
   @media (max-width: 767px) {
     width: 100%;
     margin: 0 auto;
@@ -231,25 +231,16 @@ const MyPageC = styled.div`
     width:100
     margin: 0px auto;
     flex-grow: 0;
+    justify-content: center;
   }
 `;
 
 const SellContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
 
-  // @media (max-width: 767px) {
-  //   width: 100%;
-  //   margin: 0 auto;
-  // }
-
-  // @media (min-width: 768px) and (max-width: 1199px) {
-  //   width:100
-  //   margin: 0px auto;
-  // }
-
-  
 
 `;
 
