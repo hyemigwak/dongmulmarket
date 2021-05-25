@@ -83,7 +83,7 @@ const WrapBtns = styled.div`
   display: flex;
 
   position: relative;
-  bottom: 28px;
+  bottom: -15px;
   left: 15px;
 
   @media (min-width: 768px) and (max-width: 1190px) {
@@ -108,10 +108,12 @@ const ArrowBox = styled.img`
 `;
 
 const LiveChatBox = styled.div`
+  
+
   width: 175px;
   height: 522px;
   flex-grow: 0;
-
+  
   margin-left: 10px;
   ${(props) => (props.isBoss ? "background-color:#3fbe81" : "background-color: #d9d9d9")}
 
@@ -127,6 +129,7 @@ const LiveChatBox = styled.div`
     position: absolute;
     left: 545px;
     top: 370px;
+  
   }
 `;
 

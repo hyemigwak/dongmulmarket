@@ -98,6 +98,7 @@ const CarouselContainer = styled.div`
   overflow: hidden;
   margin: 1rem 0;
   background-size: cover;
+
 `;
 
 const SliderContainer = styled.div`
@@ -107,6 +108,7 @@ const SliderContainer = styled.div`
   height: 100%;
   margin: 0 auto;
   transition: left 0.5s ease-in;
+
 `;
 
 const Slider = styled.div`
