@@ -424,9 +424,11 @@ const KakaoBtn = styled.div`
   }
 
   @media (max-width: 767px) {
-    width: 140px;
+    width: 145px;
     font-size: 12px;
     padding: 15px 12px;
+    position:relative;
+    left:50px;
   }
 `;
 

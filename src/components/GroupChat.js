@@ -88,7 +88,7 @@ const OtherSpeech = styled.div``;
 const MyNameTag = styled.div`
   color: #4c4c4c;
   flex-grow: 0;
-  width: 90px;
+  width: 110px;
   margin: 0 0px 6px 187px;
   font-size: 14px;
   font-weight: 500;
@@ -97,6 +97,7 @@ const MyNameTag = styled.div`
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
+
 `;
 
 const FlexGroup = styled.div`
@@ -133,6 +134,10 @@ const OtherNameTag = styled.div`
   font-size: 14px;
   font-weight: 500;
   text-align: left;
+
+  @media (max-width: 767px) {
+   margin-right:0px;
+  }
 `;
 
 const MyBubble = styled.div`
