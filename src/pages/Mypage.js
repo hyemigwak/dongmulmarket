@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
+import { Container } from "../element";
 
 import bellimg from "../image/bell.png";
 import Carousel from "../components/Carousel";
@@ -28,6 +29,7 @@ const Mypage = (props) => {
 
   return (
     <React.Fragment>
+      <Container>
       <WrapMypage>
         <MpageHeader>
           <Title>마이페이지</Title>
@@ -80,6 +82,7 @@ const Mypage = (props) => {
           )}
         </MyPageC>
       </WrapMypage>
+      </Container>
     </React.Fragment>
   );
 };
@@ -161,7 +164,7 @@ const LocationBtn = styled.button`
   }
   @media (min-width: 768px) and (max-width: 1190px) {
     position: absolute;
-    left: 800px;
+    left: 550px;
     top: 120px;
   }
 `;
@@ -217,10 +220,37 @@ const MyPageC = styled.div`
   width: 1200px;
   margin-top: 70px;
   height: 100vh;
+  flex-grow: 0;
+  @media (max-width: 767px) {
+    width: 100%;
+    margin: 0 auto;
+    flex-grow: 0;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    width:100
+    margin: 0px auto;
+    flex-grow: 0;
+  }
 `;
 
 const SellContainer = styled.div`
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  // @media (max-width: 767px) {
+  //   width: 100%;
+  //   margin: 0 auto;
+  // }
+
+  // @media (min-width: 768px) and (max-width: 1199px) {
+  //   width:100
+  //   margin: 0px auto;
+  // }
+
+  
+
 `;
 
 const DoneContainer = styled.div`
