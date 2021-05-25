@@ -181,7 +181,7 @@ const AInput = styled.input`
 
     @media (max-width: 768px) {
       font-size: 12px;
-      padding: 12px 0px;
+      padding: 4px 0px;
     }
   }
   :hover {
@@ -210,7 +210,7 @@ const PInput = styled.input`
 
     @media (max-width: 768px) {
       font-size: 12px;
-      padding: 14px 10px;
+      padding: 4px 10px;
     }
   }
   :hover {

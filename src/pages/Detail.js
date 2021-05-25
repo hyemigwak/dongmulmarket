@@ -4,7 +4,6 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { NoLogin, Chatting } from "../components";
-import { Container } from "../element";
 import { useMediaQuery } from "react-responsive";
 
 const Detail = ({ history }) => {
@@ -32,46 +31,44 @@ const Detail = ({ history }) => {
 
   return (
     <React.Fragment>
-      <Container>
-        <WrapDetail>
-          <Title>물품 교환하기</Title>
-          <InfoTitle>상품 정보</InfoTitle>
+      <WrapDetail>
+        <Title>물품 교환하기</Title>
+        <InfoTitle>상품 정보</InfoTitle>
 
-          <WrapBox>
-            <ProductsBox>
-              <Img src={detail.image} />
-              <TableBox>
-                <tr>
-                  <TitleText>품목명</TitleText>
-                  <DetailText>{detail.title}</DetailText>
-                </tr>
-                <tr>
-                  <TitleText>카테고리</TitleText>
-                  <DetailText>{detail.category}</DetailText>
-                </tr>
-                <tr>
-                  <TitleText>희망 교환템</TitleText>
-                  <DetailText>{detail.wantItem}</DetailText>
-                </tr>
-                <tr>
-                  <TitleText>글 올린 시간</TitleText>
-                  <DetailText>{detail.createdDt}</DetailText>
-                </tr>
-                <tr>
-                  <TitleText>교환 종료 시간</TitleText>
-                  <DetailText>{detail.deadLine}</DetailText>
-                </tr>
-                <tr>
-                  <TitleText>코멘트</TitleText>
-                  <DetailText>{detail.comment}</DetailText>
-                </tr>
-              </TableBox>
-            </ProductsBox>
+        <WrapBox>
+          <ProductsBox>
+            <Img src={detail.image} />
+            <TableBox>
+              <tr>
+                <TitleText>품목명</TitleText>
+                <DetailText>{detail.title}</DetailText>
+              </tr>
+              <tr>
+                <TitleText>카테고리</TitleText>
+                <DetailText>{detail.category}</DetailText>
+              </tr>
+              <tr>
+                <TitleText>희망 교환템</TitleText>
+                <DetailText>{detail.wantItem}</DetailText>
+              </tr>
+              <tr>
+                <TitleText>글 올린 시간</TitleText>
+                <DetailText>{detail.createdDt}</DetailText>
+              </tr>
+              <tr>
+                <TitleText>교환 종료 시간</TitleText>
+                <DetailText>{detail.deadLine}</DetailText>
+              </tr>
+              <tr>
+                <TitleText>코멘트</TitleText>
+                <DetailText>{detail.comment}</DetailText>
+              </tr>
+            </TableBox>
+          </ProductsBox>
 
-            {detail?.icrId && is_login ? <Chatting {...detail} history={history} /> : <NoLogin />}
-          </WrapBox>
-        </WrapDetail>
-      </Container>
+          {detail?.icrId && is_login ? <Chatting {...detail} history={history} /> : <NoLogin />}
+        </WrapBox>
+      </WrapDetail>
     </React.Fragment>
   );
 };
@@ -79,17 +76,15 @@ const Detail = ({ history }) => {
 const WrapDetail = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
   width: 1200px;
- 
- 
   margin: 160px auto;
+
   @media (max-width: 767px) {
     height: 1400px;
-  
+    /* margin: 160px auto; */
   }
   @media (min-width: 768px) and (max-width: 1190px) {
+    width: 100%;
     height: 1200px;
-    
-
   }
 `;
 
@@ -131,10 +126,12 @@ const InfoTitle = styled.div`
 
 const WrapBox = styled.div`
   display: flex;
-  margin-left: 50px;
- 
+  /* margin-left: 50px; */
+
   @media (max-width: 767px) {
     display: block;
+    width: 310px;
+    margin: 0 auto;
   }
 `;
 
@@ -180,7 +177,6 @@ const TableBox = styled.table`
   width: 353.1px;
   height: 240px;
 
-
   @media (max-width: 767px) {
     position: absolute;
     top: 520px;
@@ -214,8 +210,6 @@ const DetailText = styled.td`
   text-align: left;
   color: #1c1c1c;
   font-weight: bold;
-
- 
 
   @media (max-width: 767px) {
     font-size: 14px;

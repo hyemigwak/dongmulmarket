@@ -27,7 +27,6 @@ const Banners = () => {
     <BannerBox>
       <Slick {...settings} dotsClass="dotsCustom">
         <BannerImg0></BannerImg0>
-
         <BannerImg1>
           <BannerGrid>
             <SmallGreen1>우리 동네에서 하는 물물교환 거래</SmallGreen1>
@@ -64,8 +63,6 @@ const Banners = () => {
               동물마켓은 내가 가진 물건으로 필요한 물건을 구할 수 있어요.
               <br />
               교환하고 싶은 물건이 있다면, 단체 채팅에 참여해보세요.
-              <br />
-              채팅을 통해 구매자와 매칭이 되면 1:1 채팅을 할 수 있습니다!
             </Describe2>
             <TradeBtn
               onClick={() => {
@@ -206,10 +203,14 @@ const BannerImg0 = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   height: 460px;
+  width: 100%;
 
   @media (max-width: 767px) {
+    background-color: #fffced;
     background-image: url("${MobileBanner}");
-    height: 450px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 100%;
   }
 
   @media (min-width: 768px) and (max-width: 1190px) {
@@ -309,8 +310,9 @@ const Describe2 = styled.div`
   color: #d2d2d2;
   width: 430px;
   @media (max-width: 767px) {
-    font-size: 12px;
-    width: 235px;
+    font-size: 16px;
+    width: 300px;
+    margin: 20px 0px;
   }
 `;
 
@@ -321,10 +323,12 @@ const Describe3 = styled.div`
   line-height: 1.6;
   text-align: left;
   color: #d2d2d2;
+
   @media (max-width: 767px) {
     width: 100%;
     font-size: 14px;
-    margin: 30px 58px 24px 3px;
+    margin: 60px 58px 0px 3px;
+    font-size: 18px;
   }
 `;
 

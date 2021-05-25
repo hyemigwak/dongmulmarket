@@ -70,6 +70,14 @@ const WrapFindPwd = styled.div`
   /* @media (max-width: 1000px){
     heigth: 
   } */
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    width: 100%;
+  }
 `;
 
 const TopArea = styled.div`
@@ -79,21 +87,27 @@ const TopArea = styled.div`
     width: 110px;
     height: 100px;
   }
+
+  @media (max-width: 767px) {
+    width: 310px;
+    margin: auto;
+  }
 `;
 const Title = styled.div`
   width: 390px;
   height: 24px;
   flex-grow: 0;
   margin: 50px auto 24px;
-  font-family: Roboto;
   font-size: 36px;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 0.67;
-  letter-spacing: normal;
   text-align: left;
   color: #2f2f2f;
+
+  @media (max-width: 767px) {
+    width: 100%;
+    font-size: 28px;
+  }
 `;
 
 const SubTitle = styled.div`
@@ -101,15 +115,14 @@ const SubTitle = styled.div`
   height: 16px;
   flex-grow: 0;
   margin: 24px 9px 0 10px;
-  font-family: Roboto;
   font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
   text-align: left;
   color: #5f5f5f;
+
+  @media (max-width: 767px) {
+    width: 100%;
+    font-size: 12px;
+  }
 `;
 
 const FindPwdC = styled.div`
@@ -117,6 +130,14 @@ const FindPwdC = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 767px) {
+    width: 100%;
+    margin: auto;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+  }
 `;
 
 const Input = styled.input`
@@ -128,13 +149,18 @@ const Input = styled.input`
   border: solid 2px #d2d2d2;
   ::placeholder {
     font-size: 18px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.33;
-    letter-spacing: normal;
     text-align: left;
     color: #b5b5b5;
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    width: 300px;
+    margin: 50px auto 16px;
   }
 `;
 
@@ -147,7 +173,6 @@ const FindpwdBtn = styled.div`
   border-radius: 8px;
   background-color: #d6d6d6;
 
-  font-family: Roboto;
   font-size: 18px;
   font-weight: bold;
   font-stretch: normal;
@@ -161,6 +186,13 @@ const FindpwdBtn = styled.div`
 
   :hover {
     background-color: #3fbe81;
+  }
+
+  @media (max-width: 767px) {
+    width: 300px;
+    margin: 20px auto 20px;
+    font-size: 14px;
+    padding: 15px 120px;
   }
 `;
 
@@ -182,6 +214,11 @@ const SignInArea = styled.div`
     text-align: left;
     color: #3fbe81;
     cursor: pointer;
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+    margin: 40px auto;
   }
 `;
 

@@ -483,7 +483,7 @@ const Btn = styled.div`
   @media (max-width: 768px) {
     width: 140px;
     height: 46px;
-    padding: 10px 20px;
+    padding: 10px;
     font-size: 20px;
   }
 `;

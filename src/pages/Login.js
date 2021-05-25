@@ -241,7 +241,7 @@ const Input = styled.input`
 
   @media (max-width: 767px) {
     width: 280px;
-    padding: 17.6px 10px 11.6px 16px;
+    padding: 14px 10px 11.6px 16px;
     margin: 0px auto 16px;
   }
 `;
@@ -249,7 +249,7 @@ const Input = styled.input`
 const Input2 = styled.input`
   width: 359px;
   height: 56px;
-  margin: 16px 421px 14px 420px;
+  margin: 14px 421px 14px 420px;
   padding: 17.6px 135px 11.6px 16px;
   border-radius: 8px;
   border: solid 2px #d2d2d2;
@@ -334,7 +334,7 @@ const LoginBtn = styled.div`
 
   @media (max-width: 767px) {
     width: 280px;
-    padding: 13px 115px;
+    padding: 13px 110px;
   }
 `;
 
@@ -388,6 +388,11 @@ const SocialBtnArea = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 767px) {
+    width: 310px;
+    justify-content: space-between;
+  }
 `;
 
 const KakaoBtn = styled.div`
@@ -426,7 +431,7 @@ const KakaoBtn = styled.div`
   @media (max-width: 767px) {
     width: 140px;
     font-size: 12px;
-    padding: 15px 12px;
+    padding: 15px 7px;
   }
 `;
 

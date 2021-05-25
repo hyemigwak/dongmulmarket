@@ -144,6 +144,10 @@ const LocationBtn = styled.button`
   cursor: pointer;
   text-align: center;
 
+  @media (max-width: 767px) {
+    padding: 2px 14px;
+  }
+
   :hover {
     background-color: #3fbe81;
     color: #ffffff;

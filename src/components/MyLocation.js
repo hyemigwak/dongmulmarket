@@ -238,8 +238,10 @@ const Title = styled.div`
   font-size: 36px;
   font-weight: 600;
   text-align: center;
+
   @media (max-width: 768px) {
     padding-top: 30px;
+    font-size: 26px;
   }
 `;
 
@@ -258,6 +260,10 @@ const BoldText = styled.div`
   text-align: center;
   color: #2f2f2f;
   margin: 0 41px 20px;
+
+  @media (max-width: 767px) {
+    font-size: 24px;
+  }
 `;
 
 const NormalText = styled.div`
@@ -301,6 +307,10 @@ const ContainerBox = styled.div`
 const AddressShowing = styled.div`
   font-size: 20px;
   font-weight: bold;
+
+  @media (max-width: 767px) {
+    font-size: 16px;
+  }
 `;
 
 const WrapBtn = styled.div`
@@ -333,7 +343,7 @@ const NoBtn = styled.button`
   @media (max-width: 768px) {
     width: 100px;
     height: 40px;
-    padding: 10px 20px;
+    padding: 5px 20px;
     font-size: 16px;
   }
 `;
@@ -357,7 +367,7 @@ const YBtn = styled.button`
   @media (max-width: 768px) {
     width: 100px;
     height: 40px;
-    padding: 10px 20px;
+    padding: 5px 20px;
     font-size: 16px;
   }
 `;

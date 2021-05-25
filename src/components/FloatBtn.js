@@ -40,6 +40,11 @@ const BtnArea = styled.div`
   background-position: center;
   background-size: 120%;
 
+  @media (max-width: 767px) {
+    bottom: 50px;
+    right: 30px;
+  }
+
   img {
     width: 120px;
     border-radius: 50%;
