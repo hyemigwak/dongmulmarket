@@ -14,7 +14,6 @@ const auth = (Component) => () => {
 
   if (cookie) {
     SetAuthToken(getCookie("user_login")); //axios default header setting.
-
     dispatch(userActions.loginCheck(cookie));
     dispatch(userActions.UserInfoChkAPI());
   }

@@ -32,8 +32,10 @@ const Detail = ({ history }) => {
   return (
     <React.Fragment>
       <WrapDetail>
-        <Title>물품 교환하기</Title>
-        <InfoTitle>상품 정보</InfoTitle>
+        <TitleArea>
+          <Title>물품 교환하기</Title>
+          <InfoTitle>상품 정보</InfoTitle>
+        </TitleArea>
 
         <WrapBox>
           <ProductsBox>
@@ -65,8 +67,7 @@ const Detail = ({ history }) => {
               </tr>
             </TableBox>
           </ProductsBox>
-
-          {detail?.icrId && is_login ? <Chatting {...detail} history={history} /> : <NoLogin />}
+          <ChattingArea>{detail?.icrId && is_login ? <Chatting {...detail} history={history} /> : <NoLogin />}</ChattingArea>
         </WrapBox>
       </WrapDetail>
     </React.Fragment>
@@ -76,15 +77,22 @@ const Detail = ({ history }) => {
 const WrapDetail = styled.div`
   /* 최상단과 항상 떨어져 있게 함 */
   width: 1200px;
-  margin: 160px auto;
+  margin: 160px auto 140px;
 
   @media (max-width: 767px) {
-    height: 1400px;
-    /* margin: 160px auto; */
+    width: 100%;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
     width: 100%;
-    height: 1200px;
+  }
+`;
+
+const TitleArea = styled.div`
+  @media (max-width: 767px) {
+    display: block;
+    width: 310px;
+    margin: 0 auto;
+    text-align: center;
   }
 `;
 
@@ -97,7 +105,10 @@ const Title = styled.div`
   text-align: left;
   color: #1c1c1c;
   @media (max-width: 767px) {
-    margin: 63px 167px 0px 10px;
+    width: 300px;
+    margin: 0 auto;
+    font-size: 28px;
+    text-align: left;
   }
 
   @media (min-width: 768px) and (max-width: 1190px) {
@@ -112,12 +123,13 @@ const InfoTitle = styled.div`
   font-size: 20px;
   font-weight: 500;
   line-height: 1.33;
-  text-align: left;
   color: #1c1c1c;
   margin-left: 50px;
 
   @media (max-width: 767px) {
-    margin: 30px 167px 0px 10px;
+    width: 300px;
+    text-align: left;
+    margin: 15px 0px;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
     margin: 30px 167px 0px 10px;
@@ -126,7 +138,6 @@ const InfoTitle = styled.div`
 
 const WrapBox = styled.div`
   display: flex;
-  /* margin-left: 50px; */
 
   @media (max-width: 767px) {
     display: block;
@@ -136,19 +147,16 @@ const WrapBox = styled.div`
 `;
 
 const ProductsBox = styled.div`
+  display: block;
 
- 
-@media (max-width: 767px) {
-  position: relative;
- 
-  bottom:230px;
-  right:260px;
-  width: 285px;
-  background:pink;
-}
-
-}
+  @media (max-width: 767px) {
+    width: 310px;
+    margin: 0 auto;
+    text-align: center;
+  }
 `;
+
+const ChattingArea = styled.div``;
 
 const Img = styled.img`
   width: 347px;
@@ -156,20 +164,13 @@ const Img = styled.img`
   margin: 0px 6px 34px 0.1px;
   border-radius: 8px;
   border: solid 3px #6fcea1;
-  position: relative;
-  top: 10px;
-  @media (max-width: 767px) {
-    position: absolute;
-    top: 250px;
-    left: 238px;
 
+  @media (max-width: 767px) {
     width: 250px;
     height: 250px;
+    margin: 0px 6px 10px 0.1px;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
-    position: absolute;
-    top: 270px;
-    left: 10px;
   }
 `;
 
@@ -178,14 +179,11 @@ const TableBox = styled.table`
   height: 240px;
 
   @media (max-width: 767px) {
-    position: absolute;
-    top: 520px;
-    left: 230px;
+    margin-bottom: 40px;
+    width: 300px;
+    margin: 0 auto 25px;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
-    position: absolute;
-    top: 300px;
-    left: 380px;
   }
 `;
 

@@ -46,7 +46,7 @@ const ChattingInput = memo(({ icrId, socket, email }) => {
   );
 
   return (
-    <div>
+    <InputArea>
       <SendInput
         type="text"
         placeholder="텍스트를 입력하세요."
@@ -66,9 +66,11 @@ const ChattingInput = memo(({ icrId, socket, email }) => {
       >
         전송
       </SendBtn>
-    </div>
+    </InputArea>
   );
 });
+
+const InputArea = styled.div``;
 
 const SendInput = styled.input`
   width: 565px;
@@ -90,11 +92,7 @@ const SendInput = styled.input`
   position: relative;
 
   @media (max-width: 767px) {
-    position: absolute;
-
-    width: 280px;
-    top: 470px;
-    left: -15px;
+    width: 300px;
 
     ::placeholder {
       padding: 0px 20px;
@@ -130,13 +128,11 @@ const SendBtn = styled.button`
   }
 
   @media (max-width: 767px) {
-    position: relative;
-    top: 488px;
-    left: 45px;
-    width: 70px;
+    width: 50px;
     height: 28px;
-
-    font-size: 14px;
+    font-size: 12px;
+    margin-left: -90px;
+    padding: 7px 8px;
   }
 `;
 

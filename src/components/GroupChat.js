@@ -67,15 +67,16 @@ const EntranceMsg = styled.div`
   width: 270px;
   height: 24px;
   flex-grow: 0;
-  margin: 12px auto 4px auto;
+  margin: 12px auto 4px;
   font-size: 18px;
   font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.33;
-  letter-spacing: normal;
   text-align: center;
   color: #7d7d7d;
+
+  @media (max-width: 767px) {
+    font-size: 14px;
+  }
 `;
 
 const MySpeech = styled.div`
@@ -92,12 +93,13 @@ const MyNameTag = styled.div`
   margin: 0 0px 6px 187px;
   font-size: 14px;
   font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
   text-align: left;
 
+  @media (max-width: 767px) {
+    position: relative;
+    right: -200px;
+    /* margin: 0px 0px 6px 366px; */
+  }
 `;
 
 const FlexGroup = styled.div`
@@ -118,6 +120,11 @@ const ChattingTime = styled.div`
   color: #7d7d7d;
   height: 100%;
   margin-right: 10px;
+
+  @media (max-width: 767px) {
+    font-size: 8px;
+    margin-right: 6px;
+  }
 `;
 
 const ChattingTimeP = styled.div`
@@ -125,6 +132,10 @@ const ChattingTimeP = styled.div`
   color: #7d7d7d;
   margin-left: 10px;
   height: 100%;
+  @media (max-width: 767px) {
+    font-size: 8px;
+    margin-left: 6px;
+  }
 `;
 
 const OtherNameTag = styled.div`
@@ -136,7 +147,8 @@ const OtherNameTag = styled.div`
   text-align: left;
 
   @media (max-width: 767px) {
-   margin-right:0px;
+    margin: 0 366px 2px 28px;
+    font-size: 10px;
   }
 `;
 
@@ -152,6 +164,13 @@ const MyBubble = styled.div`
   box-sizing: border-box;
   border-radius: 10px;
   background-color: #a8a8a8;
+
+  @media (max-width: 767px) {
+    min-width: 140px;
+    height: 100%;
+    max-width: 150px;
+    padding: 4px 18px;
+  }
 `;
 
 const BubbleTri = styled.div`
@@ -182,6 +201,16 @@ const OtherBubble = styled.div`
   padding: 4px 18px;
   border-radius: 10px;
   background-color: #3fbe81;
+
+  @media (max-width: 767px) {
+    width: 100%;
+    height: 100%;
+    max-width: 150px;
+    min-width: 120px;
+    padding: 4px 14px;
+    margin-bottom: 8px;
+    word-break: normal;
+  }
 `;
 
 const ChatText = styled.div`
@@ -191,6 +220,10 @@ const ChatText = styled.div`
   line-height: 1.6;
   text-align: left;
   color: #ffffff;
+
+  @media (max-width: 767px) {
+    font-size: 12px;
+  }
 `;
 
 export default GroupChat;

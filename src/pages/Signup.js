@@ -171,11 +171,14 @@ const Signup = (props) => {
         <SignUpLogin>
           <TitleArea>
             <Title>회원가입</Title>
-            {isMobile?
-             <div className="require">반드시 모든 내용을 입력하신 후<br/>가입하기를 눌러주세요</div> : 
-             <div className="require">반드시 모든 내용을 입력하신 후 가입하기를 눌러주세요</div>
-            }
-           
+            {isMobile ? (
+              <div className="require">
+                반드시 모든 내용을 입력하신 후<br />
+                가입하기를 눌러주세요
+              </div>
+            ) : (
+              <div className="require">반드시 모든 내용을 입력하신 후 가입하기를 눌러주세요</div>
+            )}
           </TitleArea>
           <SignUpC>
             <InputC>
@@ -397,7 +400,6 @@ const InputInfo = styled.div`
     margin: 0px 3px 0px 3px;
     font-size: 13px;
     width: 70px;
-
   }
 `;
 
@@ -443,8 +445,10 @@ const Input = styled.input`
     line-height: 1.33;
     text-align: left;
     color: #b5b5b5;
+
     @media (max-width: 767px) {
       font-size: 13px;
+      padding: 3px;
     }
   }
   .focus {
@@ -457,21 +461,22 @@ const Input = styled.input`
   @media (max-width: 767px) {
     width: 188px;
     margin-left: 0rem;
-    padding: 5px 3px;
+    padding: 12px 10px;
     height: 44px;
     font-size: 14px;
-    position:relative;
-    right:10px;
+    position: relative;
+    right: 10px;
   }
 `;
 
 const InputA = styled(Input)`
   @media (max-width: 767px) {
     width: 100%;
+    padding: 10px;
     margin-left: 1.4rem;
     margin-right: 0.5rem;
-    position:relative;
-    left:0px;
+    position: relative;
+    left: 0px;
   }
 `;
 
@@ -501,13 +506,13 @@ const CertiBtn = styled.div`
   padding: 12px 16px;
   border-radius: 8px;
   border: 2px solid #6fcea1;
-  
+
   font-size: 18px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.33;
- 
+
   text-align: center;
   color: #6fcea1;
 
@@ -519,16 +524,11 @@ const CertiBtn = styled.div`
   }
 
   @media (max-width: 767px) {
-    
     margin: 0px 0px 0px 2px;
     font-size: 12px;
     width: 70px;
     height: 30px;
     padding: 5px 8px;
-
-   
-
-    
   }
 `;
 

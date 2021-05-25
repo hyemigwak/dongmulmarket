@@ -123,11 +123,10 @@ const ChatContainer = styled.div`
   display: flex;
 
   @media (max-width: 767px) {
-    position: relative;
+    width: 100%;
   }
 
   @media (min-width: 768px) and (max-width: 1190px) {
-    position: relative;
   }
 `;
 
@@ -172,10 +171,8 @@ const ChatJoinBtn = styled.button`
     position: absolute;
     top: 1070px;
     left: -20px;
-    z-index: 2000;
-
     transform: translate(-50%, -50%);
-
+    z-index: 2000;
     width: 150px;
     height: 40px;
     font-size: 15px;
@@ -187,24 +184,15 @@ const LiveChatBox = styled.div`
   width: 565px;
 
   @media (max-width: 767px) {
-    position: absolute;
-    left: 0px;
-    top: 680px;
-    left: -50px;
+    margin-left: 0px;
   }
 
   @media (min-width: 768px) and (max-width: 1190px) {
-    position: absolute;
-    left: 0px;
-    top: 370px;
-    left: -50px;
   }
 `;
 
 const BtnArea = styled.div`
   display: flex;
-  position: absolute;
-  top: 217px;
 `;
 
 const ChatLabel = styled.button`
@@ -247,11 +235,7 @@ const ChatView = styled.div`
   }
 
   @media (max-width: 767px) {
-    position: absolute;
-    top: -100px;
-    width: 280px;
-    height: 570px;
-    left: -15px;
+    width: 300px;
   }
 `;
 
