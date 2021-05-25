@@ -17,20 +17,21 @@ const deleteCookie = (name) => {
 
 //쿠키 가져오기
 const getCookie = (name) => {
-  let makeCookie = "";
-  if (document.cookie.indexOf("G_AUTHUSER_H") != -1) {
-    makeCookie = document.cookie.split("; ")[1];
-  } else {
-    makeCookie = document.cookie;
-  }
-  let value = "; " + makeCookie;
-  let parts = value.split(";  " + name + "=");
-  if (parts.length === 2) {
-    return parts.pop().split(";").shift();
-  } else if (parts === "; ") {
-    return undefined;
-  } else {
-    return parts.pop().split("=")[1];
+  let cookieArr = [];
+  cookieArr = document.cookie.split("; ");
+
+  for (const makeCookie of cookieArr) {
+    if (makeCookie.indexOf("user_login") !== -1) {
+      let value = "; " + makeCookie;
+      let parts = value.split(";  " + name + "=");
+      if (parts.length === 2) {
+        return parts.pop().split(";").shift();
+      } else if (parts === "; ") {
+        return undefined;
+      } else {
+        return parts.pop().split("=")[1];
+      }
+    }
   }
 };
 
