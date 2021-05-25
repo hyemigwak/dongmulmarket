@@ -7,7 +7,7 @@ const FloatBtn = () => {
   return (
     <React.Fragment>
       <BtnArea>
-        <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdS8daBSTBOcffTNGzCV47PQnMsAMD4hvbr3ZK2Wfk6ph2KZQ/viewform?usp=sf_link" rel="noreferrer">
+        <a target="_blank" href="https://forms.gle/Gneqs2c2okdBHXz67" rel="noreferrer">
           <img src={dongmum3} alt="동멈이" />
         </a>
         <div className="survey">설문조사 부탁드려용🧡</div>

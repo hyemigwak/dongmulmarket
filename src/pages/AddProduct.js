@@ -134,9 +134,9 @@ const AddProduct = (props) => {
                     <>
                       <DatePicker
                         className="datepicker"
-                        showTime={{ format: "HH:MM" }}
+                        showTime={{ format: "HH" }}
                         disabledDate={disabledDate}
-                        format="YYYY-MM-DD HH:MM"
+                        format="YYYY-MM-DD HH"
                         onChange={onChange}
                         onOk={onOk}
                         placeholder="달력에서 날짜를 선택해주세요"

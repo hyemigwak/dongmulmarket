@@ -20,7 +20,7 @@ const Chatting = memo(({ icrId, history }) => {
 
   const { chatJoinYn, handler } = useJoinChat(icrId); //참여 유무를 통해 버튼 결정
 
-  const [socket, disconnectSocket] = useSocket("https://15.165.76.76:3001/chatting", email, icrId);
+  const [socket, disconnectSocket] = useSocket("http://15.165.76.76:3001/chatting", email, icrId);
 
   useEffect(() => {
     return () => {
@@ -169,13 +169,14 @@ const ChatJoinBtn = styled.button`
 
   @media (max-width: 767px) {
     position: relative;
-    bottom: 40px;
+    bottom: 50px;
     left: 80px;
     transform: translate(-50%, -50%);
-    z-index: 2000;
+    z-index: 1000;
     width: 150px;
     height: 40px;
     font-size: 15px;
+    margin: 50px 0px 0px 0px;
   }
 `;
 
