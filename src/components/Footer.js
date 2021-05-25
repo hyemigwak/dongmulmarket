@@ -224,7 +224,7 @@ const FBD = styled.div`
 
   @media (max-width: 767px) {
     display: block;
-    margin-left: 30px;
+    margin-left: 10px;
   }
 
   @media (min-width: 768px) and (max-width: 1199px) {
