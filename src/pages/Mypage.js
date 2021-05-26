@@ -158,14 +158,14 @@ const LocationBtn = styled.button`
   }
 
   @media (max-width: 767px) {
-    position: absolute;
-    left: 800px;
-    top: 120px;
+    // position: absolute;
+    // left: 800px;
+    // top: 120px;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
-    position: absolute;
-    left: 550px;
-    top: 120px;
+    // position: absolute;
+    // left: 550px;
+    // top: 120px;
   }
 `;
 
@@ -220,6 +220,11 @@ const MyPageC = styled.div`
   width: 1200px;
   margin-top: 70px;
   height: 100vh;
+
+
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
 
   @media (max-width: 767px) {
     width: 100%;
