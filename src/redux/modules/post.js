@@ -96,7 +96,6 @@ const myPageAPI = () => {
 
 //물품 삭제하기
 const deletePostAPI = (itemId, icrId) => {
-  console.log(itemId);
   return function (dispatch, getState, { history }) {
     axios({
       method: "DELETE",
@@ -108,14 +107,14 @@ const deletePostAPI = (itemId, icrId) => {
     })
       .then((res) => {
         console.log(res);
-        // if (res.data.msg === "success") {
-        dispatch(deletePost(itemId, icrId));
-        Swal.fire({
-          text: "삭제되었습니다!",
-          confirmButtonColor: "#3fbe81",
-          confirmButtonText: "확인",
-        });
-        // }
+        if (res.data.msg === "success") {
+          dispatch(deletePost(itemId, icrId));
+          Swal.fire({
+            text: "삭제되었습니다!",
+            confirmButtonColor: "#3fbe81",
+            confirmButtonText: "확인",
+          });
+        }
       })
       .catch((err) => {
         console.log("deletePostAPI에서 오류", err);

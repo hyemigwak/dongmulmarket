@@ -13,7 +13,6 @@ const Mypage = (props) => {
 
   //마이페이지 리스트를 가져옴(판매+교환성공+실패)
   const myPageList = useSelector((state) => state.post.mypage_list);
-  console.log(myPageList);
 
   //나의 판매내역
   const SalesList = myPageList?.filter((s) => s.status === "auction");

@@ -22,7 +22,6 @@ const SalesDetails = (props) => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("디스패치 함수실행");
         dispatch(postActions.deletePostAPI(itemId, icrId));
       } else return;
     });
