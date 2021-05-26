@@ -20,9 +20,7 @@ const Chatting = memo(({ icrId, history }) => {
 
   const { chatJoinYn, handler } = useJoinChat(icrId); //참여 유무를 통해 버튼 결정
 
-  // const [socket, disconnectSocket] = useSocket("https://dongmul.shop:3000/chatting", email, icrId);
   const [socket, disconnectSocket] = useSocket(`${config.api}:3000/chatting`, email, icrId);
-  // const [socket, disconnectSocket] = useSocket("http://15.165.76.76:3001/chatting", email, icrId);
 
   useEffect(() => {
     return () => {
