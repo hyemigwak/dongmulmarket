@@ -2,16 +2,21 @@ import React, { useEffect, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
+import { history } from "../redux/configureStore";
 import { Container } from "../element";
 import { FloatBtn, Post } from "../components";
 import Spinner from "../shared/Spinner";
 import { useMediaQuery } from "react-responsive";
+import Swal from "sweetalert2";
 
 const PostList = (props) => {
   const dispatch = useDispatch();
   const postList = useSelector((state) => state.post.post_list);
   const is_loading = useSelector((state) => state.post.is_loading);
   const is_login = useSelector((state) => state.user.is_login);
+
+  const address = useSelector((state) => state.user.user.address);
+  console.log(address);
 
   //어느 지역의 게시글들인지 보여주기
   const [town, setTown] = useState("");
@@ -32,8 +37,17 @@ const PostList = (props) => {
 
   useEffect(() => {
     if (is_login) {
-      dispatch(postActions.LogingetPostAPI());
-      return;
+      if (!address) {
+        Swal.fire({
+          title: "주소를 먼저 설정해주세요!",
+          confirmButtonColor: "#3fbe81",
+          confirmButtonText: "확인",
+        });
+        history.push("/mylocation");
+        window.location.reload();
+      } else {
+        dispatch(postActions.LogingetPostAPI());
+      }
     } else {
       dispatch(postActions.getPostAPI());
     }

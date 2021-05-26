@@ -68,7 +68,7 @@ const GoogleLoginAPI = (response) => {
           if (res.data.address !== null) {
             history.push("/");
             Swal.fire({
-              title: "로그인 성공",
+              title: "로그인 성공!",
               text: "동물마켓에 접속해주셔서 감사해요!",
               confirmButtonColor: "#3fbe81",
               confirmButtonText: "확인",
