@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback, memo } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-
+import { history } from "../redux/configureStore";
 import { actionCreators as chatActions } from "../redux/modules/chat";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { GroupChat, LoginChat, ChatUsers, ChattingInput } from "./index";
@@ -46,9 +46,9 @@ const Chatting = memo(({ icrId, history }) => {
     socket.on("kickUser", (data) => {
       dispatch(chatActions.removeUser(data.email));
       dispatch(chatActions.addChat(data));
-      //socket.off("kickUser");
       if (data.email === email) {
         history.replace("/");
+
         Swal.fire({
           title: "강퇴 당하셨습니다!",
           confirmButtonColor: "#3fbe81",
@@ -61,7 +61,7 @@ const Chatting = memo(({ icrId, history }) => {
   useEffect(() => {
     socket.on("exchange", (data) => {
       if (data["msg"] === "success") {
-        history.push("/");
+        history.replace("/");
         Swal.fire({
           title: "교환이 성립되어 거래가 종료되었습니다!",
           confirmButtonColor: "#3fbe81",
