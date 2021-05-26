@@ -80,6 +80,18 @@ const Box = styled.div`
   border: solid 1px #91be89;
   position: relative;
   cursor: pointer;
+
+  
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: #f8f8f8;
+ 
+ border: solid 2px #91be89;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  
   :hover {
     transition: 0.2s;
     transform: scale(1.04);
