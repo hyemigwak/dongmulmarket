@@ -112,7 +112,7 @@ const Title = styled.div`
   }
 
   @media (min-width: 768px) and (max-width: 1190px) {
-    margin: 63px 167px 0px 10px;
+    margin: 63px 167px 0px 20px;
   }
 `;
 
@@ -132,7 +132,7 @@ const InfoTitle = styled.div`
     margin: 15px 0px;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
-    margin: 30px 167px 0px 10px;
+    margin: 30px 167px 15px 20px;
   }
 `;
 
@@ -144,6 +144,10 @@ const WrapBox = styled.div`
     width: 310px;
     margin: 0 auto;
   }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    display: block;
+  }
 `;
 
 const ProductsBox = styled.div`
@@ -154,9 +158,23 @@ const ProductsBox = styled.div`
     margin: 0 auto;
     text-align: center;
   }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    display: flex;
+    width: 760px;
+    margin: 0 auto;
+  }
 `;
 
-const ChattingArea = styled.div``;
+const ChattingArea = styled.div`
+  width: 100%;
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+`;
 
 const Img = styled.img`
   width: 347px;
@@ -184,6 +202,7 @@ const TableBox = styled.table`
     margin: 0 auto 25px;
   }
   @media (min-width: 768px) and (max-width: 1190px) {
+    margin-left: 20px;
   }
 `;
 

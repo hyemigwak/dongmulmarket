@@ -30,58 +30,58 @@ const Mypage = (props) => {
   return (
     <React.Fragment>
       <Container>
-      <WrapMypage>
-        <MpageHeader>
-          <Title>마이페이지</Title>
-          <AlarmIcon className="bell" src={bellimg} />
-          <LocationBtn
-            onClick={() => {
-              history.push("/mylocation");
-            }}
-          >
-            나의 위치 설정하기
-          </LocationBtn>
-        </MpageHeader>
+        <WrapMypage>
+          <MpageHeader>
+            <Title>마이페이지</Title>
+            <AlarmIcon className="bell" src={bellimg} />
+            <LocationBtn
+              onClick={() => {
+                history.push("/mylocation");
+              }}
+            >
+              나의 위치 설정하기
+            </LocationBtn>
+          </MpageHeader>
 
-        <MyPageC>
-          <SellTitle>나의 판매내역</SellTitle>
-          <SellContainer>
-            {SalesList.length ? (
-              <Carousel SalesList={SalesList} />
+          <MyPageC>
+            <SellTitle>나의 판매내역</SellTitle>
+            <SellContainer>
+              {SalesList.length ? (
+                <Carousel SalesList={SalesList} />
+              ) : (
+                <>
+                  <BlankBox>
+                    <BlankText style={{ width: "443px", height: "60px" }}>아직 판매한 내역이 없어요 :( !</BlankText>
+                  </BlankBox>
+                </>
+              )}
+            </SellContainer>
+            <DoneTitle>교환완료 내역</DoneTitle>
+            {SuccessList.length ? (
+              <DoneContainer>
+                <Carousel2 SuccessList={SuccessList} />
+              </DoneContainer>
             ) : (
-              <>
+              <DoneContainer>
                 <BlankBox>
-                  <BlankText style={{ width: "443px", height: "60px" }}>아직 판매한 내역이 없어요 :( !</BlankText>
+                  <BlankText2 style={{ width: "510px", height: "49px" }}>교환완료된 내역이 아직 없어요 :( !</BlankText2>
                 </BlankBox>
-              </>
+              </DoneContainer>
             )}
-          </SellContainer>
-          <DoneTitle>교환완료 내역</DoneTitle>
-          {SuccessList.length ? (
-            <DoneContainer>
-              <Carousel2 SuccessList={SuccessList} />
-            </DoneContainer>
-          ) : (
-            <DoneContainer>
-              <BlankBox>
-                <BlankText2 style={{ width: "510px", height: "49px" }}>교환완료된 내역이 아직 없어요 :( !</BlankText2>
-              </BlankBox>
-            </DoneContainer>
-          )}
-          <IngTitle>교환실패 내역</IngTitle>
-          {FailList.length ? (
-            <IngContainer>
-              <Carousel3 FailList={FailList} />
-            </IngContainer>
-          ) : (
-            <IngContainer>
-              <BlankBox>
-                <BlankText2 style={{ width: "510px", height: "49px" }}>교환실패한 내역이 아직 없어요 :( !</BlankText2>
-              </BlankBox>
-            </IngContainer>
-          )}
-        </MyPageC>
-      </WrapMypage>
+            <IngTitle>교환실패 내역</IngTitle>
+            {FailList.length ? (
+              <IngContainer>
+                <Carousel3 FailList={FailList} />
+              </IngContainer>
+            ) : (
+              <IngContainer>
+                <BlankBox>
+                  <BlankText2 style={{ width: "510px", height: "49px" }}>교환실패한 내역이 아직 없어요 :( !</BlankText2>
+                </BlankBox>
+              </IngContainer>
+            )}
+          </MyPageC>
+        </WrapMypage>
       </Container>
     </React.Fragment>
   );
@@ -236,12 +236,10 @@ const MyPageC = styled.div`
 `;
 
 const SellContainer = styled.div`
-display: flex;
-flex-direction: row;
-flex-wrap: wrap;
-justify-content: center;
-
-
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
 const DoneContainer = styled.div`

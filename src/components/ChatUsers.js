@@ -86,9 +86,6 @@ const WrapBtns = styled.div`
   left: 15px;
 
   @media (min-width: 768px) and (max-width: 1190px) {
-    position: relative;
-    left: 568px;
-    top: 335px;
   }
 `;
 
@@ -107,29 +104,21 @@ const ArrowBox = styled.img`
 `;
 
 const LiveChatBox = styled.div`
-  
-
   width: 175px;
   height: 522px;
   flex-grow: 0;
-  
+
   margin-left: 10px;
   ${(props) => (props.isBoss ? "background-color:#3fbe81" : "background-color: #d9d9d9")}
 
   display: block;
   position: relative;
-  bottom: 20px;
+  bottom: -20px;
 
   @media (max-width: 767px) {
     position: absolute;
-    left: 105px;
-    top: 580px;
-  }
-  @media (min-width: 768px) and (max-width: 1190px) {
-    position: absolute;
-    left: 545px;
-    top: 370px;
-  
+    top: 840px;
+    left: 45%;
   }
 `;
 

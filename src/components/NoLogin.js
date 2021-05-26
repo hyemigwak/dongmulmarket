@@ -11,29 +11,28 @@ const NoLogin = (props) => {
   });
 
   return (
-    <React.Fragment>
-      <ChatView>
-        <ImgBox src={Cat} />
-        <Text>
-          로그인하셔야
-          <br /> 채팅 참여가 가능합니다.
-        </Text>
-        <LoginBtn
-          onClick={() => {
-            history.replace("/login");
-          }}
-        >
-          로그인하러 가기
-        </LoginBtn>
-        {/* {isMobile? null: (
+    <ChatView>
+      <ImgBox src={Cat} />
+      <Text>
+        로그인하셔야
+        <br /> 채팅 참여가 가능합니다.
+      </Text>
+      <LoginBtn
+        onClick={() => {
+          history.replace("/login");
+        }}
+      >
+        로그인하러 가기
+      </LoginBtn>
+      {/* {isMobile? null: (
                     <ChatInput placeholder="채팅에 참여하실 수 없습니다" disabled />
                 )} */}
-      </ChatView>
-    </React.Fragment>
+    </ChatView>
   );
 };
 
 const ChatView = styled.div`
+  width: 100%;
   border-radius: 20px;
   justify-content: center;
   align-items: center;
@@ -61,10 +60,9 @@ const ChatView = styled.div`
   }
 
   @media (min-width: 768px) and (max-width: 1190px) {
-    position: absolute;
-    left: -17px;
-    right: 50px;
-    top: 650px;
+    width: 768px;
+    margin: 0 auto;
+    text-align: center;
   }
 `;
 

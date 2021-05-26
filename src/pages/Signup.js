@@ -54,11 +54,6 @@ const Signup = (props) => {
       })
       .then((res) => {
         if (res.data.msg === "success") {
-          Swal.fire({
-            title: "사용가능한 ID입니다",
-            confirmButtonColor: "#3fbe81",
-            confirmButtonText: "확인",
-          });
           setShow(true);
           SetEmailDoubleCheck("사용 가능한 이메일입니다");
           SetEmailDoubleFail("");
@@ -377,6 +372,11 @@ const SignUpC = styled.div`
     width: 310px;
     margin: 0 auto;
   }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    width: 768px;
+    margin: 0 auto;
+  }
 `;
 
 const EmailArea = styled.div`
@@ -384,6 +384,11 @@ const EmailArea = styled.div`
   align-items: center;
   @media (max-width: 767px) {
     margin: 26px 0px 0px 0px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    justify-content: center;
+    width: 768px;
   }
 `;
 
@@ -401,6 +406,10 @@ const InputInfo = styled.div`
     font-size: 13px;
     width: 70px;
   }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    margin: 0px 40px 0px 0px;
+  }
 `;
 
 const InputC = styled.div`
@@ -412,9 +421,15 @@ const InputC = styled.div`
     font-size: 14px;
     text-align: left;
     color: #3fbe81;
+
     @media (max-width: 767px) {
       margin: 2px 0px 2px 90px;
       font-size: 10px;
+    }
+
+    @media (min-width: 768px) and (max-width: 1199px) {
+      margin: 2px 0px 8px 200px;
+      font-size: 12px;
     }
   }
   .availableFail {
@@ -423,13 +438,23 @@ const InputC = styled.div`
     font-size: 14px;
     text-align: left;
     color: red;
+
     @media (max-width: 767px) {
       margin: 2px 0px 2px 90px;
       font-size: 10px;
     }
+    @media (min-width: 768px) and (max-width: 1199px) {
+      margin: 2px 0px 0px 200px;
+      font-size: 12px;
+    }
   }
+
   @media (max-width: 767px) {
     width: 310px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    text-align: center;
   }
 `;
 
@@ -466,6 +491,10 @@ const Input = styled.input`
     font-size: 14px;
     position: relative;
     right: 10px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    padding: 14px 80px 11.6px 16px;
   }
 `;
 
@@ -530,6 +559,11 @@ const CertiBtn = styled.div`
     height: 30px;
     padding: 5px 8px;
   }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    padding: 12px 6px;
+    margin: 0px 0px 0px 31px;
+  }
 `;
 
 const VerifyNum = styled.div`
@@ -552,9 +586,18 @@ const VerifyNum = styled.div`
     margin: 0px;
     text-align: center;
   }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    font-size: 12px;
+    margin: 0px;
+    width: 100px;
+    margin-left: 30px;
+    text-align: center;
+  }
 `;
 
 const InfoArea = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -563,6 +606,11 @@ const InfoArea = styled.div`
   @media (max-width: 767px) {
     margin: 26px 0px 0px 0px;
     justify-content: start;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    width: 768px;
+    margin: 26px 0px 0px -70px;
   }
 `;
 
@@ -592,6 +640,10 @@ const SignInBtn = styled.div`
     padding: 14px 0px;
     font-size: 14px;
     text-align: center;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    margin: 80px auto 100px;
   }
 `;
 

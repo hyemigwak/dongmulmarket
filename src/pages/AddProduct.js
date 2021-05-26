@@ -486,6 +486,11 @@ const Btn = styled.div`
     padding: 10px;
     font-size: 20px;
   }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    padding: 8px;
+    font-size: 22px;
+  }
 `;
 
 export default AddProduct;

@@ -141,7 +141,8 @@ const Title = styled.h2`
   }
 
   @media (min-width: 768px) and (max-width: 1199px) {
-    margin: 100px 30px 0px 50px;
+    margin: 100px auto 30px;
+    width: 768px;
   }
 
   @media (max-width: 767px) {
@@ -156,7 +157,9 @@ const BetaMsg = styled.div`
   }
 
   @media (min-width: 768px) and (max-width: 1199px) {
-    margin-top: 20px;
+    margin: 20px auto 0px;
+    width: 768px;
+  }
   }
 `;
 
@@ -208,6 +211,8 @@ const ToastMessage = styled.div`
   }
 
   @media (min-width: 768px) and (max-width: 1199px) {
+    width: 768px;
+    margin: 0 auto;
   }
 `;
 

@@ -230,11 +230,7 @@ const Input = styled.input`
   }
   ::placeholder {
     font-size: 18px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.33;
-    letter-spacing: normal;
     text-align: left;
     color: #b5b5b5;
   }
@@ -243,6 +239,10 @@ const Input = styled.input`
     width: 280px;
     padding: 14px 10px 11.6px 16px;
     margin: 0px auto 16px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    padding: 10px 10px 11.6px 16px;
   }
 `;
 
@@ -271,6 +271,10 @@ const Input2 = styled.input`
     width: 280px;
     padding: 17.6px 10px 11.6px 16px;
     margin: 0px auto 16px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    padding: 10px 10px 11.6px 16px;
   }
 `;
 
@@ -432,6 +436,10 @@ const KakaoBtn = styled.div`
     width: 145px;
     font-size: 12px;
     padding: 15px 7px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    padding: 15px 12px;
   }
 `;
 

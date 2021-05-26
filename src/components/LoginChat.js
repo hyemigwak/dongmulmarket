@@ -5,17 +5,14 @@ import Heart from "../image/Heart.png";
 
 const LoginChat = (props) => {
   return (
-    <React.Fragment>
-      <ChatView>
-        <HeartBox className="heartUp" src={Heart} />
-
-        <ImgBox src={Cat} />
-        <Text>
-          채팅에 참여해서 판매자와
-          <br /> 대화하여 물품을 교환해보세요.
-        </Text>
-      </ChatView>
-    </React.Fragment>
+    <ChatView>
+      <HeartBox className="heartUp" src={Heart} />
+      <ImgBox src={Cat} />
+      <Text>
+        채팅에 참여해서 판매자와
+        <br /> 대화하여 물품을 교환해보세요.
+      </Text>
+    </ChatView>
   );
 };
 
@@ -45,6 +42,12 @@ const ChatView = styled.div`
     height: 500px;
     text-align: center;
     line-height: 1.5;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    width: 768px;
+    margin: 20px auto 200px;
   }
 `;
 
