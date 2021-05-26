@@ -32,7 +32,7 @@ const MyLocation = (props) => {
   const [longi, setLong] = useState(0); //경도
   const [address, setAddress] = useState("");
 
-  const { email } = useSelector((state) => state.user.user);
+  const email = useSelector((state) => state.user.user);
   const is_login = useSelector((state) => state.user.is_login);
 
   const cookie = getCookie("user_login") ? true : false;
@@ -74,9 +74,10 @@ const MyLocation = (props) => {
     }
   }
 
-  getLocation();
+  // getLocation();
 
   useEffect(() => {
+    getLocation();
     if (lati && longi) {
       var mapContainer = document.getElementById("map"), // 지도를 표시할 div
         mapOption = {
@@ -162,7 +163,7 @@ const MyLocation = (props) => {
     //     }
     //   }
     // }
-  }, [lati, longi]);
+  }, [lati, longi, dispatch]);
 
   return (
     <Container>

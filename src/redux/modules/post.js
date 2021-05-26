@@ -106,7 +106,6 @@ const deletePostAPI = (itemId, icrId) => {
       },
     })
       .then((res) => {
-        console.log(res);
         if (res.data.msg === "success") {
           dispatch(deletePost(itemId, icrId));
           Swal.fire({
