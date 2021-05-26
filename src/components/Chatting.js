@@ -48,7 +48,7 @@ const Chatting = memo(({ icrId, history }) => {
       dispatch(chatActions.addChat(data));
       //socket.off("kickUser");
       if (data.email === email) {
-        history.push("/");
+        history.replace("/");
         Swal.fire({
           title: "강퇴 당하셨습니다!",
           confirmButtonColor: "#3fbe81",
@@ -61,12 +61,12 @@ const Chatting = memo(({ icrId, history }) => {
   useEffect(() => {
     socket.on("exchange", (data) => {
       if (data["msg"] === "success") {
+        history.push("/");
         Swal.fire({
           title: "교환이 성립되어 거래가 종료되었습니다!",
           confirmButtonColor: "#3fbe81",
           confirmButtonText: "확인",
         });
-        history.push("/");
       }
     });
   }, []);

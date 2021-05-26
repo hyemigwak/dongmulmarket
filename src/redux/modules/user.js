@@ -376,6 +376,7 @@ const LogOutMiddleware = () => {
     const loginType = getState().user.login_type;
 
     if (loginType === "normal") {
+      history.push("/");
       deleteCookie("user_login");
       deleteCookie("G_AUTHUSER_H");
       dispatch(logOut());
@@ -383,18 +384,18 @@ const LogOutMiddleware = () => {
     }
 
     if (loginType === "kakao") {
+      history.push("/");
       deleteCookie("user_login");
       deleteCookie("kakao_nickname");
       deleteCookie("G_AUTHUSER_H");
       dispatch(logOut());
-
       return;
     }
     if (loginType === "google") {
+      history.push("/");
       deleteCookie("user_login");
       deleteCookie("G_AUTHUSER_H");
       dispatch(logOut());
-
       return;
     }
   };
