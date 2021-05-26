@@ -597,7 +597,6 @@ const VerifyNum = styled.div`
 `;
 
 const InfoArea = styled.div`
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -618,7 +617,7 @@ const SignInBtn = styled.div`
   width: 165px;
   height: 50px;
   flex-grow: 0;
-  margin: 70px 130px 200px 172px;
+  margin: 70px auto 172px;
   padding: 14px 45px;
   border-radius: 8px;
   background-color: #d6d6d6;

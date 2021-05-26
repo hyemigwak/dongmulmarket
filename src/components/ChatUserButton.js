@@ -23,16 +23,20 @@ const ChatUserButton = memo(({ itemId, socket, icrId, userEmail, loginEmail }) =
 
   return (
     <>
-      <OkBox
-        onClick={() => exchangeUser(userEmail)}
-        src={userCheck}
-        style={{
-          marginRight: "10px",
-          width: "20px",
-          cursor: "pointer",
-        }}
-      />
-      <KickBox onClick={() => kickUser(userEmail)} src={userX} style={{ width: "20px", cursor: "pointer" }} />
+      {userEmail === loginEmail ? null : (
+        <>
+          <OkBox
+            onClick={() => exchangeUser(userEmail)}
+            src={userCheck}
+            style={{
+              marginRight: "10px",
+              width: "20px",
+              cursor: "pointer",
+            }}
+          />
+          <KickBox onClick={() => kickUser(userEmail)} src={userX} style={{ width: "20px", cursor: "pointer" }} />
+        </>
+      )}
     </>
   );
 });

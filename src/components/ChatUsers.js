@@ -18,6 +18,7 @@ const ChatUsers = memo(({ socket }) => {
 
   //모바일 유저창 열고 닫기
   const [userOpen, setuserOpen] = useState(false);
+
   const open = () => {
     if (userOpen) {
       setuserOpen(false);
@@ -25,6 +26,7 @@ const ChatUsers = memo(({ socket }) => {
       setuserOpen(true);
     }
   };
+
   const close = () => setuserOpen(false);
 
   const userListsBox = useRef();
@@ -104,7 +106,7 @@ const ArrowBox = styled.img`
 `;
 
 const LiveChatBox = styled.div`
-  width: 175px;
+  width: 190px;
   height: 522px;
   flex-grow: 0;
 
@@ -123,7 +125,7 @@ const LiveChatBox = styled.div`
 `;
 
 const OneChatUser = styled.div`
-  width: 150px;
+  width: 180px;
   height: 47.5px;
   display: flex;
   justify-content: center;
@@ -132,10 +134,7 @@ const OneChatUser = styled.div`
   border-radius: 10px;
   background-color: #ffffff;
   margin-bottom: 5px;
-
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  padding-right: 8px;
 
   @media (max-width: 767px) {
     width: 130px;
@@ -149,6 +148,10 @@ const LiveUser = styled.div`
   font-size: 16px;
   line-height: 1.71;
   color: #373737;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 export default ChatUsers;

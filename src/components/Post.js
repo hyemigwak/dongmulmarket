@@ -115,18 +115,17 @@ const Box = styled.div`
   margin: 40px 30px 50px 30px;
   padding: 0 0 16px;
   border-radius: 8px;
- 
+
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   box-sizing: border-box;
   overflow: hidden;
   background-color: #f8f8f8;
- 
- border: solid 2px #91be89;
+
+  border: 3px solid #91be89;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   cursor: pointer;
-
 
   :hover {
     transition: 0.2s;
@@ -159,8 +158,7 @@ const Img = styled.img`
   border-top-right-radius: 8px;
   z-index: 2;
   width: 240px;
-  height:  180px;
- 
+  height: 180px;
 `;
 
 const Label = styled.div`
@@ -172,19 +170,18 @@ const Label = styled.div`
   border-bottom-left-radius: 8px;
   padding: 8px 12px 10px 11px;
   background-color: #3fbe81;
- 
- 
+
   font-size: 17px;
   color: #ffffff;
 
   display: block;
   position: absolute;
   top: 2px;
-  
+
   left: 166px;
 
   z-index: 1;
-  
+
   .soonend {
     position: absolute;
     bottom: 7px;

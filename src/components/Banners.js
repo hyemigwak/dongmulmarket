@@ -3,6 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import Slick from "react-slick";
+import { useSelector } from "react-redux";
 import { history } from "../redux/configureStore";
 import mainbanner1 from "../image/mainbanner1.png";
 import mainbanner2 from "../image/mainbanner2.png";
@@ -10,8 +11,11 @@ import mainbanner3 from "../image/mainbanner3.png";
 import WebBanner from "../image/WebBanner.png";
 import TabletBanner from "../image/TabletBanner.png";
 import MobileBanner from "../image/MobileBanner.png";
+import Swal from "sweetalert2";
 
 const Banners = () => {
+  const is_login = useSelector((state) => state.user.is_login);
+
   const settings = {
     dots: true,
     arrows: false,
@@ -21,6 +25,30 @@ const Banners = () => {
     autoplaySpeed: 3000,
     slidesToshow: 4,
     slidesToScroll: 1,
+  };
+
+  const goLogin = () => {
+    if (is_login) {
+      Swal.fire({
+        title: "이미 로그인 되어있어요!",
+        confirmButtonColor: "#3fbe81",
+        confirmButtonText: "확인",
+      });
+    } else {
+      history.push("/login");
+    }
+  };
+
+  const goSignup = () => {
+    if (is_login) {
+      Swal.fire({
+        title: "이미 가입하셨어요 :) !",
+        confirmButtonColor: "#3fbe81",
+        confirmButtonText: "확인",
+      });
+    } else {
+      history.push("/signup");
+    }
   };
 
   return (
@@ -42,13 +70,7 @@ const Banners = () => {
               <br />
               실시간 채팅을 통해 필요한 상품만 쏙 골라갈 수 있도록 스마트한 소비를 도와드릴게요!
             </Describe1>
-            <LoginBtn
-              onClick={() => {
-                history.push("/login");
-              }}
-            >
-              로그인하기
-            </LoginBtn>
+            <LoginBtn onClick={goLogin}>로그인하기</LoginBtn>
           </BannerGrid>
         </BannerImg1>
         <BannerImg2>
@@ -64,13 +86,7 @@ const Banners = () => {
               <br />
               교환하고 싶은 물건이 있다면, 단체 채팅에 참여해보세요.
             </Describe2>
-            <TradeBtn
-              onClick={() => {
-                history.push("/signup");
-              }}
-            >
-              가입하러 가기
-            </TradeBtn>
+            <TradeBtn onClick={goSignup}>가입하러 가기</TradeBtn>
           </BannerGrid2>
         </BannerImg2>
         <BannerImg3>

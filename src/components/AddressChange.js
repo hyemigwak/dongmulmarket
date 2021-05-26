@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import DaumPostcode from "react-daum-postcode";
 import { Container } from "../element";
-import Swal from "sweetalert2";
 
 const { daum } = window;
 
