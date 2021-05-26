@@ -10,7 +10,7 @@ import { history } from "../redux/configureStore";
 const SalesDetails = (props) => {
   const dispatch = useDispatch();
 
-  const { image, title, wantItem, itemId } = props;
+  const { image, title, wantItem, itemId, icrId } = props;
 
   const postDelete = () => {
     Swal.fire({
@@ -22,8 +22,9 @@ const SalesDetails = (props) => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(postActions.deletePostAPI(itemId));
-      }
+        console.log("디스패치 함수실행");
+        dispatch(postActions.deletePostAPI(itemId, icrId));
+      } else return;
     });
   };
 
@@ -79,12 +80,11 @@ const Box = styled.div`
   box-sizing: border-box;
   overflow: hidden;
   background-color: #f8f8f8;
- 
- border: solid 2px #91be89;
+
+  border: solid 2px #91be89;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
- 
 
   :hover {
     transition: 0.2s;

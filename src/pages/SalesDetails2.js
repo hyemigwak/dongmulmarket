@@ -10,7 +10,7 @@ import { history } from "../redux/configureStore";
 const SalesDetails2 = (props) => {
   const dispatch = useDispatch();
 
-  const { image, title, nickname, wantItem, address, itemId } = props;
+  const { image, title, wantItem, itemId, icrId } = props;
 
   const postDelete = () => {
     Swal.fire({
@@ -22,14 +22,13 @@ const SalesDetails2 = (props) => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(postActions.deletePostAPI(itemId));
+        dispatch(postActions.deletePostAPI(itemId, icrId));
         Swal.fire({
           text: "삭제되었습니다!",
           confirmButtonColor: "#3fbe81",
           confirmButtonText: "확인",
         });
-        history.replace("/mypage");
-      }
+      } else return;
     });
   };
 
@@ -81,17 +80,16 @@ const Box = styled.div`
   position: relative;
   cursor: pointer;
 
-  
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   box-sizing: border-box;
   overflow: hidden;
   background-color: #f8f8f8;
- 
- border: solid 2px #91be89;
+
+  border: solid 2px #91be89;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  
+
   :hover {
     transition: 0.2s;
     transform: scale(1.04);

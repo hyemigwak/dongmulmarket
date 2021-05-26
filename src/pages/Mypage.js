@@ -4,8 +4,6 @@ import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { Container } from "../element";
-
-import bellimg from "../image/bell.png";
 import Carousel from "../components/Carousel";
 import Carousel2 from "../components/Carousel2";
 import Carousel3 from "../components/Carousel3";
@@ -15,6 +13,7 @@ const Mypage = (props) => {
 
   //마이페이지 리스트를 가져옴(판매+교환성공+실패)
   const myPageList = useSelector((state) => state.post.mypage_list);
+  console.log(myPageList);
 
   //나의 판매내역
   const SalesList = myPageList?.filter((s) => s.status === "auction");
@@ -33,7 +32,6 @@ const Mypage = (props) => {
         <WrapMypage>
           <MpageHeader>
             <Title>마이페이지</Title>
-            <AlarmIcon className="bell" src={bellimg} />
             <LocationBtn
               onClick={() => {
                 history.push("/mylocation");
@@ -139,7 +137,7 @@ const LocationBtn = styled.button`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-top: 100px;
+  margin-top: 105px;
   margin-bottom: 0px;
   padding: 7px 14px 6px;
   border-radius: 83px;

@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, memo } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-
+import Swal from "sweetalert2";
 import userX from "../image/userX.png";
 import userCheck from "../image/userCheck.png";
 
@@ -13,12 +13,44 @@ const ChatUserButton = memo(({ itemId, socket, icrId, userEmail, loginEmail }) =
 
   //유저 물품 교환하는 기능
   const exchangeUser = useCallback((email) => {
-    dispatch(postActions.exchangeUserList(socket, { itemId, email, icrId, loginEmail }));
+    Swal.fire({
+      title: "교환을 진행 하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#3fbe81",
+      cancelButtonColor: "#d6d6d6",
+      confirmButtonText: "교환",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(postActions.exchangeUserList(socket, { itemId, email, icrId, loginEmail }));
+        Swal.fire({
+          title: "교환 완료되었습니다",
+          confirmButtonColor: "#3fbe81",
+          confirmButtonText: "확인",
+        });
+      }
+    });
   }, []);
 
   //유저 강퇴하는 기능
   const kickUser = useCallback((email) => {
-    dispatch(postActions.kickUserList(socket, { itemId, email, icrId }));
+    Swal.fire({
+      title: "정말 강퇴하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#3fbe81",
+      cancelButtonColor: "#d6d6d6",
+      confirmButtonText: "강퇴",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(postActions.kickUserList(socket, { itemId, email, icrId }));
+        Swal.fire({
+          title: "강퇴했습니다",
+          confirmButtonColor: "#3fbe81",
+          confirmButtonText: "확인",
+        });
+      }
+    });
   }, []);
 
   return (

@@ -22,7 +22,7 @@ const getPost = createAction(GET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const onePost = createAction(ONE_POST, (post) => ({ post }));
 const isBoss = createAction(ISBOSS, (button) => ({ button }));
-const deletePost = createAction(DELETE_POST, (itemId) => ({ itemId }));
+const deletePost = createAction(DELETE_POST, (itemId, icrId) => ({ itemId, icrId }));
 const clearPost = createAction(CLEAR_POST);
 const myPage = createAction(MY_PAGE, (my_list) => ({ my_list }));
 const myAddress = createAction(MY_ADDRESS, (address) => ({ address }));
@@ -95,24 +95,27 @@ const myPageAPI = () => {
 };
 
 //물품 삭제하기
-const deletePostAPI = (itemId) => {
+const deletePostAPI = (itemId, icrId) => {
+  console.log(itemId);
   return function (dispatch, getState, { history }) {
     axios({
       method: "DELETE",
-      url: `${config.api}/mainPage/delete`,
+      url: `${config.api}/myPage/delete`,
       data: {
         itemId: itemId,
+        icrId: icrId,
       },
     })
       .then((res) => {
-        if (res.data.msg === "success") {
-          dispatch(deletePost(itemId));
-          Swal.fire({
-            text: "삭제되었습니다!",
-            confirmButtonColor: "#3fbe81",
-            confirmButtonText: "확인",
-          });
-        }
+        console.log(res);
+        // if (res.data.msg === "success") {
+        dispatch(deletePost(itemId, icrId));
+        Swal.fire({
+          text: "삭제되었습니다!",
+          confirmButtonColor: "#3fbe81",
+          confirmButtonText: "확인",
+        });
+        // }
       })
       .catch((err) => {
         console.log("deletePostAPI에서 오류", err);
@@ -252,6 +255,7 @@ const addPostAPI = (imgfile, category, myItem, wantItem, content, expireDate) =>
       data: formdata,
       headers: {
         "Content-Type": "multipart/form-data",
+        "Access-Control-Allow-Origin": "*",
       },
     })
       .then((res) => {
@@ -303,8 +307,7 @@ export default handleActions(
       }),
     [DELETE_POST]: (state, action) =>
       produce(state, (draft) => {
-        let idx = draft.mypage_list.findIndex((p) => p.itemId === action.payload.itemId);
-        draft.mypage_list.splice(idx, 1);
+        draft.mypage_list = draft.mypage_list.filter((m) => m.itemId !== action.payload.itemId);
       }),
     [CLEAR_POST]: (state, action) =>
       produce(state, (draft) => {

@@ -43,39 +43,35 @@ const Detail = () => {
           <ProductsBox>
             <Img src={detail.image} />
             <TableBox>
-              <tr>
-                <TitleText>품목명</TitleText>
-                <DetailText>{detail.title}</DetailText>
-              </tr>
-              <tr>
-                <TitleText>카테고리</TitleText>
-                <DetailText>{detail.category}</DetailText>
-              </tr>
-              <tr>
-                <TitleText>희망 교환템</TitleText>
-                <DetailText>{detail.wantItem}</DetailText>
-              </tr>
-              <tr>
-                <TitleText>글 올린 시간</TitleText>
-                <DetailText>{detail.createdDt}</DetailText>
-              </tr>
-              <tr>
-                <TitleText>교환 종료 시간</TitleText>
-                <DetailText>{detail.deadLine}</DetailText>
-              </tr>
-              <tr>
-                <TitleText>코멘트</TitleText>
-                <DetailText>{detail.comment}</DetailText>
-              </tr>
+              <tbody>
+                <tr>
+                  <TitleText>품목명</TitleText>
+                  <DetailText>{detail.title}</DetailText>
+                </tr>
+                <tr>
+                  <TitleText>카테고리</TitleText>
+                  <DetailText>{detail.category}</DetailText>
+                </tr>
+                <tr>
+                  <TitleText>희망 교환템</TitleText>
+                  <DetailText>{detail.wantItem}</DetailText>
+                </tr>
+                <tr>
+                  <TitleText>글 올린 시간</TitleText>
+                  <DetailText>{detail.createdDt}</DetailText>
+                </tr>
+                <tr>
+                  <TitleText>교환 종료 시간</TitleText>
+                  <DetailText>{detail.deadLine}</DetailText>
+                </tr>
+                <tr>
+                  <TitleText>코멘트</TitleText>
+                  <DetailText>{detail.comment}</DetailText>
+                </tr>
+              </tbody>
             </TableBox>
           </ProductsBox>
-          <ChattingArea>
-            {detail?.icrId && is_login ? (
-              <Chatting {...detail} history={history} />
-            ) : (
-              <NoLogin />
-            )}
-          </ChattingArea>
+          <ChattingArea>{detail?.icrId && is_login ? <Chatting {...detail} history={history} /> : <NoLogin />}</ChattingArea>
         </WrapBox>
       </WrapDetail>
     </React.Fragment>
