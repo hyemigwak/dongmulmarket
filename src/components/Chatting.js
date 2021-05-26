@@ -20,7 +20,11 @@ const Chatting = memo(({ icrId, history }) => {
 
   const { chatJoinYn, handler } = useJoinChat(icrId); //참여 유무를 통해 버튼 결정
 
-  const [socket, disconnectSocket] = useSocket(`${config.api}:3000/chatting`, email, icrId);
+  const [socket, disconnectSocket] = useSocket(
+    `${config.api}:3000/chatting`,
+    email,
+    icrId
+  );
 
   useEffect(() => {
     return () => {
@@ -107,7 +111,9 @@ const Chatting = memo(({ icrId, history }) => {
           </BtnArea>
           <ChatView className="scrollBar">
             {chatList?.map((data, idx) => {
-              return <GroupChat {...data} key={idx} chatList={chatList} me={email} />;
+              return (
+                <GroupChat {...data} key={idx} chatList={chatList} me={email} />
+              );
             })}
             <div className="scrollbar" ref={scroll}></div>
           </ChatView>

@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { NoLogin, Chatting } from "../components";
 import { useMediaQuery } from "react-responsive";
 
-const Detail = ({ history }) => {
+const Detail = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -67,7 +69,13 @@ const Detail = ({ history }) => {
               </tr>
             </TableBox>
           </ProductsBox>
-          <ChattingArea>{detail?.icrId && is_login ? <Chatting {...detail} history={history} /> : <NoLogin />}</ChattingArea>
+          <ChattingArea>
+            {detail?.icrId && is_login ? (
+              <Chatting {...detail} history={history} />
+            ) : (
+              <NoLogin />
+            )}
+          </ChattingArea>
         </WrapBox>
       </WrapDetail>
     </React.Fragment>
