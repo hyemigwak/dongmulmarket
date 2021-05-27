@@ -70,9 +70,9 @@
 
    - 설정한 주소에 맞는 게시글만 확인 가능(메인화면)
 
-     ![image-20210528001427781](C:\Users\Kwak\AppData\Roaming\Typora\typora-user-images\image-20210528001427781.png)![image-20210528001440296](C:\Users\Kwak\AppData\Roaming\Typora\typora-user-images\image-20210528001440296.png)![image-20210528005202681](C:\Users\Kwak\AppData\Roaming\Typora\typora-user-images\image-20210528005202681.png)
+![위치설정](https://user-images.githubusercontent.com/79817823/119860365-32c59d80-bf51-11eb-9d04-3195a2db223f.JPG)
+![위치재설정](https://user-images.githubusercontent.com/79817823/119860391-39541500-bf51-11eb-9f10-e4b8e12a7026.JPG)
 
-     
 
 2. **Socket io 를 이용한 실시간 채팅**
 
@@ -86,11 +86,14 @@
 
    - 로그인 여부/ 기 참여 여부/ 방장 여부로 동일 페이지 채팅창 view 분리
 
-   - <img src="C:\Users\Kwak\AppData\Roaming\Typora\typora-user-images\image-20210528002114661.png" alt="image-20210528002114661" style="zoom: 33%;" /><img src="C:\Users\Kwak\AppData\Roaming\Typora\typora-user-images\image-20210528004932681.png" alt="image-20210528002012117" style="zoom: 33%;" />
+비로그인 시 메인화면
+![메인(비로그인)](https://user-images.githubusercontent.com/79817823/119859829-afa44780-bf50-11eb-9cdf-f902557e90d1.JPG)
+![비로그인_채팅](https://user-images.githubusercontent.com/79817823/119860444-4a048b00-bf51-11eb-8a98-d3c983fbec5e.JPG)
+![채팅참여전](https://user-images.githubusercontent.com/79817823/119860615-78826600-bf51-11eb-9679-d2420ae6af7e.JPG)
+![채팅페이지](https://user-images.githubusercontent.com/79817823/119860637-7fa97400-bf51-11eb-9364-21c1e81b6f51.JPG)
+![방장의 강퇴](https://user-images.githubusercontent.com/79817823/119860662-859f5500-bf51-11eb-8dc7-6fcc37cc53e1.jpg)
+![강퇴후입장불가](https://user-images.githubusercontent.com/79817823/119860706-9059ea00-bf51-11eb-8169-57e080a501ec.jpg)
 
-     
-
-     ![image-20210528005028819](C:\Users\Kwak\AppData\Roaming\Typora\typora-user-images\image-20210528005028819.png)![image-20210528002023217](C:\Users\Kwak\AppData\Roaming\Typora\typora-user-images\image-20210528002023217.png)
 
 3. **소셜로그인, 이메일 인증**
 
@@ -102,7 +105,8 @@
 
    - 이메일 인증 기능 구현 -> 이메일 인증번호 확인 후 불일치 시 안내 문구 띄움
 
-     <img src="C:\Users\Kwak\AppData\Roaming\Typora\typora-user-images\image-20210528004655644.png" alt="image-20210528004655644" style="zoom: 50%;" />
+  ![로그인페이지](https://user-images.githubusercontent.com/79817823/119860769-a1a2f680-bf51-11eb-98bd-32265e34d2ba.JPG)
+  ![회원가입페이지](https://user-images.githubusercontent.com/79817823/119860777-a23b8d00-bf51-11eb-9c46-a910bda74502.JPG)
 
 4. **https 배포**
 
