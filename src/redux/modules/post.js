@@ -41,6 +41,7 @@ const initialState = {
 //주소변경하기
 const ChangeAddressAPI = (email, new_address) => {
   return function (dispatch, getState, { history }) {
+    console.log(email);
     axios({
       method: "POST",
       url: `${config.api}/myPage/address`,

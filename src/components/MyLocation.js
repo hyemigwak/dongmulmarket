@@ -32,7 +32,8 @@ const MyLocation = (props) => {
   const [longi, setLong] = useState(0); //경도
   const [address, setAddress] = useState("");
 
-  const email = useSelector((state) => state.user.user);
+  const email = useSelector((state) => state.user?.user?.email);
+  console.log("email", email);
   const is_login = useSelector((state) => state.user.is_login);
 
   const cookie = getCookie("user_login") ? true : false;

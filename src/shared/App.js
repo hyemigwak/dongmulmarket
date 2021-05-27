@@ -4,16 +4,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
-import {
-  Login,
-  Main,
-  Mypage,
-  Signup,
-  Findpwd,
-  AddProduct,
-  Detail,
-  PwdChange,
-} from "../pages";
+import { Login, Main, Mypage, Signup, Findpwd, AddProduct, Detail, PwdChange } from "../pages";
 import { Header, Footer, MyLocation, AddressChange } from "../components";
 import NotFound from "./NotFound";
 import Spinner from "./Spinner";

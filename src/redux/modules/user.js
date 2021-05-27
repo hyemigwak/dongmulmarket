@@ -198,7 +198,6 @@ const loginAPI = (email, pwd) => {
           };
 
           dispatch(logIn(user_data, "normal"));
-          console.log(res.data.address);
           if (res.data.address !== null) {
             history.push("/");
             Swal.fire({
