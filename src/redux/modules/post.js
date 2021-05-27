@@ -49,7 +49,7 @@ const ChangeAddressAPI = (email, new_address) => {
         new_address: new_address,
       },
       headers: {
-        "Access-Control-Allow-Origin": "https://dongmul.shop/",
+        "Access-Control-Allow-Origin": "*",
       },
     })
       .then((res) => {
