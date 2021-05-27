@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef, useCallback, memo } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { history } from "../redux/configureStore";
-import { actionCreators as chatActions } from "../redux/modules/chat";
-import { actionCreators as postActions } from "../redux/modules/post";
-import { GroupChat, LoginChat, ChatUsers, ChattingInput } from "./index";
-import useJoinChat from "../hooks/useJoinChat";
-import useSocket from "../hooks/useSocket";
+import { history } from "../../redux/configureStore";
+import { actionCreators as chatActions } from "../../redux/modules/chat";
+import { actionCreators as postActions } from "../../redux/modules/post";
+import { GroupChat, LoginChat, ChatUsers, ChattingInput } from "../index";
+import useJoinChat from "../../hooks/useJoinChat";
+import useSocket from "../../hooks/useSocket";
 import Swal from "sweetalert2";
-import { config } from "../shared/config";
+import { config } from "../../shared/config";
 
 const Chatting = memo(({ icrId, history }) => {
   // 채팅에 스크롤 넣어줌
@@ -20,11 +20,7 @@ const Chatting = memo(({ icrId, history }) => {
 
   const { chatJoinYn, handler } = useJoinChat(icrId); //참여 유무를 통해 버튼 결정
 
-  const [socket, disconnectSocket] = useSocket(
-    `${config.api}:3000/chatting`,
-    email,
-    icrId
-  );
+  const [socket, disconnectSocket] = useSocket(`${config.api}:3000/chatting`, email, icrId);
 
   useEffect(() => {
     return () => {
@@ -111,9 +107,7 @@ const Chatting = memo(({ icrId, history }) => {
           </BtnArea>
           <ChatView className="scrollBar">
             {chatList?.map((data, idx) => {
-              return (
-                <GroupChat {...data} key={idx} chatList={chatList} me={email} />
-              );
+              return <GroupChat {...data} key={idx} chatList={chatList} me={email} />;
             })}
             <div className="scrollbar" ref={scroll}></div>
           </ChatView>

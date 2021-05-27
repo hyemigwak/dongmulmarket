@@ -1,7 +1,7 @@
 import React, { useCallback, memo } from "react";
 import styled from "styled-components";
-import { getCookie } from "../shared/Cookie";
-import useInput from "../hooks/useInput";
+import { getCookie } from "../../shared/Cookie";
+import useInput from "../../hooks/useInput";
 import Swal from "sweetalert2";
 
 //프롭스가 안바뀌면 렌더링이 안됨(프롭스 메모)

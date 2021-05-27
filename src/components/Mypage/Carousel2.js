@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { history } from "../redux/configureStore";
-import SalesDetails from "../pages/SalesDetails";
-import { Previous, Next } from "../image/Arrow";
+import { useDispatch } from "react-redux";
+import { history } from "../../redux/configureStore";
+import SalesDetails2 from "./SalesDetails2";
+import { Previous, Next } from "../../image/Arrow";
 
-const Carousel = (props) => {
+const Carousel2 = (props) => {
   const dispatch = useDispatch();
 
-  const SalesList = props.SalesList;
+  const SuccessList = props.SuccessList;
 
-  const slide_content = SalesList;
-  const lastIndex = Math.ceil(SalesList?.length / 4);
+  const slide_content = SuccessList;
+  const lastIndex = Math.ceil(SuccessList.length / 4);
   const slide_temp = new Array(lastIndex).fill(0);
 
   const slider_container = React.useRef();
@@ -80,7 +80,7 @@ const Carousel = (props) => {
             <Slider key={index} style={slide_style}>
               <ListWrapper>
                 {temp_arr.map((myProduct, idx) => (
-                  <SalesDetails {...myProduct} key={idx} />
+                  <SalesDetails2 {...myProduct} key={idx} />
                 ))}
               </ListWrapper>
             </Slider>
@@ -98,7 +98,6 @@ const CarouselContainer = styled.div`
   overflow: hidden;
   margin: 1rem 0;
   background-size: cover;
-
 `;
 
 const SliderContainer = styled.div`
@@ -108,7 +107,6 @@ const SliderContainer = styled.div`
   height: 100%;
   margin: 0 auto;
   transition: left 0.5s ease-in;
-
 `;
 
 const Slider = styled.div`
@@ -177,4 +175,4 @@ const NextContainer = styled.div`
   }
 `;
 
-export default Carousel;
+export default Carousel2;

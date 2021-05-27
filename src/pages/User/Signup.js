@@ -1,11 +1,11 @@
 import React, { useCallback, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { actionCreators as userActions } from "../redux/modules/user";
+import { actionCreators as userActions } from "../../redux/modules/user";
 import styled from "styled-components";
 import axios from "axios";
-import { config } from "../shared/config";
+import { config } from "../../shared/config";
 import Swal from "sweetalert2";
-import { Container } from "../element";
+import { Container } from "../../element";
 import { useMediaQuery } from "react-responsive";
 
 const Signup = (props) => {

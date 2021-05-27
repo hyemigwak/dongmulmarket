@@ -5,23 +5,17 @@ import { connectRouter } from "connected-react-router";
 import axios from "axios";
 
 import User from "./modules/user";
-import Map from "./modules/map";
 import Post from "./modules/post";
 import Chat from "./modules/chat";
+import Map from "./modules/map";
 
-import { getCookie } from "../shared/Cookie";
-
-//디폴트로 헤더에 토큰 담아주기
-//axios.defaults.headers.common["Authorization"] = getCookie("user_login");
-
-//axios.defaults.baseURL = config.api;
 export const history = createBrowserHistory();
 
 // 리듀서를 추가해주어야 모듈이 작동된다!
 const rootReducer = combineReducers({
   user: User,
-  map: Map,
   post: Post,
+  map: Map,
   chat: Chat,
   router: connectRouter(history),
 });

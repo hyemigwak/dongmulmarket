@@ -4,13 +4,13 @@ import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import Slick from "react-slick";
 import { useSelector } from "react-redux";
-import { history } from "../redux/configureStore";
-import mainbanner1 from "../image/mainbanner1.png";
-import mainbanner2 from "../image/mainbanner2.png";
-import mainbanner3 from "../image/mainbanner3.png";
-import WebBanner from "../image/WebBanner.png";
-import TabletBanner from "../image/TabletBanner.png";
-import MobileBanner from "../image/MobileBanner.png";
+import { history } from "../../redux/configureStore";
+import mainbanner1 from "../../image/mainbanner1.png";
+import mainbanner2 from "../../image/mainbanner2.png";
+import mainbanner3 from "../../image/mainbanner3.png";
+import WebBanner from "../../image/WebBanner.png";
+import TabletBanner from "../../image/TabletBanner.png";
+import MobileBanner from "../../image/MobileBanner.png";
 import Swal from "sweetalert2";
 
 const Banners = () => {
@@ -20,9 +20,9 @@ const Banners = () => {
     dots: true,
     arrows: false,
     infinite: true,
-    speed: 500,
+    speed: 800,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 3500,
     slidesToshow: 4,
     slidesToScroll: 1,
   };

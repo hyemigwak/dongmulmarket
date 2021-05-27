@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import Cat from "../image/Cat.png";
-import Heart from "../image/Heart.png";
+import Cat from "../../image/Cat.png";
+import Heart from "../../image/Heart.png";
 
 const LoginChat = (props) => {
   return (

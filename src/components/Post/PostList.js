@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { actionCreators as postActions } from "../redux/modules/post";
-import { history } from "../redux/configureStore";
-import { Container } from "../element";
-import { FloatBtn, Post } from "../components";
-import Spinner from "../shared/Spinner";
+import { actionCreators as postActions } from "../../redux/modules/post";
+import { history } from "../../redux/configureStore";
+import { Container } from "../../element";
+import { FloatBtn } from "../../components";
+import Post from "./Post";
+import Spinner from "../../shared/Spinner";
 import { useMediaQuery } from "react-responsive";
 import Swal from "sweetalert2";
 
@@ -159,7 +160,7 @@ const Title = styled.h2`
   }
 
   @media (max-width: 767px) {
-    margin: 60px auto 0px;
+    margin: 40px auto 0px;
     font-size: 20px;
   }
 `;

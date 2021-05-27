@@ -1,12 +1,10 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useEffect } from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { Container } from "../element";
-import Carousel from "../components/Carousel";
-import Carousel2 from "../components/Carousel2";
-import Carousel3 from "../components/Carousel3";
+import { Carousel, Carousel2, Carousel3 } from "../components";
 
 const Mypage = (props) => {
   const dispatch = useDispatch();

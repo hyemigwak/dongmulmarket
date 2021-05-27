@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import ChatUserButton from "./ChatUserButton";
 import { useMediaQuery } from "react-responsive";
 
-import user from "../image/user.png";
-import down from "../image/down.png";
+import user from "../../image/user.png";
+import down from "../../image/down.png";
 
 const ChatUsers = memo(({ socket }) => {
   const isMobile = useMediaQuery({

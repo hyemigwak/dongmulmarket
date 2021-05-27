@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Container } from "../element";
-import { history } from "../redux/configureStore";
+import { history } from "../../redux/configureStore";
 import { useMediaQuery } from "react-responsive";
-import Cat from "../image/Cat.png";
+import Cat from "../../image/Cat.png";
 
 const NoLogin = (props) => {
   const isMobile = useMediaQuery({

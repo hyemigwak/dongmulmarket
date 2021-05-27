@@ -9,11 +9,13 @@ import { Header, Footer, MyLocation, AddressChange } from "../components";
 import NotFound from "./NotFound";
 import Spinner from "./Spinner";
 import auth from "../hoc/auth";
+import ScrollToTop from "./ScrollToTop";
 
 function App() {
   return (
     <ConnectedRouter history={history}>
       <Header />
+      <ScrollToTop />
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />

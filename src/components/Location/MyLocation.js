@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as mapActions } from "../redux/modules/map";
-import { actionCreators as postActions } from "../redux/modules/post";
-import { getCookie } from "../shared/Cookie";
-import { history } from "../redux/configureStore";
+import { actionCreators as postActions } from "../../redux/modules/post";
+import { actionCreators as mapActions } from "../../redux/modules/map";
+import { getCookie } from "../../shared/Cookie";
+import { history } from "../../redux/configureStore";
 import AddressChange from "./AddressChange";
-import { Container } from "../element";
-import Swal from "sweetalert2";
-import { HistoryOutlined } from "@material-ui/icons";
+import { Container } from "../../element";
 
 const { kakao } = window;
 
@@ -33,7 +31,6 @@ const MyLocation = (props) => {
   const [address, setAddress] = useState("");
 
   const email = useSelector((state) => state.user?.user?.email);
-  console.log("email", email);
   const is_login = useSelector((state) => state.user.is_login);
 
   const cookie = getCookie("user_login") ? true : false;
@@ -44,7 +41,6 @@ const MyLocation = (props) => {
 
   //위치에 정보 보내주기
   const locationCheck = () => {
-    console.log(address);
     const address_array = address.split(" ");
     if (address_array.includes("서울특별시")) {
       address_array.splice(0, 1, "서울");
@@ -81,7 +77,6 @@ const MyLocation = (props) => {
       window.alert("GPS를 지원하지 않습니다");
     }
   }
-
   getLocation();
 
   useEffect(() => {
@@ -120,6 +115,7 @@ const MyLocation = (props) => {
             // 행정동의 region_type 값은 'H' 이므로
             if (result[i].region_type === "H") {
               infoDiv.innerHTML = result[i].address_name;
+              console.log(result[i].address_name);
               setAddress(result[i].address_name);
               dispatch(mapActions.getAddress(infoDiv.innerHTML));
               break;
@@ -128,48 +124,6 @@ const MyLocation = (props) => {
         }
       }
     }
-    // var mapContainer = document.getElementById("map"), // 지도를 표시할 div
-    //   mapOption = {
-    //     center: new kakao.maps.LatLng(lati, longi), // 지도의 중심좌표
-    //     level: 1, // 지도의 확대 레벨
-    //   };
-
-    // // 지도를 생성합니다
-    // const map = new kakao.maps.Map(mapContainer, mapOption);
-
-    // // 주소-좌표 변환 객체를 생성합니다
-    // var geocoder = new kakao.maps.services.Geocoder();
-
-    // // 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
-    // searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-
-    // // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-    // kakao.maps.event.addListener(map, "idle", function () {
-    //   searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-    // });
-
-    // function searchAddrFromCoords(coords, callback) {
-    //   // 좌표로 행정동 주소 정보를 요청합니다
-    //   geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
-    // }
-
-    // // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
-    // function displayCenterInfo(result, status) {
-    //   if (status === kakao.maps.services.Status.OK) {
-    //     var infoDiv = document.getElementById("centerAddr");
-    //     console.log(result);
-
-    //     for (var i = 0; i < result.length; i++) {
-    //       // 행정동의 region_type 값은 'H' 이므로
-    //       if (result[i].region_type === "H") {
-    //         infoDiv.innerHTML = result[i].address_name;
-    //         setAddress(result[i].address_name);
-    //         dispatch(mapActions.getAddress(infoDiv.innerHTML));
-    //         break;
-    //       }
-    //     }
-    //   }
-    // }
   }, [lati, longi, dispatch]);
 
   return (
@@ -212,8 +166,6 @@ const MyLocation = (props) => {
                 맞아요!
               </YBtn>
             </WrapBtn>
-            {/* <EditAddress open={modalOpen} close={closeModal} /> */}
-
             <AddressChange open={modalOpen} close={closeModal} />
           </div>
           {/* </div> */}
@@ -225,7 +177,7 @@ const MyLocation = (props) => {
 
 const WrapLoca = styled.div`
   width: 29rem;
-  margin: 150px auto 250px;
+  margin: 150px auto 400px;
   align-items: center;
 
   @media (max-width: 768px) {
@@ -241,7 +193,7 @@ const WrapTitles = styled.div`
 `;
 
 const Title = styled.div`
-  padding-top: 100px;
+  padding-top: 50px;
   width: 208px;
   font-size: 36px;
   font-weight: 600;
@@ -287,9 +239,8 @@ const NormalText = styled.div`
 const ContainerBox = styled.div`
   margin: 100px auto;
   width: 29rem;
-  height: 20rem;
   background: #ffffff;
-  border: 1px solid #3fbe81;
+  /* border: 1px solid #3fbe81; */
   border-radius: 8px;
   text-align: center;
   display: flex;
@@ -315,6 +266,11 @@ const ContainerBox = styled.div`
 const AddressShowing = styled.div`
   font-size: 20px;
   font-weight: bold;
+  background-color: #f7f7b5;
+  padding: 5px 10px;
+  width: 300px;
+  margin: 5px auto 20px;
+  border-radius: 16px;
 
   @media (max-width: 767px) {
     font-size: 16px;

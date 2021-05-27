@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as postActions } from "../redux/modules/post";
+import { actionCreators as postActions } from "../../redux/modules/post";
 import DaumPostcode from "react-daum-postcode";
-import { Container } from "../element";
+import { Container } from "../../element";
 
 const { daum } = window;
 
@@ -57,13 +57,6 @@ const AddressChange = (props) => {
         document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
         setIsAddress(data.jibunAddress);
 
-        // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-        // if (roadAddr !== "") {
-        //   document.getElementById("sample4_extraAddress").value = extraRoadAddr;
-        // } else {
-        //   document.getElementById("sample4_extraAddress").value = "";
-        // }
-
         var guideTextBox = document.getElementById("guide");
         // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
         if (data.autoRoadAddress) {
@@ -88,10 +81,18 @@ const AddressChange = (props) => {
         <Container>
           <ContainerBox>
             {isPostOpen && <DaumPostcode />}
+            <Info>
+              우편번호 검색을 통한 주소 <span>자동기입</span>입니다.
+            </Info>
             <AddressInputArea>
               <TextInputC>
+                <SmallTitle>우편번호</SmallTitle>
+                <PInput type="text" id="sample4_postcode" placeholder="우편번호 입력" disabled />
+                <SInput type="button" onClick={sample4_execDaumPostcode} value="우편번호 검색" />
+              </TextInputC>
+              <TextInputC>
                 <SmallTitle>도로명 주소</SmallTitle>
-                <AInput type="text" id="sample4_roadAddress" placeholder="도로명주소를 입력하세요" />
+                <AInput type="text" id="sample4_roadAddress" placeholder="도로명주소를 입력하세요" disabled />
               </TextInputC>
 
               <TextInputC>
@@ -104,14 +105,6 @@ const AddressChange = (props) => {
                 <SmallTitle>상세주소</SmallTitle>
                 <AInput type="text" id="sample4_detailAddress" placeholder="상세주소를 입력하세요" />
               </TextInputC>
-
-              <TextInputC>
-                <SmallTitle>우편번호</SmallTitle>
-                <PInput type="text" id="sample4_postcode" placeholder="우편번호 입력" />
-                <SInput type="button" onClick={sample4_execDaumPostcode} value="우편번호 검색" />
-              </TextInputC>
-
-              {/* <PInput type="text" id="sample4_extraAddress" placeholder="참고항목" /> */}
             </AddressInputArea>
             <BtnArea>
               <Btn onClick={close}>뒤로가기</Btn>
@@ -128,12 +121,13 @@ const ContainerBox = styled.div`
   width: 600px;
   height: 380px;
   z-index: 1000;
+  border: 1px solid #212121;
   background-color: #ffffff;
 
   border-radius: 8px;
   position: absolute;
   left: 50%;
-  top: -1%;
+  top: -20%;
   transform: translateX(-50%);
   border: solid 1px #ffffff;
 
@@ -162,6 +156,14 @@ const SmallTitle = styled.div`
   @media (max-width: 767px) {
     width: 100%;
     font-size: 12px;
+  }
+`;
+
+const Info = styled.div`
+  margin: 0px 0px 30px;
+  font-size: 16px;
+  span {
+    font-weight: 600;
   }
 `;
 

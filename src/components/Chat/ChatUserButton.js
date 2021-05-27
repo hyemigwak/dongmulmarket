@@ -1,12 +1,10 @@
-import React, { useEffect, useCallback, memo } from "react";
+import React, { useCallback, memo } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-import userX from "../image/userX.png";
-import userCheck from "../image/userCheck.png";
-
-import { actionCreators as postActions } from "../redux/modules/post";
-import { actionCreators as chatActions } from "../redux/modules/chat";
+import userX from "../../image/userX.png";
+import userCheck from "../../image/userCheck.png";
+import { actionCreators as postActions } from "../../redux/modules/post";
 
 const ChatUserButton = memo(({ itemId, socket, icrId, userEmail, loginEmail }) => {
   const dispatch = useDispatch();

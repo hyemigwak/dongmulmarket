@@ -1,14 +1,14 @@
 import React, { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { actionCreators as userActions } from "../redux/modules/user";
-import { history } from "../redux/configureStore";
+import { actionCreators as userActions } from "../../redux/modules/user";
+import { history } from "../../redux/configureStore";
 import styled from "styled-components";
 import KaKaoLogin from "react-kakao-login";
 import GoogleLogin from "react-google-login";
-import kakao from "../image/kakao.png";
-import googleLogo from "../image/google_logo.png";
+import kakao from "../../image/kakao.png";
+import googleLogo from "../../image/google_logo.png";
 import Swal from "sweetalert2";
-import { Container } from "../element";
+import { Container } from "../../element";
 
 const Login = () => {
   const dispatch = useDispatch();

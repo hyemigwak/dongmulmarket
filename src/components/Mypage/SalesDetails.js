@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as postActions } from "../redux/modules/post";
-import trashcan from "../image/trashcan.png";
-import Post from "../components/Post";
+import { useDispatch } from "react-redux";
+import { actionCreators as postActions } from "../../redux/modules/post";
+import trashcan from "../../image/trashcan.png";
 import Swal from "sweetalert2";
-import { history } from "../redux/configureStore";
+import { history } from "../../redux/configureStore";
 
 const SalesDetails = (props) => {
   const dispatch = useDispatch();

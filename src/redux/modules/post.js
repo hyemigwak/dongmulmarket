@@ -41,7 +41,6 @@ const initialState = {
 //주소변경하기
 const ChangeAddressAPI = (email, new_address) => {
   return function (dispatch, getState, { history }) {
-    console.log(email);
     axios({
       method: "POST",
       url: `${config.api}/myPage/address`,
@@ -54,7 +53,6 @@ const ChangeAddressAPI = (email, new_address) => {
       },
     })
       .then((res) => {
-        console.log(res);
         if (res.data.msg === "success") {
           history.push("/");
           dispatch(myAddress(new_address));
@@ -64,7 +62,6 @@ const ChangeAddressAPI = (email, new_address) => {
             confirmButtonText: "확인",
           });
         } else {
-          console.log("res.data.msg === fail");
           Swal.fire({
             title: `주소 설정에 실패했어요!`,
             confirmButtonColor: "#3fbe81",

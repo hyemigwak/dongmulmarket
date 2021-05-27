@@ -1,9 +1,9 @@
-import React, { useCallback, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as userActions } from "../redux/modules/user";
+import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../../redux/modules/user";
 import styled from "styled-components";
-import { history } from "../redux/configureStore";
-import lock from "../image/lock.png";
+import { history } from "../../redux/configureStore";
+import lock from "../../image/lock.png";
 import Swal from "sweetalert2";
 
 const Findpwd = () => {

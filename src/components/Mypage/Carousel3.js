@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { history } from "../redux/configureStore";
-import SalesDetails2 from "../pages/SalesDetails2";
-import { Previous, Next } from "../image/Arrow";
+import { useDispatch } from "react-redux";
+import { history } from "../../redux/configureStore";
+import SalesDetails3 from "./SalesDetails3";
+import { Previous, Next } from "../../image/Arrow";
 
-const Carousel2 = (props) => {
+const Carousel3 = (props) => {
   const dispatch = useDispatch();
 
-  const SuccessList = props.SuccessList;
+  const FailList = props.FailList;
 
-  const slide_content = SuccessList;
-  const lastIndex = Math.ceil(SuccessList.length / 4);
+  const slide_content = FailList;
+  const lastIndex = Math.ceil(FailList.length / 4);
   const slide_temp = new Array(lastIndex).fill(0);
 
   const slider_container = React.useRef();
@@ -80,7 +80,7 @@ const Carousel2 = (props) => {
             <Slider key={index} style={slide_style}>
               <ListWrapper>
                 {temp_arr.map((myProduct, idx) => (
-                  <SalesDetails2 {...myProduct} key={idx} />
+                  <SalesDetails3 {...myProduct} key={idx} />
                 ))}
               </ListWrapper>
             </Slider>
@@ -175,4 +175,4 @@ const NextContainer = styled.div`
   }
 `;
 
-export default Carousel2;
+export default Carousel3;

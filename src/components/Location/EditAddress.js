@@ -60,6 +60,7 @@ const EditAddress = (props) => {
             주소찾기
           </Btn>
           {isPostOpen && <DaumPostcode onComplete={handleComplete} />}
+
           <AddressInputArea>
             <AddressInput type="text" id="postcode" value={isZoneCode} placeholder="우편 번호" />
             <AddressInput type="text" value={isAddress} placeholder="도로명 주소" />
@@ -80,6 +81,10 @@ const Container = styled.div`
   z-index: 1000;
   background-color: #ffffff;
   position: absolute;
+`;
+
+const Info = styled.div`
+  font-size: 14px;
 `;
 
 const Input = styled.input`
