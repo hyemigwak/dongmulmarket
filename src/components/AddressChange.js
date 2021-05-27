@@ -11,7 +11,7 @@ const AddressChange = (props) => {
   const dispatch = useDispatch();
   const { open, close } = props;
 
-  const { email } = useSelector((state) => state.user.user);
+  const email = useSelector((state) => state.user?.user?.email);
 
   const editMyAddress = () => {
     dispatch(postActions.ChangeAddressAPI(email, new_address));

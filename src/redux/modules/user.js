@@ -194,10 +194,11 @@ const loginAPI = (email, pwd) => {
             email: res.data.email,
             nickname: res.data.nickname,
             token: res.data.token,
+            address: res.data.address,
           };
 
           dispatch(logIn(user_data, "normal"));
-
+          console.log(res.data.address);
           if (res.data.address !== null) {
             history.push("/");
             Swal.fire({

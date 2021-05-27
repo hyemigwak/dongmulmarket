@@ -100,13 +100,7 @@ const Banners = () => {
               <br />
               3. 원하는게 없을 때는 내가 글을 등록해보세요
             </Describe3>
-            <TradeBtn2
-              onClick={() => {
-                history.push("/signup");
-              }}
-            >
-              가입하러 가기
-            </TradeBtn2>
+            <TradeBtn2 onClick={goSignup}>가입하러 가기</TradeBtn2>
           </BannerGrid>
         </BannerImg3>
       </Slick>

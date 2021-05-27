@@ -37,6 +37,10 @@ const MyLocation = (props) => {
 
   const cookie = getCookie("user_login") ? true : false;
 
+  if (!is_login) {
+    history.push("/");
+  }
+
   //위치에 정보 보내주기
   const locationCheck = () => {
     if (address.includes("서울특별시")) {

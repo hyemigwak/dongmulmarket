@@ -16,6 +16,7 @@ const PostList = (props) => {
   const is_login = useSelector((state) => state.user.is_login);
 
   const address = useSelector((state) => state.user?.user?.address);
+  const user = useSelector((state) => state.user?.user);
 
   //어느 지역의 게시글들인지 보여주기
   const [town, setTown] = useState("");

@@ -48,8 +48,13 @@ const ChangeAddressAPI = (email, new_address) => {
         email: email,
         new_address: new_address,
       },
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Accept-Language",
+      },
     })
       .then((res) => {
+        console.log(res);
         if (res.data.msg === "success") {
           history.push("/");
           dispatch(myAddress(new_address));
