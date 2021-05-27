@@ -43,15 +43,18 @@ const MyLocation = (props) => {
 
   //위치에 정보 보내주기
   const locationCheck = () => {
-    if (address.includes("서울특별시")) {
-      const newAddress = address.replace("서울특별시", "서울");
-      const str = newAddress.split(" ");
-      const myAddress = str[0] + " " + str[1];
-      dispatch(postActions.ChangeAddressAPI(email, myAddress));
+    console.log(address);
+    const address_array = address.split(" ");
+    if (address_array.includes("서울특별시")) {
+      address_array.splice(0, 1, "서울");
+      address_array.pop();
+      const newAddress = address_array.join(" ");
+      dispatch(postActions.ChangeAddressAPI(email, newAddress));
     } else {
       const str = address.split(" ");
-      const new_address = str[0] + " " + str[1];
-      dispatch(postActions.ChangeAddressAPI(email, new_address));
+      const new_str = str.splice(0, 2);
+      const new_strJoin = new_str.join(" ");
+      dispatch(postActions.ChangeAddressAPI(email, new_strJoin));
     }
   };
 
@@ -78,10 +81,9 @@ const MyLocation = (props) => {
     }
   }
 
-  // getLocation();
+  getLocation();
 
   useEffect(() => {
-    getLocation();
     if (lati && longi) {
       var mapContainer = document.getElementById("map"), // 지도를 표시할 div
         mapOption = {
