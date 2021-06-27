@@ -29,3 +29,6 @@ yarn-error.log*
 # 경로 git x
 [bB]uild/
 node_modules/
+
+# env 파일
+.env
